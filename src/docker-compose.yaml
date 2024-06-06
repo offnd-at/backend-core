@@ -1,0 +1,60 @@
+version: "3.7"
+
+volumes:
+  offndat-postgres-data:
+  offndat-pg-admin-data:
+
+services:
+  backend-core:
+    restart: unless-stopped
+    build:
+      context: ./
+      dockerfile: ./OffndAt.Services.Api/Dockerfile
+    ports:
+      - "8090:8080"
+    environment:
+      PersistenceSettings__ConnectionString: "Host=postgres;Username=offndat;Password=offndat;Database=offndat"
+      MessageBrokerSettings__Hostname: rabbit-mq
+    container_name: backend-core
+    deploy:
+      resources:
+        limits:
+          memory: 2048M
+    depends_on:
+      - postgres
+      - rabbit-mq
+
+  postgres:
+    image: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: offndat
+      POSTGRES_PASSWORD: offndat
+      POSTGRES_DB: offndat
+    ports:
+      - "5432:5432"
+    volumes:
+      - offndat-postgres-data:/var/lib/postgresql/data
+    container_name: postgres
+
+  pg-admin:
+    image: dpage/pgadmin4
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin@offnd.at
+      PGADMIN_DEFAULT_PASSWORD: offndat
+    ports:
+      - "5050:80"
+    container_name: pg-admin
+    volumes:
+      - offndat-pg-admin-data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+
+  rabbit-mq:
+    image: rabbitmq:3.12-management
+    restart: unless-stopped
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    container_name: rabbit-mq
