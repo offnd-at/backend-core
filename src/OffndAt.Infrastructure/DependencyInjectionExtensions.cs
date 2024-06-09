@@ -50,6 +50,8 @@ public static class DependencyInjectionExtensions
     {
         services.AddSingleton<IIntegrationEventPublisher, IntegrationEventPublisher>();
 
+        services.AddScoped<IIntegrationEventConsumer, IntegrationEventConsumer>();
+
         services.AddScoped<ICaseConverter, CaseConverter>();
         services.AddScoped<IPhraseGenerator, PhraseGenerator>();
         services.AddScoped<IUrlMaker, UrlMaker>();

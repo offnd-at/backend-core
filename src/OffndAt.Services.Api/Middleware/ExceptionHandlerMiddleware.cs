@@ -13,8 +13,7 @@ using Domain.Core.Primitives;
 /// </summary>
 internal sealed class ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionHandlerMiddleware> logger)
 {
-    private static readonly JsonSerializerOptions JsonSerializerOptions =
-        new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+    private static readonly JsonSerializerOptions JsonSerializerOptions = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
     /// <summary>
     ///     Invokes the exception handler middleware with the specified <see cref="HttpContext" />.
@@ -29,7 +28,7 @@ internal sealed class ExceptionHandlerMiddleware(RequestDelegate next, ILogger<E
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "An exception occurred: {Message}", ex.Message);
+            logger.LogError(ex, "An unhandled exception occurred");
 
             await HandleExceptionAsync(httpContext, ex);
         }

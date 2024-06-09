@@ -24,6 +24,21 @@ services:
       - postgres
       - rabbit-mq
 
+  backend-background:
+
+    build:
+      context: ./
+      dockerfile: ./OffndAt.Services.Background/Dockerfile
+    environment:
+      MessageBrokerSettings__Hostname: rabbit-mq
+    container_name: backend-background
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
+    depends_on:
+      - backend-core
+
   postgres:
     image: postgres
     restart: unless-stopped

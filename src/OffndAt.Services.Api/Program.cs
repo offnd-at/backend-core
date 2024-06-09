@@ -25,13 +25,9 @@ builder.Host.UseOffndAtSerilog();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-app.UseCors()
+app.UseSwagger()
+    .UseSwaggerUI()
+    .UseCors()
     .UseCustomExceptionHandler()
     .EnsureMigrations() // TODO: only viable while running single instance in production
     .UseHttpsRedirection()

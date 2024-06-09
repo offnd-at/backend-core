@@ -3,6 +3,7 @@
 using System.Text;
 using System.Text.Json;
 using Application.Core.Abstractions.Messaging;
+using Json;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using Settings;
@@ -12,6 +13,12 @@ using Settings;
 /// </summary>
 internal sealed class IntegrationEventPublisher : IIntegrationEventPublisher, IDisposable
 {
+    private static readonly JsonSerializerOptions JsonSerializerOptions = new()
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        TypeInfoResolver = new IntegrationEventPolymorphicTypeResolver()
+    };
+
     private readonly IModel _channel;
     private readonly IConnection _connection;
     private readonly MessageBrokerSettings _messageBrokerSettings;
@@ -38,7 +45,7 @@ internal sealed class IntegrationEventPublisher : IIntegrationEventPublisher, ID
 
         _channel.QueueDeclare(
             _messageBrokerSettings.QueueName,
-            false,
+            true,
             false,
             false);
     }
@@ -47,18 +54,23 @@ internal sealed class IntegrationEventPublisher : IIntegrationEventPublisher, ID
     public void Dispose()
     {
         _connection.Dispose();
-
         _channel.Dispose();
     }
 
     /// <inheritdoc />
     public Task PublishAsync(IIntegrationEvent integrationEvent, CancellationToken cancellationToken = default)
     {
-        var payload = JsonSerializer.Serialize(integrationEvent, integrationEvent.GetType());
-
+        var payload = JsonSerializer.Serialize(integrationEvent, JsonSerializerOptions);
         var body = Encoding.UTF8.GetBytes(payload);
 
-        _channel.BasicPublish(string.Empty, _messageBrokerSettings.QueueName, body: body);
+        var properties = _channel.CreateBasicProperties();
+        properties.Persistent = true;
+
+        _channel.BasicPublish(
+            string.Empty,
+            _messageBrokerSettings.QueueName,
+            properties,
+            body);
 
         return Task.CompletedTask;
     }
