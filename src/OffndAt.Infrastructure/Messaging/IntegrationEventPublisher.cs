@@ -46,9 +46,9 @@ internal sealed class IntegrationEventPublisher : IIntegrationEventPublisher, ID
     /// <inheritdoc />
     public void Dispose()
     {
-        _connection?.Dispose();
+        _connection.Dispose();
 
-        _channel?.Dispose();
+        _channel.Dispose();
     }
 
     /// <inheritdoc />

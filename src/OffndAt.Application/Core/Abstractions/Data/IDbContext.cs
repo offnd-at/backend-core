@@ -47,7 +47,7 @@ public interface IDbContext
     /// <typeparam name="TEntity">The entity type.</typeparam>
     /// <typeparam name="TEntityId">The entity identifier type.</typeparam>
     /// <param name="entities">The entities to be inserted into the database.</param>
-    void InsertRange<TEntity, TEntityId>(IReadOnlyCollection<TEntity> entities)
+    void InsertRange<TEntity, TEntityId>(IEnumerable<TEntity> entities)
         where TEntity : Entity<TEntityId>
         where TEntityId : EntityId;
 

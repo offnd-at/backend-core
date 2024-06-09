@@ -30,14 +30,6 @@ public abstract class ApiController(IMediator mediator) : ControllerBase
     protected new IActionResult Ok(object value) => base.Ok(value);
 
     /// <summary>
-    ///     Creates an <see cref="CreatedResult" /> that produces a <see cref="StatusCodes.Status201Created" />.
-    /// </summary>
-    /// <param name="uri">The URI at which the content has been created.</param>
-    /// <param name="value">The response value.</param>
-    /// <returns></returns>
-    protected new IActionResult Created(string uri, object value) => base.Created(uri, value);
-
-    /// <summary>
     ///     Creates an <see cref="NotFoundResult" /> that produces a <see cref="StatusCodes.Status404NotFound" />.
     /// </summary>
     /// <returns>The created <see cref="NotFoundResult" /> for the response.</returns>

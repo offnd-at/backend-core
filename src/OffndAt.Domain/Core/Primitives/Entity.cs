@@ -86,11 +86,6 @@ public abstract class Entity<TEntityId> : IEquatable<Entity<TEntityId>> where TE
             return false;
         }
 
-        if (Id is null || other.Id is null)
-        {
-            return false;
-        }
-
         return Id == other.Id;
     }
 

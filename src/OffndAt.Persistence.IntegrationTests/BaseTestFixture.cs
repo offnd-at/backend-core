@@ -12,7 +12,7 @@ internal class BaseTestFixture : IDisposable
     protected OffndAtDbContext DbContext { get; private set; } = null!;
     private PostgreSqlContainer? PostgresContainer { get; set; }
 
-    public void Dispose() => DbContext?.Dispose();
+    public void Dispose() => DbContext.Dispose();
 
     [OneTimeSetUp]
     public async Task OneTimeSetup()

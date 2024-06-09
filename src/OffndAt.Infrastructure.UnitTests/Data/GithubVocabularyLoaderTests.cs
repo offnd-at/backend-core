@@ -12,7 +12,7 @@ internal sealed class GithubVocabularyLoaderTests
 {
     private readonly VocabularyDescriptor _descriptor = new(
         Language.English,
-        Theme.ProperNames,
+        Theme.Politicians,
         Offensiveness.Offensive,
         GrammaticalNumber.Plural,
         GrammaticalGender.MasculinePersonal,
@@ -34,7 +34,7 @@ internal sealed class GithubVocabularyLoaderTests
     {
         _fileLoader.DownloadAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns(Maybe<byte[]>.None);
 
-        const string expectedPath = "/en/offensive/plural/masculine-personal/proper-names/nouns.txt";
+        const string expectedPath = "/en/offensive/plural/masculine-personal/politicians/nouns.txt";
 
         _ = await _loader.DownloadAsync(_descriptor);
 

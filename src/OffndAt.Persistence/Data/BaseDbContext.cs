@@ -38,7 +38,7 @@ public abstract class BaseDbContext(DbContextOptions options, IMediator mediator
         Set<TEntity, TEntityId>().Add(entity);
 
     /// <inheritdoc />
-    public void InsertRange<TEntity, TEntityId>(IReadOnlyCollection<TEntity> entities)
+    public void InsertRange<TEntity, TEntityId>(IEnumerable<TEntity> entities)
         where TEntity : Entity<TEntityId>
         where TEntityId : EntityId =>
         Set<TEntity, TEntityId>().AddRange(entities);
