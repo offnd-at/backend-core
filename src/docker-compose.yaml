@@ -25,7 +25,7 @@ services:
       - rabbit-mq
 
   backend-background:
-
+    restart: unless-stopped
     build:
       context: ./
       dockerfile: ./OffndAt.Services.Background/Dockerfile
