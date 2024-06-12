@@ -63,6 +63,8 @@ public static class DomainErrors
     public static class Language
     {
         public static Error NotFound => new("Language.NotFound", "The language with the specified identifier was not found.");
+
+        public static Error NoneAvailable => new("Language.NoneAvailable", "There are no supported languages.");
     }
 
     /// <summary>
@@ -71,6 +73,8 @@ public static class DomainErrors
     public static class Theme
     {
         public static Error NotFound => new("Theme.NotFound", "The theme with the specified identifier was not found.");
+
+        public static Error NoneAvailable => new("Theme.NoneAvailable", "There are no supported themes.");
     }
 
     /// <summary>
@@ -81,5 +85,13 @@ public static class DomainErrors
         public static Error NotFound => new("Vocabulary.NotFound", "The vocabulary with the specified parameters was not found.");
 
         public static Error EmptyWordsList => new("Vocabulary.EmptyWordsList", "At least one word is required in the vocabulary.");
+    }
+
+    /// <summary>
+    ///     Contains link errors.
+    /// </summary>
+    public static class Link
+    {
+        public static Error NotFound => new("Link.NotFound", "The link with the specified phrase was not found.");
     }
 }

@@ -28,19 +28,19 @@ public sealed class LinksController(IMediator mediator) : ApiController(mediator
 
     [HttpGet(ApiRoutes.Links.GetByPhrase)]
     [ProducesResponseType(typeof(GetLinkByPhraseResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetByPhrase(string phrase) =>
         await Maybe<GetLinkByPhraseQuery>
             .From(new GetLinkByPhraseQuery(phrase))
             .BindAsync(query => Mediator.Send(query))
-            .MatchAsync(Ok, NotFound);
+            .MatchAsync(Ok, () => NotFound(DomainErrors.Link.NotFound));
 
     [HttpGet(ApiRoutes.Links.RedirectByPhrase)]
     [ProducesResponseType(StatusCodes.Status301MovedPermanently)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> RedirectByPhrase(string phrase) =>
         await Maybe<GetLinkByPhraseQuery>
             .From(new GetLinkByPhraseQuery(phrase))
             .BindAsync(query => Mediator.Send(query))
-            .MatchAsync(response => RedirectPermanent(response.Link.TargetUrl), NotFound);
+            .MatchAsync(response => RedirectPermanent(response.Link.TargetUrl), () => NotFound(DomainErrors.Link.NotFound));
 }
