@@ -32,4 +32,12 @@ internal static class ApiRoutes
     {
         public const string GetSupported = "themes";
     }
+
+    /// <summary>
+    ///     Contains the formats routes.
+    /// </summary>
+    internal static class Formats
+    {
+        public const string GetSupported = "formats";
+    }
 }

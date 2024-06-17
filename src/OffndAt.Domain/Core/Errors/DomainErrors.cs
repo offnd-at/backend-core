@@ -55,6 +55,8 @@ public static class DomainErrors
     public static class Format
     {
         public static Error NotFound => new("Format.NotFound", "The format with the specified identifier was not found.");
+
+        public static Error NoneAvailable => new("Format.NoneAvailable", "There are no supported formats.");
     }
 
     /// <summary>
