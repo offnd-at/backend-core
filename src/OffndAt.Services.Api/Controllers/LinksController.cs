@@ -1,5 +1,6 @@
 ﻿namespace OffndAt.Services.Api.Controllers;
 
+using System.Web;
 using Application.Links.Commands.GenerateLink;
 using Application.Links.Queries.GetLinkByPhrase;
 using Contracts;
@@ -38,9 +39,10 @@ public sealed class LinksController(IMediator mediator) : ApiController(mediator
     [HttpGet(ApiRoutes.Links.RedirectByPhrase)]
     [ProducesResponseType(StatusCodes.Status301MovedPermanently)]
     [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status404NotFound)]
+    [ResponseCache(Location = ResponseCacheLocation.None, Duration = 0)]
     public async Task<IActionResult> RedirectByPhrase(string phrase) =>
         await Maybe<GetLinkByPhraseQuery>
-            .From(new GetLinkByPhraseQuery(phrase))
+            .From(new GetLinkByPhraseQuery(HttpUtility.UrlDecode(phrase)))
             .BindAsync(query => Mediator.Send(query))
             .MatchAsync(response => RedirectPermanent(response.Link.TargetUrl), () => NotFound(DomainErrors.Link.NotFound));
 }
