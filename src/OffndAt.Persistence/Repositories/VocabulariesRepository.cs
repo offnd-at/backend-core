@@ -15,7 +15,10 @@ using Microsoft.Extensions.Caching.Memory;
 /// </summary>
 /// <param name="memoryCache">The memory cache.</param>
 /// <param name="vocabularyLoader">The vocabulary loader.</param>
-internal sealed class VocabulariesRepository(IMemoryCache memoryCache, IVocabularyLoader vocabularyLoader) : IVocabulariesRepository
+internal sealed class VocabulariesRepository(
+    IMemoryCache memoryCache,
+    IVocabularyLoader vocabularyLoader,
+    IVocabularyService vocabularyService) : IVocabulariesRepository
 {
     private readonly TimeSpan _cacheTtl = TimeSpan.FromMinutes(60);
 
@@ -24,26 +27,33 @@ internal sealed class VocabulariesRepository(IMemoryCache memoryCache, IVocabula
         Language language,
         Offensiveness offensiveness,
         Theme theme,
-        CancellationToken cancellationToken = default) =>
-        await memoryCache.GetOrCreateAsync(
-            CacheKeys.NounVocabulary(language, offensiveness, theme),
-            cacheEntry =>
-            {
-                cacheEntry.SetAbsoluteExpiration(_cacheTtl);
+        CancellationToken cancellationToken = default)
+    {
+        var (number, gender) = vocabularyService.GenerateGrammaticalPropertiesForNounVocabulary(language, theme);
 
-                var (number, gender) = new VocabularyService().GenerateGrammaticalPropertiesForNounVocabulary(language);
+        return await memoryCache.GetOrCreateAsync(
+                   CacheKeys.NounVocabulary(
+                       language,
+                       offensiveness,
+                       number,
+                       gender,
+                       theme),
+                   cacheEntry =>
+                   {
+                       cacheEntry.SetAbsoluteExpiration(_cacheTtl);
 
-                var vocabularyDescriptor = new VocabularyDescriptor(
-                    language,
-                    theme,
-                    offensiveness,
-                    number,
-                    gender,
-                    PartOfSpeech.Noun);
+                       var vocabularyDescriptor = new VocabularyDescriptor(
+                           language,
+                           theme,
+                           offensiveness,
+                           number,
+                           gender,
+                           PartOfSpeech.Noun);
 
-                return vocabularyLoader.DownloadAsync(vocabularyDescriptor, cancellationToken);
-            }) ??
-        Maybe<Vocabulary>.None;
+                       return vocabularyLoader.DownloadAsync(vocabularyDescriptor, cancellationToken);
+                   }) ??
+               Maybe<Vocabulary>.None;
+    }
 
     /// <inheritdoc />
     public async Task<Maybe<Vocabulary>> GetAdjectivesAsync(

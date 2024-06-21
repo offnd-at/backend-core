@@ -14,8 +14,9 @@ internal sealed class VocabularyServiceTests
     public void GenerateGrammaticalPropertiesForNounVocabulary_ShouldReturnNoneValues_WhenGivenEnglishLanguage()
     {
         var language = Language.English;
+        var theme = Theme.None;
 
-        var (actualNumber, actualGender) = _service.GenerateGrammaticalPropertiesForNounVocabulary(language);
+        var (actualNumber, actualGender) = _service.GenerateGrammaticalPropertiesForNounVocabulary(language, theme);
 
         Assert.Multiple(
             () =>
@@ -29,13 +30,32 @@ internal sealed class VocabularyServiceTests
     public void GenerateGrammaticalPropertiesForNounVocabulary_ShouldReturnRealValues_WhenGivenPolishLanguage()
     {
         var language = Language.Polish;
+        var theme = Theme.None;
 
-        var (actualNumber, actualGender) = _service.GenerateGrammaticalPropertiesForNounVocabulary(language);
+        var (actualNumber, actualGender) = _service.GenerateGrammaticalPropertiesForNounVocabulary(language, theme);
 
         Assert.Multiple(
             () =>
             {
                 Assert.That(actualNumber, Is.Not.EqualTo(GrammaticalNumber.None));
+                Assert.That(actualGender, Is.Not.EqualTo(GrammaticalGender.None));
+            });
+    }
+
+    [Test]
+    public void
+        GenerateGrammaticalPropertiesForNounVocabulary_ShouldReturnSingularNumberAndMasculineOrFeminineGender_WhenGivenPolishLanguageAndThemePoliticians()
+    {
+        var language = Language.Polish;
+        var theme = Theme.Politicians;
+
+        var (actualNumber, actualGender) = _service.GenerateGrammaticalPropertiesForNounVocabulary(language, theme);
+
+        Assert.Multiple(
+            () =>
+            {
+                Assert.That(actualNumber, Is.EqualTo(GrammaticalNumber.Singular));
+                Assert.That(actualGender, Is.Not.EqualTo(GrammaticalGender.Neuter));
                 Assert.That(actualGender, Is.Not.EqualTo(GrammaticalGender.None));
             });
     }

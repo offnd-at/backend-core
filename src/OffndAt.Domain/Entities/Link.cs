@@ -72,7 +72,7 @@ public sealed class Link : AggregateRoot<LinkId>, IAuditableEntity, ISoftDeletab
     /// <summary>
     ///     Gets the visits count.
     /// </summary>
-    public int Visits { get; }
+    public int Visits { get; private set; }
 
     /// <inheritdoc />
     public DateTimeOffset CreatedAt { get; }
@@ -85,6 +85,16 @@ public sealed class Link : AggregateRoot<LinkId>, IAuditableEntity, ISoftDeletab
 
     /// <inheritdoc />
     public bool IsDeleted { get; }
+
+    /// <summary>
+    ///     Increments the visits counter.
+    /// </summary>
+    public void IncrementVisits()
+    {
+        Visits += 1;
+
+        AddDomainEvent(new LinkVisitedDomainEvent(this));
+    }
 
     /// <summary>
     ///     Creates a new <see cref="Link" /> with the specified arguments.

@@ -5,61 +5,69 @@ using Enumerations;
 /// <summary>
 ///     Represents the vocabulary service.
 /// </summary>
-public sealed class VocabularyService
+internal sealed class VocabularyService : IVocabularyService
 {
     private readonly Random _random = new(Guid.NewGuid().GetHashCode());
 
-    /// <summary>
-    ///     Generates grammatical properties for a vocabulary.
-    /// </summary>
-    /// <param name="language">The language.</param>
-    /// <returns>A tuple containing randomly chosen grammatical number and grammatical gender.</returns>
-    /// <exception cref="ArgumentOutOfRangeException">if the specified language is out of range.</exception>
-    public (GrammaticalNumber number, GrammaticalGender gender) GenerateGrammaticalPropertiesForNounVocabulary(Language language)
+    /// <inheritdoc />
+    public (GrammaticalNumber number, GrammaticalGender gender) GenerateGrammaticalPropertiesForNounVocabulary(
+        Language language,
+        Theme theme)
+    {
+        var availableNumbers = GetAvailableNumbers(language, theme);
+        var number = availableNumbers[_random.Next(availableNumbers.Count)];
+
+        var availableGenders = GetAvailableGenders(language, theme, number);
+        var gender = availableGenders[_random.Next(availableGenders.Count)];
+
+        return (number, gender);
+    }
+
+    private static List<GrammaticalNumber> GetAvailableNumbers(Language language, Theme theme)
     {
         if (language == Language.English)
         {
-            return (GrammaticalNumber.None, GrammaticalGender.None);
+            return [GrammaticalNumber.None];
         }
 
         if (language == Language.Polish)
         {
-            var availableNumbers = new List<GrammaticalNumber>
+            if (theme == Theme.Politicians)
             {
-                GrammaticalNumber.Singular,
-                GrammaticalNumber.Plural
-            };
-            var number = availableNumbers[_random.Next(availableNumbers.Count)];
+                return [GrammaticalNumber.Singular];
+            }
 
+            return [GrammaticalNumber.Singular, GrammaticalNumber.Plural];
+        }
+
+        return [GrammaticalNumber.None];
+    }
+
+    private static List<GrammaticalGender> GetAvailableGenders(Language language, Theme theme, GrammaticalNumber number)
+    {
+        if (language == Language.English)
+        {
+            return [GrammaticalGender.None];
+        }
+
+        if (language == Language.Polish)
+        {
             if (number == GrammaticalNumber.Singular)
             {
-                var availableGenders = new List<GrammaticalGender>
+                if (theme == Theme.Politicians)
                 {
-                    GrammaticalGender.Masculine,
-                    GrammaticalGender.Feminine,
-                    GrammaticalGender.Neuter
-                };
-                var gender = availableGenders[_random.Next(availableGenders.Count)];
+                    return [GrammaticalGender.Masculine, GrammaticalGender.Feminine];
+                }
 
-                return (number, gender);
+                return [GrammaticalGender.Masculine, GrammaticalGender.Feminine, GrammaticalGender.Neuter];
             }
 
             if (number == GrammaticalNumber.Plural)
             {
-                var availableGenders = new List<GrammaticalGender>
-                {
-                    GrammaticalGender.MasculinePersonal,
-                    GrammaticalGender.NonMasculinePersonal
-                };
-                var gender = availableGenders[_random.Next(availableGenders.Count)];
-
-                return (number, gender);
+                return [GrammaticalGender.MasculinePersonal, GrammaticalGender.NonMasculinePersonal];
             }
         }
 
-        throw new ArgumentOutOfRangeException(
-            nameof(language),
-            language,
-            "Could not generate grammatical properties for unknown language.");
+        return [GrammaticalGender.None];
     }
 }

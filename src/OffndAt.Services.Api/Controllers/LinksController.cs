@@ -32,7 +32,7 @@ public sealed class LinksController(IMediator mediator) : ApiController(mediator
     [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetByPhrase(string phrase) =>
         await Maybe<GetLinkByPhraseQuery>
-            .From(new GetLinkByPhraseQuery(phrase))
+            .From(new GetLinkByPhraseQuery(phrase, false))
             .BindAsync(query => Mediator.Send(query))
             .MatchAsync(Ok, () => NotFound(DomainErrors.Link.NotFound));
 
@@ -42,7 +42,7 @@ public sealed class LinksController(IMediator mediator) : ApiController(mediator
     [ResponseCache(Location = ResponseCacheLocation.None, Duration = 0)]
     public async Task<IActionResult> RedirectByPhrase(string phrase) =>
         await Maybe<GetLinkByPhraseQuery>
-            .From(new GetLinkByPhraseQuery(HttpUtility.UrlDecode(phrase)))
+            .From(new GetLinkByPhraseQuery(HttpUtility.UrlDecode(phrase), true))
             .BindAsync(query => Mediator.Send(query))
             .MatchAsync(response => RedirectPermanent(response.Link.TargetUrl), () => NotFound(DomainErrors.Link.NotFound));
 }

@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
 using OffndAt.Application;
+using OffndAt.Domain;
 using OffndAt.Infrastructure;
 using OffndAt.Infrastructure.Logging.Extensions;
 using OffndAt.Persistence;
@@ -17,6 +18,7 @@ builder.Services
     .AddInfrastructure(builder.Configuration, "offnd.at API", "v1")
     .AddPersistence(builder.Configuration)
     .AddApplication()
+    .AddDomain()
     .AddApi()
     .AddControllers()
     .AddJsonOptions(opt => opt.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull);

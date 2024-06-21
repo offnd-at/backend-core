@@ -1,6 +1,7 @@
 ﻿namespace OffndAt.Application.Links.Queries.GetLinkByPhrase;
 
 using Contracts.Links;
+using Core.Abstractions.Data;
 using Core.Abstractions.Messaging;
 using Domain.Core.Primitives;
 using Domain.Repositories;
@@ -9,7 +10,7 @@ using Domain.ValueObjects;
 /// <summary>
 ///     Represents the <see cref="GetLinkByPhraseQuery" /> handler.
 /// </summary>
-internal sealed class GetLinkByPhraseQueryHandler(ILinksRepository linksRepository)
+internal sealed class GetLinkByPhraseQueryHandler(ILinksRepository linksRepository, IUnitOfWork unitOfWork)
     : IQueryHandler<GetLinkByPhraseQuery, GetLinkByPhraseResponse>
 {
     /// <inheritdoc />
@@ -23,9 +24,18 @@ internal sealed class GetLinkByPhraseQueryHandler(ILinksRepository linksReposito
 
         var maybeLink = await linksRepository.GetByPhraseAsync(phraseResult.Value, cancellationToken);
 
-        return maybeLink.HasNoValue
-            ? Maybe<GetLinkByPhraseResponse>.None
-            : Maybe<GetLinkByPhraseResponse>.From(
-                new GetLinkByPhraseResponse(new LinkDto(maybeLink.Value.TargetUrl, maybeLink.Value.Visits)));
+        if (maybeLink.HasNoValue)
+        {
+            return Maybe<GetLinkByPhraseResponse>.None;
+        }
+
+        if (request.ShouldIncrementVisits)
+        {
+            maybeLink.Value.IncrementVisits();
+
+            await unitOfWork.SaveChangesAsync(cancellationToken);
+        }
+
+        return new GetLinkByPhraseResponse(new LinkDto(maybeLink.Value.TargetUrl, maybeLink.Value.Visits));
     }
 }
