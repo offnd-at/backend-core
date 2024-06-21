@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 using Application.Core.Abstractions.Messaging;
 using Application.Links.Events.LinkCreated;
+using Application.Links.Events.LinkVisited;
 
 /// <summary>
 ///     Defines the reflection-based JSON contract resolver used by System.Text.Json to work with integration events.
@@ -25,7 +26,11 @@ public sealed class IntegrationEventPolymorphicTypeResolver : DefaultJsonTypeInf
                 TypeDiscriminatorPropertyName = "$eventType",
                 IgnoreUnrecognizedTypeDiscriminators = true,
                 UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FailSerialization,
-                DerivedTypes = { new JsonDerivedType(typeof(LinkCreatedIntegrationEvent), "LinkCreated") }
+                DerivedTypes =
+                {
+                    new JsonDerivedType(typeof(LinkCreatedIntegrationEvent), "LinkCreated"),
+                    new JsonDerivedType(typeof(LinkVisitedIntegrationEvent), "LinkVisited")
+                }
             };
         }
 
