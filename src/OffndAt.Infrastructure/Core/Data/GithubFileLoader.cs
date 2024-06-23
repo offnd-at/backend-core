@@ -1,4 +1,4 @@
-﻿namespace OffndAt.Infrastructure.Data;
+﻿namespace OffndAt.Infrastructure.Core.Data;
 
 using Application.Core.Abstractions.Data;
 using Domain.Core.Primitives;

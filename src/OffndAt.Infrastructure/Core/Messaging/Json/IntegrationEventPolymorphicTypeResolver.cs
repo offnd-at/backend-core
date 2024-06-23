@@ -1,4 +1,4 @@
-﻿namespace OffndAt.Infrastructure.Messaging.Json;
+﻿namespace OffndAt.Infrastructure.Core.Messaging.Json;
 
 using System.Text.Json;
 using System.Text.Json.Serialization;

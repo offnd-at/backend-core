@@ -1,4 +1,4 @@
-﻿namespace OffndAt.Infrastructure.Messaging;
+﻿namespace OffndAt.Infrastructure.Core.Messaging;
 
 using Application.Core.Abstractions.Messaging;
 using MediatR;

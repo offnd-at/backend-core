@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using OffndAt.Application;
 using OffndAt.Domain;
 using OffndAt.Infrastructure;
-using OffndAt.Infrastructure.Logging.Extensions;
+using OffndAt.Infrastructure.Core.Logging.Extensions;
 using OffndAt.Persistence;
 using OffndAt.Persistence.Migrations.Extensions;
 using OffndAt.Services.Api;
@@ -15,7 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
     .AddHttpContextAccessor()
-    .AddInfrastructure(builder.Configuration, "offnd.at API", "v1")
+    .AddInfrastructure(builder.Configuration)
     .AddPersistence(builder.Configuration)
     .AddApplication()
     .AddDomain()
@@ -28,7 +28,14 @@ builder.Host.UseOffndAtSerilog();
 var app = builder.Build();
 
 app.UseSwagger()
-    .UseSwaggerUI()
+    .UseSwaggerUI(
+        options =>
+        {
+            foreach (var description in app.DescribeApiVersions())
+            {
+                options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName);
+            }
+        })
     .UseCors()
     .UseCustomExceptionHandler()
     .EnsureMigrations() // TODO: only viable while running single instance in production

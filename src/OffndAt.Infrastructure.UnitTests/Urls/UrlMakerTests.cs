@@ -1,7 +1,7 @@
 ﻿namespace OffndAt.Infrastructure.UnitTests.Urls;
 
-using Core.Settings;
 using Domain.ValueObjects;
+using Infrastructure.Core.Settings;
 using Infrastructure.Urls;
 using Microsoft.Extensions.Options;
 

@@ -1,4 +1,4 @@
-﻿namespace OffndAt.Infrastructure.Data;
+﻿namespace OffndAt.Infrastructure.Core.Data;
 
 using System.Globalization;
 using System.Text;

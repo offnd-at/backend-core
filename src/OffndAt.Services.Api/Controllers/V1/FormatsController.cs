@@ -1,4 +1,4 @@
-﻿namespace OffndAt.Services.Api.Controllers;
+﻿namespace OffndAt.Services.Api.Controllers.V1;
 
 using Application.Formats.Queries.GetSupportedFormats;
 using Contracts;
