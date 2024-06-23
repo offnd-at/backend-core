@@ -1,7 +1,7 @@
-﻿namespace OffndAt.Infrastructure.UnitTests.Data;
+﻿namespace OffndAt.Infrastructure.UnitTests.Core.Data;
 
-using Core.Data;
-using Core.Data.Settings;
+using Infrastructure.Core.Data;
+using Infrastructure.Core.Data.Settings;
 using Microsoft.Extensions.Options;
 using NSubstitute;
 using Octokit;

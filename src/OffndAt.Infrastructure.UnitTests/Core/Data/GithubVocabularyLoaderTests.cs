@@ -1,10 +1,10 @@
-﻿namespace OffndAt.Infrastructure.UnitTests.Data;
+﻿namespace OffndAt.Infrastructure.UnitTests.Core.Data;
 
 using Application.Core.Abstractions.Data;
-using Core.Data;
 using Domain.Core.Primitives;
 using Domain.Enumerations;
 using Domain.Models;
+using Infrastructure.Core.Data;
 using NSubstitute;
 using Language = Domain.Enumerations.Language;
 
