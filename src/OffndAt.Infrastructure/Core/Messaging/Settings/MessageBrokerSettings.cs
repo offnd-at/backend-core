@@ -1,4 +1,4 @@
-﻿namespace OffndAt.Infrastructure.Messaging.Settings;
+﻿namespace OffndAt.Infrastructure.Core.Messaging.Settings;
 
 /// <summary>
 ///     Represents the message broker settings.

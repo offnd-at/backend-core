@@ -201,8 +201,8 @@ dotnet_style_prefer_is_null_check_over_reference_equality_method = true:error
 # Undocumented
 dotnet_style_operator_placement_when_wrapping = end_of_line
 csharp_style_prefer_null_check_over_type_check = true:error
-dotnet_style_namespace_match_folder = true:suggestion
-dotnet_diagnostic.ide0130.severity = suggestion
+dotnet_style_namespace_match_folder = true:error
+dotnet_diagnostic.ide0130.severity = error
 
 # C# Style Rules
 # https://docs.microsoft.com/dotnet/fundamentals/code-analysis/style-rules/language-rules#c-style-rules
@@ -347,8 +347,6 @@ max_line_length = 140
 dotnet_naming_style.camel_case_style.capitalization = camel_case
 # pascal_case_style - Define the PascalCase style
 dotnet_naming_style.pascal_case_style.capitalization = pascal_case
-# first_upper_style - The first character must start with an upper-case character
-dotnet_naming_style.first_upper_style.capitalization = first_word_upper
 # prefix_interface_with_i_style - Interfaces must be PascalCase and the first character of an interface must be an 'I'
 dotnet_naming_style.prefix_interface_with_i_style.capitalization = pascal_case
 dotnet_naming_style.prefix_interface_with_i_style.required_prefix = I

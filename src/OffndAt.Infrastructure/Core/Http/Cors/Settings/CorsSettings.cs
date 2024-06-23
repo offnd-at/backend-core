@@ -1,4 +1,4 @@
-﻿namespace OffndAt.Infrastructure.Http.Cors.Settings;
+﻿namespace OffndAt.Infrastructure.Core.Http.Cors.Settings;
 
 /// <summary>
 ///     Represents the CORS settings.

@@ -1,4 +1,4 @@
-﻿namespace OffndAt.Infrastructure.Messaging;
+﻿namespace OffndAt.Infrastructure.Core.Messaging;
 
 using System.Text;
 using System.Text.Json;

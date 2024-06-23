@@ -2,8 +2,8 @@
 
 using System.Text.Json;
 using Application.Core.Abstractions.Messaging;
-using Infrastructure.Messaging.Json;
-using Infrastructure.Messaging.Settings;
+using Infrastructure.Core.Messaging.Json;
+using Infrastructure.Core.Messaging.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;

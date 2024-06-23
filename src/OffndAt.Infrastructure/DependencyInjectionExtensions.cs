@@ -5,16 +5,18 @@ using Application.Core.Abstractions.Messaging;
 using Application.Core.Abstractions.Phrases;
 using Application.Core.Abstractions.Urls;
 using Application.Core.Abstractions.Words;
+using Asp.Versioning;
+using Asp.Versioning.Conventions;
+using Core.Data;
+using Core.Data.Settings;
+using Core.Http.Cors.Settings;
+using Core.Messaging;
+using Core.Messaging.Settings;
+using Core.OpenApi;
 using Core.Settings;
-using Data;
-using Data.Settings;
-using Http.Cors.Settings;
-using Messaging;
-using Messaging.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
 using Octokit;
 using Phrases;
 using Urls;
@@ -27,18 +29,15 @@ public static class DependencyInjectionExtensions
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <param name="configuration">The configuration.</param>
-    /// <param name="apiTitle">The API title.</param>
-    /// <param name="apiVersion">The API version string.</param>
     /// <returns>The configured service collection.</returns>
     public static IServiceCollection AddInfrastructure(
         this IServiceCollection services,
-        IConfiguration configuration,
-        string apiTitle,
-        string apiVersion) =>
+        IConfiguration configuration) =>
         services
             .AddSettings(configuration)
             .AddCors()
-            .AddSwagger(apiTitle, apiVersion)
+            .AddSwagger()
+            .AddApiVersioning()
             .AddServices();
 
     /// <summary>
@@ -93,54 +92,37 @@ public static class DependencyInjectionExtensions
     ///     Registers the Swagger API docs with the DI framework.
     /// </summary>
     /// <param name="services">The service collection.</param>
-    /// <param name="apiTitle">The API title.</param>
-    /// <param name="apiVersion">The API version string.</param>
     /// <returns>The configured service collection.</returns>
-    private static IServiceCollection AddSwagger(this IServiceCollection services, string apiTitle, string apiVersion)
+    private static IServiceCollection AddSwagger(this IServiceCollection services)
     {
-        services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen(
-            c =>
-            {
-                c.SwaggerDoc(
-                    apiVersion,
-                    new OpenApiInfo
-                    {
-                        Title = apiTitle,
-                        Version = apiVersion
-                    });
+        services.AddSwaggerGen();
+        services.ConfigureOptions<ConfigureVersionedSwaggerGenOptions>();
 
-                c.AddSecurityDefinition(
-                    "Bearer",
-                    new OpenApiSecurityScheme
-                    {
-                        Description = """
-                                      JWT Authorization header using the Bearer scheme. \r\n\r\n
-                                                              Enter 'Bearer' [space] and then your token in the text input below. \r\n\r\n
-                                                              Example: 'Bearer 12345abcdef'
-                                      """,
-                        Name = "Authorization",
-                        In = ParameterLocation.Header,
-                        Type = SecuritySchemeType.ApiKey,
-                        Scheme = "Bearer"
-                    });
+        return services;
+    }
 
-                c.AddSecurityRequirement(
-                    new OpenApiSecurityRequirement
-                    {
-                        {
-                            new OpenApiSecurityScheme
-                            {
-                                Reference = new OpenApiReference
-                                {
-                                    Type = ReferenceType.SecurityScheme,
-                                    Id = "Bearer"
-                                }
-                            },
-                            new List<string>()
-                        }
-                    });
-            });
+    /// <summary>
+    ///     Registers the API versioning services with the DI framework.
+    /// </summary>
+    /// <param name="services">The service collection.</param>
+    /// <returns>The configured service collection.</returns>
+    private static IServiceCollection AddApiVersioning(this IServiceCollection services)
+    {
+        services.AddApiVersioning(
+                options =>
+                {
+                    options.DefaultApiVersion = new ApiVersion(1, 0);
+                    options.AssumeDefaultVersionWhenUnspecified = false;
+                    options.ReportApiVersions = true;
+                    options.ApiVersionReader = new UrlSegmentApiVersionReader();
+                })
+            .AddMvc(options => options.Conventions.Add(new VersionByNamespaceConvention()))
+            .AddApiExplorer(
+                options =>
+                {
+                    options.GroupNameFormat = "'v'V";
+                    options.SubstituteApiVersionInUrl = true;
+                });
 
         return services;
     }

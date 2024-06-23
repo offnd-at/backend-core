@@ -1,11 +1,11 @@
-﻿namespace OffndAt.Infrastructure.Logging.Extensions;
+﻿namespace OffndAt.Infrastructure.Core.Logging.Extensions;
 
 using System.Globalization;
-using Core.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Serilog;
+using Settings;
 
 /// <summary>
 ///     Contains extensions used to configure Serilog.

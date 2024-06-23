@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 ///     Represents a base API controller.
 /// </summary>
 /// <param name="mediator">The mediator instance.</param>
-[Route("api")]
 public abstract class ApiController(IMediator mediator) : ControllerBase
 {
     protected IMediator Mediator { get; } = mediator;
