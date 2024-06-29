@@ -10,6 +10,7 @@ using Asp.Versioning.Conventions;
 using Core.Data;
 using Core.Data.Settings;
 using Core.Http.Cors.Settings;
+using Core.Logging.Settings;
 using Core.Messaging;
 using Core.Messaging.Settings;
 using Core.OpenApi;
@@ -139,6 +140,7 @@ public static class DependencyInjectionExtensions
         services.Configure<CorsSettings>(configuration.GetSection(CorsSettings.SettingsKey));
         services.Configure<MessageBrokerSettings>(configuration.GetSection(MessageBrokerSettings.SettingsKey));
         services.Configure<GithubDataSourceSettings>(configuration.GetSection(GithubDataSourceSettings.SettingsKey));
+        services.Configure<OpenObserveLoggerSettings>(configuration.GetSection(OpenObserveLoggerSettings.SettingsKey));
 
         return services;
     }

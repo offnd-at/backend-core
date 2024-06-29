@@ -1,10 +1,12 @@
 ﻿namespace OffndAt.Infrastructure.Core.Logging.Extensions;
 
 using System.Globalization;
+using Core.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Serilog;
+using Serilog.Sinks.OpenObserve;
 using Settings;
 
 /// <summary>
@@ -22,21 +24,33 @@ public static class SerilogHostBuilderExtensions
         builder.UseSerilog(
             (context, services, configuration) =>
             {
-                var settings = services.GetRequiredService<IOptions<ApplicationSettings>>().Value;
+                var applicationSettings = services.GetRequiredService<IOptions<ApplicationSettings>>().Value;
+                var loggerSettings = services.GetRequiredService<IOptions<OpenObserveLoggerSettings>>().Value;
 
                 configuration
                     .MinimumLevel.Information()
                     .Enrich.FromLogContext()
                     .Enrich.WithMachineName()
-                    .Enrich.WithEnvironmentName()
                     .Enrich.WithProperty(
-                        nameof(settings.Environment),
-                        settings.Environment ??
-                        throw new InvalidOperationException($"Missing configuration value for {nameof(settings.Environment)}."))
+                        nameof(applicationSettings.Environment),
+                        applicationSettings.Environment ??
+                        throw new InvalidOperationException($"Missing configuration value for {nameof(applicationSettings.Environment)}."))
                     .Enrich.WithProperty(
-                        nameof(settings.ApplicationName),
-                        settings.ApplicationName ??
-                        throw new InvalidOperationException($"Missing configuration value for {nameof(settings.ApplicationName)}."))
+                        nameof(applicationSettings.ApplicationName),
+                        applicationSettings.ApplicationName ??
+                        throw new InvalidOperationException(
+                            $"Missing configuration value for {nameof(applicationSettings.ApplicationName)}."))
+                    .WriteTo.OpenObserve(
+                        loggerSettings.ApiUrl ??
+                        throw new InvalidOperationException($"Missing configuration value for {nameof(loggerSettings.ApiUrl)}."),
+                        loggerSettings.Organization ??
+                        throw new InvalidOperationException($"Missing configuration value for {nameof(loggerSettings.Organization)}."),
+                        loggerSettings.Username ??
+                        throw new InvalidOperationException($"Missing configuration value for {nameof(loggerSettings.Username)}."),
+                        loggerSettings.Key ??
+                        throw new InvalidOperationException($"Missing configuration value for {nameof(loggerSettings.Key)}."),
+                        loggerSettings.StreamName ??
+                        throw new InvalidOperationException($"Missing configuration value for {nameof(loggerSettings.StreamName)}."))
                     .WriteTo.Console(formatProvider: CultureInfo.InvariantCulture)
                     .ReadFrom.Configuration(context.Configuration);
             });
@@ -54,7 +68,8 @@ public static class SerilogHostBuilderExtensions
         builder.UseSerilog(
             ((context, services, configuration) =>
             {
-                var settings = services.GetRequiredService<IOptions<ApplicationSettings>>().Value;
+                var applicationSettings = services.GetRequiredService<IOptions<ApplicationSettings>>().Value;
+                var loggerSettings = services.GetRequiredService<IOptions<OpenObserveLoggerSettings>>().Value;
 
                 configuration
                     .MinimumLevel.Information()
@@ -62,13 +77,25 @@ public static class SerilogHostBuilderExtensions
                     .Enrich.WithMachineName()
                     .Enrich.WithEnvironmentName()
                     .Enrich.WithProperty(
-                        nameof(settings.Environment),
-                        settings.Environment ??
-                        throw new InvalidOperationException($"Missing configuration value for {nameof(settings.Environment)}."))
+                        nameof(applicationSettings.Environment),
+                        applicationSettings.Environment ??
+                        throw new InvalidOperationException($"Missing configuration value for {nameof(applicationSettings.Environment)}."))
                     .Enrich.WithProperty(
-                        nameof(settings.ApplicationName),
-                        settings.ApplicationName ??
-                        throw new InvalidOperationException($"Missing configuration value for {nameof(settings.ApplicationName)}."))
+                        nameof(applicationSettings.ApplicationName),
+                        applicationSettings.ApplicationName ??
+                        throw new InvalidOperationException(
+                            $"Missing configuration value for {nameof(applicationSettings.ApplicationName)}."))
+                    .WriteTo.OpenObserve(
+                        loggerSettings.ApiUrl ??
+                        throw new InvalidOperationException($"Missing configuration value for {nameof(loggerSettings.ApiUrl)}."),
+                        loggerSettings.Organization ??
+                        throw new InvalidOperationException($"Missing configuration value for {nameof(loggerSettings.Organization)}."),
+                        loggerSettings.Username ??
+                        throw new InvalidOperationException($"Missing configuration value for {nameof(loggerSettings.Username)}."),
+                        loggerSettings.Key ??
+                        throw new InvalidOperationException($"Missing configuration value for {nameof(loggerSettings.Key)}."),
+                        loggerSettings.StreamName ??
+                        throw new InvalidOperationException($"Missing configuration value for {nameof(loggerSettings.StreamName)}."))
                     .WriteTo.Console(formatProvider: CultureInfo.InvariantCulture)
                     .ReadFrom.Configuration(context.Configuration);
             }) +

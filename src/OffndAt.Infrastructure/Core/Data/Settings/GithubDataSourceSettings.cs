@@ -1,7 +1,7 @@
 ﻿namespace OffndAt.Infrastructure.Core.Data.Settings;
 
 /// <summary>
-///     Represents the CORS settings.
+///     Represents the Github data source settings.
 /// </summary>
 public sealed class GithubDataSourceSettings
 {
