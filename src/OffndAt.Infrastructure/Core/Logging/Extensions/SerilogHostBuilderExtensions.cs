@@ -31,6 +31,8 @@ public static class SerilogHostBuilderExtensions
                     .MinimumLevel.Information()
                     .Enrich.FromLogContext()
                     .Enrich.WithMachineName()
+                    .Enrich.WithClientIp()
+                    .Enrich.WithCorrelationId()
                     .Enrich.WithProperty(
                         nameof(applicationSettings.Environment),
                         applicationSettings.Environment ??
