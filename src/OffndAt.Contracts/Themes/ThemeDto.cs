@@ -1,17 +1,21 @@
 ﻿namespace OffndAt.Contracts.Themes;
 
+using System.ComponentModel;
+
 /// <summary>
 ///     Represents the theme data transfer object.
 /// </summary>
-public sealed class ThemeDto(int value, string name)
+public sealed class ThemeDto
 {
     /// <summary>
     ///     Gets the value.
     /// </summary>
-    public int Value { get; } = value;
+    [Description("The unique identifier of the theme.")]
+    public required int Value { get; init; }
 
     /// <summary>
     ///     Gets the name.
     /// </summary>
-    public string Name { get; } = name;
+    [Description("The name of the theme.")]
+    public required string Name { get; init; }
 }

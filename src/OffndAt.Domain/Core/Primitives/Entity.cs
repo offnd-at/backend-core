@@ -1,12 +1,13 @@
 ﻿namespace OffndAt.Domain.Core.Primitives;
 
+using Abstractions;
 using Utils;
 
 /// <summary>
 ///     Represents a base entity that all other entities derive from.
 /// </summary>
 /// <typeparam name="TEntityId">The entity identifier type.</typeparam>
-public abstract class Entity<TEntityId> : IEquatable<Entity<TEntityId>> where TEntityId : EntityId
+public abstract class Entity<TEntityId> : IAuditableEntity, IEquatable<Entity<TEntityId>> where TEntityId : EntityId
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="Entity{TEntityId}" /> class.
@@ -26,14 +27,18 @@ public abstract class Entity<TEntityId> : IEquatable<Entity<TEntityId>> where TE
     /// <remarks>
     ///     Required by EF Core.
     /// </remarks>
-    protected Entity()
-    {
-    }
+    protected Entity() => Id = null!;
 
     /// <summary>
-    ///     Gets or sets the entity identifier.
+    ///     Gets the entity identifier.
     /// </summary>
     public TEntityId Id { get; }
+
+    /// <inheritdoc />
+    public DateTimeOffset CreatedAt { get; }
+
+    /// <inheritdoc />
+    public DateTimeOffset? ModifiedAt { get; }
 
     /// <inheritdoc />
     public bool Equals(Entity<TEntityId>? other)
@@ -46,6 +51,12 @@ public abstract class Entity<TEntityId> : IEquatable<Entity<TEntityId>> where TE
         return ReferenceEquals(this, other) || Id == other.Id;
     }
 
+    /// <summary>
+    ///     Determines whether two <see cref="Entity{T}" /> instances are equal.
+    /// </summary>
+    /// <param name="a">The first <see cref="Entity{T}" /> to compare.</param>
+    /// <param name="b">The second <see cref="Entity{T}" /> to compare.</param>
+    /// <returns><c>true</c> if the two <see cref="Entity{T}" /> instances are equal; otherwise, <c>false</c>.</returns>
     public static bool operator ==(Entity<TEntityId>? a, Entity<TEntityId>? b)
     {
         if (a is null && b is null)
@@ -61,6 +72,12 @@ public abstract class Entity<TEntityId> : IEquatable<Entity<TEntityId>> where TE
         return a.Equals(b);
     }
 
+    /// <summary>
+    ///     Determines whether two <see cref="Entity{T}" /> instances are not equal.
+    /// </summary>
+    /// <param name="a">The first <see cref="Entity{T}" /> to compare.</param>
+    /// <param name="b">The second <see cref="Entity{T}" /> to compare.</param>
+    /// <returns><c>true</c> if the two <see cref="Entity{T}" /> instances are not equal; otherwise, <c>false</c>.</returns>
     public static bool operator !=(Entity<TEntityId> a, Entity<TEntityId> b) => !(a == b);
 
     /// <inheritdoc />

@@ -8,6 +8,12 @@ public abstract class ValueObject : IEquatable<ValueObject>
     /// <inheritdoc />
     public bool Equals(ValueObject? other) => other is not null && GetAtomicValues().SequenceEqual(other.GetAtomicValues());
 
+    /// <summary>
+    ///     Determines whether two <see cref="ValueObject" /> instances are equal.
+    /// </summary>
+    /// <param name="a">The first <see cref="ValueObject" /> to compare.</param>
+    /// <param name="b">The second <see cref="ValueObject" /> to compare.</param>
+    /// <returns><c>true</c> if the two <see cref="ValueObject" /> instances are equal; otherwise, <c>false</c>.</returns>
     public static bool operator ==(ValueObject? a, ValueObject? b)
     {
         if (a is null && b is null)
@@ -23,6 +29,12 @@ public abstract class ValueObject : IEquatable<ValueObject>
         return a.Equals(b);
     }
 
+    /// <summary>
+    ///     Determines whether two <see cref="ValueObject" /> instances are not equal.
+    /// </summary>
+    /// <param name="a">The first <see cref="ValueObject" /> to compare.</param>
+    /// <param name="b">The second <see cref="ValueObject" /> to compare.</param>
+    /// <returns><c>true</c> if the two <see cref="ValueObject" /> instances are not equal; otherwise, <c>false</c>.</returns>
     public static bool operator !=(ValueObject a, ValueObject b) => !(a == b);
 
     /// <inheritdoc />

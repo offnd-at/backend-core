@@ -36,6 +36,13 @@ internal sealed class GetLinkByPhraseQueryHandler(ILinksRepository linksReposito
             await unitOfWork.SaveChangesAsync(cancellationToken);
         }
 
-        return new GetLinkByPhraseResponse(new LinkDto(maybeLink.Value.TargetUrl, maybeLink.Value.Visits));
+        return new GetLinkByPhraseResponse
+        {
+            Link = new LinkDto
+            {
+                Visits = maybeLink.Value.Visits,
+                TargetUrl = maybeLink.Value.TargetUrl
+            }
+        };
     }
 }

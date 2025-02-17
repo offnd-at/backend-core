@@ -7,7 +7,14 @@ using Core.Primitives;
 /// </summary>
 public sealed class Format : Enumeration<Format>
 {
+    /// <summary>
+    ///     Gets the kebab-case format.
+    /// </summary>
     public static readonly Format KebabCase = new(0, "kebab-case");
+
+    /// <summary>
+    ///     Gets the PascalCase format.
+    /// </summary>
     public static readonly Format PascalCase = new(1, "pascal-case");
 
     /// <summary>

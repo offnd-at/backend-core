@@ -82,6 +82,12 @@ public abstract class Enumeration<TEnum> : IEquatable<Enumeration<TEnum>>, IComp
     /// <returns>True if there is an enumeration with the specified value, otherwise false.</returns>
     public static bool ContainsValue(int value) => EnumerationsDictionary.Value.ContainsKey(value);
 
+    /// <summary>
+    ///     Determines whether two <see cref="Enumeration{T}" /> instances are equal.
+    /// </summary>
+    /// <param name="a">The first <see cref="Enumeration{T}" /> to compare.</param>
+    /// <param name="b">The second <see cref="Enumeration{T}" /> to compare.</param>
+    /// <returns><c>true</c> if the two <see cref="Enumeration{T}" /> instances are equal; otherwise, <c>false</c>.</returns>
     public static bool operator ==(Enumeration<TEnum>? a, Enumeration<TEnum>? b)
     {
         if (a is null && b is null)
@@ -97,6 +103,12 @@ public abstract class Enumeration<TEnum> : IEquatable<Enumeration<TEnum>>, IComp
         return a.Equals(b);
     }
 
+    /// <summary>
+    ///     Determines whether two <see cref="Enumeration{T}" /> instances are not equal.
+    /// </summary>
+    /// <param name="a">The first <see cref="Enumeration{T}" /> to compare.</param>
+    /// <param name="b">The second <see cref="Enumeration{T}" /> to compare.</param>
+    /// <returns><c>true</c> if the two <see cref="Enumeration{T}" /> instances are not equal; otherwise, <c>false</c>.</returns>
     public static bool operator !=(Enumeration<TEnum> a, Enumeration<TEnum> b) => !(a == b);
 
     /// <inheritdoc />
@@ -152,13 +164,37 @@ public abstract class Enumeration<TEnum> : IEquatable<Enumeration<TEnum>>, IComp
             .Cast<TFieldType>()
             .ToList();
 
+    /// <summary>
+    ///     Compares two <see cref="Enumeration{T}" /> instances to determine if the left is less than the right.
+    /// </summary>
+    /// <param name="left">The left <see cref="Enumeration{T}" /> to compare.</param>
+    /// <param name="right">The right <see cref="Enumeration{T}" /> to compare.</param>
+    /// <returns><c>true</c> if the left is less than the right; otherwise, <c>false</c>.</returns>
     public static bool operator <(Enumeration<TEnum>? left, Enumeration<TEnum>? right) =>
         left is null ? right is not null : left.CompareTo(right) < 0;
 
+    /// <summary>
+    ///     Compares two <see cref="Enumeration{T}" /> instances to determine if the left is less than or equal to the right.
+    /// </summary>
+    /// <param name="left">The left <see cref="Enumeration{T}" /> to compare.</param>
+    /// <param name="right">The right <see cref="Enumeration{T}" /> to compare.</param>
+    /// <returns><c>true</c> if the left is less than or equal to the right; otherwise, <c>false</c>.</returns>
     public static bool operator <=(Enumeration<TEnum>? left, Enumeration<TEnum> right) => left is null || left.CompareTo(right) <= 0;
 
+    /// <summary>
+    ///     Compares two <see cref="Enumeration{T}" /> instances to determine if the left is greater than the right.
+    /// </summary>
+    /// <param name="left">The left <see cref="Enumeration{T}" /> to compare.</param>
+    /// <param name="right">The right <see cref="Enumeration{T}" /> to compare.</param>
+    /// <returns><c>true</c> if the left is greater than the right; otherwise, <c>false</c>.</returns>
     public static bool operator >(Enumeration<TEnum>? left, Enumeration<TEnum> right) => left is not null && left.CompareTo(right) > 0;
 
+    /// <summary>
+    ///     Compares two <see cref="Enumeration{T}" /> instances to determine if the left is greater than or equal to the right.
+    /// </summary>
+    /// <param name="left">The left <see cref="Enumeration{T}" /> to compare.</param>
+    /// <param name="right">The right <see cref="Enumeration{T}" /> to compare.</param>
+    /// <returns><c>true</c> if the left is greater than or equal to the right; otherwise, <c>false</c>.</returns>
     public static bool operator >=(Enumeration<TEnum>? left, Enumeration<TEnum>? right) =>
         left is null ? right is null : left.CompareTo(right) >= 0;
 }

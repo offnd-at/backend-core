@@ -1,19 +1,21 @@
 ﻿namespace OffndAt.Contracts.Links;
 
+using System.ComponentModel;
+
 /// <summary>
 ///     Represents the generate link response.
 /// </summary>
-/// <param name="url">The URL.</param>
-/// <param name="statsUrl">The stats URL.</param>
-public sealed class GenerateLinkResponse(string url, string statsUrl)
+public sealed class GenerateLinkResponse
 {
     /// <summary>
     ///     Gets the URL.
     /// </summary>
-    public string Url { get; } = url;
+    [Description("The generated URL.")]
+    public required string Url { get; init; }
 
     /// <summary>
     ///     Gets the stats URL.
     /// </summary>
-    public string StatsUrl { get; } = statsUrl;
+    [Description("The pointer URL to stats for the generated link.")]
+    public required string StatsUrl { get; init; }
 }

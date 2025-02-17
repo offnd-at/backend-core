@@ -2,6 +2,7 @@
 
 using Abstractions.Data;
 using Abstractions.Messaging;
+using Domain.Core.Primitives;
 using MediatR;
 
 /// <summary>
@@ -30,6 +31,13 @@ public sealed class TransactionBehaviour<TRequest, TResponse>(IUnitOfWork unitOf
         try
         {
             var response = await next();
+
+            if (response is Result { IsFailure: true })
+            {
+                await transaction.RollbackAsync(cancellationToken);
+
+                return response;
+            }
 
             await unitOfWork.SaveChangesAsync(cancellationToken);
 

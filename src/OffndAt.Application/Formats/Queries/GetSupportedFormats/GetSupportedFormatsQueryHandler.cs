@@ -13,9 +13,14 @@ internal sealed class GetSupportedFormatsQueryHandler : IQueryHandler<GetSupport
     /// <inheritdoc />
     public Task<Maybe<GetSupportedFormatsResponse>> Handle(GetSupportedFormatsQuery request, CancellationToken cancellationToken)
     {
-        var formatDtos = Format.List.Select(format => new FormatDto(format.Value, format.Name));
+        var formatDtos = Format.List.Select(
+            format => new FormatDto
+            {
+                Name = format.Name,
+                Value = format.Value
+            });
 
-        var maybeFormats = Maybe<GetSupportedFormatsResponse>.From(new GetSupportedFormatsResponse(formatDtos));
+        var maybeFormats = Maybe<GetSupportedFormatsResponse>.From(new GetSupportedFormatsResponse { Formats = formatDtos });
 
         return Task.FromResult(maybeFormats);
     }

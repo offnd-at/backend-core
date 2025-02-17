@@ -5,53 +5,57 @@ using Application.Core.Abstractions.Messaging;
 using Application.Core.Abstractions.Phrases;
 using Application.Core.Abstractions.Urls;
 using Application.Core.Abstractions.Words;
-using Asp.Versioning;
-using Asp.Versioning.Conventions;
+using Core.Constants;
 using Core.Data;
 using Core.Data.Settings;
 using Core.Http.Cors.Settings;
 using Core.Logging.Settings;
 using Core.Messaging;
 using Core.Messaging.Settings;
-using Core.OpenApi;
 using Core.Settings;
+using Domain.Core.Errors;
+using Domain.Core.Primitives;
+using Domain.ValueObjects;
+using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using Octokit;
+using Persistence.Data;
 using Phrases;
+using Polly;
+using Polly.Retry;
 using Urls;
 using Words;
 
+/// <summary>
+///     Contains extensions used to configure DI Container.
+/// </summary>
 public static class DependencyInjectionExtensions
 {
     /// <summary>
-    ///     Registers the infrastructure services with the DI framework.
+    ///     Registers the infrastructure settings with the DI framework.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <param name="configuration">The configuration.</param>
     /// <returns>The configured service collection.</returns>
-    public static IServiceCollection AddInfrastructure(
-        this IServiceCollection services,
-        IConfiguration configuration) =>
-        services
-            .AddSettings(configuration)
-            .AddCors()
-            .AddSwagger()
-            .AddApiVersioning()
-            .AddServices();
+    public static IServiceCollection AddInfrastructureSettings(this IServiceCollection services, IConfiguration configuration)
+    {
+        _ = services.Configure<ApplicationSettings>(configuration.GetSection(ApplicationSettings.SettingsKey));
+        _ = services.Configure<OpenObserveLoggerSettings>(configuration.GetSection(OpenObserveLoggerSettings.SettingsKey));
+        _ = services.Configure<GithubDataSourceSettings>(configuration.GetSection(GithubDataSourceSettings.SettingsKey));
+
+        return services;
+    }
 
     /// <summary>
     ///     Registers the service instances with the DI framework.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The configured service collection.</returns>
-    private static IServiceCollection AddServices(this IServiceCollection services)
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
     {
-        services.AddSingleton<IIntegrationEventPublisher, IntegrationEventPublisher>();
-
-        services.AddScoped<IIntegrationEventConsumer, IntegrationEventConsumer>();
-
         services.AddScoped<ICaseConverter, CaseConverter>();
         services.AddScoped<IPhraseGenerator, PhraseGenerator>();
         services.AddScoped<IUrlMaker, UrlMaker>();
@@ -71,12 +75,15 @@ public static class DependencyInjectionExtensions
     ///     Registers the CORS policy with the DI framework.
     /// </summary>
     /// <param name="services">The service collection.</param>
+    /// <param name="configuration">The configuration.</param>
     /// <returns>The configured service collection.</returns>
-    private static IServiceCollection AddCors(this IServiceCollection services)
+    public static IServiceCollection AddCorsPolicies(this IServiceCollection services, IConfiguration configuration)
     {
+        _ = services.Configure<CorsSettings>(configuration.GetSection(CorsSettings.SettingsKey));
+
         var settings = services.BuildServiceProvider().GetRequiredService<IOptions<CorsSettings>>().Value;
 
-        services.AddCors(
+        _ = services.AddCors(
             options => options.AddDefaultPolicy(
                 builder => builder
                     .SetIsOriginAllowed(
@@ -90,57 +97,67 @@ public static class DependencyInjectionExtensions
     }
 
     /// <summary>
-    ///     Registers the Swagger API docs with the DI framework.
+    ///     Registers the resilience policies with the DI framework.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The configured service collection.</returns>
-    private static IServiceCollection AddSwagger(this IServiceCollection services)
-    {
-        services.AddSwaggerGen();
-        services.ConfigureOptions<ConfigureVersionedSwaggerGenOptions>();
-
-        return services;
-    }
+    public static IServiceCollection AddResiliencePolicies(this IServiceCollection services) =>
+        services.AddResiliencePipeline<string, Result<Phrase>>(
+            ResiliencePolicies.PhraseGeneratorRetryPolicyName,
+            builder => builder.AddRetry(
+                new RetryStrategyOptions<Result<Phrase>>
+                {
+                    Delay = TimeSpan.Zero,
+                    BackoffType = DelayBackoffType.Constant,
+                    MaxRetryAttempts = 10,
+                    ShouldHandle = new PredicateBuilder<Result<Phrase>>().HandleResult(
+                        result => result.IsFailure && result.Error == DomainErrors.Phrase.AlreadyInUse)
+                }));
 
     /// <summary>
-    ///     Registers the API versioning services with the DI framework.
-    /// </summary>
-    /// <param name="services">The service collection.</param>
-    /// <returns>The configured service collection.</returns>
-    private static IServiceCollection AddApiVersioning(this IServiceCollection services)
-    {
-        services.AddApiVersioning(
-                options =>
-                {
-                    options.DefaultApiVersion = new ApiVersion(1, 0);
-                    options.AssumeDefaultVersionWhenUnspecified = false;
-                    options.ReportApiVersions = true;
-                    options.ApiVersionReader = new UrlSegmentApiVersionReader();
-                })
-            .AddMvc(options => options.Conventions.Add(new VersionByNamespaceConvention()))
-            .AddApiExplorer(
-                options =>
-                {
-                    options.GroupNameFormat = "'v'V";
-                    options.SubstituteApiVersionInUrl = true;
-                });
-
-        return services;
-    }
-
-    /// <summary>
-    ///     Registers the infrastructure settings with the DI framework.
+    ///     Registers the MassTransit producer with the DI framework.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <param name="configuration">The configuration.</param>
     /// <returns>The configured service collection.</returns>
-    private static IServiceCollection AddSettings(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddMassTransitProducer(this IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<ApplicationSettings>(configuration.GetSection(ApplicationSettings.SettingsKey));
-        services.Configure<CorsSettings>(configuration.GetSection(CorsSettings.SettingsKey));
         services.Configure<MessageBrokerSettings>(configuration.GetSection(MessageBrokerSettings.SettingsKey));
-        services.Configure<GithubDataSourceSettings>(configuration.GetSection(GithubDataSourceSettings.SettingsKey));
-        services.Configure<OpenObserveLoggerSettings>(configuration.GetSection(OpenObserveLoggerSettings.SettingsKey));
+
+        services.AddMassTransit(
+            configurator =>
+            {
+                configurator.AddEntityFrameworkOutbox<OffndAtDbContext>(
+                    cfg =>
+                    {
+                        cfg.UsePostgres();
+                        cfg.UseBusOutbox();
+
+                        cfg.QueryDelay = TimeSpan.FromSeconds(10);
+                    });
+
+                configurator.SetKebabCaseEndpointNameFormatter();
+
+                configurator.UsingRabbitMq(
+                    (context, factoryConfigurator) =>
+                    {
+                        var messageBrokerSettings = context.GetRequiredService<IOptions<MessageBrokerSettings>>().Value;
+
+                        factoryConfigurator.Host(
+                            messageBrokerSettings.Hostname,
+                            hostConfigurator =>
+                            {
+                                hostConfigurator.Username(messageBrokerSettings.Username);
+                                hostConfigurator.Password(messageBrokerSettings.Password);
+                            });
+
+                        factoryConfigurator.UseMessageRetry(retryConfigurator => retryConfigurator.Interval(3, TimeSpan.FromSeconds(3)));
+
+                        factoryConfigurator.ConfigureEndpoints(context);
+                    });
+            });
+
+        services.TryAddScoped<IIntegrationEventPublisher, IntegrationEventPublisher>();
 
         return services;
     }

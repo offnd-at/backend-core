@@ -10,11 +10,17 @@ internal static class ApiRoutes
     /// </summary>
     internal static class Links
     {
-        public const string Generate = "v{version:apiVersion}/links/generate";
+        public const string Generate = "links";
 
-        public const string GetByPhrase = "v{version:apiVersion}/links/{phrase}";
+        public const string GetByPhrase = "links/{phrase}";
+    }
 
-        public const string RedirectByPhrase = "v{version:apiVersion}/links/redirect/{phrase}";
+    /// <summary>
+    ///     Contains the redirects routes.
+    /// </summary>
+    internal static class Redirects
+    {
+        public const string RedirectByPhrase = "redirects/{phrase}";
     }
 
     /// <summary>
@@ -22,7 +28,7 @@ internal static class ApiRoutes
     /// </summary>
     internal static class Languages
     {
-        public const string GetSupported = "v{version:apiVersion}/languages";
+        public const string Get = "languages";
     }
 
     /// <summary>
@@ -30,7 +36,7 @@ internal static class ApiRoutes
     /// </summary>
     internal static class Themes
     {
-        public const string GetSupported = "v{version:apiVersion}/themes";
+        public const string Get = "themes";
     }
 
     /// <summary>
@@ -38,6 +44,6 @@ internal static class ApiRoutes
     /// </summary>
     internal static class Formats
     {
-        public const string GetSupported = "v{version:apiVersion}/formats";
+        public const string Get = "formats";
     }
 }

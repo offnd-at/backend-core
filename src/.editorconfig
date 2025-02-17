@@ -62,7 +62,7 @@ resharper_keep_existing_declaration_parens_arrangement = false
 resharper_keep_existing_expr_member_arrangement = false
 resharper_keep_existing_initializer_arrangement = false
 resharper_keep_existing_invocation_parens_arrangement = false
-resharper_max_attribute_length_for_same_line = 32
+resharper_max_attribute_length_for_same_line = 8
 resharper_max_formal_parameters_on_line = 3
 resharper_max_initializer_elements_on_line = 1
 resharper_max_invocation_arguments_on_line = 3
@@ -167,7 +167,7 @@ dotnet_style_qualification_for_event = false:error
 dotnet_style_predefined_type_for_locals_parameters_members = true:error
 dotnet_style_predefined_type_for_member_access = true:error
 # Modifier preferences
-dotnet_style_require_accessibility_modifiers = always:error
+dotnet_style_require_accessibility_modifiers = for_non_interface_members:error
 csharp_preferred_modifier_order = public, private, protected, internal, static, extern, new, virtual, abstract, sealed, override, readonly, unsafe, volatile, async:error
 visual_basic_preferred_modifier_order = Partial, Default, Private, Protected, Public, Friend, NotOverridable, Overridable, MustOverride, Overloads, Overrides, MustInherit, NotInheritable, Static, Shared, Shadows, ReadOnly, WriteOnly, Dim, Const, WithEvents, Widening, Narrowing, Custom, Async:error
 dotnet_style_readonly_field = true:error
@@ -329,7 +329,12 @@ csharp_space_between_square_brackets = false
 csharp_preserve_single_line_statements = false
 csharp_preserve_single_line_blocks = true
 # Attributes options
-place_attribute_on_same_line = false
+resharper_csharp_keep_existing_attribute_arrangement = true
+resharper_keep_existing_attribute_arrangement = true
+csharp_style_attribute_on_single_line = true
+resharper_place_attribute_on_same_line = false
+resharper_csharp_space_between_attribute_sections = false
+resharper_space_between_attribute_sections = false
 
 ##########################################
 # .NET Naming Rules
@@ -504,3 +509,16 @@ dotnet_diagnostic.ca1707.severity = none
 # Ignore paths
 [/**/Migrations/*.cs]
 generated_code = true
+
+# Verify
+[*.{received,verified}.{txt}]
+charset = "utf-8-bom"
+end_of_line = lf
+indent_size = unset
+indent_style = unset
+insert_final_newline = false
+tab_width = unset
+trim_trailing_whitespace = false
+
+[/**/GithubFileLoader.cs]
+dotnet_diagnostic.IDE0060.severity = none

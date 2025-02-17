@@ -24,32 +24,6 @@ public abstract class BaseDbContext(DbContextOptions options, IMediator mediator
         base.Set<TEntity>();
 
     /// <inheritdoc />
-    public async Task<Maybe<TEntity>> GetByIdAsync<TEntity, TEntityId>(TEntityId id, CancellationToken cancellationToken = default)
-        where TEntity : Entity<TEntityId>
-        where TEntityId : EntityId =>
-        id == Guid.Empty
-            ? Maybe<TEntity>.None
-            : Maybe<TEntity>.From(await Set<TEntity, TEntityId>().FirstOrDefaultAsync(e => e.Id == id, cancellationToken));
-
-    /// <inheritdoc />
-    public void Insert<TEntity, TEntityId>(TEntity entity)
-        where TEntity : Entity<TEntityId>
-        where TEntityId : EntityId =>
-        Set<TEntity, TEntityId>().Add(entity);
-
-    /// <inheritdoc />
-    public void InsertRange<TEntity, TEntityId>(IEnumerable<TEntity> entities)
-        where TEntity : Entity<TEntityId>
-        where TEntityId : EntityId =>
-        Set<TEntity, TEntityId>().AddRange(entities);
-
-    /// <inheritdoc />
-    public void Remove<TEntity, TEntityId>(TEntity entity)
-        where TEntity : Entity<TEntityId>
-        where TEntityId : EntityId =>
-        Set<TEntity, TEntityId>().Remove(entity);
-
-    /// <inheritdoc />
     public Task<int> ExecuteSqlAsync(
         string sql,
         IEnumerable<SqlParameter> parameters,
@@ -57,7 +31,7 @@ public abstract class BaseDbContext(DbContextOptions options, IMediator mediator
         Database.ExecuteSqlRawAsync(sql, parameters, cancellationToken);
 
     /// <summary>
-    ///     Saves all of the pending changes in the unit of work.
+    ///     Saves all the pending changes in the unit of work.
     /// </summary>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>The number of entities that have been saved.</returns>
@@ -65,10 +39,15 @@ public abstract class BaseDbContext(DbContextOptions options, IMediator mediator
     {
         var utcNow = DateTimeOffset.UtcNow;
 
-        UpdateAuditableEntities(utcNow);
-        UpdateSoftDeletableEntities(utcNow);
+        var shouldLoop = true;
 
-        await PublishDomainEventsAsync(cancellationToken);
+        while (shouldLoop)
+        {
+            UpdateAuditableEntities(utcNow);
+            UpdateSoftDeletableEntities(utcNow);
+
+            shouldLoop = await PublishDomainEventsAsync(cancellationToken) > 0;
+        }
 
         return await base.SaveChangesAsync(cancellationToken);
     }
@@ -78,7 +57,7 @@ public abstract class BaseDbContext(DbContextOptions options, IMediator mediator
         Database.BeginTransactionAsync(cancellationToken);
 
     /// <summary>
-    ///     Updates the entities implementing <see cref="utcNow" /> interface.
+    ///     Updates the entities implementing <see cref="IAuditableEntity" /> interface.
     /// </summary>
     /// <param name="utcNow">The current date and time in UTC format.</param>
     private void UpdateAuditableEntities(DateTimeOffset utcNow)
@@ -147,12 +126,10 @@ public abstract class BaseDbContext(DbContextOptions options, IMediator mediator
     ///     Publishes and then clears all the domain events that exist within the current transaction.
     /// </summary>
     /// <param name="cancellationToken">The cancellation token.</param>
-    private async Task PublishDomainEventsAsync(CancellationToken cancellationToken)
+    /// <returns>The number of domain events that have been published.</returns>
+    private async Task<int> PublishDomainEventsAsync(CancellationToken cancellationToken)
     {
-        var aggregateRoots = ChangeTracker
-            .Entries<IAggregateRoot>()
-            .Where(entityEntry => entityEntry.Entity.DomainEvents.Count != 0)
-            .ToList();
+        var aggregateRoots = GetAggregateRootsWithDomainEvents();
 
         var domainEvents = aggregateRoots.SelectMany(entityEntry => entityEntry.Entity.DomainEvents).ToList();
 
@@ -161,5 +138,17 @@ public abstract class BaseDbContext(DbContextOptions options, IMediator mediator
         var tasks = domainEvents.Select(domainEvent => mediator.Publish(domainEvent, cancellationToken));
 
         await Task.WhenAll(tasks);
+
+        return domainEvents.Count;
     }
+
+    /// <summary>
+    ///     Gets the aggregate roots that raised at least one domain event.
+    /// </summary>
+    /// <returns>The list of aggregate roots.</returns>
+    private List<EntityEntry<IAggregateRoot>> GetAggregateRootsWithDomainEvents() =>
+        ChangeTracker
+            .Entries<IAggregateRoot>()
+            .Where(entityEntry => entityEntry.Entity.DomainEvents.Count != 0)
+            .ToList();
 }

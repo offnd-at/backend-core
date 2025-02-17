@@ -2,6 +2,7 @@
 
 using Application.Core.Abstractions.Data;
 using Constants;
+using Core.Cache.Settings;
 using Domain.Core.Primitives;
 using Domain.Enumerations;
 using Domain.Models;
@@ -9,18 +10,22 @@ using Domain.Repositories;
 using Domain.Services;
 using Domain.ValueObjects;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Options;
 
 /// <summary>
 ///     Represents the vocabularies repository.
 /// </summary>
+/// <param name="cacheOptions">The cache options.</param>
 /// <param name="memoryCache">The memory cache.</param>
 /// <param name="vocabularyLoader">The vocabulary loader.</param>
+/// <param name="vocabularyService">The vocabulary service.</param>
 internal sealed class VocabulariesRepository(
+    IOptions<CacheSettings> cacheOptions,
     IMemoryCache memoryCache,
     IVocabularyLoader vocabularyLoader,
     IVocabularyService vocabularyService) : IVocabulariesRepository
 {
-    private readonly TimeSpan _cacheTtl = TimeSpan.FromMinutes(60);
+    private readonly CacheSettings _settings = cacheOptions.Value;
 
     /// <inheritdoc />
     public async Task<Maybe<Vocabulary>> GetNounsAsync(
@@ -40,7 +45,7 @@ internal sealed class VocabulariesRepository(
                        theme),
                    cacheEntry =>
                    {
-                       cacheEntry.SetAbsoluteExpiration(_cacheTtl);
+                       cacheEntry.SetAbsoluteExpiration(_settings.LongTtl);
 
                        var vocabularyDescriptor = new VocabularyDescriptor(
                            language,
@@ -70,7 +75,7 @@ internal sealed class VocabulariesRepository(
                 gender),
             cacheEntry =>
             {
-                cacheEntry.SetAbsoluteExpiration(_cacheTtl);
+                cacheEntry.SetAbsoluteExpiration(_settings.LongTtl);
 
                 var vocabularyDescriptor = new VocabularyDescriptor(
                     language,
@@ -93,7 +98,7 @@ internal sealed class VocabulariesRepository(
             CacheKeys.AdverbVocabulary(language, offensiveness),
             cacheEntry =>
             {
-                cacheEntry.SetAbsoluteExpiration(_cacheTtl);
+                cacheEntry.SetAbsoluteExpiration(_settings.LongTtl);
 
                 var vocabularyDescriptor = new VocabularyDescriptor(
                     language,

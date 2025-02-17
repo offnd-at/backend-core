@@ -7,7 +7,7 @@ using Events;
 ///     Represents an aggregate root.
 /// </summary>
 /// <typeparam name="TEntityId">The entity identifier type.</typeparam>
-public abstract class AggregateRoot<TEntityId> : Entity<TEntityId>, IAggregateRoot where TEntityId : EntityId
+public abstract class AggregateRoot<TEntityId> : SoftDeletableEntity<TEntityId>, IAggregateRoot where TEntityId : EntityId
 {
     private readonly List<IDomainEvent> _domainEvents = [];
 
@@ -37,8 +37,8 @@ public abstract class AggregateRoot<TEntityId> : Entity<TEntityId>, IAggregateRo
     public void ClearDomainEvents() => _domainEvents.Clear();
 
     /// <summary>
-    ///     Adds the specified <see cref="IDomainEvent" /> to the <see cref="AggregateRoot{TEntityId}" />.
+    ///     Raises the specified <see cref="IDomainEvent" /> in the context of the <see cref="AggregateRoot{TEntityId}" />.
     /// </summary>
     /// <param name="domainEvent">The domain event.</param>
-    protected void AddDomainEvent(IDomainEvent domainEvent) => _domainEvents.Add(domainEvent);
+    public void RaiseDomainEvent(IDomainEvent domainEvent) => _domainEvents.Add(domainEvent);
 }

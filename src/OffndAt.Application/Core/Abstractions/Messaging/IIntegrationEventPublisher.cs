@@ -10,6 +10,7 @@ public interface IIntegrationEventPublisher
     /// </summary>
     /// <param name="integrationEvent">The integration event.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
+    /// <typeparam name="TEvent">The integration event type.</typeparam>
     /// <returns>The completed task.</returns>
-    Task PublishAsync(IIntegrationEvent integrationEvent, CancellationToken cancellationToken = default);
+    Task PublishAsync<TEvent>(TEvent integrationEvent, CancellationToken cancellationToken = default) where TEvent : class;
 }

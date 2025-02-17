@@ -65,8 +65,22 @@ public sealed class Maybe<T> : IEquatable<Maybe<T>>
     /// <returns>The new <see cref="Maybe{T}" /> instance.</returns>
     public static Maybe<T> From(T? value) => new(value);
 
+    /// <summary>
+    ///     Implicitly converts a nullable value of type <typeparamref name="T" /> to a <see cref="Maybe{T}" />.
+    /// </summary>
+    /// <param name="value">The nullable value to convert into a <see cref="Maybe{T}" />.</param>
+    /// <returns>
+    ///     A <see cref="Maybe{T}" /> that represents the given <paramref name="value" />,
+    ///     with <see cref="Maybe{T}.HasValue" /> set to <c>true</c> if <paramref name="value" /> is not null,
+    ///     and <see cref="Maybe{T}.HasValue" /> set to <c>false</c> if <paramref name="value" /> is null.
+    /// </returns>
     public static implicit operator Maybe<T>(T? value) => From(value);
 
+    /// <summary>
+    ///     Implicitly converts a <see cref="Maybe{T}" /> to its underlying value of type <typeparamref name="T" />.
+    /// </summary>
+    /// <param name="maybe">The <see cref="Maybe{T}" /> instance to extract the value from.</param>
+    /// <returns>The underlying value of type <typeparamref name="T" /> contained in the <paramref name="maybe" />.</returns>
     public static implicit operator T(Maybe<T> maybe) => maybe.Value;
 
     /// <inheritdoc />

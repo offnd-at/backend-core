@@ -3,6 +3,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using Services;
 
+/// <summary>
+///     Contains extensions used to configure DI Container.
+/// </summary>
 public static class DependencyInjectionExtensions
 {
     /// <summary>
@@ -10,14 +13,14 @@ public static class DependencyInjectionExtensions
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The configured service collection.</returns>
-    public static IServiceCollection AddDomain(this IServiceCollection services) => services.AddServices();
+    public static IServiceCollection AddDomain(this IServiceCollection services) => services.AddDomainServices();
 
     /// <summary>
     ///     Registers the service instances with the DI framework.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The configured service collection.</returns>
-    private static IServiceCollection AddServices(this IServiceCollection services)
+    private static IServiceCollection AddDomainServices(this IServiceCollection services)
     {
         services.AddScoped<IVocabularyService, VocabularyService>();
 

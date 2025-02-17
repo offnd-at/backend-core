@@ -1,22 +1,25 @@
 ﻿namespace OffndAt.Services.Api.Middleware;
 
 using System.Net;
-using System.Text.Json;
 using Application.Core.Exceptions;
-using Contracts;
 using Domain.Core.Errors;
 using Domain.Core.Exceptions;
 using Domain.Core.Primitives;
+using Microsoft.AspNetCore.Mvc;
 
 /// <summary>
 ///     Represents the exception handler middleware.
 /// </summary>
-internal sealed class ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionHandlerMiddleware> logger)
+/// <param name="next">The next middleware delegate.</param>
+/// <param name="problemDetailsService">The problem details service.</param>
+/// <param name="logger">The logger.</param>
+internal sealed class ExceptionHandlerMiddleware(
+    RequestDelegate next,
+    IProblemDetailsService problemDetailsService,
+    ILogger<ExceptionHandlerMiddleware> logger)
 {
-    private static readonly JsonSerializerOptions JsonSerializerOptions = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
-
     /// <summary>
-    ///     Invokes the exception handler middleware with the specified <see cref="HttpContext" />.
+    ///     Invokes the middleware with the specified <see cref="HttpContext" />.
     /// </summary>
     /// <param name="httpContext">The HTTP httpContext.</param>
     /// <returns>The task that can be awaited by the next middleware.</returns>
@@ -40,16 +43,24 @@ internal sealed class ExceptionHandlerMiddleware(RequestDelegate next, ILogger<E
     /// <param name="httpContext">The HTTP httpContext.</param>
     /// <param name="exception">The exception.</param>
     /// <returns>The HTTP response that is modified based on the exception.</returns>
-    private static async Task HandleExceptionAsync(HttpContext httpContext, Exception exception)
+    private async Task HandleExceptionAsync(HttpContext httpContext, Exception exception)
     {
-        var (httpStatusCode, errors) = GetHttpStatusCodeAndErrors(exception);
+        var (httpStatusCode, title, errors) = GetHttpStatusCodeAndErrors(exception);
 
-        httpContext.Response.ContentType = "application/json";
-        httpContext.Response.StatusCode = (int)httpStatusCode;
+        httpContext.Response.StatusCode = httpStatusCode;
 
-        var response = JsonSerializer.Serialize(new ApiErrorResponse(errors), JsonSerializerOptions);
-
-        await httpContext.Response.WriteAsync(response);
+        _ = await problemDetailsService.TryWriteAsync(
+            new ProblemDetailsContext
+            {
+                HttpContext = httpContext,
+                Exception = exception,
+                ProblemDetails = new ProblemDetails
+                {
+                    Title = title,
+                    Status = httpStatusCode,
+                    Extensions = new Dictionary<string, object?> { { "errors", errors } }
+                }
+            });
     }
 
     /// <summary>
@@ -57,11 +68,12 @@ internal sealed class ExceptionHandlerMiddleware(RequestDelegate next, ILogger<E
     /// </summary>
     /// <param name="exception">The exception.</param>
     /// <returns>The <see cref="HttpStatusCode" /> instance alongside with a list of errors.</returns>
-    private static (HttpStatusCode httpStatusCode, IReadOnlyCollection<Error>) GetHttpStatusCodeAndErrors(Exception exception) =>
+    private static (int httpStatusCode, string title, IReadOnlyCollection<Error>) GetHttpStatusCodeAndErrors(Exception exception) =>
         exception switch
         {
-            ValidationException validationException => (HttpStatusCode.BadRequest, validationException.Errors),
-            DomainException domainException => (HttpStatusCode.BadRequest, [domainException.Error]),
-            _ => (HttpStatusCode.InternalServerError, new[] { DomainErrors.General.ServerError })
+            ValidationException validationException => (StatusCodes.Status400BadRequest, "One or more validation errors occurred.",
+                validationException.Errors),
+            DomainException domainException => (StatusCodes.Status400BadRequest, "An application error occurred.", [domainException.Error]),
+            _ => (StatusCodes.Status500InternalServerError, "An unexpected error occurred.", [DomainErrors.General.ServerError])
         };
 }

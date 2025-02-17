@@ -5,7 +5,7 @@ volumes:
   offndat-pg-admin-data:
 
 services:
-  backend-core:
+  api:
     restart: unless-stopped
     build:
       context: ./
@@ -15,7 +15,7 @@ services:
     environment:
       PersistenceSettings__ConnectionString: "Host=postgres;Username=offndat;Password=offndat;Database=offndat"
       MessageBrokerSettings__Hostname: rabbit-mq
-    container_name: backend-core
+    container_name: api
     deploy:
       resources:
         limits:
@@ -24,20 +24,20 @@ services:
       - postgres
       - rabbit-mq
 
-  backend-background:
+  events-worker:
     restart: unless-stopped
     build:
       context: ./
-      dockerfile: ./OffndAt.Services.Background/Dockerfile
+      dockerfile: ./OffndAt.Services.EventsWorker/Dockerfile
     environment:
       MessageBrokerSettings__Hostname: rabbit-mq
-    container_name: backend-background
+    container_name: events-worker
     deploy:
       resources:
         limits:
           memory: 1024M
     depends_on:
-      - backend-core
+      - api
 
   postgres:
     image: postgres
@@ -51,20 +51,6 @@ services:
     volumes:
       - offndat-postgres-data:/var/lib/postgresql/data
     container_name: postgres
-
-  pg-admin:
-    image: dpage/pgadmin4
-    restart: unless-stopped
-    environment:
-      PGADMIN_DEFAULT_EMAIL: pgadmin@offnd.at
-      PGADMIN_DEFAULT_PASSWORD: offndat
-    ports:
-      - "5050:80"
-    container_name: pg-admin
-    volumes:
-      - offndat-pg-admin-data:/var/lib/pgadmin
-    depends_on:
-      - postgres
 
   rabbit-mq:
     image: rabbitmq:3.12-management

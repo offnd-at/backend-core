@@ -1,17 +1,21 @@
 ﻿namespace OffndAt.Contracts.Links;
 
+using System.ComponentModel;
+
 /// <summary>
 ///     Represents the link data transfer object.
 /// </summary>
-public sealed class LinkDto(string targetUrl, int visits)
+public sealed class LinkDto
 {
     /// <summary>
     ///     Gets the target URL.
     /// </summary>
-    public string TargetUrl { get; } = targetUrl;
+    [Description("The target URL to which the link will redirect.")]
+    public required string TargetUrl { get; init; }
 
     /// <summary>
     ///     Gets the visits count.
     /// </summary>
-    public int Visits { get; } = visits;
+    [Description("The number of times the link has been visited.")]
+    public required int Visits { get; init; }
 }
