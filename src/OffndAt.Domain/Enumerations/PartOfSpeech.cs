@@ -7,8 +7,19 @@ using Core.Primitives;
 /// </summary>
 public sealed class PartOfSpeech : Enumeration<PartOfSpeech>
 {
+    /// <summary>
+    ///     Gets the adverb part of speech.
+    /// </summary>
     public static readonly PartOfSpeech Adverb = new(0, "adverb");
+
+    /// <summary>
+    ///     Gets the adjective part of speech.
+    /// </summary>
     public static readonly PartOfSpeech Adjective = new(1, "adjective");
+
+    /// <summary>
+    ///     Gets the noun part of speech.
+    /// </summary>
     public static readonly PartOfSpeech Noun = new(2, "noun");
 
     /// <summary>

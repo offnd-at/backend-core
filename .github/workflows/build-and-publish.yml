@@ -17,7 +17,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0.x
+        dotnet-version: 9.0.x
         
     - name: Install dependencies
       run: dotnet restore ./src/OffndAt.sln
@@ -64,7 +64,7 @@ jobs:
         tags: ghcr.io/${{ env.REPO }}:${{ github.ref_name }}
         file: ./OffndAt.Services.Api/Dockerfile
 
-  background-docker-build-and-publish:
+  events-worker-docker-build-and-publish:
     needs: dotnet-build-and-test
     runs-on: ubuntu-latest
     steps:
@@ -80,7 +80,7 @@ jobs:
         password: ${{ github.token }}
 
     - name: Lowercase the repo name and username
-      run: echo "REPO=${GITHUB_REPOSITORY,,}-background" >>${GITHUB_ENV}
+      run: echo "REPO=${GITHUB_REPOSITORY,,}-events-worker" >>${GITHUB_ENV}
 
     - name: Build and push container image to registry
       if: github.event_name != 'release'
@@ -89,7 +89,7 @@ jobs:
         push: true
         context: "{{defaultContext}}:src"
         tags: ghcr.io/${{ env.REPO }}:${{ github.sha }}
-        file: ./OffndAt.Services.Background/Dockerfile
+        file: ./OffndAt.Services.EventsWorker/Dockerfile
 
     - name: Build and push container image to registry
       if: github.event_name == 'release' && github.event.action == 'created'
@@ -98,4 +98,4 @@ jobs:
         push: true
         context: "{{defaultContext}}:src"
         tags: ghcr.io/${{ env.REPO }}:${{ github.ref_name }}
-        file: ./OffndAt.Services.Background/Dockerfile
+        file: ./OffndAt.Services.EventsWorker/Dockerfile

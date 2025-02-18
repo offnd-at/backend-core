@@ -31,7 +31,7 @@ internal sealed class LinksRepositoryTests : BaseTestFixture
             language,
             theme);
 
-        DbContext.Insert<Link, LinkId>(link);
+        DbContext.Set<Link, LinkId>().Add(link);
         await DbContext.SaveChangesAsync();
 
         var actual = await _repository.GetByPhraseAsync(phrase, CancellationToken.None);
@@ -68,7 +68,7 @@ internal sealed class LinksRepositoryTests : BaseTestFixture
             language,
             theme);
 
-        DbContext.Insert<Link, LinkId>(link);
+        DbContext.Set<Link, LinkId>().Add(link);
         await DbContext.SaveChangesAsync();
 
         var actual = await _repository.HasAnyWithPhraseAsync(phrase, CancellationToken.None);

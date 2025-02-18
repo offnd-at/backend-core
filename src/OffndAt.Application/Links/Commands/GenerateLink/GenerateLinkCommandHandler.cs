@@ -98,6 +98,11 @@ internal sealed class GenerateLinkCommandHandler(
 
         return firstFailureOrSuccess.IsFailure
             ? Result.Failure<GenerateLinkResponse>(firstFailureOrSuccess.Error)
-            : Result.Success(new GenerateLinkResponse(redirectUrl.Value, statsUrl.Value));
+            : Result.Success(
+                new GenerateLinkResponse
+                {
+                    Url = redirectUrl.Value,
+                    StatsUrl = statsUrl.Value
+                });
     }
 }

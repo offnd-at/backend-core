@@ -25,6 +25,11 @@ public sealed class Word : ValueObject
     /// </summary>
     public string Value { get; }
 
+    /// <summary>
+    ///     Implicitly converts a <see cref="Word" /> to a <see cref="string" /> by returning its value.
+    /// </summary>
+    /// <param name="word">The <see cref="Word" /> instance to convert.</param>
+    /// <returns>A <see cref="string" /> representing the value of the <paramref name="word" />.</returns>
     public static implicit operator string(Word word) => word.Value;
 
     /// <summary>

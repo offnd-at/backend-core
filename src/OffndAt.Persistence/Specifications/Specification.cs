@@ -25,6 +25,11 @@ public abstract class Specification<TEntity, TEntityId>
     /// <returns>True if the entity satisfies the specification, otherwise false.</returns>
     public bool IsSatisfiedBy(TEntity entity) => ToExpression().Compile()(entity);
 
+    /// <summary>
+    ///     Implicitly converts a <see cref="Specification{T, K}" /> to an <see cref="Expression{T}" />.
+    /// </summary>
+    /// <param name="specification">The specification to convert.</param>
+    /// <returns>An <see cref="Expression{T}" /> that represents the specification.</returns>
     public static implicit operator Expression<Func<TEntity, bool>>(Specification<TEntity, TEntityId> specification) =>
         specification.ToExpression();
 }

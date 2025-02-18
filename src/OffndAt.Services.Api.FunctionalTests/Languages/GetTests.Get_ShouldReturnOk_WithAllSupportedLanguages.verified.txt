@@ -1,0 +1,25 @@
+﻿{
+  Status: 200 OK,
+  Headers: {
+    api-supported-versions: 1
+  },
+  Content: {
+    Headers: {
+      Content-Type: application/json; charset=utf-8
+    },
+    Value: {
+      languages: [
+        {
+          value: 0,
+          name: English,
+          code: en
+        },
+        {
+          value: 1,
+          name: Polish,
+          code: pl
+        }
+      ]
+    }
+  }
+}

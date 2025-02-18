@@ -1,0 +1,27 @@
+﻿{
+  Status: 404 Not Found,
+  Headers: {
+    api-supported-versions: 1
+  },
+  Content: {
+    Headers: {
+      Content-Type: application/problem+json
+    },
+    Value: {
+      type: https://tools.ietf.org/html/rfc9110#section-15.5.5,
+      title: Not Found,
+      status: 404,
+      detail: The link with the specified phrase was not found.,
+      instance: GET /v1/redirects/non-existent-phrase,
+      errors: [
+        {
+          code: Link.NotFound,
+          message: The link with the specified phrase was not found.
+        }
+      ],
+      traceId: {Scrubbed},
+      requestId: {Scrubbed},
+      activityId: {Scrubbed}
+    }
+  }
+}

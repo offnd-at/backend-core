@@ -33,26 +33,14 @@ public static class SerilogHostBuilderExtensions
                     .Enrich.WithMachineName()
                     .Enrich.WithClientIp()
                     .Enrich.WithCorrelationId()
-                    .Enrich.WithProperty(
-                        nameof(applicationSettings.Environment),
-                        applicationSettings.Environment ??
-                        throw new InvalidOperationException($"Missing configuration value for {nameof(applicationSettings.Environment)}."))
-                    .Enrich.WithProperty(
-                        nameof(applicationSettings.ApplicationName),
-                        applicationSettings.ApplicationName ??
-                        throw new InvalidOperationException(
-                            $"Missing configuration value for {nameof(applicationSettings.ApplicationName)}."))
+                    .Enrich.WithProperty(nameof(applicationSettings.Environment), applicationSettings.Environment)
+                    .Enrich.WithProperty(nameof(applicationSettings.ApplicationName), applicationSettings.ApplicationName)
                     .WriteTo.OpenObserve(
-                        loggerSettings.ApiUrl ??
-                        throw new InvalidOperationException($"Missing configuration value for {nameof(loggerSettings.ApiUrl)}."),
-                        loggerSettings.Organization ??
-                        throw new InvalidOperationException($"Missing configuration value for {nameof(loggerSettings.Organization)}."),
-                        loggerSettings.Username ??
-                        throw new InvalidOperationException($"Missing configuration value for {nameof(loggerSettings.Username)}."),
-                        loggerSettings.Key ??
-                        throw new InvalidOperationException($"Missing configuration value for {nameof(loggerSettings.Key)}."),
-                        loggerSettings.StreamName ??
-                        throw new InvalidOperationException($"Missing configuration value for {nameof(loggerSettings.StreamName)}."))
+                        loggerSettings.ApiUrl,
+                        loggerSettings.Organization,
+                        loggerSettings.Username,
+                        loggerSettings.Key,
+                        loggerSettings.StreamName)
                     .WriteTo.Console(formatProvider: CultureInfo.InvariantCulture)
                     .ReadFrom.Configuration(context.Configuration);
             });
@@ -78,26 +66,14 @@ public static class SerilogHostBuilderExtensions
                     .Enrich.FromLogContext()
                     .Enrich.WithMachineName()
                     .Enrich.WithEnvironmentName()
-                    .Enrich.WithProperty(
-                        nameof(applicationSettings.Environment),
-                        applicationSettings.Environment ??
-                        throw new InvalidOperationException($"Missing configuration value for {nameof(applicationSettings.Environment)}."))
-                    .Enrich.WithProperty(
-                        nameof(applicationSettings.ApplicationName),
-                        applicationSettings.ApplicationName ??
-                        throw new InvalidOperationException(
-                            $"Missing configuration value for {nameof(applicationSettings.ApplicationName)}."))
+                    .Enrich.WithProperty(nameof(applicationSettings.Environment), applicationSettings.Environment)
+                    .Enrich.WithProperty(nameof(applicationSettings.ApplicationName), applicationSettings.ApplicationName)
                     .WriteTo.OpenObserve(
-                        loggerSettings.ApiUrl ??
-                        throw new InvalidOperationException($"Missing configuration value for {nameof(loggerSettings.ApiUrl)}."),
-                        loggerSettings.Organization ??
-                        throw new InvalidOperationException($"Missing configuration value for {nameof(loggerSettings.Organization)}."),
-                        loggerSettings.Username ??
-                        throw new InvalidOperationException($"Missing configuration value for {nameof(loggerSettings.Username)}."),
-                        loggerSettings.Key ??
-                        throw new InvalidOperationException($"Missing configuration value for {nameof(loggerSettings.Key)}."),
-                        loggerSettings.StreamName ??
-                        throw new InvalidOperationException($"Missing configuration value for {nameof(loggerSettings.StreamName)}."))
+                        loggerSettings.ApiUrl,
+                        loggerSettings.Organization,
+                        loggerSettings.Username,
+                        loggerSettings.Key,
+                        loggerSettings.StreamName)
                     .WriteTo.Console(formatProvider: CultureInfo.InvariantCulture)
                     .ReadFrom.Configuration(context.Configuration);
             }) +

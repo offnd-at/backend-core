@@ -13,9 +13,14 @@ internal sealed class GetSupportedThemesQueryHandler : IQueryHandler<GetSupporte
     /// <inheritdoc />
     public Task<Maybe<GetSupportedThemesResponse>> Handle(GetSupportedThemesQuery request, CancellationToken cancellationToken)
     {
-        var themeDtos = Theme.List.Select(theme => new ThemeDto(theme.Value, theme.Name));
+        var themeDtos = Theme.List.Select(
+            theme => new ThemeDto
+            {
+                Name = theme.Name,
+                Value = theme.Value
+            });
 
-        var maybeThemes = Maybe<GetSupportedThemesResponse>.From(new GetSupportedThemesResponse(themeDtos));
+        var maybeThemes = Maybe<GetSupportedThemesResponse>.From(new GetSupportedThemesResponse { Themes = themeDtos });
 
         return Task.FromResult(maybeThemes);
     }

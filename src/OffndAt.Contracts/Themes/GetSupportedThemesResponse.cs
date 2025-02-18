@@ -1,13 +1,15 @@
 ﻿namespace OffndAt.Contracts.Themes;
 
+using System.ComponentModel;
+
 /// <summary>
 ///     Represents the supported themes response.
 /// </summary>
-/// <param name="themes">The supported themes collection.</param>
-public sealed class GetSupportedThemesResponse(IEnumerable<ThemeDto> themes)
+public sealed class GetSupportedThemesResponse
 {
     /// <summary>
     ///     Gets the supported themes collection.
     /// </summary>
-    public IEnumerable<ThemeDto> Themes { get; } = themes;
+    [Description("The list of supported themes.")]
+    public required IEnumerable<ThemeDto> Themes { get; init; }
 }

@@ -25,6 +25,11 @@ public sealed class Phrase : ValueObject
     /// </summary>
     public string Value { get; }
 
+    /// <summary>
+    ///     Implicitly converts a <see cref="Phrase" /> to a <see cref="string" /> by returning its value.
+    /// </summary>
+    /// <param name="phrase">The <see cref="Phrase" /> instance to convert.</param>
+    /// <returns>A <see cref="string" /> representing the value of the <paramref name="phrase" />.</returns>
     public static implicit operator string(Phrase phrase) => phrase.Value;
 
     /// <summary>

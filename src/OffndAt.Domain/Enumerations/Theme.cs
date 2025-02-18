@@ -7,8 +7,19 @@ using Core.Primitives;
 /// </summary>
 public sealed class Theme : Enumeration<Theme>
 {
+    /// <summary>
+    ///     Gets the none theme.
+    /// </summary>
     public static readonly Theme None = new(0, "none");
+
+    /// <summary>
+    ///     Gets the proper names theme.
+    /// </summary>
     public static readonly Theme ProperNames = new(1, "proper-names");
+
+    /// <summary>
+    ///     Gets the politicians theme.
+    /// </summary>
     public static readonly Theme Politicians = new(2, "politicians");
 
     /// <summary>

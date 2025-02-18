@@ -1,6 +1,5 @@
 ﻿namespace OffndAt.Domain.Entities;
 
-using Core.Abstractions;
 using Core.Primitives;
 using Core.Utils;
 using Enumerations;
@@ -11,7 +10,7 @@ using ValueObjects.Identifiers;
 /// <summary>
 ///     Represents the link.
 /// </summary>
-public sealed class Link : AggregateRoot<LinkId>, IAuditableEntity, ISoftDeletableEntity
+public sealed class Link : AggregateRoot<LinkId>
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="Link" /> class.
@@ -47,6 +46,10 @@ public sealed class Link : AggregateRoot<LinkId>, IAuditableEntity, ISoftDeletab
     /// </remarks>
     private Link()
     {
+        Phrase = null!;
+        TargetUrl = null!;
+        Language = null!;
+        Theme = null!;
     }
 
     /// <summary>
@@ -74,18 +77,6 @@ public sealed class Link : AggregateRoot<LinkId>, IAuditableEntity, ISoftDeletab
     /// </summary>
     public int Visits { get; private set; }
 
-    /// <inheritdoc />
-    public DateTimeOffset CreatedAt { get; }
-
-    /// <inheritdoc />
-    public DateTimeOffset? ModifiedAt { get; }
-
-    /// <inheritdoc />
-    public DateTimeOffset? DeletedAt { get; }
-
-    /// <inheritdoc />
-    public bool IsDeleted { get; }
-
     /// <summary>
     ///     Increments the visits counter.
     /// </summary>
@@ -93,7 +84,7 @@ public sealed class Link : AggregateRoot<LinkId>, IAuditableEntity, ISoftDeletab
     {
         Visits += 1;
 
-        AddDomainEvent(new LinkVisitedDomainEvent(this));
+        RaiseDomainEvent(new LinkVisitedDomainEvent(this));
     }
 
     /// <summary>
@@ -116,7 +107,7 @@ public sealed class Link : AggregateRoot<LinkId>, IAuditableEntity, ISoftDeletab
             language,
             theme);
 
-        link.AddDomainEvent(new LinkCreatedDomainEvent(link));
+        link.RaiseDomainEvent(new LinkCreatedDomainEvent(link));
 
         return link;
     }

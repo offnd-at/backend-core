@@ -13,7 +13,9 @@ internal sealed class UrlMakerTests
         var settings = new ApplicationSettings
         {
             BaseDomain = "offnd.at",
-            UseHttps = true
+            UseHttps = true,
+            ApplicationName = "offnd-at",
+            Environment = "test"
         };
 
         var phrase = Phrase.Create("test-phrase").Value;
@@ -36,7 +38,9 @@ internal sealed class UrlMakerTests
         var settings = new ApplicationSettings
         {
             BaseDomain = "offnd.at",
-            UseHttps = false
+            UseHttps = false,
+            ApplicationName = "offnd-at",
+            Environment = "test"
         };
 
         var phrase = Phrase.Create("test-phrase").Value;
@@ -59,7 +63,9 @@ internal sealed class UrlMakerTests
         var settings = new ApplicationSettings
         {
             BaseDomain = "offnd.at",
-            UseHttps = true
+            UseHttps = true,
+            ApplicationName = "offnd-at",
+            Environment = "test"
         };
 
         var phrase = Phrase.Create("test-phrase").Value;
@@ -83,7 +89,9 @@ internal sealed class UrlMakerTests
         var settings = new ApplicationSettings
         {
             BaseDomain = "offnd.at",
-            UseHttps = true
+            UseHttps = true,
+            ApplicationName = "offnd-at",
+            Environment = "test"
         };
 
         var phrase = Phrase.Create("test-phrase").Value;
@@ -106,7 +114,9 @@ internal sealed class UrlMakerTests
         var settings = new ApplicationSettings
         {
             BaseDomain = "offnd.at",
-            UseHttps = false
+            UseHttps = false,
+            ApplicationName = "offnd-at",
+            Environment = "test"
         };
 
         var phrase = Phrase.Create("test-phrase").Value;
@@ -129,7 +139,9 @@ internal sealed class UrlMakerTests
         var settings = new ApplicationSettings
         {
             BaseDomain = "offnd.at",
-            UseHttps = true
+            UseHttps = true,
+            ApplicationName = "offnd-at",
+            Environment = "test"
         };
 
         var phrase = Phrase.Create("test-phrase").Value;

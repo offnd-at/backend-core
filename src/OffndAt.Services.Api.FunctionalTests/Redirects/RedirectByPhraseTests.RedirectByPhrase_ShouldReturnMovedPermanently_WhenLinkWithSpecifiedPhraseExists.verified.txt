@@ -1,0 +1,11 @@
+﻿{
+  Version: 1.1,
+  Status: 301 Moved Permanently,
+  Headers: {
+    api-supported-versions: 1,
+    Cache-Control: no-store, must-revalidate, no-cache, max-age=0,
+    Location: http://localhost/,
+    Pragma: no-cache
+  },
+  RequestMessage: {Scrubbed}
+}

@@ -25,6 +25,11 @@ public sealed class Url : ValueObject
     /// </summary>
     public string Value { get; }
 
+    /// <summary>
+    ///     Implicitly converts a <see cref="Url" /> to a <see cref="string" /> by returning its value.
+    /// </summary>
+    /// <param name="url">The <see cref="Url" /> instance to convert.</param>
+    /// <returns>A <see cref="string" /> representing the value of the <paramref name="url" />.</returns>
     public static implicit operator string(Url url) => url.Value;
 
     /// <summary>

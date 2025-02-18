@@ -1,17 +1,20 @@
 ﻿namespace OffndAt.Persistence.IntegrationTests.Repositories;
 
 using Application.Core.Abstractions.Data;
+using Core.Cache.Settings;
 using Domain.Core.Primitives;
 using Domain.Enumerations;
 using Domain.Models;
 using Domain.Services;
 using Domain.ValueObjects;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Options;
 using NSubstitute;
 using Persistence.Repositories;
 
 internal sealed class VocabulariesRepositoryTests
 {
+    private IOptions<CacheSettings> _cacheSettingsOptions = null!;
     private VocabulariesRepository _repository = null!;
     private IVocabularyLoader _vocabularyLoader = null!;
     private IVocabularyService _vocabularyService = null!;
@@ -19,12 +22,24 @@ internal sealed class VocabulariesRepositoryTests
     [SetUp]
     public void Setup()
     {
+        _cacheSettingsOptions = Substitute.For<IOptions<CacheSettings>>();
+        _cacheSettingsOptions.Value.Returns(
+            new CacheSettings
+            {
+                LongTtl = TimeSpan.FromMilliseconds(1),
+                ShortTtl = TimeSpan.FromMilliseconds(1)
+            });
+
         _vocabularyLoader = Substitute.For<IVocabularyLoader>();
         _vocabularyService = Substitute.For<IVocabularyService>();
         _vocabularyService.GenerateGrammaticalPropertiesForNounVocabulary(Arg.Any<Language>(), Arg.Any<Theme>())
             .Returns((GrammaticalNumber.None, GrammaticalGender.None));
 
-        _repository = new VocabulariesRepository(new MemoryCache(new MemoryCacheOptions()), _vocabularyLoader, _vocabularyService);
+        _repository = new VocabulariesRepository(
+            _cacheSettingsOptions,
+            new MemoryCache(new MemoryCacheOptions()),
+            _vocabularyLoader,
+            _vocabularyService);
     }
 
     [Test]

@@ -1,13 +1,15 @@
 ﻿namespace OffndAt.Contracts.Links;
 
+using System.ComponentModel;
+
 /// <summary>
 ///     Represents the get link by phrase response.
 /// </summary>
-/// <param name="link">The link.</param>
-public sealed class GetLinkByPhraseResponse(LinkDto link)
+public sealed class GetLinkByPhraseResponse
 {
     /// <summary>
     ///     Gets the link.
     /// </summary>
-    public LinkDto Link { get; } = link;
+    [Description("The retrieved link.")]
+    public required LinkDto Link { get; init; }
 }

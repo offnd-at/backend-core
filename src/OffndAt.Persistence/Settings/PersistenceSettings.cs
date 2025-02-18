@@ -5,10 +5,13 @@
 /// </summary>
 public sealed class PersistenceSettings
 {
+    /// <summary>
+    ///     Gets the settings key.
+    /// </summary>
     public const string SettingsKey = "PersistenceSettings";
 
     /// <summary>
     ///     Gets or sets the database connection string.
     /// </summary>
-    public string? ConnectionString { get; init; }
+    public required string ConnectionString { get; init; }
 }

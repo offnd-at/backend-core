@@ -7,8 +7,19 @@ using Core.Primitives;
 /// </summary>
 public sealed class GrammaticalNumber : Enumeration<GrammaticalNumber>
 {
+    /// <summary>
+    ///     Gets the none number.
+    /// </summary>
     public static readonly GrammaticalNumber None = new(0, "none");
+
+    /// <summary>
+    ///     Gets the singular number.
+    /// </summary>
     public static readonly GrammaticalNumber Singular = new(1, "singular");
+
+    /// <summary>
+    ///     Gets the plural number.
+    /// </summary>
     public static readonly GrammaticalNumber Plural = new(2, "plural");
 
     /// <summary>

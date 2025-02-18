@@ -7,7 +7,14 @@ using Core.Primitives;
 /// </summary>
 public sealed class Offensiveness : Enumeration<Offensiveness>
 {
+    /// <summary>
+    ///     Gets the offensive level of offensiveness.
+    /// </summary>
     public static readonly Offensiveness Offensive = new(0, "offensive");
+
+    /// <summary>
+    ///     Gets the non-offensive level of offensiveness.
+    /// </summary>
     public static readonly Offensiveness NonOffensive = new(1, "non-offensive");
 
     /// <summary>

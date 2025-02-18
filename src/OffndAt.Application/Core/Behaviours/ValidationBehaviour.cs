@@ -1,6 +1,5 @@
 ﻿namespace OffndAt.Application.Core.Behaviours;
 
-using Abstractions.Messaging;
 using FluentValidation;
 using MediatR;
 using ValidationException = Exceptions.ValidationException;
@@ -21,11 +20,6 @@ public sealed class ValidationBehaviour<TRequest, TResponse>(IEnumerable<IValida
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken = default)
     {
-        if (request is IQuery<TResponse>)
-        {
-            return await next();
-        }
-
         var context = new ValidationContext<TRequest>(request);
 
         var failures = validators

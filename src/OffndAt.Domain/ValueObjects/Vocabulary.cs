@@ -6,6 +6,9 @@ using Core.Primitives;
 using Enumerations;
 using Models;
 
+/// <summary>
+///     Represents the vocabulary value object.
+/// </summary>
 public sealed class Vocabulary : ValueObject
 {
     private readonly Random _random = new(Guid.NewGuid().GetHashCode());

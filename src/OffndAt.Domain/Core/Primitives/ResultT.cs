@@ -28,5 +28,10 @@ public class Result<TValue> : Result
             ? _value
             : throw new InvalidOperationException("The value of a failure result can not be accessed.");
 
+    /// <summary>
+    ///     Implicitly converts a <typeparamref name="TValue" /> to a <see cref="Result{T}" /> as a success result.
+    /// </summary>
+    /// <param name="value">The value to convert into a <see cref="Result{T}" />.</param>
+    /// <returns>A <see cref="Result{T}" /> representing a successful result with the given <paramref name="value" />.</returns>
     public static implicit operator Result<TValue>(TValue value) => Success(value);
 }

@@ -5,30 +5,33 @@
 /// </summary>
 public sealed class OpenObserveLoggerSettings
 {
+    /// <summary>
+    ///     Gets the settings key.
+    /// </summary>
     public const string SettingsKey = "OpenObserveLoggerSettings";
 
     /// <summary>
     ///     Gets or sets the base API URL.
     /// </summary>
-    public string? ApiUrl { get; init; }
+    public required string ApiUrl { get; init; }
 
     /// <summary>
     ///     Gets or sets the organization name.
     /// </summary>
-    public string? Organization { get; init; }
+    public required string Organization { get; init; }
 
     /// <summary>
     ///     Gets or sets the username.
     /// </summary>
-    public string? Username { get; init; }
+    public required string Username { get; init; }
 
     /// <summary>
     ///     Gets or sets the API key.
     /// </summary>
-    public string? Key { get; init; }
+    public required string Key { get; init; }
 
     /// <summary>
     ///     Gets or sets the logs stream name.
     /// </summary>
-    public string? StreamName { get; init; }
+    public required string StreamName { get; init; }
 }
