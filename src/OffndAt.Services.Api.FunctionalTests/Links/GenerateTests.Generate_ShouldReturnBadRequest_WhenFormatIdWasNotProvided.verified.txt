@@ -1,0 +1,26 @@
+﻿{
+  Status: 400 Bad Request,
+  Headers: {
+    api-supported-versions: 1
+  },
+  Content: {
+    Headers: {
+      Content-Type: application/problem+json
+    },
+    Value: {
+      type: https://tools.ietf.org/html/rfc9110#section-15.5.1,
+      title: One or more validation errors occurred.,
+      status: 400,
+      instance: POST /v1/links,
+      errors: [
+        {
+          code: GreaterThanOrEqualValidator,
+          message: {Scrubbed}
+        }
+      ],
+      traceId: {Scrubbed},
+      requestId: {Scrubbed},
+      activityId: {Scrubbed}
+    }
+  }
+}

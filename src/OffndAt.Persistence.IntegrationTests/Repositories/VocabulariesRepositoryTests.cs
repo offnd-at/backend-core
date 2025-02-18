@@ -23,6 +23,13 @@ internal sealed class VocabulariesRepositoryTests
     public void Setup()
     {
         _cacheSettingsOptions = Substitute.For<IOptions<CacheSettings>>();
+        _cacheSettingsOptions.Value.Returns(
+            new CacheSettings
+            {
+                LongTtl = TimeSpan.FromMilliseconds(1),
+                ShortTtl = TimeSpan.FromMilliseconds(1)
+            });
+
         _vocabularyLoader = Substitute.For<IVocabularyLoader>();
         _vocabularyService = Substitute.For<IVocabularyService>();
         _vocabularyService.GenerateGrammaticalPropertiesForNounVocabulary(Arg.Any<Language>(), Arg.Any<Theme>())

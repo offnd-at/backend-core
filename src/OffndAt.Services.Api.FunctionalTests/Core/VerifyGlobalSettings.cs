@@ -7,6 +7,7 @@ internal sealed class VerifyGlobalSettings
     [ModuleInitializer]
     public static void Initialize()
     {
+        VerifierSettings.ScrubInlineGuids();
         VerifyHttp.Initialize();
         Recording.Start();
     }

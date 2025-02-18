@@ -53,7 +53,7 @@ services:
     container_name: postgres
 
   rabbit-mq:
-    image: rabbitmq:3.12-management
+    image: rabbitmq:4-management
     restart: unless-stopped
     ports:
       - "5672:5672"

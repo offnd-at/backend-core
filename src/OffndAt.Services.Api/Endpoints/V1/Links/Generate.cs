@@ -25,9 +25,9 @@ internal sealed class Generate : IEndpoint
                         .Map(
                             request => new GenerateLinkCommand(
                                 request.TargetUrl ?? string.Empty,
-                                request.LanguageId ?? default,
-                                request.ThemeId ?? default,
-                                request.FormatId ?? default))
+                                request.LanguageId ?? -1,
+                                request.ThemeId ?? -1,
+                                request.FormatId ?? -1))
                         .BindAsync(command => sender.Send(command, cancellationToken))
                         .MatchAsync(response => Results.Created(new Uri(response.Url), response), CustomResults.BadRequest))
             .WithTags(nameof(ApiRoutes.Links))
