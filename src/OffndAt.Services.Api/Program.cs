@@ -28,7 +28,6 @@ builder.Services.AddPersistence(builder.Configuration)
 
 builder.Services.AddInfrastructureSettings(builder.Configuration)
     .AddInfrastructureServices()
-    .AddInMemoryCache(builder.Configuration)
     .AddCorsPolicies(builder.Configuration)
     .AddResiliencePolicies()
     .AddMassTransitProducer(builder.Configuration)
@@ -38,7 +37,6 @@ builder.Services.AddInfrastructureSettings(builder.Configuration)
 builder.Services
     .AddVersioning()
     .AddOpenApiWithExamples()
-    .AddOutputCache()
     .AddApi();
 
 builder.Host.UseOffndAtSerilog();
@@ -51,8 +49,7 @@ app.MapEndpointsForAllVersions()
     .UseAuthorization()
     .UseCustomExceptionHandler()
     .EnsureMigrations() // TODO: only viable while running single instance in production
-    .UseHttpsRedirection()
-    .UseOutputCache();
+    .UseHttpsRedirection();
 
 app.MapOpenApi();
 app.MapScalarApiReference(

@@ -22,14 +22,21 @@ internal sealed class RedirectByPhrase : IEndpoint
                 async (
                         [Description("The phrase of the shortened URL to search for.")][Required] string phrase,
                         ISender sender,
+                        HttpContext httpContext,
                         CancellationToken cancellationToken) =>
                     await Maybe<GetLinkByPhraseQuery>
                         .From(new GetLinkByPhraseQuery(HttpUtility.UrlDecode(phrase), true))
                         .BindAsync(query => sender.Send(query, cancellationToken))
                         .MatchAsync(
-                            response => Results.Redirect(response.Link.TargetUrl, true),
+                            response =>
+                            {
+                                httpContext.Response.Headers.CacheControl = "no-store, no-cache, must-revalidate, max-age=0";
+                                httpContext.Response.Headers.Pragma = "no-cache";
+                                httpContext.Response.Headers.Expires = "0";
+
+                                return Results.Redirect(response.Link.TargetUrl, true);
+                            },
                             () => CustomResults.NotFound(DomainErrors.Link.NotFound)))
-            .CacheOutput(builder => builder.NoCache())
             .WithTags(nameof(ApiRoutes.Redirects))
             .WithSummary("Redirect by phrase")
             .WithDescription("Retrieves a link using its unique phrase and redirects to its target URL.")
