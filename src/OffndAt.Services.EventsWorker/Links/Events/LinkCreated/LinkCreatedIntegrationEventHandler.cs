@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 ///     Represents the <see cref="LinkCreatedIntegrationEvent" /> handler.
 /// </summary>
 /// <param name="logger">The logger.</param>
-internal sealed class LinkCreatedIntegrationEventHandler(ILogger<LinkCreatedIntegrationEventHandler> logger)
+public sealed class LinkCreatedIntegrationEventHandler(ILogger<LinkCreatedIntegrationEventHandler> logger)
     : IIntegrationEventConsumer<LinkCreatedIntegrationEvent>
 {
     /// <inheritdoc />
