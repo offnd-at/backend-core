@@ -1,4 +1,5 @@
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Mvc;
 using OffndAt.Application;
 using OffndAt.Domain;
@@ -37,7 +38,13 @@ builder.Services.AddInfrastructureSettings(builder.Configuration)
 builder.Services
     .AddVersioning()
     .AddOpenApiWithExamples()
-    .AddApi();
+    .AddApi()
+    .AddHttpLogging(
+        options =>
+        {
+            options.LoggingFields = HttpLoggingFields.RequestBody;
+            options.MediaTypeOptions.AddText("application/json");
+        });
 
 builder.Host.UseOffndAtSerilog();
 
@@ -49,7 +56,8 @@ app.MapEndpointsForAllVersions()
     .UseAuthorization()
     .UseCustomExceptionHandler()
     .EnsureMigrations() // TODO: only viable while running single instance in production
-    .UseHttpsRedirection();
+    .UseHttpsRedirection()
+    .UseHttpLogging();
 
 app.MapOpenApi();
 app.MapScalarApiReference(
