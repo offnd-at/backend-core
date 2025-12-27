@@ -2,7 +2,9 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Mvc;
 using OffndAt.Application;
+using OffndAt.Application.Core.Abstractions.Messaging;
 using OffndAt.Domain;
+using OffndAt.Domain.Core.Events;
 using OffndAt.Infrastructure;
 using OffndAt.Infrastructure.Core.Logging.Extensions;
 using OffndAt.Persistence;
@@ -20,7 +22,7 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddDomain();
 
-builder.Services.AddMediatorWithBehaviours()
+builder.Services.AddMediatorWithBehaviours([typeof(ICommand).Assembly, typeof(IDomainEvent).Assembly])
     .AddValidators()
     .AddFluentValidationAutoValidation();
 

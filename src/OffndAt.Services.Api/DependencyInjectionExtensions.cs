@@ -69,7 +69,7 @@ public static class DependencyInjectionExtensions
                     .UseDocumentTitleAndVersion()
                     .UseJwtBearerAuthentication()
                     .UseProblemDetailsExampleResponses()
-                    .UseRequestAndResponseExamples(services.BuildServiceProvider()));
+                    .UseRequestAndResponseExamples());
 
         return services;
     }

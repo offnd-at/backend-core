@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Serilog;
-using Serilog.Sinks.OpenObserve;
 using Settings;
 
 /// <summary>
@@ -25,7 +24,6 @@ public static class SerilogHostBuilderExtensions
             (context, services, configuration) =>
             {
                 var applicationSettings = services.GetRequiredService<IOptions<ApplicationSettings>>().Value;
-                var loggerSettings = services.GetRequiredService<IOptions<OpenObserveLoggerSettings>>().Value;
 
                 configuration
                     .MinimumLevel.Information()
@@ -35,12 +33,6 @@ public static class SerilogHostBuilderExtensions
                     .Enrich.WithCorrelationId()
                     .Enrich.WithProperty(nameof(applicationSettings.Environment), applicationSettings.Environment)
                     .Enrich.WithProperty(nameof(applicationSettings.ApplicationName), applicationSettings.ApplicationName)
-                    .WriteTo.OpenObserve(
-                        loggerSettings.ApiUrl,
-                        loggerSettings.Organization,
-                        loggerSettings.Username,
-                        loggerSettings.Key,
-                        loggerSettings.StreamName)
                     .WriteTo.Console(formatProvider: CultureInfo.InvariantCulture)
                     .ReadFrom.Configuration(context.Configuration);
             });
@@ -59,7 +51,6 @@ public static class SerilogHostBuilderExtensions
             ((context, services, configuration) =>
             {
                 var applicationSettings = services.GetRequiredService<IOptions<ApplicationSettings>>().Value;
-                var loggerSettings = services.GetRequiredService<IOptions<OpenObserveLoggerSettings>>().Value;
 
                 configuration
                     .MinimumLevel.Information()
@@ -68,12 +59,6 @@ public static class SerilogHostBuilderExtensions
                     .Enrich.WithEnvironmentName()
                     .Enrich.WithProperty(nameof(applicationSettings.Environment), applicationSettings.Environment)
                     .Enrich.WithProperty(nameof(applicationSettings.ApplicationName), applicationSettings.ApplicationName)
-                    .WriteTo.OpenObserve(
-                        loggerSettings.ApiUrl,
-                        loggerSettings.Organization,
-                        loggerSettings.Username,
-                        loggerSettings.Key,
-                        loggerSettings.StreamName)
                     .WriteTo.Console(formatProvider: CultureInfo.InvariantCulture)
                     .ReadFrom.Configuration(context.Configuration);
             }) +

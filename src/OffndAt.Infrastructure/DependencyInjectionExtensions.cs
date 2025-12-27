@@ -9,7 +9,6 @@ using Core.Constants;
 using Core.Data;
 using Core.Data.Settings;
 using Core.Http.Cors.Settings;
-using Core.Logging.Settings;
 using Core.Messaging;
 using Core.Messaging.Settings;
 using Core.Settings;
@@ -43,7 +42,6 @@ public static class DependencyInjectionExtensions
     public static IServiceCollection AddInfrastructureSettings(this IServiceCollection services, IConfiguration configuration)
     {
         _ = services.Configure<ApplicationSettings>(configuration.GetSection(ApplicationSettings.SettingsKey));
-        _ = services.Configure<OpenObserveLoggerSettings>(configuration.GetSection(OpenObserveLoggerSettings.SettingsKey));
         _ = services.Configure<GithubDataSourceSettings>(configuration.GetSection(GithubDataSourceSettings.SettingsKey));
 
         return services;
@@ -79,15 +77,16 @@ public static class DependencyInjectionExtensions
     /// <returns>The configured service collection.</returns>
     public static IServiceCollection AddCorsPolicies(this IServiceCollection services, IConfiguration configuration)
     {
-        _ = services.Configure<CorsSettings>(configuration.GetSection(CorsSettings.SettingsKey));
+        var corsSettings = configuration.GetSection(CorsSettings.SettingsKey).Get<CorsSettings>()
+            ?? throw new InvalidOperationException($"Missing configuration section: {CorsSettings.SettingsKey}");
 
-        var settings = services.BuildServiceProvider().GetRequiredService<IOptions<CorsSettings>>().Value;
+        _ = services.Configure<CorsSettings>(configuration.GetSection(CorsSettings.SettingsKey));
 
         _ = services.AddCors(
             options => options.AddDefaultPolicy(
                 builder => builder
                     .SetIsOriginAllowed(
-                        origin => settings.AllowedOrigins.Any(
+                        origin => corsSettings.AllowedOrigins.Any(
                             allowedOrigin => allowedOrigin.Equals(new Uri(origin).Host, StringComparison.OrdinalIgnoreCase)))
                     .AllowAnyHeader()
                     .AllowAnyMethod()

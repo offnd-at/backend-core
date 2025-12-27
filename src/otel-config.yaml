@@ -1,8 +1,8 @@
 extensions:
   basicauth/grafana_cloud:
     client_auth:
-      username: "123"
-      password: "xd"
+      username: "${GRAFANA_CLOUD_USERNAME}"
+      password: "${GRAFANA_CLOUD_API_KEY}"
 
 receivers:
   otlp:

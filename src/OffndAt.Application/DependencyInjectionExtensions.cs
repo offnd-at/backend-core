@@ -13,25 +13,14 @@ using Microsoft.Extensions.DependencyInjection;
 public static class DependencyInjectionExtensions
 {
     /// <summary>
-    ///     Registers the MediatR with the DI framework without any additional configurations.
-    /// </summary>
-    /// <param name="services">The service collection.</param>
-    /// <returns>The configured service collection.</returns>
-    public static IServiceCollection AddCleanMediator(this IServiceCollection services)
-    {
-        _ = services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetCallingAssembly()));
-
-        return services;
-    }
-
-    /// <summary>
     ///     Registers the MediatR and its behaviours with the DI framework.
     /// </summary>
     /// <param name="services">The service collection.</param>
+    /// <param name="assemblies">The assemblies with the MediatR services.</param>
     /// <returns>The configured service collection.</returns>
-    public static IServiceCollection AddMediatorWithBehaviours(this IServiceCollection services)
+    public static IServiceCollection AddMediatorWithBehaviours(this IServiceCollection services, Assembly[]? assemblies = null)
     {
-        _ = services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
+        _ = services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assemblies ?? [Assembly.GetCallingAssembly()]));
 
         _ = services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
         _ = services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionBehaviour<,>));

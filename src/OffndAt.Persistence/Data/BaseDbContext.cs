@@ -113,10 +113,7 @@ public abstract class BaseDbContext(DbContextOptions options, IMediator mediator
 
         foreach (var referenceEntry in entityEntry?.References.Where(r => r.TargetEntry?.State == EntityState.Deleted) ?? [])
         {
-            if (referenceEntry.TargetEntry is not null)
-            {
-                referenceEntry.TargetEntry.State = EntityState.Unchanged;
-            }
+            referenceEntry.TargetEntry?.State = EntityState.Unchanged;
 
             UpdateDeletedEntityEntryReferencesToUnchanged(referenceEntry.TargetEntry);
         }

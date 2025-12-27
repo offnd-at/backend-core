@@ -51,23 +51,11 @@ internal static class OpenApiTransformersExtensions
                         response => int.TryParse(response.Key, out var statusCode) &&
                                     statusCode == StatusCodes.Status500InternalServerError);
 
-                if (badRequestResponse.Value != null)
-                {
-                    badRequestResponse.Value.Content[MediaTypeNames.Application.ProblemJson].Example =
-                        ProblemResponseExamples.BadRequestExampleResponse;
-                }
+                badRequestResponse.Value?.Content[MediaTypeNames.Application.ProblemJson].Example = ProblemResponseExamples.BadRequestExampleResponse;
 
-                if (notFoundResponse.Value != null)
-                {
-                    notFoundResponse.Value.Content[MediaTypeNames.Application.ProblemJson].Example =
-                        ProblemResponseExamples.NotFoundExampleResponse;
-                }
+                notFoundResponse.Value?.Content[MediaTypeNames.Application.ProblemJson].Example = ProblemResponseExamples.NotFoundExampleResponse;
 
-                if (internalServerErrorResponse.Value != null)
-                {
-                    internalServerErrorResponse.Value.Content[MediaTypeNames.Application.ProblemJson].Example =
-                        ProblemResponseExamples.InternalServerErrorExampleResponse;
-                }
+                internalServerErrorResponse.Value?.Content[MediaTypeNames.Application.ProblemJson].Example = ProblemResponseExamples.InternalServerErrorExampleResponse;
 
                 return Task.CompletedTask;
             });
@@ -118,16 +106,15 @@ internal static class OpenApiTransformersExtensions
     ///     Registers request and response examples with the OpenAPI options.
     /// </summary>
     /// <param name="options">The OpenAPI options.</param>
-    /// <param name="serviceProvider">The service provider.</param>
     /// <returns>The configured options.</returns>
-    public static OpenApiOptions UseRequestAndResponseExamples(this OpenApiOptions options, IServiceProvider serviceProvider)
+    public static OpenApiOptions UseRequestAndResponseExamples(this OpenApiOptions options)
     {
         _ = options.AddSchemaTransformer(
             (schema, context, _) =>
             {
                 var type = typeof(IOpenApiExample<>).MakeGenericType(context.JsonTypeInfo.Type);
 
-                var service = serviceProvider.GetService(type);
+                var service = context.ApplicationServices.GetService(type);
                 if (service is IOpenApiExample example)
                 {
                     schema.Example = example.GetExample();

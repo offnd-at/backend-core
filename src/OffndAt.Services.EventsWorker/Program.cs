@@ -7,7 +7,7 @@ using OffndAt.Services.EventsWorker;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCleanMediator();
+builder.Services.AddMediatorWithBehaviours();
 
 builder.Services.AddPersistence(builder.Configuration);
 
