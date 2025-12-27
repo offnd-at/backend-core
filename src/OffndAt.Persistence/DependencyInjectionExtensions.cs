@@ -14,13 +14,10 @@ using Settings;
 /// <summary>
 ///     Contains extensions used to configure DI Container.
 /// </summary>
-/// <summary>
-///     Contains extensions used to configure DI Container.
-/// </summary>
 public static class DependencyInjectionExtensions
 {
     /// <summary>
-    ///     Registers the persistence services with the DI framework.
+    ///     Registers persistence services in the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <param name="configuration">The configuration.</param>
@@ -36,7 +33,7 @@ public static class DependencyInjectionExtensions
             .AddMemoryCache();
 
     /// <summary>
-    ///     Registers the memory cache with the DI framework.
+    ///     Registers in-memory cache in the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <param name="configuration">The configuration.</param>
@@ -50,7 +47,7 @@ public static class DependencyInjectionExtensions
     }
 
     /// <summary>
-    ///     Registers the persistence settings with the DI framework.
+    ///     Registers persistence settings in the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <param name="configuration">The configuration.</param>
@@ -63,7 +60,7 @@ public static class DependencyInjectionExtensions
     }
 
     /// <summary>
-    ///     Registers the database context with the DI framework.
+    ///     Registers the database context in the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <param name="configuration">The configuration.</param>
@@ -83,7 +80,7 @@ public static class DependencyInjectionExtensions
     }
 
     /// <summary>
-    ///     Registers the service instances with the DI framework.
+    ///     Registers persistence service implementations in the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The configured service collection.</returns>

@@ -9,14 +9,14 @@ using Services;
 public static class DependencyInjectionExtensions
 {
     /// <summary>
-    ///     Registers the domain services with the DI framework.
+    ///     Registers domain services in the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The configured service collection.</returns>
     public static IServiceCollection AddDomain(this IServiceCollection services) => services.AddDomainServices();
 
     /// <summary>
-    ///     Registers the service instances with the DI framework.
+    ///     Registers domain service implementations in the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The configured service collection.</returns>

@@ -13,10 +13,10 @@ using Microsoft.Extensions.DependencyInjection;
 public static class DependencyInjectionExtensions
 {
     /// <summary>
-    ///     Registers the MediatR and its behaviours with the DI framework.
+    ///     Registers MediatR and its pipeline behaviors in the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
-    /// <param name="assemblies">The assemblies with the MediatR services.</param>
+    /// <param name="assemblies">The assemblies containing MediatR services.</param>
     /// <returns>The configured service collection.</returns>
     public static IServiceCollection AddMediatorWithBehaviours(this IServiceCollection services, Assembly[]? assemblies = null)
     {
@@ -30,7 +30,7 @@ public static class DependencyInjectionExtensions
     }
 
     /// <summary>
-    ///     Registers the fluent validators with the DI framework.
+    ///     Registers FluentValidation validators in the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The configured service collection.</returns>

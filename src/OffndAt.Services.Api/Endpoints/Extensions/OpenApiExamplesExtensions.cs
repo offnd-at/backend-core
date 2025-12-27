@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 internal static class OpenApiExamplesExtensions
 {
     /// <summary>
-    ///     Registers the examples with the DI framework.
+    ///     Registers OpenAPI examples in the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The configured service collection.</returns>

@@ -6,7 +6,7 @@ using Domain.Core.Primitives;
 using MediatR;
 
 /// <summary>
-///     Represents the transaction behaviour middleware.
+///     Represents the transaction behavior middleware for the MediatR pipeline.
 /// </summary>
 /// <typeparam name="TRequest">The request type.</typeparam>
 /// <typeparam name="TResponse">The response type.</typeparam>

@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 internal static class EndpointsExtensions
 {
     /// <summary>
-    ///     Registers the endpoints with the DI framework.
+    ///     Registers API endpoints in the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The configured service collection.</returns>

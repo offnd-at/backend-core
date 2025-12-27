@@ -5,7 +5,7 @@ using MediatR;
 using ValidationException = Exceptions.ValidationException;
 
 /// <summary>
-///     Represents the validation behaviour middleware.
+///     Represents the validation behavior middleware for the MediatR pipeline.
 /// </summary>
 /// <typeparam name="TRequest">The request type.</typeparam>
 /// <typeparam name="TResponse">The response type.</typeparam>

@@ -34,7 +34,7 @@ using Words;
 public static class DependencyInjectionExtensions
 {
     /// <summary>
-    ///     Registers the infrastructure settings with the DI framework.
+    ///     Registers infrastructure settings in the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <param name="configuration">The configuration.</param>
@@ -48,7 +48,7 @@ public static class DependencyInjectionExtensions
     }
 
     /// <summary>
-    ///     Registers the service instances with the DI framework.
+    ///     Registers infrastructure service implementations in the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The configured service collection.</returns>
@@ -70,7 +70,7 @@ public static class DependencyInjectionExtensions
     }
 
     /// <summary>
-    ///     Registers the CORS policy with the DI framework.
+    ///     Registers CORS policies in the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <param name="configuration">The configuration.</param>
@@ -96,7 +96,7 @@ public static class DependencyInjectionExtensions
     }
 
     /// <summary>
-    ///     Registers the resilience policies with the DI framework.
+    ///     Registers resilience policies in the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The configured service collection.</returns>
@@ -114,7 +114,7 @@ public static class DependencyInjectionExtensions
                 }));
 
     /// <summary>
-    ///     Registers the MassTransit producer with the DI framework.
+    ///     Registers MassTransit message producer in the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <param name="configuration">The configuration.</param>

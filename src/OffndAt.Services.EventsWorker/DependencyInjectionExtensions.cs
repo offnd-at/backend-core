@@ -13,7 +13,7 @@ using Persistence.Data;
 public static class DependencyInjectionExtensions
 {
     /// <summary>
-    ///     Registers the background services with the DI framework.
+    ///     Registers background worker services in the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <param name="configuration">The configuration.</param>
@@ -22,7 +22,7 @@ public static class DependencyInjectionExtensions
         services.AddMassTransitConsumer(configuration);
 
     /// <summary>
-    ///     Registers the MassTransit consumer with the DI framework.
+    ///     Registers MassTransit message consumer in the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <param name="configuration">The configuration.</param>

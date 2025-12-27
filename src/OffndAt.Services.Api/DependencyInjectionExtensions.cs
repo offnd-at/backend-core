@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 public static class DependencyInjectionExtensions
 {
     /// <summary>
-    ///     Registers the API services with the DI framework.
+    ///     Registers API services in the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The configured service collection.</returns>
@@ -31,7 +31,7 @@ public static class DependencyInjectionExtensions
             .Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
 
     /// <summary>
-    ///     Registers the API versioning services with the DI framework.
+    ///     Registers API versioning services in the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The configured service collection.</returns>
@@ -56,7 +56,7 @@ public static class DependencyInjectionExtensions
     }
 
     /// <summary>
-    ///     Registers the OpenAPI services, request examples and response examples with the DI framework.
+    ///     Registers OpenAPI services with request and response examples in the dependency injection container.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The configured service collection.</returns>

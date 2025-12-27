@@ -367,3 +367,8 @@ FodyWeavers.xsd
 # Verify
 *.received.*
 *.received/
+
+# Environment variables
+.env
+.env.local
+.env.*.local

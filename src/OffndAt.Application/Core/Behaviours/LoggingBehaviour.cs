@@ -5,7 +5,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 
 /// <summary>
-///     Represents the logging behaviour middleware.
+///     Represents the logging behavior middleware for the MediatR pipeline.
 /// </summary>
 /// <typeparam name="TRequest">The request type.</typeparam>
 /// <typeparam name="TResponse">The response type.</typeparam>
