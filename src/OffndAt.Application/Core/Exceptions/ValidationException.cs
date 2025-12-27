@@ -1,10 +1,10 @@
-﻿namespace OffndAt.Application.Core.Exceptions;
+namespace OffndAt.Application.Core.Exceptions;
 
 using Domain.Core.Primitives;
 using FluentValidation.Results;
 
 /// <summary>
-///     Represents an exception that occurs when a validation fails.
+///     Exception thrown when request validation fails.
 /// </summary>
 public sealed class ValidationException(IEnumerable<ValidationFailure> failures)
     : Exception("One or more validation failures has occurred.")

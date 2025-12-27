@@ -1,4 +1,4 @@
-﻿namespace OffndAt.Services.Api.Endpoints.Examples.V1.Formats;
+namespace OffndAt.Services.Api.Endpoints.Examples.V1.Formats;
 
 using Bogus;
 using Extensions;
@@ -7,7 +7,7 @@ using Microsoft.OpenApi.Any;
 using OffndAt.Contracts.Formats;
 
 /// <summary>
-///     Represents the example response for the get supported formats endpoint.
+///     Provides sample response data for the get supported formats endpoint documentation.
 /// </summary>
 internal sealed class GetResponseExample : IOpenApiExample<GetSupportedFormatsResponse>
 {

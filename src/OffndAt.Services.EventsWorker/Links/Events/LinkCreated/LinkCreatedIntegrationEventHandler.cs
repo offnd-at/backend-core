@@ -1,4 +1,4 @@
-﻿namespace OffndAt.Services.EventsWorker.Links.Events.LinkCreated;
+namespace OffndAt.Services.EventsWorker.Links.Events.LinkCreated;
 
 using Abstractions.Messaging;
 using Application.Links.Events.LinkCreated;
@@ -6,7 +6,7 @@ using MassTransit;
 using Microsoft.Extensions.Logging;
 
 /// <summary>
-///     Represents the <see cref="LinkCreatedIntegrationEvent" /> handler.
+///     Handles the LinkCreatedIntegrationEvent for processing new link notifications.
 /// </summary>
 /// <param name="logger">The logger.</param>
 public sealed class LinkCreatedIntegrationEventHandler(ILogger<LinkCreatedIntegrationEventHandler> logger)

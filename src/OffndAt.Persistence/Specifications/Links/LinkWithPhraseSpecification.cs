@@ -1,4 +1,4 @@
-﻿namespace OffndAt.Persistence.Specifications.Links;
+namespace OffndAt.Persistence.Specifications.Links;
 
 using System.Linq.Expressions;
 using Domain.Entities;
@@ -6,7 +6,7 @@ using Domain.ValueObjects;
 using Domain.ValueObjects.Identifiers;
 
 /// <summary>
-///     Represents the specification for determining the link with phrase.
+///     Defines query criteria for finding links by their unique phrase.
 /// </summary>
 internal sealed class LinkWithPhraseSpecification : Specification<Link, LinkId>
 {

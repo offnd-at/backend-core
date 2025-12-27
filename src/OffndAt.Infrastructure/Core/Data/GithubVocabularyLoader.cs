@@ -1,4 +1,4 @@
-﻿namespace OffndAt.Infrastructure.Core.Data;
+namespace OffndAt.Infrastructure.Core.Data;
 
 using System.Globalization;
 using System.Text;
@@ -8,7 +8,7 @@ using Domain.Models;
 using Domain.ValueObjects;
 
 /// <summary>
-///     Represents the GitHub vocabulary loader.
+///     Provides functionality for loading vocabulary data from GitHub repositories.
 /// </summary>
 /// <param name="fileLoader">The file loader.</param>
 internal sealed class GithubVocabularyLoader(IFileLoader fileLoader) : IVocabularyLoader

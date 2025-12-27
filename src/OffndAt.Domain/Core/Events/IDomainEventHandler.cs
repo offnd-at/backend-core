@@ -1,9 +1,9 @@
-﻿namespace OffndAt.Domain.Core.Events;
+namespace OffndAt.Domain.Core.Events;
 
 using MediatR;
 
 /// <summary>
-///     Represents a domain event handler interface.
+///     Defines the contract for handling domain events.
 /// </summary>
 /// <typeparam name="TDomainEvent">The domain event type.</typeparam>
 public interface IDomainEventHandler<in TDomainEvent> : INotificationHandler<TDomainEvent>

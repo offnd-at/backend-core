@@ -1,9 +1,9 @@
-﻿namespace OffndAt.Application.Core.Abstractions.Data;
+namespace OffndAt.Application.Core.Abstractions.Data;
 
 using Domain.Core.Primitives;
 
 /// <summary>
-///     Represents the file loader interface.
+///     Defines the contract for loading files from external sources.
 /// </summary>
 public interface IFileLoader
 {

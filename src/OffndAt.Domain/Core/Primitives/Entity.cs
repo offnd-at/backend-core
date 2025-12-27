@@ -4,7 +4,7 @@ using Abstractions;
 using Utils;
 
 /// <summary>
-///     Represents a base entity that all other entities derive from.
+///     Provides base functionality for domain entities with identity, equality comparison, and audit tracking.
 /// </summary>
 /// <typeparam name="TEntityId">The entity identifier type.</typeparam>
 public abstract class Entity<TEntityId> : IAuditableEntity, IEquatable<Entity<TEntityId>> where TEntityId : EntityId

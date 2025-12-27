@@ -1,9 +1,9 @@
-﻿namespace OffndAt.Contracts.Links;
+namespace OffndAt.Contracts.Links;
 
 using System.ComponentModel;
 
 /// <summary>
-///     Represents the link data transfer object.
+///     Data transfer object for link information in API responses.
 /// </summary>
 public sealed class LinkDto
 {

@@ -1,4 +1,4 @@
-﻿namespace OffndAt.Application.Formats.Queries.GetSupportedFormats;
+namespace OffndAt.Application.Formats.Queries.GetSupportedFormats;
 
 using Contracts.Formats;
 using Core.Abstractions.Messaging;
@@ -6,7 +6,7 @@ using Domain.Core.Primitives;
 using Domain.Enumerations;
 
 /// <summary>
-///     Represents the <see cref="GetSupportedFormatsQuery" /> handler.
+///     Handles the GetSupportedFormatsQuery to retrieve available phrase formats.
 /// </summary>
 internal sealed class GetSupportedFormatsQueryHandler : IQueryHandler<GetSupportedFormatsQuery, GetSupportedFormatsResponse>
 {

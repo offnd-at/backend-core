@@ -1,9 +1,9 @@
-﻿namespace OffndAt.Contracts.Links;
+namespace OffndAt.Contracts.Links;
 
 using System.ComponentModel;
 
 /// <summary>
-///     Represents the generate link response.
+///     Response model for the generate link API endpoint.
 /// </summary>
 public sealed class GenerateLinkResponse
 {

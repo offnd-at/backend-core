@@ -1,4 +1,4 @@
-﻿namespace OffndAt.Domain.ValueObjects;
+namespace OffndAt.Domain.ValueObjects;
 
 using Core.Errors;
 using Core.Extensions;
@@ -7,7 +7,7 @@ using Enumerations;
 using Models;
 
 /// <summary>
-///     Represents the vocabulary value object.
+///     Encapsulates a collection of words for phrase generation.
 /// </summary>
 public sealed class Vocabulary : ValueObject
 {

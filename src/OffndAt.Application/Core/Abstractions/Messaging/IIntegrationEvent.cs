@@ -1,8 +1,8 @@
-﻿namespace OffndAt.Application.Core.Abstractions.Messaging;
+namespace OffndAt.Application.Core.Abstractions.Messaging;
 
 using MediatR;
 
 /// <summary>
-///     Represents the marker interface for an integration event.
+///     Marks classes as integration events for cross-service communication.
 /// </summary>
 public interface IIntegrationEvent : INotification;

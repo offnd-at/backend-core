@@ -1,7 +1,7 @@
 ﻿namespace OffndAt.Domain.Core.Primitives;
 
 /// <summary>
-///     Represents the result of some operation, with status information and possibly a value and an error.
+///     Encapsulates the outcome of an operation with success/failure status, a typed value, and optional error information.
 /// </summary>
 /// <typeparam name="TValue">The result value type.</typeparam>
 public class Result<TValue> : Result

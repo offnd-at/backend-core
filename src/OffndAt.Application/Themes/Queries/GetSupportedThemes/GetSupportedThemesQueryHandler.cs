@@ -1,4 +1,4 @@
-﻿namespace OffndAt.Application.Themes.Queries.GetSupportedThemes;
+namespace OffndAt.Application.Themes.Queries.GetSupportedThemes;
 
 using Contracts.Themes;
 using Core.Abstractions.Messaging;
@@ -6,7 +6,7 @@ using Domain.Core.Primitives;
 using Domain.Enumerations;
 
 /// <summary>
-///     Represents the <see cref="GetSupportedThemesQuery" /> handler.
+///     Handles the GetSupportedThemesQuery to retrieve available themes.
 /// </summary>
 internal sealed class GetSupportedThemesQueryHandler : IQueryHandler<GetSupportedThemesQuery, GetSupportedThemesResponse>
 {

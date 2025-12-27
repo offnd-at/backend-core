@@ -1,7 +1,7 @@
-﻿namespace OffndAt.Persistence.Settings;
+namespace OffndAt.Persistence.Settings;
 
 /// <summary>
-///     Represents the persistence settings.
+///     Contains configuration settings for data persistence and database connections.
 /// </summary>
 public sealed class PersistenceSettings
 {

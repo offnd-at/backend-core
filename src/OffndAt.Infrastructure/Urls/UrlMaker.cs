@@ -1,4 +1,4 @@
-﻿namespace OffndAt.Infrastructure.Urls;
+namespace OffndAt.Infrastructure.Urls;
 
 using Application.Core.Abstractions.Urls;
 using Core.Settings;
@@ -7,7 +7,7 @@ using Domain.ValueObjects;
 using Microsoft.Extensions.Options;
 
 /// <summary>
-///     Represents the URL maker.
+///     Constructs and validates URLs for shortened links.
 /// </summary>
 /// <param name="applicationOptions">The application options.</param>
 internal sealed class UrlMaker(IOptions<ApplicationSettings> applicationOptions) : IUrlMaker

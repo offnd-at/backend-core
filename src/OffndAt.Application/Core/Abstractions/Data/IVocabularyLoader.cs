@@ -1,11 +1,11 @@
-﻿namespace OffndAt.Application.Core.Abstractions.Data;
+namespace OffndAt.Application.Core.Abstractions.Data;
 
 using Domain.Core.Primitives;
 using Domain.Models;
 using Domain.ValueObjects;
 
 /// <summary>
-///     Represents the vocabulary loader interface.
+///     Defines the contract for loading word vocabularies from external sources.
 /// </summary>
 public interface IVocabularyLoader
 {

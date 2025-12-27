@@ -1,7 +1,7 @@
-﻿namespace OffndAt.Infrastructure.Core.Settings;
+namespace OffndAt.Infrastructure.Core.Settings;
 
 /// <summary>
-///     Represents the application's core settings.
+///     Contains core application configuration settings.
 /// </summary>
 public sealed class ApplicationSettings
 {

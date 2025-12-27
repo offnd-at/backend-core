@@ -1,7 +1,7 @@
-﻿namespace OffndAt.Infrastructure.Core.Data.Settings;
+namespace OffndAt.Infrastructure.Core.Data.Settings;
 
 /// <summary>
-///     Represents the GitHub data source settings.
+///     Contains configuration settings for GitHub API data source access.
 /// </summary>
 public sealed class GithubDataSourceSettings
 {

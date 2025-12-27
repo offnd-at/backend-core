@@ -1,7 +1,7 @@
 ﻿namespace OffndAt.Domain.Core.Primitives;
 
 /// <summary>
-///     Represents a result of some operation, with status information and possibly an error.
+///     Encapsulates the outcome of an operation with success/failure status and optional error information.
 /// </summary>
 public class Result
 {

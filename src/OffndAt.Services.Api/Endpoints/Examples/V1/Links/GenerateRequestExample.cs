@@ -1,4 +1,4 @@
-﻿namespace OffndAt.Services.Api.Endpoints.Examples.V1.Links;
+namespace OffndAt.Services.Api.Endpoints.Examples.V1.Links;
 
 using Bogus;
 using Domain.Enumerations;
@@ -7,7 +7,7 @@ using Microsoft.OpenApi.Any;
 using OffndAt.Contracts.Links;
 
 /// <summary>
-///     Represents the example request for the generate link endpoint.
+///     Provides sample request data for the generate link endpoint documentation.
 /// </summary>
 internal sealed class GenerateRequestExample : IOpenApiExample<GenerateLinkRequest>
 {

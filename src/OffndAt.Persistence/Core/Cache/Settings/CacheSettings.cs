@@ -1,7 +1,7 @@
-﻿namespace OffndAt.Persistence.Core.Cache.Settings;
+namespace OffndAt.Persistence.Core.Cache.Settings;
 
 /// <summary>
-///     Represents the cache settings.
+///     Contains configuration settings for in-memory caching.
 /// </summary>
 public sealed class CacheSettings
 {

@@ -1,10 +1,10 @@
-﻿namespace OffndAt.Persistence.Specifications;
+namespace OffndAt.Persistence.Specifications;
 
 using System.Linq.Expressions;
 using Domain.Core.Primitives;
 
 /// <summary>
-///     Represents the abstract base class for specifications.
+///     Provides base functionality for implementing the Specification pattern for query filtering.
 /// </summary>
 /// <typeparam name="TEntity">The entity type.</typeparam>
 /// <typeparam name="TEntityId">The entity identifier type.</typeparam>

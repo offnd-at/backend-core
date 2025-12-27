@@ -1,4 +1,4 @@
-﻿namespace OffndAt.Infrastructure.Core.Data;
+namespace OffndAt.Infrastructure.Core.Data;
 
 using Application.Core.Abstractions.Data;
 using Domain.Core.Primitives;
@@ -7,7 +7,7 @@ using Octokit;
 using Settings;
 
 /// <summary>
-///     Represents the GitHub file loader.
+///     Provides functionality for loading files from GitHub repositories.
 /// </summary>
 /// <param name="githubClient">The GitHub client.</param>
 /// <param name="githubOptions">The GitHub options.</param>

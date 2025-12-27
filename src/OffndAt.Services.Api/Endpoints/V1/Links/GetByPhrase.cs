@@ -1,4 +1,4 @@
-﻿namespace OffndAt.Services.Api.Endpoints.V1.Links;
+namespace OffndAt.Services.Api.Endpoints.V1.Links;
 
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -11,7 +11,7 @@ using MediatR;
 using OffndAt.Contracts.Links;
 
 /// <summary>
-///     Represents the get link by phrase endpoint.
+///     Exposes an API endpoint for retrieving links by their unique phrase.
 /// </summary>
 internal sealed class GetByPhrase : IEndpoint
 {

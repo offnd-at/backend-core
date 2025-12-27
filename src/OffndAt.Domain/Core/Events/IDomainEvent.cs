@@ -1,8 +1,8 @@
-﻿namespace OffndAt.Domain.Core.Events;
+namespace OffndAt.Domain.Core.Events;
 
 using MediatR;
 
 /// <summary>
-///     Represents the interface for an event that is raised within the domain.
+///     Defines the contract for domain events that occur within aggregate boundaries.
 /// </summary>
 public interface IDomainEvent : INotification;

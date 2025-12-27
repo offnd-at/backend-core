@@ -1,10 +1,10 @@
-﻿namespace OffndAt.Domain.Events;
+namespace OffndAt.Domain.Events;
 
 using Core.Events;
 using Entities;
 
 /// <summary>
-///     Represents a domain event that is raised when a link is created.
+///     Domain event published when a new shortened link is created.
 /// </summary>
 public sealed class LinkCreatedDomainEvent : IDomainEvent
 {

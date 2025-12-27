@@ -1,4 +1,4 @@
-﻿namespace OffndAt.Persistence.Configurations;
+namespace OffndAt.Persistence.Configurations;
 
 using Domain.Entities;
 using Domain.Enumerations;
@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 /// <summary>
-///     Represents the configuration for the <see cref="Link" /> entity.
+///     Configures Entity Framework Core mapping for the Link entity.
 /// </summary>
 internal sealed class LinkConfiguration : IEntityTypeConfiguration<Link>
 {

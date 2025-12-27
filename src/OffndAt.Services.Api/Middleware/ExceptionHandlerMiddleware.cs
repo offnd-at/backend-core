@@ -1,4 +1,4 @@
-﻿namespace OffndAt.Services.Api.Middleware;
+namespace OffndAt.Services.Api.Middleware;
 
 using System.Net;
 using Application.Core.Exceptions;
@@ -8,7 +8,7 @@ using Domain.Core.Primitives;
 using Microsoft.AspNetCore.Mvc;
 
 /// <summary>
-///     Represents the exception handler middleware.
+///     Provides centralized exception handling and problem details responses for the API.
 /// </summary>
 /// <param name="next">The next middleware delegate.</param>
 /// <param name="problemDetailsService">The problem details service.</param>

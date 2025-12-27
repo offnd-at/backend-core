@@ -1,11 +1,11 @@
-﻿namespace OffndAt.Application.Links.Commands.GenerateLink;
+namespace OffndAt.Application.Links.Commands.GenerateLink;
 
 using Core.Errors;
 using Core.Extensions;
 using FluentValidation;
 
 /// <summary>
-///     Represents the <see cref="GenerateLinkCommand" /> validator.
+///     Validates the GenerateLinkCommand to ensure request data integrity.
 /// </summary>
 public sealed class GenerateLinkCommandValidator : AbstractValidator<GenerateLinkCommand>
 {

@@ -1,9 +1,9 @@
-﻿namespace OffndAt.Application.Core.Abstractions.Data;
+namespace OffndAt.Application.Core.Abstractions.Data;
 
 using Microsoft.EntityFrameworkCore.Storage;
 
 /// <summary>
-///     Represents the unit of work interface.
+///     Defines the contract for managing database transactions and change tracking.
 /// </summary>
 public interface IUnitOfWork
 {

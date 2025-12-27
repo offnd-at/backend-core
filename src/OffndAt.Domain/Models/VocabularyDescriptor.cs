@@ -1,9 +1,9 @@
-﻿namespace OffndAt.Domain.Models;
+namespace OffndAt.Domain.Models;
 
 using Enumerations;
 
 /// <summary>
-///     Represents an object that describes the properties of a vocabulary.
+///     Describes vocabulary metadata including language, theme, and format.
 /// </summary>
 /// <param name="Language">The language.</param>
 /// <param name="Theme">The theme.</param>

@@ -1,9 +1,9 @@
-﻿namespace OffndAt.Services.Api.Endpoints.Examples;
+namespace OffndAt.Services.Api.Endpoints.Examples;
 
 using Microsoft.OpenApi.Any;
 
 /// <summary>
-///     Represents the OpenAPI request or response example.
+///     Defines the contract for providing OpenAPI request or response examples.
 /// </summary>
 internal interface IOpenApiExample
 {

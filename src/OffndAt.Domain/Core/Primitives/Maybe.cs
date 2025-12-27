@@ -1,7 +1,7 @@
 ﻿namespace OffndAt.Domain.Core.Primitives;
 
 /// <summary>
-///     Represents a wrapper around a value that may or may not be null.
+///     Provides a type-safe wrapper for optional values that may or may not exist.
 /// </summary>
 /// <typeparam name="T">The value type.</typeparam>
 public sealed class Maybe<T> : IEquatable<Maybe<T>>

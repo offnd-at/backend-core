@@ -1,9 +1,9 @@
-﻿namespace OffndAt.Application.Formats.Queries.GetSupportedFormats;
+namespace OffndAt.Application.Formats.Queries.GetSupportedFormats;
 
 using Contracts.Formats;
 using Core.Abstractions.Messaging;
 
 /// <summary>
-///     Represents the query used for getting supported formats.
+///     Query for retrieving available phrase formats.
 /// </summary>
 public sealed class GetSupportedFormatsQuery : IQuery<GetSupportedFormatsResponse>;

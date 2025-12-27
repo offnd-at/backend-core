@@ -1,4 +1,4 @@
-﻿namespace OffndAt.Persistence.Data;
+namespace OffndAt.Persistence.Data;
 
 using System.Reflection;
 using MassTransit;
@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 /// <summary>
-///     Represents the offnd.at application database context.
+///     Provides Entity Framework Core database context for the offnd.at application.
 /// </summary>
 /// <param name="options">The database context options.</param>
 /// <param name="mediator">The mediator.</param>

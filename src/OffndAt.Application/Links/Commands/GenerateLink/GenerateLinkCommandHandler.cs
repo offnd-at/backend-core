@@ -1,4 +1,4 @@
-﻿namespace OffndAt.Application.Links.Commands.GenerateLink;
+namespace OffndAt.Application.Links.Commands.GenerateLink;
 
 using Contracts.Links;
 using Core.Abstractions.Messaging;
@@ -15,7 +15,7 @@ using Microsoft.Extensions.Logging;
 using Polly.Registry;
 
 /// <summary>
-///     Represents the <see cref="GenerateLinkCommand" /> handler.
+///     Handles the GenerateLinkCommand to create new shortened links.
 /// </summary>
 internal sealed class GenerateLinkCommandHandler(
     ILinksRepository linksRepository,

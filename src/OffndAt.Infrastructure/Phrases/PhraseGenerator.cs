@@ -1,4 +1,4 @@
-﻿namespace OffndAt.Infrastructure.Phrases;
+namespace OffndAt.Infrastructure.Phrases;
 
 using Application.Core.Abstractions.Phrases;
 using Application.Core.Abstractions.Words;
@@ -9,7 +9,7 @@ using Domain.Repositories;
 using Domain.ValueObjects;
 
 /// <summary>
-///     Represents the phrase generator.
+///     Generates unique human-readable phrases for shortened links.
 /// </summary>
 /// <param name="vocabulariesRepository">The vocabularies repository.</param>
 /// <param name="caseConverter">The case converter.</param>

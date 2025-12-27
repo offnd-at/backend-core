@@ -1,7 +1,7 @@
-﻿namespace OffndAt.Infrastructure.Core.Http.Cors.Settings;
+namespace OffndAt.Infrastructure.Core.Http.Cors.Settings;
 
 /// <summary>
-///     Represents the CORS settings.
+///     Contains configuration settings for Cross-Origin Resource Sharing policies.
 /// </summary>
 public sealed class CorsSettings
 {

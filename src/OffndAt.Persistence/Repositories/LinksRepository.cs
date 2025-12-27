@@ -1,4 +1,4 @@
-﻿namespace OffndAt.Persistence.Repositories;
+namespace OffndAt.Persistence.Repositories;
 
 using Application.Core.Abstractions.Data;
 using Domain.Core.Primitives;
@@ -9,7 +9,7 @@ using Domain.ValueObjects.Identifiers;
 using Specifications.Links;
 
 /// <summary>
-///     Represents the links repository.
+///     Provides data access operations for link entities.
 /// </summary>
 /// <param name="dbContext">The database context.</param>
 internal sealed class LinksRepository(IDbContext dbContext) : GenericRepository<Link, LinkId>(dbContext), ILinksRepository

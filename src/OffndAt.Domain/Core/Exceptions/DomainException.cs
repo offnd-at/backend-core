@@ -1,9 +1,9 @@
-﻿namespace OffndAt.Domain.Core.Exceptions;
+namespace OffndAt.Domain.Core.Exceptions;
 
 using Primitives;
 
 /// <summary>
-///     Represents an exception that occurred in the domain.
+///     Exception thrown when domain rule violations occur.
 /// </summary>
 public sealed class DomainException(Error error) : Exception(error.Message)
 {

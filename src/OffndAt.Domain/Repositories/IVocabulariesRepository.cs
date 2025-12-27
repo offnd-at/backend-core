@@ -1,11 +1,11 @@
-﻿namespace OffndAt.Domain.Repositories;
+namespace OffndAt.Domain.Repositories;
 
 using Core.Primitives;
 using Enumerations;
 using ValueObjects;
 
 /// <summary>
-///     Represents the vocabularies repository interface.
+///     Defines the contract for vocabulary entity data access operations.
 /// </summary>
 public interface IVocabulariesRepository
 {

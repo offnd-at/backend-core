@@ -1,4 +1,4 @@
-﻿namespace OffndAt.Services.Api.Endpoints.V1.Formats;
+namespace OffndAt.Services.Api.Endpoints.V1.Formats;
 
 using Application.Formats.Queries.GetSupportedFormats;
 using Contracts;
@@ -9,7 +9,7 @@ using MediatR;
 using OffndAt.Contracts.Formats;
 
 /// <summary>
-///     Represents the get supported formats endpoint.
+///     Exposes an API endpoint for retrieving available phrase formats.
 /// </summary>
 internal sealed class Get : IEndpoint
 {

@@ -1,11 +1,11 @@
-﻿namespace OffndAt.Domain.ValueObjects;
+namespace OffndAt.Domain.ValueObjects;
 
 using Core.Errors;
 using Core.Extensions;
 using Core.Primitives;
 
 /// <summary>
-///     Represents the phrase value object.
+///     Encapsulates a human-readable phrase with validation rules.
 /// </summary>
 public sealed class Phrase : ValueObject
 {

@@ -1,4 +1,4 @@
-﻿namespace OffndAt.Infrastructure.Words;
+namespace OffndAt.Infrastructure.Words;
 
 using Application.Core.Abstractions.Words;
 using Domain.Enumerations;
@@ -6,7 +6,7 @@ using Domain.ValueObjects;
 using Humanizer;
 
 /// <summary>
-///     Represents the case converter
+///     Converts text between different casing styles (camelCase, PascalCase, kebab-case, snake_case).
 /// </summary>
 internal sealed class CaseConverter : ICaseConverter
 {

@@ -1,11 +1,11 @@
-﻿namespace OffndAt.Domain.ValueObjects;
+namespace OffndAt.Domain.ValueObjects;
 
 using Core.Errors;
 using Core.Extensions;
 using Core.Primitives;
 
 /// <summary>
-///     Represents the URL value object.
+///     Encapsulates a URL with validation and formatting rules.
 /// </summary>
 public sealed class Url : ValueObject
 {

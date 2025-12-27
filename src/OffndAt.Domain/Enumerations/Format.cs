@@ -1,9 +1,9 @@
-﻿namespace OffndAt.Domain.Enumerations;
+namespace OffndAt.Domain.Enumerations;
 
 using Core.Primitives;
 
 /// <summary>
-///     Represents the format enumeration.
+///     Defines available formats for phrase structure.
 /// </summary>
 public sealed class Format : Enumeration<Format>
 {

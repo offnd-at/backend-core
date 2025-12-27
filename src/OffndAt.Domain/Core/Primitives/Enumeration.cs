@@ -1,9 +1,9 @@
-﻿namespace OffndAt.Domain.Core.Primitives;
+namespace OffndAt.Domain.Core.Primitives;
 
 using System.Reflection;
 
 /// <summary>
-///     Represents an enumeration type.
+///     Provides base functionality for implementing type-safe enumerations.
 /// </summary>
 /// <typeparam name="TEnum">The type of the enumeration.</typeparam>
 public abstract class Enumeration<TEnum> : IEquatable<Enumeration<TEnum>>, IComparable<Enumeration<TEnum>>

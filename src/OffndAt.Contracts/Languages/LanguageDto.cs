@@ -1,9 +1,9 @@
-﻿namespace OffndAt.Contracts.Languages;
+namespace OffndAt.Contracts.Languages;
 
 using System.ComponentModel;
 
 /// <summary>
-///     Represents the language data transfer object.
+///     Data transfer object for language information in API responses.
 /// </summary>
 public sealed class LanguageDto
 {

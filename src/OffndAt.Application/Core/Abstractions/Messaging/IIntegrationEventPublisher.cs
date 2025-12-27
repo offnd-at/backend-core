@@ -1,7 +1,7 @@
-﻿namespace OffndAt.Application.Core.Abstractions.Messaging;
+namespace OffndAt.Application.Core.Abstractions.Messaging;
 
 /// <summary>
-///     Represents the integration event publisher interface.
+///     Defines the contract for publishing integration events to the message broker.
 /// </summary>
 public interface IIntegrationEventPublisher
 {

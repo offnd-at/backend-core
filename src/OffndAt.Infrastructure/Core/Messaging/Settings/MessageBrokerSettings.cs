@@ -1,7 +1,7 @@
-﻿namespace OffndAt.Infrastructure.Core.Messaging.Settings;
+namespace OffndAt.Infrastructure.Core.Messaging.Settings;
 
 /// <summary>
-///     Represents the message broker settings.
+///     Contains configuration settings for RabbitMQ message broker connections.
 /// </summary>
 public sealed class MessageBrokerSettings
 {

@@ -1,7 +1,7 @@
-﻿namespace OffndAt.Services.Api.Endpoints;
+namespace OffndAt.Services.Api.Endpoints;
 
 /// <summary>
-///     Represents the endpoint interface.
+///     Defines the contract for API endpoint registration and configuration.
 /// </summary>
 internal interface IEndpoint
 {

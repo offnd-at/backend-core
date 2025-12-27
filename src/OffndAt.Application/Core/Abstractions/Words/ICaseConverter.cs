@@ -1,10 +1,10 @@
-﻿namespace OffndAt.Application.Core.Abstractions.Words;
+namespace OffndAt.Application.Core.Abstractions.Words;
 
 using Domain.Enumerations;
 using Domain.ValueObjects;
 
 /// <summary>
-///     Represents the case converter interface.
+///     Defines the contract for converting text between different casing styles.
 /// </summary>
 public interface ICaseConverter
 {

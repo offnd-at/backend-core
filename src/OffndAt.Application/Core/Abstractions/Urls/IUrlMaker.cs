@@ -1,10 +1,10 @@
-﻿namespace OffndAt.Application.Core.Abstractions.Urls;
+namespace OffndAt.Application.Core.Abstractions.Urls;
 
 using Domain.Core.Primitives;
 using Domain.ValueObjects;
 
 /// <summary>
-///     Represents the URL maker interface.
+///     Defines the contract for constructing and validating URLs.
 /// </summary>
 public interface IUrlMaker
 {

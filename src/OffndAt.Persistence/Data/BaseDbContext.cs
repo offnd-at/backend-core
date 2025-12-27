@@ -1,4 +1,4 @@
-﻿namespace OffndAt.Persistence.Data;
+namespace OffndAt.Persistence.Data;
 
 using Application.Core.Abstractions.Data;
 using Domain.Core.Abstractions;
@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage;
 
 /// <summary>
-///     Represents the application database context.
+///     Provides base Entity Framework Core database context functionality.
 /// </summary>
 /// <param name="options">The database context options.</param>
 /// <param name="mediator">The mediator.</param>

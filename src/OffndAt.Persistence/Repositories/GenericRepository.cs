@@ -1,4 +1,4 @@
-﻿namespace OffndAt.Persistence.Repositories;
+namespace OffndAt.Persistence.Repositories;
 
 using Application.Core.Abstractions.Data;
 using Domain.Core.Primitives;
@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Specifications;
 
 /// <summary>
-///     Represents the generic repository with the most common repository methods.
+///     Provides common data access operations for entities.
 /// </summary>
 /// <param name="dbContext">The database context.</param>
 /// <typeparam name="TEntity">The entity type.</typeparam>

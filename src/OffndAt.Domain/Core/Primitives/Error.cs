@@ -1,7 +1,7 @@
 ﻿namespace OffndAt.Domain.Core.Primitives;
 
 /// <summary>
-///     Represents a domain error.
+///     Encapsulates error information including code and message for domain operations.
 /// </summary>
 public sealed class Error(string code, string message) : ValueObject
 {

@@ -1,4 +1,4 @@
-﻿namespace OffndAt.Services.Api.Endpoints.V1.Themes;
+namespace OffndAt.Services.Api.Endpoints.V1.Themes;
 
 using Application.Themes.Queries.GetSupportedThemes;
 using Contracts;
@@ -9,7 +9,7 @@ using MediatR;
 using OffndAt.Contracts.Themes;
 
 /// <summary>
-///     Represents the get supported themes endpoint.
+///     Exposes an API endpoint for retrieving available themes.
 /// </summary>
 internal sealed class Get : IEndpoint
 {

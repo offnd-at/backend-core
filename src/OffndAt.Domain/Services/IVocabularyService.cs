@@ -1,9 +1,9 @@
-﻿namespace OffndAt.Domain.Services;
+namespace OffndAt.Domain.Services;
 
 using Enumerations;
 
 /// <summary>
-///     Represents the vocabulary service interface.
+///     Defines the contract for vocabulary management operations.
 /// </summary>
 public interface IVocabularyService
 {

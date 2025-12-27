@@ -1,9 +1,9 @@
-﻿namespace OffndAt.Domain.Enumerations;
+namespace OffndAt.Domain.Enumerations;
 
 using Core.Primitives;
 
 /// <summary>
-///     Represents the language enumeration.
+///     Defines available languages for phrase generation.
 /// </summary>
 public sealed class Language : Enumeration<Language>
 {

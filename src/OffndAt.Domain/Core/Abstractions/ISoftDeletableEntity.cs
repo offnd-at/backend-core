@@ -1,7 +1,7 @@
-﻿namespace OffndAt.Domain.Core.Abstractions;
+namespace OffndAt.Domain.Core.Abstractions;
 
 /// <summary>
-///     Represents the marker interface for soft-deletable entities.
+///     Marks entities that support soft deletion instead of physical removal.
 /// </summary>
 public interface ISoftDeletableEntity
 {

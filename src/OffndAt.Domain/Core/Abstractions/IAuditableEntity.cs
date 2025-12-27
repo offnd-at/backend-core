@@ -1,7 +1,7 @@
-﻿namespace OffndAt.Domain.Core.Abstractions;
+namespace OffndAt.Domain.Core.Abstractions;
 
 /// <summary>
-///     Represents the marker interface for auditable entities.
+///     Marks entities that track creation and modification timestamps.
 /// </summary>
 public interface IAuditableEntity
 {
