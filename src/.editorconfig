@@ -522,3 +522,6 @@ trim_trailing_whitespace = false
 
 [/**/GithubFileLoader.cs]
 dotnet_diagnostic.IDE0060.severity = none
+
+[*.{cs}]
+dotnet_diagnostic.CA1873.severity = none

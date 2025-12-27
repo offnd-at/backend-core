@@ -130,11 +130,11 @@ public abstract class BaseDbContext(DbContextOptions options, IMediator mediator
 
         var domainEvents = aggregateRoots.SelectMany(entityEntry => entityEntry.Entity.DomainEvents).ToList();
 
-        aggregateRoots.ForEach(entityEntry => entityEntry.Entity.ClearDomainEvents());
-
         var tasks = domainEvents.Select(domainEvent => mediator.Publish(domainEvent, cancellationToken));
 
         await Task.WhenAll(tasks);
+
+        aggregateRoots.ForEach(entityEntry => entityEntry.Entity.ClearDomainEvents());
 
         return domainEvents.Count;
     }

@@ -10,6 +10,11 @@ using Utils;
 public abstract class Entity<TEntityId> : IAuditableEntity, IEquatable<Entity<TEntityId>> where TEntityId : EntityId
 {
     /// <summary>
+    ///     Prime number used for hash code calculation to reduce collisions.
+    /// </summary>
+    private const int HashMultiplier = 41;
+
+    /// <summary>
     ///     Initializes a new instance of the <see cref="Entity{TEntityId}" /> class.
     /// </summary>
     /// <param name="id">The entity identifier.</param>
@@ -107,5 +112,5 @@ public abstract class Entity<TEntityId> : IAuditableEntity, IEquatable<Entity<TE
     }
 
     /// <inheritdoc />
-    public override int GetHashCode() => Id.GetHashCode() * 41;
+    public override int GetHashCode() => Id.GetHashCode() * HashMultiplier;
 }
