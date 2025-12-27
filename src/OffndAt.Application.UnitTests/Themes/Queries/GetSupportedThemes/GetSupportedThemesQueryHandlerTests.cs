@@ -1,9 +1,8 @@
-﻿namespace OffndAt.Application.UnitTests.Themes.Queries.GetSupportedThemes;
-
 using Application.Themes.Queries.GetSupportedThemes;
 using Domain.Enumerations;
 
-internal sealed class GetSupportedThemesQueryHandlerTests
+
+namespace OffndAt.Application.UnitTests.Themes.Queries.GetSupportedThemes;internal sealed class GetSupportedThemesQueryHandlerTests
 {
     private GetSupportedThemesQueryHandler _handler = null!;
 

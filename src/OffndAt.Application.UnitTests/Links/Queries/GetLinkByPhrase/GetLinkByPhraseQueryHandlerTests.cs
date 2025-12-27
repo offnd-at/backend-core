@@ -1,5 +1,3 @@
-﻿namespace OffndAt.Application.UnitTests.Links.Queries.GetLinkByPhrase;
-
 using Application.Links.Queries.GetLinkByPhrase;
 using Core.Abstractions.Data;
 using Domain.Core.Primitives;
@@ -9,7 +7,8 @@ using Domain.Repositories;
 using Domain.ValueObjects;
 using NSubstitute;
 
-internal sealed class GetLinkByPhraseQueryHandlerTests
+
+namespace OffndAt.Application.UnitTests.Links.Queries.GetLinkByPhrase;internal sealed class GetLinkByPhraseQueryHandlerTests
 {
     private GetLinkByPhraseQueryHandler _handler = null!;
     private ILinksRepository _linksRepository = null!;

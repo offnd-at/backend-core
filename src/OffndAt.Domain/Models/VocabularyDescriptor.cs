@@ -1,8 +1,7 @@
-namespace OffndAt.Domain.Models;
-
 using Enumerations;
 
-/// <summary>
+
+namespace OffndAt.Domain.Models;/// <summary>
 ///     Describes vocabulary metadata including language, theme, and format.
 /// </summary>
 /// <param name="Language">The language.</param>

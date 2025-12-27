@@ -1,5 +1,3 @@
-﻿namespace OffndAt.Services.Api.FunctionalTests.Abstractions;
-
 using Core;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -10,7 +8,8 @@ using Persistence.Data;
 using Testcontainers.PostgreSql;
 using Testcontainers.RabbitMq;
 
-[TestFixture]
+
+namespace OffndAt.Services.Api.FunctionalTests.Abstractions;[TestFixture]
 internal abstract class BaseFunctionalTest
 {
     [OneTimeSetUp]

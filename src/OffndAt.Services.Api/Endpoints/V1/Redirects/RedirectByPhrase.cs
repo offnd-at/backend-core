@@ -1,5 +1,3 @@
-namespace OffndAt.Services.Api.Endpoints.V1.Redirects;
-
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
@@ -10,7 +8,8 @@ using Domain.Core.Extensions;
 using Domain.Core.Primitives;
 using MediatR;
 
-/// <summary>
+
+namespace OffndAt.Services.Api.Endpoints.V1.Redirects;/// <summary>
 ///     Exposes an API endpoint for redirecting users via shortened link phrases.
 /// </summary>
 internal sealed class RedirectByPhrase : IEndpoint

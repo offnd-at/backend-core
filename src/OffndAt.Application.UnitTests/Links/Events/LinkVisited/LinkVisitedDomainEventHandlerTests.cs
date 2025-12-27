@@ -1,5 +1,3 @@
-﻿namespace OffndAt.Application.UnitTests.Links.Events.LinkVisited;
-
 using Application.Links.Events.LinkVisited;
 using Core.Abstractions.Messaging;
 using Domain.Entities;
@@ -8,7 +6,8 @@ using Domain.Events;
 using Domain.ValueObjects;
 using NSubstitute;
 
-internal sealed class LinkVisitedDomainEventHandlerTests
+
+namespace OffndAt.Application.UnitTests.Links.Events.LinkVisited;internal sealed class LinkVisitedDomainEventHandlerTests
 {
     private LinkVisitedDomainEventHandler _handler = null!;
     private IIntegrationEventPublisher _integrationEventPublisher = null!;

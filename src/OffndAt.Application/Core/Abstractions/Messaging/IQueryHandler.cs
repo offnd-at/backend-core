@@ -1,9 +1,8 @@
-namespace OffndAt.Application.Core.Abstractions.Messaging;
-
 using Domain.Core.Primitives;
 using MediatR;
 
-/// <summary>
+
+namespace OffndAt.Application.Core.Abstractions.Messaging;/// <summary>
 ///     Defines the contract for CQRS query operations.
 /// </summary>
 /// <typeparam name="TQuery">The query type.</typeparam>

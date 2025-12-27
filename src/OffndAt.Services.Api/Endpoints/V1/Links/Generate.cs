@@ -1,5 +1,3 @@
-namespace OffndAt.Services.Api.Endpoints.V1.Links;
-
 using Application.Links.Commands.GenerateLink;
 using Contracts;
 using Domain.Core.Errors;
@@ -8,7 +6,8 @@ using Domain.Core.Primitives;
 using MediatR;
 using OffndAt.Contracts.Links;
 
-/// <summary>
+
+namespace OffndAt.Services.Api.Endpoints.V1.Links;/// <summary>
 ///     Exposes an API endpoint for creating new shortened links.
 /// </summary>
 internal sealed class Generate : IEndpoint

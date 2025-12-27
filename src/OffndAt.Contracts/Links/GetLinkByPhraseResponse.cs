@@ -1,8 +1,7 @@
-namespace OffndAt.Contracts.Links;
-
 using System.ComponentModel;
 
-/// <summary>
+
+namespace OffndAt.Contracts.Links;/// <summary>
 ///     Response model for the get link by phrase API endpoint.
 /// </summary>
 public sealed class GetLinkByPhraseResponse

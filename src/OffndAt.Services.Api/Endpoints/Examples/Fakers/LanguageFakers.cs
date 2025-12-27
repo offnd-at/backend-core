@@ -1,9 +1,8 @@
-﻿namespace OffndAt.Services.Api.Endpoints.Examples.Fakers;
-
 using Bogus;
 using OffndAt.Contracts.Languages;
 
-/// <summary>
+
+namespace OffndAt.Services.Api.Endpoints.Examples.Fakers;/// <summary>
 ///     Contains fake data generators for languages.
 /// </summary>
 internal sealed class LanguageFakers

@@ -1,9 +1,8 @@
-﻿namespace OffndAt.Services.Api.Endpoints.Extensions;
-
 using Asp.Versioning;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-/// <summary>
+
+namespace OffndAt.Services.Api.Endpoints.Extensions;/// <summary>
 ///     Contains extension methods for endpoints configuration.
 /// </summary>
 internal static class EndpointsExtensions

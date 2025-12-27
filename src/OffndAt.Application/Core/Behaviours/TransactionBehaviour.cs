@@ -1,11 +1,10 @@
-﻿namespace OffndAt.Application.Core.Behaviours;
-
 using Abstractions.Data;
 using Abstractions.Messaging;
 using Domain.Core.Primitives;
 using MediatR;
 
-/// <summary>
+
+namespace OffndAt.Application.Core.Behaviours;/// <summary>
 ///     Represents the transaction behavior middleware for the MediatR pipeline.
 /// </summary>
 /// <typeparam name="TRequest">The request type.</typeparam>

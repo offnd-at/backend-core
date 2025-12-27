@@ -148,7 +148,7 @@ dotnet_diagnostic.ca1848.severity = none
 dotnet_diagnostic.ca1862.severity = none
 dotnet_diagnostic.ca1000.severity = none
 dotnet_code_quality.ca1711.allowed_suffixes = EventHandler
-csharp_using_directive_placement = inside_namespace:error
+csharp_using_directive_placement = outside_namespace:error
 
 ##########################################
 # Language Rules

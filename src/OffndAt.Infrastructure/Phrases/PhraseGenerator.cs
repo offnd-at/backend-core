@@ -1,5 +1,3 @@
-namespace OffndAt.Infrastructure.Phrases;
-
 using Application.Core.Abstractions.Phrases;
 using Application.Core.Abstractions.Words;
 using Domain.Core.Errors;
@@ -8,7 +6,8 @@ using Domain.Enumerations;
 using Domain.Repositories;
 using Domain.ValueObjects;
 
-/// <summary>
+
+namespace OffndAt.Infrastructure.Phrases;/// <summary>
 ///     Generates unique human-readable phrases for shortened links.
 /// </summary>
 /// <param name="vocabulariesRepository">The vocabularies repository.</param>

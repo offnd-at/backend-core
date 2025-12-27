@@ -1,10 +1,9 @@
-namespace OffndAt.Application.Core.Abstractions.Data;
-
 using Domain.Core.Primitives;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
-/// <summary>
+
+namespace OffndAt.Application.Core.Abstractions.Data;/// <summary>
 ///     Defines the contract for database context operations and entity access.
 /// </summary>
 public interface IDbContext

@@ -1,9 +1,8 @@
-namespace OffndAt.Contracts.Links;
-
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-/// <summary>
+
+namespace OffndAt.Contracts.Links;/// <summary>
 ///     Request model for creating new shortened links.
 /// </summary>
 public sealed class GenerateLinkRequest

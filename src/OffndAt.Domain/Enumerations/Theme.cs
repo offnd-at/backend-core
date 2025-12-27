@@ -1,8 +1,7 @@
-namespace OffndAt.Domain.Enumerations;
-
 using Core.Primitives;
 
-/// <summary>
+
+namespace OffndAt.Domain.Enumerations;/// <summary>
 ///     Defines available themes for phrase generation.
 /// </summary>
 public sealed class Theme : Enumeration<Theme>

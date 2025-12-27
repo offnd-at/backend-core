@@ -1,5 +1,3 @@
-﻿namespace OffndAt.Application.UnitTests.Links.Commands.GenerateLink;
-
 using Application.Links.Commands.GenerateLink;
 using Core.Abstractions.Phrases;
 using Core.Abstractions.Urls;
@@ -15,7 +13,8 @@ using NSubstitute;
 using Polly;
 using Polly.Registry;
 
-internal sealed class GenerateLinkCommandHandlerTests
+
+namespace OffndAt.Application.UnitTests.Links.Commands.GenerateLink;internal sealed class GenerateLinkCommandHandlerTests
 {
     private GenerateLinkCommandHandler _handler = null!;
     private ILinksRepository _linksRepository = null!;

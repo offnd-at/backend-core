@@ -1,9 +1,8 @@
-﻿namespace OffndAt.Domain.UnitTests.Services;
-
 using Domain.Services;
 using Enumerations;
 
-internal sealed class VocabularyServiceTests
+
+namespace OffndAt.Domain.UnitTests.Services;internal sealed class VocabularyServiceTests
 {
     private VocabularyService _service = new();
 

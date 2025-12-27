@@ -1,11 +1,10 @@
-﻿namespace OffndAt.Services.Api.Endpoints.Extensions;
-
 using System.Collections;
 using System.Globalization;
 using System.Reflection;
 using Microsoft.OpenApi.Any;
 
-/// <summary>
+
+namespace OffndAt.Services.Api.Endpoints.Extensions;/// <summary>
 ///     Contains extension methods for OpenAPI objects manipulation.
 /// </summary>
 internal static class OpenApiObjectExtensions

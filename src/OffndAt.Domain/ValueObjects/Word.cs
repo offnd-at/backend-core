@@ -1,10 +1,9 @@
-namespace OffndAt.Domain.ValueObjects;
-
 using Core.Errors;
 using Core.Extensions;
 using Core.Primitives;
 
-/// <summary>
+
+namespace OffndAt.Domain.ValueObjects;/// <summary>
 ///     Encapsulates a single word with validation rules.
 /// </summary>
 public sealed class Word : ValueObject

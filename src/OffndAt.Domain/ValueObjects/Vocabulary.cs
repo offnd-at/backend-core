@@ -1,12 +1,11 @@
-namespace OffndAt.Domain.ValueObjects;
-
 using Core.Errors;
 using Core.Extensions;
 using Core.Primitives;
 using Enumerations;
 using Models;
 
-/// <summary>
+
+namespace OffndAt.Domain.ValueObjects;/// <summary>
 ///     Encapsulates a collection of words for phrase generation.
 /// </summary>
 public sealed class Vocabulary : ValueObject

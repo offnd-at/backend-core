@@ -1,5 +1,3 @@
-﻿namespace OffndAt.Infrastructure;
-
 using Application.Core.Abstractions.Data;
 using Application.Core.Abstractions.Messaging;
 using Application.Core.Abstractions.Phrases;
@@ -28,7 +26,8 @@ using Polly.Retry;
 using Urls;
 using Words;
 
-/// <summary>
+
+namespace OffndAt.Infrastructure;/// <summary>
 ///     Contains extensions used to configure DI Container.
 /// </summary>
 public static class DependencyInjectionExtensions

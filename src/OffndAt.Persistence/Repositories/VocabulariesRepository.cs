@@ -1,5 +1,3 @@
-namespace OffndAt.Persistence.Repositories;
-
 using Application.Core.Abstractions.Data;
 using Constants;
 using Core.Cache.Settings;
@@ -12,7 +10,8 @@ using Domain.ValueObjects;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 
-/// <summary>
+
+namespace OffndAt.Persistence.Repositories;/// <summary>
 ///     Provides data access operations for vocabulary entities.
 /// </summary>
 /// <param name="cacheOptions">The cache options.</param>

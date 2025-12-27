@@ -1,5 +1,3 @@
-﻿namespace OffndAt.Persistence.IntegrationTests.Repositories;
-
 using Domain.Entities;
 using Domain.Enumerations;
 using Domain.ValueObjects;
@@ -7,7 +5,8 @@ using Domain.ValueObjects.Identifiers;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Repositories;
 
-internal sealed class LinksRepositoryTests : BaseTestFixture
+
+namespace OffndAt.Persistence.IntegrationTests.Repositories;internal sealed class LinksRepositoryTests : BaseTestFixture
 {
     private LinksRepository _repository = null!;
 

@@ -1,9 +1,8 @@
-namespace OffndAt.Infrastructure.Core.Messaging;
-
 using Application.Core.Abstractions.Messaging;
 using MassTransit;
 
-/// <summary>
+
+namespace OffndAt.Infrastructure.Core.Messaging;/// <summary>
 ///     Provides functionality for publishing integration events to RabbitMQ.
 /// </summary>
 /// <param name="publishEndpoint">The integration event publish endpoint.</param>

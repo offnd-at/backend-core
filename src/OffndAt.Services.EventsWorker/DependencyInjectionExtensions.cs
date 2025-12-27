@@ -1,5 +1,3 @@
-﻿namespace OffndAt.Services.EventsWorker;
-
 using Infrastructure.Core.Messaging.Settings;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
@@ -7,7 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Persistence.Data;
 
-/// <summary>
+
+namespace OffndAt.Services.EventsWorker;/// <summary>
 ///     Contains extensions used to configure DI Container.
 /// </summary>
 public static class DependencyInjectionExtensions

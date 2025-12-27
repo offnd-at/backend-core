@@ -1,11 +1,10 @@
-namespace OffndAt.Services.EventsWorker.Links.Events.LinkCreated;
-
 using Abstractions.Messaging;
 using Application.Links.Events.LinkCreated;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 
-/// <summary>
+
+namespace OffndAt.Services.EventsWorker.Links.Events.LinkCreated;/// <summary>
 ///     Handles the LinkCreatedIntegrationEvent for processing new link notifications.
 /// </summary>
 /// <param name="logger">The logger.</param>

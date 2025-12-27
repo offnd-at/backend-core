@@ -1,11 +1,10 @@
-﻿namespace OffndAt.Infrastructure.UnitTests.Urls;
-
 using Domain.ValueObjects;
 using Infrastructure.Core.Settings;
 using Infrastructure.Urls;
 using Microsoft.Extensions.Options;
 
-internal sealed class UrlMakerTests
+
+namespace OffndAt.Infrastructure.UnitTests.Urls;internal sealed class UrlMakerTests
 {
     [Test]
     public void MakeRedirectUrlForPhrase_ShouldUseHttps_WhenUseHttpsIsSetToTrueInApplicationSettings()

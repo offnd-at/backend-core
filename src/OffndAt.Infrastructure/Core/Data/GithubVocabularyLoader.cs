@@ -1,5 +1,3 @@
-namespace OffndAt.Infrastructure.Core.Data;
-
 using System.Globalization;
 using System.Text;
 using Application.Core.Abstractions.Data;
@@ -7,7 +5,8 @@ using Domain.Core.Primitives;
 using Domain.Models;
 using Domain.ValueObjects;
 
-/// <summary>
+
+namespace OffndAt.Infrastructure.Core.Data;/// <summary>
 ///     Provides functionality for loading vocabulary data from GitHub repositories.
 /// </summary>
 /// <param name="fileLoader">The file loader.</param>

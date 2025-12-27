@@ -1,8 +1,7 @@
-﻿namespace OffndAt.Services.Api.FunctionalTests.Formats;
-
 using Abstractions;
 
-internal sealed class GetTests : BaseFunctionalTest
+
+namespace OffndAt.Services.Api.FunctionalTests.Formats;internal sealed class GetTests : BaseFunctionalTest
 {
     [Test]
     public async Task Get_ShouldReturnOk_WithAllSupportedFormats()

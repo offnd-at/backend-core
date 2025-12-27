@@ -1,9 +1,8 @@
-namespace OffndAt.Application.Links.Commands.GenerateLink;
-
 using Contracts.Links;
 using Core.Abstractions.Messaging;
 
-/// <summary>
+
+namespace OffndAt.Application.Links.Commands.GenerateLink;/// <summary>
 ///     Command for creating a new shortened link.
 /// </summary>
 public sealed class GenerateLinkCommand(

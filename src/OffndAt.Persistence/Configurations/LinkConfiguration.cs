@@ -1,5 +1,3 @@
-namespace OffndAt.Persistence.Configurations;
-
 using Domain.Entities;
 using Domain.Enumerations;
 using Domain.ValueObjects;
@@ -7,7 +5,8 @@ using Domain.ValueObjects.Identifiers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-/// <summary>
+
+namespace OffndAt.Persistence.Configurations;/// <summary>
 ///     Configures Entity Framework Core mapping for the Link entity.
 /// </summary>
 internal sealed class LinkConfiguration : IEntityTypeConfiguration<Link>

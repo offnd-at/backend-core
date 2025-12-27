@@ -1,10 +1,9 @@
-namespace OffndAt.Application.Core.Abstractions.Phrases;
-
 using Domain.Core.Primitives;
 using Domain.Enumerations;
 using Domain.ValueObjects;
 
-/// <summary>
+
+namespace OffndAt.Application.Core.Abstractions.Phrases;/// <summary>
 ///     Defines the contract for generating unique human-readable phrases.
 /// </summary>
 public interface IPhraseGenerator

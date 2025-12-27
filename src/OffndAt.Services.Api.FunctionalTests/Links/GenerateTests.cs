@@ -1,10 +1,9 @@
-﻿namespace OffndAt.Services.Api.FunctionalTests.Links;
-
 using System.Net.Http.Json;
 using Abstractions;
 using OffndAt.Contracts.Links;
 
-internal sealed class GenerateTests : BaseFunctionalTest
+
+namespace OffndAt.Services.Api.FunctionalTests.Links;internal sealed class GenerateTests : BaseFunctionalTest
 {
     [Test]
     public async Task Generate_ShouldReturnCreated_WhenSuccessfullyCreatesLink()

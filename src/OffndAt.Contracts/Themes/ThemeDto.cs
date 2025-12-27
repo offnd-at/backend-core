@@ -1,8 +1,7 @@
-namespace OffndAt.Contracts.Themes;
-
 using System.ComponentModel;
 
-/// <summary>
+
+namespace OffndAt.Contracts.Themes;/// <summary>
 ///     Data transfer object for theme information in API responses.
 /// </summary>
 public sealed class ThemeDto

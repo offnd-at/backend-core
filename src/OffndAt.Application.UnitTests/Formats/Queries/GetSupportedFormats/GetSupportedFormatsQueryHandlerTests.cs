@@ -1,9 +1,8 @@
-﻿namespace OffndAt.Application.UnitTests.Formats.Queries.GetSupportedFormats;
-
 using Application.Formats.Queries.GetSupportedFormats;
 using Domain.Enumerations;
 
-internal sealed class GetSupportedFormatsQueryHandlerTests
+
+namespace OffndAt.Application.UnitTests.Formats.Queries.GetSupportedFormats;internal sealed class GetSupportedFormatsQueryHandlerTests
 {
     private GetSupportedFormatsQueryHandler _handler = null!;
 

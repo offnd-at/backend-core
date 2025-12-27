@@ -1,9 +1,8 @@
-﻿namespace OffndAt.Domain;
-
 using Microsoft.Extensions.DependencyInjection;
 using Services;
 
-/// <summary>
+
+namespace OffndAt.Domain;/// <summary>
 ///     Contains extensions used to configure DI Container.
 /// </summary>
 public static class DependencyInjectionExtensions

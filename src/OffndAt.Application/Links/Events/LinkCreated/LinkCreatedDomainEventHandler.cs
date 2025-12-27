@@ -1,10 +1,9 @@
-namespace OffndAt.Application.Links.Events.LinkCreated;
-
 using Core.Abstractions.Messaging;
 using Domain.Core.Events;
 using Domain.Events;
 
-/// <summary>
+
+namespace OffndAt.Application.Links.Events.LinkCreated;/// <summary>
 ///     Handles the LinkCreatedDomainEvent to process new link creation.
 /// </summary>
 internal sealed class LinkCreatedDomainEventHandler(IIntegrationEventPublisher integrationEventPublisher)

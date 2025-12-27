@@ -1,9 +1,8 @@
-namespace OffndAt.Domain.Events;
-
 using Core.Events;
 using Entities;
 
-/// <summary>
+
+namespace OffndAt.Domain.Events;/// <summary>
 ///     Domain event published when a user accesses a shortened link.
 /// </summary>
 public sealed class LinkVisitedDomainEvent : IDomainEvent

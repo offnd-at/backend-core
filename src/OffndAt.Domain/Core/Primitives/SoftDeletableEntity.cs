@@ -1,8 +1,7 @@
-﻿namespace OffndAt.Domain.Core.Primitives;
-
 using Abstractions;
 
-/// <summary>
+
+namespace OffndAt.Domain.Core.Primitives;/// <summary>
 ///     Represent a base soft deletable entity.
 /// </summary>
 /// <typeparam name="TEntityId">The entity identifier type.</typeparam>

@@ -1,11 +1,10 @@
-namespace OffndAt.Persistence.Specifications.Links;
-
 using System.Linq.Expressions;
 using Domain.Entities;
 using Domain.ValueObjects;
 using Domain.ValueObjects.Identifiers;
 
-/// <summary>
+
+namespace OffndAt.Persistence.Specifications.Links;/// <summary>
 ///     Defines query criteria for finding links by their unique phrase.
 /// </summary>
 internal sealed class LinkWithPhraseSpecification : Specification<Link, LinkId>

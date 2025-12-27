@@ -1,11 +1,10 @@
-namespace OffndAt.Persistence.Repositories;
-
 using Application.Core.Abstractions.Data;
 using Domain.Core.Primitives;
 using Microsoft.EntityFrameworkCore;
 using Specifications;
 
-/// <summary>
+
+namespace OffndAt.Persistence.Repositories;/// <summary>
 ///     Provides common data access operations for entities.
 /// </summary>
 /// <param name="dbContext">The database context.</param>

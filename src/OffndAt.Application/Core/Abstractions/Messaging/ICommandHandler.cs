@@ -1,9 +1,8 @@
-namespace OffndAt.Application.Core.Abstractions.Messaging;
-
 using Domain.Core.Primitives;
 using MediatR;
 
-/// <summary>
+
+namespace OffndAt.Application.Core.Abstractions.Messaging;/// <summary>
 ///     Defines the contract for handling CQRS command operations.
 /// </summary>
 /// <typeparam name="TCommand">The command type.</typeparam>

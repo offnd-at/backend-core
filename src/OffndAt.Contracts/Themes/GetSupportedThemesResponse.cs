@@ -1,8 +1,7 @@
-namespace OffndAt.Contracts.Themes;
-
 using System.ComponentModel;
 
-/// <summary>
+
+namespace OffndAt.Contracts.Themes;/// <summary>
 ///     Response model containing available themes.
 /// </summary>
 public sealed class GetSupportedThemesResponse

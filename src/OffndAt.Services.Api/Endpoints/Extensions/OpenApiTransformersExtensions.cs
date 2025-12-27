@@ -1,5 +1,3 @@
-﻿namespace OffndAt.Services.Api.Endpoints.Extensions;
-
 using System.Net.Mime;
 using Examples;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -7,7 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.OpenApi.Models;
 
-/// <summary>
+
+namespace OffndAt.Services.Api.Endpoints.Extensions;/// <summary>
 ///     Contains extension methods for OpenAPI transformers configuration.
 /// </summary>
 internal static class OpenApiTransformersExtensions

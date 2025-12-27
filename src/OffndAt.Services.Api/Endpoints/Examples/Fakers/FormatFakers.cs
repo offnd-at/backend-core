@@ -1,9 +1,8 @@
-﻿namespace OffndAt.Services.Api.Endpoints.Examples.Fakers;
-
 using Bogus;
 using OffndAt.Contracts.Formats;
 
-/// <summary>
+
+namespace OffndAt.Services.Api.Endpoints.Examples.Fakers;/// <summary>
 ///     Contains fake data generators for formats.
 /// </summary>
 internal sealed class FormatFakers

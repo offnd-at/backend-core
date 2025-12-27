@@ -1,10 +1,9 @@
-﻿namespace OffndAt.Application.Core.Behaviours;
-
 using FluentValidation;
 using MediatR;
 using ValidationException = Exceptions.ValidationException;
 
-/// <summary>
+
+namespace OffndAt.Application.Core.Behaviours;/// <summary>
 ///     Represents the validation behavior middleware for the MediatR pipeline.
 /// </summary>
 /// <typeparam name="TRequest">The request type.</typeparam>

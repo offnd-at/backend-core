@@ -1,8 +1,7 @@
-namespace OffndAt.Contracts.Formats;
-
 using System.ComponentModel;
 
-/// <summary>
+
+namespace OffndAt.Contracts.Formats;/// <summary>
 ///     Response model containing available phrase formats.
 /// </summary>
 public sealed class GetSupportedFormatsResponse

@@ -1,5 +1,3 @@
-namespace OffndAt.Domain.Entities;
-
 using Core.Primitives;
 using Core.Utils;
 using Enumerations;
@@ -7,7 +5,8 @@ using Events;
 using ValueObjects;
 using ValueObjects.Identifiers;
 
-/// <summary>
+
+namespace OffndAt.Domain.Entities;/// <summary>
 ///     Domain entity representing a shortened link with its metadata.
 /// </summary>
 public sealed class Link : AggregateRoot<LinkId>

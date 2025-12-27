@@ -1,10 +1,9 @@
-namespace OffndAt.Domain.Repositories;
-
 using Core.Primitives;
 using Entities;
 using ValueObjects;
 
-/// <summary>
+
+namespace OffndAt.Domain.Repositories;/// <summary>
 ///     Defines the contract for link entity data access operations.
 /// </summary>
 public interface ILinksRepository

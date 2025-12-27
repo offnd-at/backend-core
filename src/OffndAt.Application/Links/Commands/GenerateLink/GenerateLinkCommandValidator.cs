@@ -1,10 +1,9 @@
-namespace OffndAt.Application.Links.Commands.GenerateLink;
-
 using Core.Errors;
 using Core.Extensions;
 using FluentValidation;
 
-/// <summary>
+
+namespace OffndAt.Application.Links.Commands.GenerateLink;/// <summary>
 ///     Validates the GenerateLinkCommand to ensure request data integrity.
 /// </summary>
 public sealed class GenerateLinkCommandValidator : AbstractValidator<GenerateLinkCommand>

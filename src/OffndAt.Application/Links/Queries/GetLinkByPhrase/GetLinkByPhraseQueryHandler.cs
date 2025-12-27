@@ -1,5 +1,3 @@
-namespace OffndAt.Application.Links.Queries.GetLinkByPhrase;
-
 using Contracts.Links;
 using Core.Abstractions.Data;
 using Core.Abstractions.Messaging;
@@ -7,7 +5,8 @@ using Domain.Core.Primitives;
 using Domain.Repositories;
 using Domain.ValueObjects;
 
-/// <summary>
+
+namespace OffndAt.Application.Links.Queries.GetLinkByPhrase;/// <summary>
 ///     Handles the GetLinkByPhraseQuery to retrieve links by their unique phrase.
 /// </summary>
 internal sealed class GetLinkByPhraseQueryHandler(ILinksRepository linksRepository, IUnitOfWork unitOfWork)

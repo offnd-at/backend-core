@@ -1,5 +1,3 @@
-namespace OffndAt.Persistence.Repositories;
-
 using Application.Core.Abstractions.Data;
 using Domain.Core.Primitives;
 using Domain.Entities;
@@ -8,7 +6,8 @@ using Domain.ValueObjects;
 using Domain.ValueObjects.Identifiers;
 using Specifications.Links;
 
-/// <summary>
+
+namespace OffndAt.Persistence.Repositories;/// <summary>
 ///     Provides data access operations for link entities.
 /// </summary>
 /// <param name="dbContext">The database context.</param>

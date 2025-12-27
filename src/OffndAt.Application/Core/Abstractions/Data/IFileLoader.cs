@@ -1,8 +1,7 @@
-namespace OffndAt.Application.Core.Abstractions.Data;
-
 using Domain.Core.Primitives;
 
-/// <summary>
+
+namespace OffndAt.Application.Core.Abstractions.Data;/// <summary>
 ///     Defines the contract for loading files from external sources.
 /// </summary>
 public interface IFileLoader

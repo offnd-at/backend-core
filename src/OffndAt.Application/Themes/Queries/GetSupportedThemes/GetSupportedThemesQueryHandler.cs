@@ -1,11 +1,10 @@
-namespace OffndAt.Application.Themes.Queries.GetSupportedThemes;
-
 using Contracts.Themes;
 using Core.Abstractions.Messaging;
 using Domain.Core.Primitives;
 using Domain.Enumerations;
 
-/// <summary>
+
+namespace OffndAt.Application.Themes.Queries.GetSupportedThemes;/// <summary>
 ///     Handles the GetSupportedThemesQuery to retrieve available themes.
 /// </summary>
 internal sealed class GetSupportedThemesQueryHandler : IQueryHandler<GetSupportedThemesQuery, GetSupportedThemesResponse>

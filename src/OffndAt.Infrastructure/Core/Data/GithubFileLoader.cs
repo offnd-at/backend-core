@@ -1,12 +1,11 @@
-namespace OffndAt.Infrastructure.Core.Data;
-
 using Application.Core.Abstractions.Data;
 using Domain.Core.Primitives;
 using Microsoft.Extensions.Options;
 using Octokit;
 using Settings;
 
-/// <summary>
+
+namespace OffndAt.Infrastructure.Core.Data;/// <summary>
 ///     Provides functionality for loading files from GitHub repositories.
 /// </summary>
 /// <param name="githubClient">The GitHub client.</param>

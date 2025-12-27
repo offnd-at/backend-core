@@ -1,5 +1,3 @@
-﻿namespace OffndAt.Persistence.IntegrationTests.Repositories;
-
 using Application.Core.Abstractions.Data;
 using Core.Cache.Settings;
 using Domain.Core.Primitives;
@@ -12,7 +10,8 @@ using Microsoft.Extensions.Options;
 using NSubstitute;
 using Persistence.Repositories;
 
-internal sealed class VocabulariesRepositoryTests
+
+namespace OffndAt.Persistence.IntegrationTests.Repositories;internal sealed class VocabulariesRepositoryTests
 {
     private IOptions<CacheSettings> _cacheSettingsOptions = null!;
     private VocabulariesRepository _repository = null!;

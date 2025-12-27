@@ -1,9 +1,8 @@
-﻿namespace OffndAt.Application.UnitTests.Languages.Queries.GetSupportedLanguages;
-
 using Application.Languages.Queries.GetSupportedLanguages;
 using Domain.Enumerations;
 
-internal sealed class GetSupportedLanguagesQueryHandlerTests
+
+namespace OffndAt.Application.UnitTests.Languages.Queries.GetSupportedLanguages;internal sealed class GetSupportedLanguagesQueryHandlerTests
 {
     private GetSupportedLanguagesQueryHandler _handler = null!;
 

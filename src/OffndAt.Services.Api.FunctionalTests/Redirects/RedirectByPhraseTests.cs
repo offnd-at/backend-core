@@ -1,10 +1,9 @@
-﻿namespace OffndAt.Services.Api.FunctionalTests.Redirects;
-
 using System.Net.Http.Json;
 using Abstractions;
 using OffndAt.Contracts.Links;
 
-internal sealed class RedirectByPhraseTests : BaseFunctionalTest
+
+namespace OffndAt.Services.Api.FunctionalTests.Redirects;internal sealed class RedirectByPhraseTests : BaseFunctionalTest
 {
     [Test]
     public async Task RedirectByPhrase_ShouldReturnNotFound_WhenLinkWithSpecifiedPhraseDoesNotExist()

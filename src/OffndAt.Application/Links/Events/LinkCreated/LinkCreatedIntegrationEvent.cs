@@ -1,10 +1,9 @@
-namespace OffndAt.Application.Links.Events.LinkCreated;
-
 using System.Text.Json.Serialization;
 using Core.Abstractions.Messaging;
 using Domain.Events;
 
-/// <summary>
+
+namespace OffndAt.Application.Links.Events.LinkCreated;/// <summary>
 ///     Integration event published when a link is created for cross-service notifications.
 /// </summary>
 public sealed class LinkCreatedIntegrationEvent : IIntegrationEvent

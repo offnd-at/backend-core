@@ -1,5 +1,3 @@
-namespace OffndAt.Services.Api.Endpoints.V1.Languages;
-
 using Application.Languages.Queries.GetSupportedLanguages;
 using Contracts;
 using Domain.Core.Errors;
@@ -8,7 +6,8 @@ using Domain.Core.Primitives;
 using MediatR;
 using OffndAt.Contracts.Languages;
 
-/// <summary>
+
+namespace OffndAt.Services.Api.Endpoints.V1.Languages;/// <summary>
 ///     Exposes an API endpoint for retrieving available languages.
 /// </summary>
 internal sealed class Get : IEndpoint

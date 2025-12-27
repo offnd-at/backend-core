@@ -1,9 +1,8 @@
-﻿namespace OffndAt.Services.Api.Endpoints.Extensions;
-
 using Examples;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-/// <summary>
+
+namespace OffndAt.Services.Api.Endpoints.Extensions;/// <summary>
 ///     Contains extension methods for OpenAPI examples configuration.
 /// </summary>
 internal static class OpenApiExamplesExtensions

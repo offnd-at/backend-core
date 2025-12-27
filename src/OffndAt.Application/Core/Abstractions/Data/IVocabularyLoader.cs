@@ -1,10 +1,9 @@
-namespace OffndAt.Application.Core.Abstractions.Data;
-
 using Domain.Core.Primitives;
 using Domain.Models;
 using Domain.ValueObjects;
 
-/// <summary>
+
+namespace OffndAt.Application.Core.Abstractions.Data;/// <summary>
 ///     Defines the contract for loading word vocabularies from external sources.
 /// </summary>
 public interface IVocabularyLoader

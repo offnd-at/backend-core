@@ -1,8 +1,7 @@
-namespace OffndAt.Domain.Core.Primitives;
-
 using System.Reflection;
 
-/// <summary>
+
+namespace OffndAt.Domain.Core.Primitives;/// <summary>
 ///     Provides base functionality for implementing type-safe enumerations.
 /// </summary>
 /// <typeparam name="TEnum">The type of the enumeration.</typeparam>

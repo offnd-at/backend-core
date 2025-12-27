@@ -1,8 +1,7 @@
-﻿namespace OffndAt.Domain.Core.Extensions;
-
 using Primitives;
 
-/// <summary>
+
+namespace OffndAt.Domain.Core.Extensions;/// <summary>
 ///     Contains extension methods for the Maybe class.
 /// </summary>
 public static class MaybeExtensions

@@ -1,5 +1,3 @@
-namespace OffndAt.Services.Api.Endpoints.V1.Links;
-
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Application.Links.Queries.GetLinkByPhrase;
@@ -10,7 +8,8 @@ using Domain.Core.Primitives;
 using MediatR;
 using OffndAt.Contracts.Links;
 
-/// <summary>
+
+namespace OffndAt.Services.Api.Endpoints.V1.Links;/// <summary>
 ///     Exposes an API endpoint for retrieving links by their unique phrase.
 /// </summary>
 internal sealed class GetByPhrase : IEndpoint

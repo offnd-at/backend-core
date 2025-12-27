@@ -1,5 +1,3 @@
-﻿namespace OffndAt.Persistence.IntegrationTests;
-
 using Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using Testcontainers.PostgreSql;
 
-internal class BaseTestFixture : IDisposable
+
+namespace OffndAt.Persistence.IntegrationTests;internal class BaseTestFixture : IDisposable
 {
     protected OffndAtDbContext DbContext { get; private set; } = null!;
     private PostgreSqlContainer? PostgresContainer { get; set; }

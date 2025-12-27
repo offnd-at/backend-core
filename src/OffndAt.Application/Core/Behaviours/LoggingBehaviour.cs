@@ -1,10 +1,9 @@
-﻿namespace OffndAt.Application.Core.Behaviours;
-
 using Domain.Core.Primitives;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-/// <summary>
+
+namespace OffndAt.Application.Core.Behaviours;/// <summary>
 ///     Represents the logging behavior middleware for the MediatR pipeline.
 /// </summary>
 /// <typeparam name="TRequest">The request type.</typeparam>

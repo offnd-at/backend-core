@@ -1,12 +1,11 @@
-﻿namespace OffndAt.Services.Api;
-
 using Asp.Versioning;
 using Asp.Versioning.Conventions;
 using Endpoints.Extensions;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 
-/// <summary>
+
+namespace OffndAt.Services.Api;/// <summary>
 ///     Contains extensions used to configure DI Container.
 /// </summary>
 public static class DependencyInjectionExtensions

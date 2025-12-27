@@ -1,12 +1,11 @@
-namespace OffndAt.Services.Api.Endpoints.Examples.V1.Themes;
-
 using Bogus;
 using Extensions;
 using Fakers;
 using Microsoft.OpenApi.Any;
 using OffndAt.Contracts.Themes;
 
-/// <summary>
+
+namespace OffndAt.Services.Api.Endpoints.Examples.V1.Themes;/// <summary>
 ///     Provides sample response data for the get supported themes endpoint documentation.
 /// </summary>
 internal sealed class GetResponseExample : IOpenApiExample<GetSupportedThemesResponse>

@@ -1,5 +1,3 @@
-﻿namespace OffndAt.Infrastructure.UnitTests.Core.Data;
-
 using Application.Core.Abstractions.Data;
 using Domain.Core.Primitives;
 using Domain.Enumerations;
@@ -8,7 +6,8 @@ using Infrastructure.Core.Data;
 using NSubstitute;
 using Language = Domain.Enumerations.Language;
 
-internal sealed class GithubVocabularyLoaderTests
+
+namespace OffndAt.Infrastructure.UnitTests.Core.Data;internal sealed class GithubVocabularyLoaderTests
 {
     private readonly VocabularyDescriptor _descriptor = new(
         Language.English,

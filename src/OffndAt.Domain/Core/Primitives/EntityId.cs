@@ -1,8 +1,7 @@
-namespace OffndAt.Domain.Core.Primitives;
-
 using Utils;
 
-/// <summary>
+
+namespace OffndAt.Domain.Core.Primitives;/// <summary>
 ///     Provides strongly-typed entity identifier with validation.
 /// </summary>
 public abstract class EntityId : ValueObject

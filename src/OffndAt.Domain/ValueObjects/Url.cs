@@ -1,10 +1,9 @@
-namespace OffndAt.Domain.ValueObjects;
-
 using Core.Errors;
 using Core.Extensions;
 using Core.Primitives;
 
-/// <summary>
+
+namespace OffndAt.Domain.ValueObjects;/// <summary>
 ///     Encapsulates a URL with validation and formatting rules.
 /// </summary>
 public sealed class Url : ValueObject

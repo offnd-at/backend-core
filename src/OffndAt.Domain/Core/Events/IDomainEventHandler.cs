@@ -1,8 +1,7 @@
-namespace OffndAt.Domain.Core.Events;
-
 using MediatR;
 
-/// <summary>
+
+namespace OffndAt.Domain.Core.Events;/// <summary>
 ///     Defines the contract for handling domain events.
 /// </summary>
 /// <typeparam name="TDomainEvent">The domain event type.</typeparam>

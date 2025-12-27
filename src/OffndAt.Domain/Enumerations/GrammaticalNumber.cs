@@ -1,8 +1,7 @@
-﻿namespace OffndAt.Domain.Enumerations;
-
 using Core.Primitives;
 
-/// <summary>
+
+namespace OffndAt.Domain.Enumerations;/// <summary>
 ///     Represent the grammatical number enumeration.
 /// </summary>
 public sealed class GrammaticalNumber : Enumeration<GrammaticalNumber>

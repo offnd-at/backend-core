@@ -1,10 +1,9 @@
-﻿namespace OffndAt.Persistence.Migrations.Extensions;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-/// <summary>
+
+namespace OffndAt.Persistence.Migrations.Extensions;/// <summary>
 ///     Contains extension methods for configuring the database migrations.
 /// </summary>
 public static class DatabaseMigrationsExtensions

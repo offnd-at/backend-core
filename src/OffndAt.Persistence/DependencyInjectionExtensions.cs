@@ -1,5 +1,3 @@
-﻿namespace OffndAt.Persistence;
-
 using Application.Core.Abstractions.Data;
 using Core.Cache.Settings;
 using Data;
@@ -11,7 +9,8 @@ using Microsoft.Extensions.Options;
 using Repositories;
 using Settings;
 
-/// <summary>
+
+namespace OffndAt.Persistence;/// <summary>
 ///     Contains extensions used to configure DI Container.
 /// </summary>
 public static class DependencyInjectionExtensions

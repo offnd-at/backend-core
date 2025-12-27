@@ -1,11 +1,10 @@
-namespace OffndAt.Application.Languages.Queries.GetSupportedLanguages;
-
 using Contracts.Languages;
 using Core.Abstractions.Messaging;
 using Domain.Core.Primitives;
 using Domain.Enumerations;
 
-/// <summary>
+
+namespace OffndAt.Application.Languages.Queries.GetSupportedLanguages;/// <summary>
 ///     Handles the GetSupportedLanguagesQuery to retrieve available languages.
 /// </summary>
 internal sealed class GetSupportedLanguagesQueryHandler : IQueryHandler<GetSupportedLanguagesQuery, GetSupportedLanguagesResponse>

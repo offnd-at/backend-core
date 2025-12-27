@@ -1,5 +1,3 @@
-﻿namespace OffndAt.Infrastructure.UnitTests.Phrases;
-
 using Application.Core.Abstractions.Words;
 using Domain.Core.Errors;
 using Domain.Core.Primitives;
@@ -10,7 +8,8 @@ using Domain.ValueObjects;
 using Infrastructure.Phrases;
 using NSubstitute;
 
-internal sealed class PhraseGeneratorTests
+
+namespace OffndAt.Infrastructure.UnitTests.Phrases;internal sealed class PhraseGeneratorTests
 {
     private readonly Vocabulary _vocabulary = Vocabulary.Create(
             new VocabularyDescriptor(

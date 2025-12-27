@@ -1,8 +1,7 @@
-namespace OffndAt.Domain.Core.Abstractions;
-
 using Events;
 
-/// <summary>
+
+namespace OffndAt.Domain.Core.Abstractions;/// <summary>
 ///     Marks entities as aggregate roots in Domain-Driven Design.
 /// </summary>
 public interface IAggregateRoot

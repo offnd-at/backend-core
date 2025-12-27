@@ -1,12 +1,11 @@
-﻿namespace OffndAt.Infrastructure.UnitTests.Core.Data;
-
 using Infrastructure.Core.Data;
 using Infrastructure.Core.Data.Settings;
 using Microsoft.Extensions.Options;
 using NSubstitute;
 using Octokit;
 
-internal sealed class GithubFileLoaderTests
+
+namespace OffndAt.Infrastructure.UnitTests.Core.Data;internal sealed class GithubFileLoaderTests
 {
     private readonly IOptions<GithubDataSourceSettings> _options = Options.Create(
         new GithubDataSourceSettings

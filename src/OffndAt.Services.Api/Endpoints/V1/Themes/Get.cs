@@ -1,5 +1,3 @@
-namespace OffndAt.Services.Api.Endpoints.V1.Themes;
-
 using Application.Themes.Queries.GetSupportedThemes;
 using Contracts;
 using Domain.Core.Errors;
@@ -8,7 +6,8 @@ using Domain.Core.Primitives;
 using MediatR;
 using OffndAt.Contracts.Themes;
 
-/// <summary>
+
+namespace OffndAt.Services.Api.Endpoints.V1.Themes;/// <summary>
 ///     Exposes an API endpoint for retrieving available themes.
 /// </summary>
 internal sealed class Get : IEndpoint

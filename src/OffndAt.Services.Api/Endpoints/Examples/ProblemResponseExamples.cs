@@ -1,8 +1,7 @@
-﻿namespace OffndAt.Services.Api.Endpoints.Examples;
-
 using Microsoft.OpenApi.Any;
 
-/// <summary>
+
+namespace OffndAt.Services.Api.Endpoints.Examples;/// <summary>
 ///     Contains examples of application/problem+json responses.
 /// </summary>
 internal static class ProblemResponseExamples

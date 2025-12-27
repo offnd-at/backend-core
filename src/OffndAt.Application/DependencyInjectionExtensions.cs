@@ -1,5 +1,3 @@
-﻿namespace OffndAt.Application;
-
 using System.Reflection;
 using Core.Behaviours;
 using FluentValidation;
@@ -7,7 +5,8 @@ using Links.Commands.GenerateLink;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
-/// <summary>
+
+namespace OffndAt.Application;/// <summary>
 ///     Contains extensions used to configure DI Container.
 /// </summary>
 public static class DependencyInjectionExtensions
