@@ -1,9 +1,10 @@
-using Core.Errors;
-using Core.Extensions;
-using Core.Primitives;
+﻿using OffndAt.Domain.Core.Errors;
+using OffndAt.Domain.Core.Extensions;
+using OffndAt.Domain.Core.Primitives;
 
+namespace OffndAt.Domain.ValueObjects;
 
-namespace OffndAt.Domain.ValueObjects;/// <summary>
+/// <summary>
 ///     Encapsulates a URL with validation and formatting rules.
 /// </summary>
 public sealed class Url : ValueObject

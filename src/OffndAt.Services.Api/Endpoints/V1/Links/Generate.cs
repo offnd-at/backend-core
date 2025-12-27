@@ -1,13 +1,14 @@
-using Application.Links.Commands.GenerateLink;
-using Contracts;
-using Domain.Core.Errors;
-using Domain.Core.Extensions;
-using Domain.Core.Primitives;
-using MediatR;
+﻿using MediatR;
+using OffndAt.Application.Links.Commands.GenerateLink;
 using OffndAt.Contracts.Links;
+using OffndAt.Domain.Core.Errors;
+using OffndAt.Domain.Core.Extensions;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Services.Api.Contracts;
 
+namespace OffndAt.Services.Api.Endpoints.V1.Links;
 
-namespace OffndAt.Services.Api.Endpoints.V1.Links;/// <summary>
+/// <summary>
 ///     Exposes an API endpoint for creating new shortened links.
 /// </summary>
 internal sealed class Generate : IEndpoint
@@ -21,12 +22,11 @@ internal sealed class Generate : IEndpoint
                         ISender sender,
                         CancellationToken cancellationToken) =>
                     await Result.Create(generateLinkRequest, DomainErrors.General.UnprocessableRequest)
-                        .Map(
-                            request => new GenerateLinkCommand(
-                                request.TargetUrl ?? string.Empty,
-                                request.LanguageId ?? -1,
-                                request.ThemeId ?? -1,
-                                request.FormatId ?? -1))
+                        .Map(request => new GenerateLinkCommand(
+                            request.TargetUrl ?? string.Empty,
+                            request.LanguageId ?? -1,
+                            request.ThemeId ?? -1,
+                            request.FormatId ?? -1))
                         .BindAsync(command => sender.Send(command, cancellationToken))
                         .MatchAsync(response => Results.Created(new Uri(response.Url), response), CustomResults.BadRequest))
             .WithTags(nameof(ApiRoutes.Links))

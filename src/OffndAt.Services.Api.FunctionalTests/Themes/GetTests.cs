@@ -1,7 +1,8 @@
-using Abstractions;
+﻿using OffndAt.Services.Api.FunctionalTests.Abstractions;
 
+namespace OffndAt.Services.Api.FunctionalTests.Themes;
 
-namespace OffndAt.Services.Api.FunctionalTests.Themes;internal sealed class GetTests : BaseFunctionalTest
+internal sealed class GetTests : BaseFunctionalTest
 {
     [Test]
     public async Task Get_ShouldReturnOk_WithAllSupportedThemes()

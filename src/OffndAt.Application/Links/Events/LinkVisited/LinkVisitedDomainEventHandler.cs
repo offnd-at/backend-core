@@ -1,9 +1,10 @@
-using Core.Abstractions.Messaging;
-using Domain.Core.Events;
-using Domain.Events;
+using OffndAt.Application.Core.Abstractions.Messaging;
+using OffndAt.Domain.Core.Events;
+using OffndAt.Domain.Events;
 
+namespace OffndAt.Application.Links.Events.LinkVisited;
 
-namespace OffndAt.Application.Links.Events.LinkVisited;/// <summary>
+/// <summary>
 ///     Handles the LinkVisitedDomainEvent to process link visit tracking.
 /// </summary>
 internal sealed class LinkVisitedDomainEventHandler(IIntegrationEventPublisher integrationEventPublisher)

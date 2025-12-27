@@ -1,9 +1,10 @@
-using Domain.Enumerations;
-using Domain.ValueObjects;
-using Infrastructure.Words;
+﻿using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.ValueObjects;
+using OffndAt.Infrastructure.Words;
 
+namespace OffndAt.Infrastructure.UnitTests.Words;
 
-namespace OffndAt.Infrastructure.UnitTests.Words;internal sealed class CaseConverterTests
+internal sealed class CaseConverterTests
 {
     private CaseConverter _converter = null!;
 

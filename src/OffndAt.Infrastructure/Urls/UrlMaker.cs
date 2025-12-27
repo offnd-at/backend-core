@@ -1,11 +1,12 @@
-using Application.Core.Abstractions.Urls;
-using Core.Settings;
-using Domain.Core.Primitives;
-using Domain.ValueObjects;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
+using OffndAt.Application.Core.Abstractions.Urls;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.ValueObjects;
+using OffndAt.Infrastructure.Core.Settings;
 
+namespace OffndAt.Infrastructure.Urls;
 
-namespace OffndAt.Infrastructure.Urls;/// <summary>
+/// <summary>
 ///     Constructs and validates URLs for shortened links.
 /// </summary>
 /// <param name="applicationOptions">The application options.</param>

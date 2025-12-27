@@ -1,12 +1,13 @@
 using System.Net;
-using Application.Core.Exceptions;
-using Domain.Core.Errors;
-using Domain.Core.Exceptions;
-using Domain.Core.Primitives;
 using Microsoft.AspNetCore.Mvc;
+using OffndAt.Application.Core.Exceptions;
+using OffndAt.Domain.Core.Errors;
+using OffndAt.Domain.Core.Exceptions;
+using OffndAt.Domain.Core.Primitives;
 
+namespace OffndAt.Services.Api.Middleware;
 
-namespace OffndAt.Services.Api.Middleware;/// <summary>
+/// <summary>
 ///     Provides centralized exception handling and problem details responses for the API.
 /// </summary>
 /// <param name="next">The next middleware delegate.</param>

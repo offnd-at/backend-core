@@ -1,7 +1,8 @@
-using Core.Primitives;
+﻿using OffndAt.Domain.Core.Primitives;
 
+namespace OffndAt.Domain.Enumerations;
 
-namespace OffndAt.Domain.Enumerations;/// <summary>
+/// <summary>
 ///     Represent the grammatical gender enumeration.
 /// </summary>
 public sealed class GrammaticalGender : Enumeration<GrammaticalGender>

@@ -1,12 +1,13 @@
-using Contracts.Links;
-using Core.Abstractions.Data;
-using Core.Abstractions.Messaging;
-using Domain.Core.Primitives;
-using Domain.Repositories;
-using Domain.ValueObjects;
+﻿using OffndAt.Application.Core.Abstractions.Data;
+using OffndAt.Application.Core.Abstractions.Messaging;
+using OffndAt.Contracts.Links;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.Repositories;
+using OffndAt.Domain.ValueObjects;
 
+namespace OffndAt.Application.Links.Queries.GetLinkByPhrase;
 
-namespace OffndAt.Application.Links.Queries.GetLinkByPhrase;/// <summary>
+/// <summary>
 ///     Handles the GetLinkByPhraseQuery to retrieve links by their unique phrase.
 /// </summary>
 internal sealed class GetLinkByPhraseQueryHandler(ILinksRepository linksRepository, IUnitOfWork unitOfWork)

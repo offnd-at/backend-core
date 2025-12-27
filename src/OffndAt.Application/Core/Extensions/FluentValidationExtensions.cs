@@ -1,8 +1,9 @@
-using Domain.Core.Primitives;
-using FluentValidation;
+﻿using FluentValidation;
+using OffndAt.Domain.Core.Primitives;
 
+namespace OffndAt.Application.Core.Extensions;
 
-namespace OffndAt.Application.Core.Extensions;/// <summary>
+/// <summary>
 ///     Contains extension methods for fluent validations.
 /// </summary>
 internal static class FluentValidationExtensions
@@ -15,13 +16,8 @@ internal static class FluentValidationExtensions
     /// <param name="rule">The current rule.</param>
     /// <param name="error">The error to use.</param>
     /// <returns>The same rule builder.</returns>
-    internal static IRuleBuilderOptions<T, TProperty> WithError<T, TProperty>(this IRuleBuilderOptions<T, TProperty> rule, Error error)
-    {
-        if (error is null)
-        {
-            throw new ArgumentNullException(nameof(error), "The error is required.");
-        }
-
-        return rule.WithErrorCode(error.Code).WithMessage(error.Message);
-    }
+    internal static IRuleBuilderOptions<T, TProperty> WithError<T, TProperty>(this IRuleBuilderOptions<T, TProperty> rule, Error error) =>
+        error is null
+            ? throw new ArgumentNullException(nameof(error), "The error is required.")
+            : rule.WithErrorCode(error.Code).WithMessage(error.Message);
 }

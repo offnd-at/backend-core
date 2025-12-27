@@ -1,10 +1,11 @@
-using Bogus;
-using Extensions;
+﻿using Bogus;
 using Microsoft.OpenApi.Any;
 using OffndAt.Contracts.Links;
+using OffndAt.Services.Api.Endpoints.Extensions;
 
+namespace OffndAt.Services.Api.Endpoints.Examples.V1.Links;
 
-namespace OffndAt.Services.Api.Endpoints.Examples.V1.Links;/// <summary>
+/// <summary>
 ///     Provides sample response data for the generate link endpoint documentation.
 /// </summary>
 internal sealed class GenerateResponseExample : IOpenApiExample<GenerateLinkResponse>

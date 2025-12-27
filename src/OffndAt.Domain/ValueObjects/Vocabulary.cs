@@ -1,11 +1,12 @@
-using Core.Errors;
-using Core.Extensions;
-using Core.Primitives;
-using Enumerations;
-using Models;
+﻿using OffndAt.Domain.Core.Errors;
+using OffndAt.Domain.Core.Extensions;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.Models;
 
+namespace OffndAt.Domain.ValueObjects;
 
-namespace OffndAt.Domain.ValueObjects;/// <summary>
+/// <summary>
 ///     Encapsulates a collection of words for phrase generation.
 /// </summary>
 public sealed class Vocabulary : ValueObject

@@ -1,15 +1,16 @@
-using Application.Core.Abstractions.Words;
-using Domain.Core.Errors;
-using Domain.Core.Primitives;
-using Domain.Enumerations;
-using Domain.Models;
-using Domain.Repositories;
-using Domain.ValueObjects;
-using Infrastructure.Phrases;
-using NSubstitute;
+﻿using NSubstitute;
+using OffndAt.Application.Core.Abstractions.Words;
+using OffndAt.Domain.Core.Errors;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.Models;
+using OffndAt.Domain.Repositories;
+using OffndAt.Domain.ValueObjects;
+using OffndAt.Infrastructure.Phrases;
 
+namespace OffndAt.Infrastructure.UnitTests.Phrases;
 
-namespace OffndAt.Infrastructure.UnitTests.Phrases;internal sealed class PhraseGeneratorTests
+internal sealed class PhraseGeneratorTests
 {
     private readonly Vocabulary _vocabulary = Vocabulary.Create(
             new VocabularyDescriptor(
@@ -51,12 +52,11 @@ namespace OffndAt.Infrastructure.UnitTests.Phrases;internal sealed class PhraseG
             Theme.None,
             CancellationToken.None);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.IsSuccess, Is.False);
-                Assert.That(actual.Error, Is.EqualTo(DomainErrors.Vocabulary.NotFound));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.IsSuccess, Is.False);
+            Assert.That(actual.Error, Is.EqualTo(DomainErrors.Vocabulary.NotFound));
+        });
     }
 
     [Test]
@@ -83,12 +83,11 @@ namespace OffndAt.Infrastructure.UnitTests.Phrases;internal sealed class PhraseG
             Theme.None,
             CancellationToken.None);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.IsSuccess, Is.False);
-                Assert.That(actual.Error, Is.EqualTo(DomainErrors.Vocabulary.NotFound));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.IsSuccess, Is.False);
+            Assert.That(actual.Error, Is.EqualTo(DomainErrors.Vocabulary.NotFound));
+        });
     }
 
     [Test]
@@ -121,12 +120,11 @@ namespace OffndAt.Infrastructure.UnitTests.Phrases;internal sealed class PhraseG
             Theme.None,
             CancellationToken.None);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.IsSuccess, Is.False);
-                Assert.That(actual.Error, Is.EqualTo(DomainErrors.Vocabulary.NotFound));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.IsSuccess, Is.False);
+            Assert.That(actual.Error, Is.EqualTo(DomainErrors.Vocabulary.NotFound));
+        });
     }
 
     [Test]
@@ -166,12 +164,11 @@ namespace OffndAt.Infrastructure.UnitTests.Phrases;internal sealed class PhraseG
             Theme.None,
             CancellationToken.None);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.IsSuccess, Is.False);
-                Assert.That(actual.Error, Is.EqualTo(DomainErrors.Phrase.NullOrEmpty));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.IsSuccess, Is.False);
+            Assert.That(actual.Error, Is.EqualTo(DomainErrors.Phrase.NullOrEmpty));
+        });
     }
 
     [Test]
@@ -213,11 +210,10 @@ namespace OffndAt.Infrastructure.UnitTests.Phrases;internal sealed class PhraseG
             Theme.None,
             CancellationToken.None);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.IsSuccess, Is.True);
-                Assert.That(actual.Value, Is.EqualTo(expected));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.IsSuccess, Is.True);
+            Assert.That(actual.Value, Is.EqualTo(expected));
+        });
     }
 }

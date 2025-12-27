@@ -1,11 +1,12 @@
-using Bogus;
-using Extensions;
-using Fakers;
+﻿using Bogus;
 using Microsoft.OpenApi.Any;
 using OffndAt.Contracts.Languages;
+using OffndAt.Services.Api.Endpoints.Examples.Fakers;
+using OffndAt.Services.Api.Endpoints.Extensions;
 
+namespace OffndAt.Services.Api.Endpoints.Examples.V1.Languages;
 
-namespace OffndAt.Services.Api.Endpoints.Examples.V1.Languages;/// <summary>
+/// <summary>
 ///     Provides sample response data for the get supported languages endpoint documentation.
 /// </summary>
 internal sealed class GetResponseExample : IOpenApiExample<GetSupportedLanguagesResponse>

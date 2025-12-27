@@ -1,13 +1,14 @@
-using Application.Themes.Queries.GetSupportedThemes;
-using Contracts;
-using Domain.Core.Errors;
-using Domain.Core.Extensions;
-using Domain.Core.Primitives;
 using MediatR;
+using OffndAt.Application.Themes.Queries.GetSupportedThemes;
 using OffndAt.Contracts.Themes;
+using OffndAt.Domain.Core.Errors;
+using OffndAt.Domain.Core.Extensions;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Services.Api.Contracts;
 
+namespace OffndAt.Services.Api.Endpoints.V1.Themes;
 
-namespace OffndAt.Services.Api.Endpoints.V1.Themes;/// <summary>
+/// <summary>
 ///     Exposes an API endpoint for retrieving available themes.
 /// </summary>
 internal sealed class Get : IEndpoint

@@ -1,9 +1,10 @@
-using Core.Primitives;
-using Entities;
-using ValueObjects;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.Entities;
+using OffndAt.Domain.ValueObjects;
 
+namespace OffndAt.Domain.Repositories;
 
-namespace OffndAt.Domain.Repositories;/// <summary>
+/// <summary>
 ///     Defines the contract for link entity data access operations.
 /// </summary>
 public interface ILinksRepository

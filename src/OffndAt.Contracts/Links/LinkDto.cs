@@ -1,7 +1,8 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
+namespace OffndAt.Contracts.Links;
 
-namespace OffndAt.Contracts.Links;/// <summary>
+/// <summary>
 ///     Data transfer object for link information in API responses.
 /// </summary>
 public sealed class LinkDto

@@ -1,9 +1,10 @@
-using Domain.Core.Primitives;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using OffndAt.Domain.Core.Primitives;
 
+namespace OffndAt.Application.Core.Behaviours;
 
-namespace OffndAt.Application.Core.Behaviours;/// <summary>
+/// <summary>
 ///     Represents the logging behavior middleware for the MediatR pipeline.
 /// </summary>
 /// <typeparam name="TRequest">The request type.</typeparam>

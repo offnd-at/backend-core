@@ -1,9 +1,10 @@
-using Core.Primitives;
-using Enumerations;
-using ValueObjects;
+﻿using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.ValueObjects;
 
+namespace OffndAt.Domain.Repositories;
 
-namespace OffndAt.Domain.Repositories;/// <summary>
+/// <summary>
 ///     Defines the contract for vocabulary entity data access operations.
 /// </summary>
 public interface IVocabulariesRepository

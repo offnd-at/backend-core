@@ -1,15 +1,16 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
-using Application.Links.Queries.GetLinkByPhrase;
-using Contracts;
-using Domain.Core.Errors;
-using Domain.Core.Extensions;
-using Domain.Core.Primitives;
 using MediatR;
+using OffndAt.Application.Links.Queries.GetLinkByPhrase;
+using OffndAt.Domain.Core.Errors;
+using OffndAt.Domain.Core.Extensions;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Services.Api.Contracts;
 
+namespace OffndAt.Services.Api.Endpoints.V1.Redirects;
 
-namespace OffndAt.Services.Api.Endpoints.V1.Redirects;/// <summary>
+/// <summary>
 ///     Exposes an API endpoint for redirecting users via shortened link phrases.
 /// </summary>
 internal sealed class RedirectByPhrase : IEndpoint

@@ -1,11 +1,12 @@
-using Bogus;
-using Extensions;
-using Fakers;
+﻿using Bogus;
 using Microsoft.OpenApi.Any;
 using OffndAt.Contracts.Formats;
+using OffndAt.Services.Api.Endpoints.Examples.Fakers;
+using OffndAt.Services.Api.Endpoints.Extensions;
 
+namespace OffndAt.Services.Api.Endpoints.Examples.V1.Formats;
 
-namespace OffndAt.Services.Api.Endpoints.Examples.V1.Formats;/// <summary>
+/// <summary>
 ///     Provides sample response data for the get supported formats endpoint documentation.
 /// </summary>
 internal sealed class GetResponseExample : IOpenApiExample<GetSupportedFormatsResponse>

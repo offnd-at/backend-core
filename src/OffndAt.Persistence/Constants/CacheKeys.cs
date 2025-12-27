@@ -1,7 +1,8 @@
-using Domain.Enumerations;
+﻿using OffndAt.Domain.Enumerations;
 
+namespace OffndAt.Persistence.Constants;
 
-namespace OffndAt.Persistence.Constants;/// <summary>
+/// <summary>
 ///     Contains the cache keys constants.
 /// </summary>
 internal static class CacheKeys

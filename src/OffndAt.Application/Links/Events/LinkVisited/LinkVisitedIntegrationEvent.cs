@@ -1,9 +1,10 @@
-using System.Text.Json.Serialization;
-using Core.Abstractions.Messaging;
-using Domain.Events;
+﻿using System.Text.Json.Serialization;
+using OffndAt.Application.Core.Abstractions.Messaging;
+using OffndAt.Domain.Events;
 
+namespace OffndAt.Application.Links.Events.LinkVisited;
 
-namespace OffndAt.Application.Links.Events.LinkVisited;/// <summary>
+/// <summary>
 ///     Integration event published when a link is accessed for cross-service notifications.
 /// </summary>
 public sealed class LinkVisitedIntegrationEvent : IIntegrationEvent

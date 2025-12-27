@@ -1,13 +1,13 @@
-using Application.Core.Abstractions.Data;
-using Domain.Core.Primitives;
-using Domain.Enumerations;
-using Domain.Models;
-using Infrastructure.Core.Data;
-using NSubstitute;
-using Language = Domain.Enumerations.Language;
+﻿using NSubstitute;
+using OffndAt.Application.Core.Abstractions.Data;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.Models;
+using OffndAt.Infrastructure.Core.Data;
 
+namespace OffndAt.Infrastructure.UnitTests.Core.Data;
 
-namespace OffndAt.Infrastructure.UnitTests.Core.Data;internal sealed class GithubVocabularyLoaderTests
+internal sealed class GithubVocabularyLoaderTests
 {
     private readonly VocabularyDescriptor _descriptor = new(
         Language.English,
@@ -68,13 +68,12 @@ namespace OffndAt.Infrastructure.UnitTests.Core.Data;internal sealed class Githu
         _fileLoader.DownloadAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns(Maybe<byte[]>.From(bytes));
 
         var actual = await _loader.DownloadAsync(_descriptor);
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.HasValue, Is.True);
-                Assert.That(actual.Value.Words, Has.Count.EqualTo(2));
-                Assert.That(actual.Value.Words[0].Value, Is.EqualTo("word1"));
-                Assert.That(actual.Value.Words[1].Value, Is.EqualTo("word2"));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.HasValue, Is.True);
+            Assert.That(actual.Value.Words, Has.Count.EqualTo(2));
+            Assert.That(actual.Value.Words[0].Value, Is.EqualTo("word1"));
+            Assert.That(actual.Value.Words[1].Value, Is.EqualTo("word2"));
+        });
     }
 }

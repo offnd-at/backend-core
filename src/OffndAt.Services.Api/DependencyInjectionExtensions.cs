@@ -1,11 +1,12 @@
 using Asp.Versioning;
 using Asp.Versioning.Conventions;
-using Endpoints.Extensions;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
+using OffndAt.Services.Api.Endpoints.Extensions;
 
+namespace OffndAt.Services.Api;
 
-namespace OffndAt.Services.Api;/// <summary>
+/// <summary>
 ///     Contains extensions used to configure DI Container.
 /// </summary>
 public static class DependencyInjectionExtensions
@@ -17,15 +18,14 @@ public static class DependencyInjectionExtensions
     /// <returns>The configured service collection.</returns>
     public static IServiceCollection AddApi(this IServiceCollection services) =>
         services
-            .AddProblemDetails(
-                cfg => cfg.CustomizeProblemDetails = context =>
-                {
-                    context.ProblemDetails.Instance = $"{context.HttpContext.Request.Method} {context.HttpContext.Request.Path}";
-                    context.ProblemDetails.Extensions.Add("requestId", context.HttpContext.TraceIdentifier);
+            .AddProblemDetails(cfg => cfg.CustomizeProblemDetails = context =>
+            {
+                context.ProblemDetails.Instance = $"{context.HttpContext.Request.Method} {context.HttpContext.Request.Path}";
+                context.ProblemDetails.Extensions.Add("requestId", context.HttpContext.TraceIdentifier);
 
-                    var activity = context.HttpContext.Features.Get<IHttpActivityFeature>()?.Activity;
-                    context.ProblemDetails.Extensions.Add("activityId", activity?.Id);
-                })
+                var activity = context.HttpContext.Features.Get<IHttpActivityFeature>()?.Activity;
+                context.ProblemDetails.Extensions.Add("activityId", activity?.Id);
+            })
             .AddEndpointsFromAssemblyContaining<Program>()
             .Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
 
@@ -36,20 +36,18 @@ public static class DependencyInjectionExtensions
     /// <returns>The configured service collection.</returns>
     public static IServiceCollection AddVersioning(this IServiceCollection services)
     {
-        _ = services.AddApiVersioning(
-                options =>
-                {
-                    options.DefaultApiVersion = new ApiVersion(1, 0);
-                    options.ReportApiVersions = true;
-                    options.ApiVersionReader = new UrlSegmentApiVersionReader();
-                })
+        _ = services.AddApiVersioning(options =>
+            {
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.ReportApiVersions = true;
+                options.ApiVersionReader = new UrlSegmentApiVersionReader();
+            })
             .AddMvc(options => options.Conventions.Add(new VersionByNamespaceConvention()))
-            .AddApiExplorer(
-                options =>
-                {
-                    options.GroupNameFormat = "'v'V";
-                    options.SubstituteApiVersionInUrl = true;
-                });
+            .AddApiExplorer(options =>
+            {
+                options.GroupNameFormat = "'v'V";
+                options.SubstituteApiVersionInUrl = true;
+            });
 
         return services;
     }

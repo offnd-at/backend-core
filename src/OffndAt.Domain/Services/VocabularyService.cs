@@ -1,7 +1,8 @@
-using Enumerations;
+﻿using OffndAt.Domain.Enumerations;
 
+namespace OffndAt.Domain.Services;
 
-namespace OffndAt.Domain.Services;/// <summary>
+/// <summary>
 ///     Provides business logic for managing and validating vocabularies.
 /// </summary>
 internal sealed class VocabularyService : IVocabularyService

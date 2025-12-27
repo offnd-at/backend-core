@@ -1,13 +1,14 @@
-using Application.Links.Events.LinkVisited;
-using Core.Abstractions.Messaging;
-using Domain.Entities;
-using Domain.Enumerations;
-using Domain.Events;
-using Domain.ValueObjects;
-using NSubstitute;
+﻿using NSubstitute;
+using OffndAt.Application.Core.Abstractions.Messaging;
+using OffndAt.Application.Links.Events.LinkVisited;
+using OffndAt.Domain.Entities;
+using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.Events;
+using OffndAt.Domain.ValueObjects;
 
+namespace OffndAt.Application.UnitTests.Links.Events.LinkVisited;
 
-namespace OffndAt.Application.UnitTests.Links.Events.LinkVisited;internal sealed class LinkVisitedDomainEventHandlerTests
+internal sealed class LinkVisitedDomainEventHandlerTests
 {
     private LinkVisitedDomainEventHandler _handler = null!;
     private IIntegrationEventPublisher _integrationEventPublisher = null!;

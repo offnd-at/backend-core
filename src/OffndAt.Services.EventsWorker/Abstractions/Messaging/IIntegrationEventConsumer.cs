@@ -1,8 +1,9 @@
-using Application.Core.Abstractions.Messaging;
-using MassTransit;
+﻿using MassTransit;
+using OffndAt.Application.Core.Abstractions.Messaging;
 
+namespace OffndAt.Services.EventsWorker.Abstractions.Messaging;
 
-namespace OffndAt.Services.EventsWorker.Abstractions.Messaging;/// <summary>
+/// <summary>
 ///     Defines the contract for consuming integration events from the message broker.
 /// </summary>
 /// <typeparam name="TIntegrationEvent">The integration event type.</typeparam>

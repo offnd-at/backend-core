@@ -1,8 +1,9 @@
-using Examples;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+﻿using Microsoft.Extensions.DependencyInjection.Extensions;
+using OffndAt.Services.Api.Endpoints.Examples;
 
+namespace OffndAt.Services.Api.Endpoints.Extensions;
 
-namespace OffndAt.Services.Api.Endpoints.Extensions;/// <summary>
+/// <summary>
 ///     Contains extension methods for OpenAPI examples configuration.
 /// </summary>
 internal static class OpenApiExamplesExtensions
@@ -18,11 +19,10 @@ internal static class OpenApiExamplesExtensions
 
         var examplesDescriptors = assembly.DefinedTypes
             .Where(type => type is { IsAbstract: false, IsInterface: false })
-            .SelectMany(
-                type => type
-                    .GetInterfaces()
-                    .Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IOpenApiExample<>))
-                    .Select(interfaceType => ServiceDescriptor.Singleton(interfaceType, type)))
+            .SelectMany(type => type
+                .GetInterfaces()
+                .Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IOpenApiExample<>))
+                .Select(interfaceType => ServiceDescriptor.Singleton(interfaceType, type)))
             .ToArray();
 
         services.TryAddEnumerable(examplesDescriptors);

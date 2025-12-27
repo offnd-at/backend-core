@@ -1,17 +1,18 @@
-using Application.Core.Abstractions.Data;
-using Constants;
-using Core.Cache.Settings;
-using Domain.Core.Primitives;
-using Domain.Enumerations;
-using Domain.Models;
-using Domain.Repositories;
-using Domain.Services;
-using Domain.ValueObjects;
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
+using OffndAt.Application.Core.Abstractions.Data;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.Models;
+using OffndAt.Domain.Repositories;
+using OffndAt.Domain.Services;
+using OffndAt.Domain.ValueObjects;
+using OffndAt.Persistence.Constants;
+using OffndAt.Persistence.Core.Cache.Settings;
 
+namespace OffndAt.Persistence.Repositories;
 
-namespace OffndAt.Persistence.Repositories;/// <summary>
+/// <summary>
 ///     Provides data access operations for vocabulary entities.
 /// </summary>
 /// <param name="cacheOptions">The cache options.</param>

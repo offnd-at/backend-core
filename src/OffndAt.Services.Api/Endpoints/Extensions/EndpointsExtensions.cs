@@ -1,8 +1,9 @@
-using Asp.Versioning;
+﻿using Asp.Versioning;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
+namespace OffndAt.Services.Api.Endpoints.Extensions;
 
-namespace OffndAt.Services.Api.Endpoints.Extensions;/// <summary>
+/// <summary>
 ///     Contains extension methods for endpoints configuration.
 /// </summary>
 internal static class EndpointsExtensions
@@ -17,9 +18,8 @@ internal static class EndpointsExtensions
         var assembly = typeof(TAssembly).Assembly;
 
         var serviceDescriptors = assembly.DefinedTypes
-            .Where(
-                type => type is { IsAbstract: false, IsInterface: false } &&
-                        type.IsAssignableTo(typeof(IEndpoint)))
+            .Where(type => type is { IsAbstract: false, IsInterface: false } &&
+                           type.IsAssignableTo(typeof(IEndpoint)))
             .Select(type => ServiceDescriptor.Transient(typeof(IEndpoint), type))
             .ToArray();
 
@@ -37,14 +37,13 @@ internal static class EndpointsExtensions
     {
         var endpoints = app.Services.GetRequiredService<IEnumerable<IEndpoint>>();
 
-        var groupedByVersion = endpoints.GroupBy(
-            endpoint =>
-            {
-                var type = endpoint.GetType();
-                var namespaceParts = type.Namespace?.Split('.') ?? [];
-                var versionPart = namespaceParts.FirstOrDefault(part => part.StartsWith("V", StringComparison.OrdinalIgnoreCase));
-                return int.TryParse(versionPart?.TrimStart('V', 'v'), out var version) ? version : 1;
-            });
+        var groupedByVersion = endpoints.GroupBy(endpoint =>
+        {
+            var type = endpoint.GetType();
+            var namespaceParts = type.Namespace?.Split('.') ?? [];
+            var versionPart = namespaceParts.FirstOrDefault(part => part.StartsWith("V", StringComparison.OrdinalIgnoreCase));
+            return int.TryParse(versionPart?.TrimStart('V', 'v'), out var version) ? version : 1;
+        });
 
         foreach (var group in groupedByVersion)
         {

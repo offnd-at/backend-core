@@ -1,16 +1,16 @@
-using Application.Core.Abstractions.Data;
-using Core.Cache.Settings;
-using Data;
-using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Repositories;
-using Settings;
+using OffndAt.Application.Core.Abstractions.Data;
+using OffndAt.Domain.Repositories;
+using OffndAt.Persistence.Core.Cache.Settings;
+using OffndAt.Persistence.Data;
+using OffndAt.Persistence.Repositories;
+using OffndAt.Persistence.Settings;
 
+namespace OffndAt.Persistence;
 
-namespace OffndAt.Persistence;/// <summary>
+/// <summary>
 ///     Contains extensions used to configure DI Container.
 /// </summary>
 public static class DependencyInjectionExtensions
@@ -66,14 +66,13 @@ public static class DependencyInjectionExtensions
     /// <returns>The configured service collection.</returns>
     private static IServiceCollection AddDatabaseContext(this IServiceCollection services, IConfiguration configuration)
     {
-        var persistenceSettings = configuration.GetSection(PersistenceSettings.SettingsKey).Get<PersistenceSettings>()
-            ?? throw new InvalidOperationException($"Missing configuration section: {PersistenceSettings.SettingsKey}");
+        var persistenceSettings = configuration.GetSection(PersistenceSettings.SettingsKey).Get<PersistenceSettings>() ??
+                                  throw new InvalidOperationException($"Missing configuration section: {PersistenceSettings.SettingsKey}");
 
-        services.AddDbContext<OffndAtDbContext>(
-            options =>
-                options.UseNpgsql(
-                    persistenceSettings.ConnectionString,
-                    innerOptions => innerOptions.MigrationsAssembly("OffndAt.Persistence")));
+        services.AddDbContext<OffndAtDbContext>(options =>
+            options.UseNpgsql(
+                persistenceSettings.ConnectionString,
+                innerOptions => innerOptions.MigrationsAssembly("OffndAt.Persistence")));
 
         return services;
     }

@@ -1,8 +1,9 @@
-using Abstractions;
-using Utils;
+using OffndAt.Domain.Core.Abstractions;
+using OffndAt.Domain.Core.Utils;
 
+namespace OffndAt.Domain.Core.Primitives;
 
-namespace OffndAt.Domain.Core.Primitives;/// <summary>
+/// <summary>
 ///     Provides base functionality for domain entities with identity, equality comparison, and audit tracking.
 /// </summary>
 /// <typeparam name="TEntityId">The entity identifier type.</typeparam>

@@ -1,13 +1,14 @@
-using Application.Core.Abstractions.Phrases;
-using Application.Core.Abstractions.Words;
-using Domain.Core.Errors;
-using Domain.Core.Primitives;
-using Domain.Enumerations;
-using Domain.Repositories;
-using Domain.ValueObjects;
+﻿using OffndAt.Application.Core.Abstractions.Phrases;
+using OffndAt.Application.Core.Abstractions.Words;
+using OffndAt.Domain.Core.Errors;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.Repositories;
+using OffndAt.Domain.ValueObjects;
 
+namespace OffndAt.Infrastructure.Phrases;
 
-namespace OffndAt.Infrastructure.Phrases;/// <summary>
+/// <summary>
 ///     Generates unique human-readable phrases for shortened links.
 /// </summary>
 /// <param name="vocabulariesRepository">The vocabularies repository.</param>

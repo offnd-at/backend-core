@@ -1,10 +1,11 @@
-using Application.Core.Abstractions.Words;
-using Domain.Enumerations;
-using Domain.ValueObjects;
-using Humanizer;
+﻿using Humanizer;
+using OffndAt.Application.Core.Abstractions.Words;
+using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.ValueObjects;
 
+namespace OffndAt.Infrastructure.Words;
 
-namespace OffndAt.Infrastructure.Words;/// <summary>
+/// <summary>
 ///     Converts text between different casing styles (camelCase, PascalCase, kebab-case, snake_case).
 /// </summary>
 internal sealed class CaseConverter : ICaseConverter

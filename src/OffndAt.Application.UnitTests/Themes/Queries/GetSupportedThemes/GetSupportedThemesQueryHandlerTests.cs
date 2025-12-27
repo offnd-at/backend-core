@@ -1,8 +1,9 @@
-using Application.Themes.Queries.GetSupportedThemes;
-using Domain.Enumerations;
+﻿using OffndAt.Application.Themes.Queries.GetSupportedThemes;
+using OffndAt.Domain.Enumerations;
 
+namespace OffndAt.Application.UnitTests.Themes.Queries.GetSupportedThemes;
 
-namespace OffndAt.Application.UnitTests.Themes.Queries.GetSupportedThemes;internal sealed class GetSupportedThemesQueryHandlerTests
+internal sealed class GetSupportedThemesQueryHandlerTests
 {
     private GetSupportedThemesQueryHandler _handler = null!;
 
@@ -16,12 +17,11 @@ namespace OffndAt.Application.UnitTests.Themes.Queries.GetSupportedThemes;intern
 
         var actual = await _handler.Handle(new GetSupportedThemesQuery(), CancellationToken.None);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.HasValue, Is.True);
-                Assert.That(expected, Has.Count.EqualTo(actual.Value.Themes.Count()));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.HasValue, Is.True);
+            Assert.That(expected, Has.Count.EqualTo(actual.Value.Themes.Count()));
+        });
 
         foreach (var theme in expected)
         {

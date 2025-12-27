@@ -1,10 +1,11 @@
-using System.Reflection;
+﻿using System.Reflection;
 using MassTransit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
+namespace OffndAt.Persistence.Data;
 
-namespace OffndAt.Persistence.Data;/// <summary>
+/// <summary>
 ///     Provides Entity Framework Core database context for the offnd.at application.
 /// </summary>
 /// <param name="options">The database context options.</param>

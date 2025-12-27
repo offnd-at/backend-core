@@ -1,7 +1,8 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
+namespace OffndAt.Contracts.Formats;
 
-namespace OffndAt.Contracts.Formats;/// <summary>
+/// <summary>
 ///     Data transfer object for format information in API responses.
 /// </summary>
 public sealed class FormatDto

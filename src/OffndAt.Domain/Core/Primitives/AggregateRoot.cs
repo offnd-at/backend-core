@@ -1,8 +1,9 @@
-using Abstractions;
-using Events;
+﻿using OffndAt.Domain.Core.Abstractions;
+using OffndAt.Domain.Core.Events;
 
+namespace OffndAt.Domain.Core.Primitives;
 
-namespace OffndAt.Domain.Core.Primitives;/// <summary>
+/// <summary>
 ///     Represents an aggregate root.
 /// </summary>
 /// <typeparam name="TEntityId">The entity identifier type.</typeparam>

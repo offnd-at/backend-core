@@ -1,7 +1,8 @@
-using Primitives;
+﻿using OffndAt.Domain.Core.Primitives;
 
+namespace OffndAt.Domain.Core.Errors;
 
-namespace OffndAt.Domain.Core.Errors;/// <summary>
+/// <summary>
 ///     Contains domain errors.
 /// </summary>
 public static class DomainErrors

@@ -1,8 +1,9 @@
-using System.Linq.Expressions;
-using Domain.Core.Primitives;
+﻿using System.Linq.Expressions;
+using OffndAt.Domain.Core.Primitives;
 
+namespace OffndAt.Persistence.Specifications;
 
-namespace OffndAt.Persistence.Specifications;/// <summary>
+/// <summary>
 ///     Provides base functionality for implementing the Specification pattern for query filtering.
 /// </summary>
 /// <typeparam name="TEntity">The entity type.</typeparam>

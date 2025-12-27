@@ -1,13 +1,14 @@
-using Application.Core.Abstractions.Data;
-using Domain.Core.Primitives;
-using Domain.Entities;
-using Domain.Repositories;
-using Domain.ValueObjects;
-using Domain.ValueObjects.Identifiers;
-using Specifications.Links;
+﻿using OffndAt.Application.Core.Abstractions.Data;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.Entities;
+using OffndAt.Domain.Repositories;
+using OffndAt.Domain.ValueObjects;
+using OffndAt.Domain.ValueObjects.Identifiers;
+using OffndAt.Persistence.Specifications.Links;
 
+namespace OffndAt.Persistence.Repositories;
 
-namespace OffndAt.Persistence.Repositories;/// <summary>
+/// <summary>
 ///     Provides data access operations for link entities.
 /// </summary>
 /// <param name="dbContext">The database context.</param>

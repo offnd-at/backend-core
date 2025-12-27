@@ -1,7 +1,8 @@
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
+namespace OffndAt.Services.Api.FunctionalTests.Core;
 
-namespace OffndAt.Services.Api.FunctionalTests.Core;internal sealed class VerifyGlobalSettings
+internal sealed class VerifyGlobalSettings
 {
     [ModuleInitializer]
     public static void Initialize()

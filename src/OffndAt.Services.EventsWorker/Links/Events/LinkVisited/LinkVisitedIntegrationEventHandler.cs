@@ -1,10 +1,11 @@
-using Abstractions.Messaging;
-using Application.Links.Events.LinkVisited;
 using MassTransit;
 using Microsoft.Extensions.Logging;
+using OffndAt.Application.Links.Events.LinkVisited;
+using OffndAt.Services.EventsWorker.Abstractions.Messaging;
 
+namespace OffndAt.Services.EventsWorker.Links.Events.LinkVisited;
 
-namespace OffndAt.Services.EventsWorker.Links.Events.LinkVisited;/// <summary>
+/// <summary>
 ///     Handles the LinkVisitedIntegrationEvent for processing link visit notifications.
 /// </summary>
 /// <param name="logger">The logger.</param>

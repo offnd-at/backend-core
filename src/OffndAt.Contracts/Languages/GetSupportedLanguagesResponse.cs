@@ -1,7 +1,8 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
+namespace OffndAt.Contracts.Languages;
 
-namespace OffndAt.Contracts.Languages;/// <summary>
+/// <summary>
 ///     Response model containing available languages.
 /// </summary>
 public sealed class GetSupportedLanguagesResponse

@@ -1,9 +1,10 @@
-using Core.Errors;
-using Core.Extensions;
-using Core.Primitives;
+﻿using OffndAt.Domain.Core.Errors;
+using OffndAt.Domain.Core.Extensions;
+using OffndAt.Domain.Core.Primitives;
 
+namespace OffndAt.Domain.ValueObjects;
 
-namespace OffndAt.Domain.ValueObjects;/// <summary>
+/// <summary>
 ///     Encapsulates a human-readable phrase with validation rules.
 /// </summary>
 public sealed class Phrase : ValueObject

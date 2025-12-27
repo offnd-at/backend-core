@@ -1,8 +1,9 @@
-using Domain.Core.Primitives;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
+using OffndAt.Domain.Core.Primitives;
 
+namespace OffndAt.Application.Core.Exceptions;
 
-namespace OffndAt.Application.Core.Exceptions;/// <summary>
+/// <summary>
 ///     Exception thrown when request validation fails.
 /// </summary>
 public sealed class ValidationException(IEnumerable<ValidationFailure> failures)

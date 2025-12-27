@@ -41,12 +41,11 @@ builder.Services
     .AddVersioning()
     .AddOpenApiWithExamples()
     .AddApi()
-    .AddHttpLogging(
-        options =>
-        {
-            options.LoggingFields = HttpLoggingFields.RequestBody;
-            options.MediaTypeOptions.AddText("application/json");
-        });
+    .AddHttpLogging(options =>
+    {
+        options.LoggingFields = HttpLoggingFields.RequestBody;
+        options.MediaTypeOptions.AddText("application/json");
+    });
 
 builder.Host.UseOffndAtSerilog();
 

@@ -1,8 +1,9 @@
-using Domain.Core.Primitives;
-using Domain.ValueObjects;
+﻿using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.ValueObjects;
 
+namespace OffndAt.Application.Core.Abstractions.Urls;
 
-namespace OffndAt.Application.Core.Abstractions.Urls;/// <summary>
+/// <summary>
 ///     Defines the contract for constructing and validating URLs.
 /// </summary>
 public interface IUrlMaker

@@ -1,12 +1,13 @@
-using Data;
-using MediatR;
+﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
+using OffndAt.Persistence.Data;
 using Testcontainers.PostgreSql;
 
+namespace OffndAt.Persistence.IntegrationTests;
 
-namespace OffndAt.Persistence.IntegrationTests;internal class BaseTestFixture : IDisposable
+internal class BaseTestFixture : IDisposable
 {
     protected OffndAtDbContext DbContext { get; private set; } = null!;
     private PostgreSqlContainer? PostgresContainer { get; set; }

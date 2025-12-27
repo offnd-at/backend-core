@@ -1,10 +1,11 @@
-using Application.Core.Abstractions.Data;
-using Domain.Core.Primitives;
-using Microsoft.EntityFrameworkCore;
-using Specifications;
+﻿using Microsoft.EntityFrameworkCore;
+using OffndAt.Application.Core.Abstractions.Data;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Persistence.Specifications;
 
+namespace OffndAt.Persistence.Repositories;
 
-namespace OffndAt.Persistence.Repositories;/// <summary>
+/// <summary>
 ///     Provides common data access operations for entities.
 /// </summary>
 /// <param name="dbContext">The database context.</param>

@@ -1,12 +1,13 @@
 using System.Reflection;
-using Core.Behaviours;
 using FluentValidation;
-using Links.Commands.GenerateLink;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using OffndAt.Application.Core.Behaviours;
+using OffndAt.Application.Links.Commands.GenerateLink;
 
+namespace OffndAt.Application;
 
-namespace OffndAt.Application;/// <summary>
+/// <summary>
 ///     Contains extensions used to configure DI Container.
 /// </summary>
 public static class DependencyInjectionExtensions

@@ -1,14 +1,15 @@
-using Application.Core.Abstractions.Data;
-using Domain.Core.Abstractions;
-using Domain.Core.Primitives;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage;
+using OffndAt.Application.Core.Abstractions.Data;
+using OffndAt.Domain.Core.Abstractions;
+using OffndAt.Domain.Core.Primitives;
 
+namespace OffndAt.Persistence.Data;
 
-namespace OffndAt.Persistence.Data;/// <summary>
+/// <summary>
 ///     Provides base Entity Framework Core database context functionality.
 /// </summary>
 /// <param name="options">The database context options.</param>

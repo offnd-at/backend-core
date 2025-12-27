@@ -1,7 +1,8 @@
-using Domain.Core.Primitives;
+﻿using OffndAt.Domain.Core.Primitives;
 
+namespace OffndAt.Application.Core.Errors;
 
-namespace OffndAt.Application.Core.Errors;/// <summary>
+/// <summary>
 ///     Contains validation errors.
 /// </summary>
 internal static class ValidationErrors

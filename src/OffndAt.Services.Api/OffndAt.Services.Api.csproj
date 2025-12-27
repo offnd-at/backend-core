@@ -41,8 +41,4 @@
     <ProjectReference Include="..\OffndAt.Persistence\OffndAt.Persistence.csproj"/>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Endpoints\Examples\V1\Redirects\"/>
-  </ItemGroup>
-
 </Project>

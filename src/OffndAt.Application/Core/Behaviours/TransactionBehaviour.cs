@@ -1,10 +1,11 @@
-using Abstractions.Data;
-using Abstractions.Messaging;
-using Domain.Core.Primitives;
-using MediatR;
+﻿using MediatR;
+using OffndAt.Application.Core.Abstractions.Data;
+using OffndAt.Application.Core.Abstractions.Messaging;
+using OffndAt.Domain.Core.Primitives;
 
+namespace OffndAt.Application.Core.Behaviours;
 
-namespace OffndAt.Application.Core.Behaviours;/// <summary>
+/// <summary>
 ///     Represents the transaction behavior middleware for the MediatR pipeline.
 /// </summary>
 /// <typeparam name="TRequest">The request type.</typeparam>

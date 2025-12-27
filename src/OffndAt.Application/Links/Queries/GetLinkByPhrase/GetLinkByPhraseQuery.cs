@@ -1,8 +1,9 @@
-using Contracts.Links;
-using Core.Abstractions.Messaging;
+﻿using OffndAt.Application.Core.Abstractions.Messaging;
+using OffndAt.Contracts.Links;
 
+namespace OffndAt.Application.Links.Queries.GetLinkByPhrase;
 
-namespace OffndAt.Application.Links.Queries.GetLinkByPhrase;/// <summary>
+/// <summary>
 ///     Query for retrieving a link by its unique phrase.
 /// </summary>
 public sealed class GetLinkByPhraseQuery(string phrase, bool shouldIncrementVisits) : IQuery<GetLinkByPhraseResponse>

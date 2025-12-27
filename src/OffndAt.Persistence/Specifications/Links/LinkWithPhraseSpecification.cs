@@ -1,10 +1,11 @@
-using System.Linq.Expressions;
-using Domain.Entities;
-using Domain.ValueObjects;
-using Domain.ValueObjects.Identifiers;
+﻿using System.Linq.Expressions;
+using OffndAt.Domain.Entities;
+using OffndAt.Domain.ValueObjects;
+using OffndAt.Domain.ValueObjects.Identifiers;
 
+namespace OffndAt.Persistence.Specifications.Links;
 
-namespace OffndAt.Persistence.Specifications.Links;/// <summary>
+/// <summary>
 ///     Defines query criteria for finding links by their unique phrase.
 /// </summary>
 internal sealed class LinkWithPhraseSpecification : Specification<Link, LinkId>

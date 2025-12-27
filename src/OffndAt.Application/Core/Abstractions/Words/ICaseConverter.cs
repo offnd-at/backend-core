@@ -1,8 +1,9 @@
-using Domain.Enumerations;
-using Domain.ValueObjects;
+﻿using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.ValueObjects;
 
+namespace OffndAt.Application.Core.Abstractions.Words;
 
-namespace OffndAt.Application.Core.Abstractions.Words;/// <summary>
+/// <summary>
 ///     Defines the contract for converting text between different casing styles.
 /// </summary>
 public interface ICaseConverter

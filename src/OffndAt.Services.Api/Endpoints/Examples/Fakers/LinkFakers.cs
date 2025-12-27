@@ -1,8 +1,9 @@
-using Bogus;
+﻿using Bogus;
 using OffndAt.Contracts.Links;
 
+namespace OffndAt.Services.Api.Endpoints.Examples.Fakers;
 
-namespace OffndAt.Services.Api.Endpoints.Examples.Fakers;/// <summary>
+/// <summary>
 ///     Contains fake data generators for links.
 /// </summary>
 internal sealed class LinkFakers

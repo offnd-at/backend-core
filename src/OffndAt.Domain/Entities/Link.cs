@@ -1,12 +1,13 @@
-using Core.Primitives;
-using Core.Utils;
-using Enumerations;
-using Events;
-using ValueObjects;
-using ValueObjects.Identifiers;
+﻿using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.Core.Utils;
+using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.Events;
+using OffndAt.Domain.ValueObjects;
+using OffndAt.Domain.ValueObjects.Identifiers;
 
+namespace OffndAt.Domain.Entities;
 
-namespace OffndAt.Domain.Entities;/// <summary>
+/// <summary>
 ///     Domain entity representing a shortened link with its metadata.
 /// </summary>
 public sealed class Link : AggregateRoot<LinkId>

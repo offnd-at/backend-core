@@ -1,9 +1,10 @@
-using Domain.Core.Primitives;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using OffndAt.Domain.Core.Primitives;
 
+namespace OffndAt.Application.Core.Abstractions.Data;
 
-namespace OffndAt.Application.Core.Abstractions.Data;/// <summary>
+/// <summary>
 ///     Defines the contract for database context operations and entity access.
 /// </summary>
 public interface IDbContext

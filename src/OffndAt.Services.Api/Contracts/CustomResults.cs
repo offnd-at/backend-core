@@ -1,9 +1,10 @@
-using Domain.Core.Errors;
-using Domain.Core.Primitives;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using OffndAt.Domain.Core.Errors;
+using OffndAt.Domain.Core.Primitives;
 
+namespace OffndAt.Services.Api.Contracts;
 
-namespace OffndAt.Services.Api.Contracts;/// <summary>
+/// <summary>
 ///     Contains the API custom results.
 /// </summary>
 internal static class CustomResults

@@ -1,9 +1,10 @@
-using System.Net.Http.Json;
-using Abstractions;
+﻿using System.Net.Http.Json;
 using OffndAt.Contracts.Links;
+using OffndAt.Services.Api.FunctionalTests.Abstractions;
 
+namespace OffndAt.Services.Api.FunctionalTests.Links;
 
-namespace OffndAt.Services.Api.FunctionalTests.Links;internal sealed class GetByPhraseTests : BaseFunctionalTest
+internal sealed class GetByPhraseTests : BaseFunctionalTest
 {
     [Test]
     public async Task GetByPhrase_ShouldReturnNotFound_WhenLinkWithSpecifiedPhraseDoesNotExist()

@@ -1,7 +1,8 @@
-using Core.Primitives;
+﻿using OffndAt.Domain.Core.Primitives;
 
+namespace OffndAt.Domain.ValueObjects.Identifiers;
 
-namespace OffndAt.Domain.ValueObjects.Identifiers;/// <summary>
+/// <summary>
 ///     Encapsulates a strongly-typed link identifier.
 /// </summary>
 /// <param name="value">The identifier value.</param>

@@ -1,8 +1,9 @@
-using Core.Events;
-using Entities;
+using OffndAt.Domain.Core.Events;
+using OffndAt.Domain.Entities;
 
+namespace OffndAt.Domain.Events;
 
-namespace OffndAt.Domain.Events;/// <summary>
+/// <summary>
 ///     Domain event published when a new shortened link is created.
 /// </summary>
 public sealed class LinkCreatedDomainEvent : IDomainEvent

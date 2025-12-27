@@ -1,11 +1,12 @@
-using Bogus;
-using Extensions;
-using Fakers;
+﻿using Bogus;
 using Microsoft.OpenApi.Any;
 using OffndAt.Contracts.Links;
+using OffndAt.Services.Api.Endpoints.Examples.Fakers;
+using OffndAt.Services.Api.Endpoints.Extensions;
 
+namespace OffndAt.Services.Api.Endpoints.Examples.V1.Links;
 
-namespace OffndAt.Services.Api.Endpoints.Examples.V1.Links;/// <summary>
+/// <summary>
 ///     Provides sample response data for the get link by phrase endpoint documentation.
 /// </summary>
 internal sealed class GetByPhraseResponseExample : IOpenApiExample<GetLinkByPhraseResponse>

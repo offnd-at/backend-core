@@ -1,9 +1,10 @@
-using Core.Errors;
-using Core.Extensions;
-using FluentValidation;
+﻿using FluentValidation;
+using OffndAt.Application.Core.Errors;
+using OffndAt.Application.Core.Extensions;
 
+namespace OffndAt.Application.Links.Queries.GetLinkByPhrase;
 
-namespace OffndAt.Application.Links.Queries.GetLinkByPhrase;/// <summary>
+/// <summary>
 ///     Validates the GetLinkByPhraseQuery to ensure request data integrity.
 /// </summary>
 public sealed class GetLinkByPhraseQueryValidator : AbstractValidator<GetLinkByPhraseQuery>

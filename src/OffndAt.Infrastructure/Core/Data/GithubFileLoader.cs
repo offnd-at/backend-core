@@ -1,11 +1,12 @@
-using Application.Core.Abstractions.Data;
-using Domain.Core.Primitives;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Octokit;
-using Settings;
+using OffndAt.Application.Core.Abstractions.Data;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Infrastructure.Core.Data.Settings;
 
+namespace OffndAt.Infrastructure.Core.Data;
 
-namespace OffndAt.Infrastructure.Core.Data;/// <summary>
+/// <summary>
 ///     Provides functionality for loading files from GitHub repositories.
 /// </summary>
 /// <param name="githubClient">The GitHub client.</param>
