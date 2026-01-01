@@ -33,6 +33,7 @@ public static class SerilogHostBuilderExtensions
                 .Enrich.WithCorrelationId()
                 .Enrich.WithProperty(nameof(applicationSettings.Environment), applicationSettings.Environment)
                 .Enrich.WithProperty(nameof(applicationSettings.AppName), applicationSettings.AppName)
+                .Enrich.WithProperty(nameof(applicationSettings.Version), applicationSettings.Version)
                 .WriteTo.Console(formatProvider: CultureInfo.InvariantCulture)
                 .WriteTo.OpenTelemetry(options => options.Endpoint = telemetrySettings.ExporterEndpoint)
                 .ReadFrom.Configuration(context.Configuration);

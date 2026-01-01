@@ -15,7 +15,8 @@ internal sealed class UrlMakerTests
             BaseDomain = "offnd.at",
             UseHttps = true,
             AppName = "offnd-at",
-            Environment = "test"
+            Environment = "test",
+            Version = "test-version"
         };
 
         var phrase = Phrase.Create("test-phrase").Value;
@@ -39,7 +40,8 @@ internal sealed class UrlMakerTests
             BaseDomain = "offnd.at",
             UseHttps = false,
             AppName = "offnd-at",
-            Environment = "test"
+            Environment = "test",
+            Version = "test-version"
         };
 
         var phrase = Phrase.Create("test-phrase").Value;
@@ -63,7 +65,8 @@ internal sealed class UrlMakerTests
             BaseDomain = "offnd.at",
             UseHttps = true,
             AppName = "offnd-at",
-            Environment = "test"
+            Environment = "test",
+            Version = "test-version"
         };
 
         var phrase = Phrase.Create("test-phrase").Value;
@@ -88,7 +91,8 @@ internal sealed class UrlMakerTests
             BaseDomain = "offnd.at",
             UseHttps = true,
             AppName = "offnd-at",
-            Environment = "test"
+            Environment = "test",
+            Version = "test-version"
         };
 
         var phrase = Phrase.Create("test-phrase").Value;
@@ -112,7 +116,8 @@ internal sealed class UrlMakerTests
             BaseDomain = "offnd.at",
             UseHttps = false,
             AppName = "offnd-at",
-            Environment = "test"
+            Environment = "test",
+            Version = "test-version"
         };
 
         var phrase = Phrase.Create("test-phrase").Value;
@@ -136,7 +141,8 @@ internal sealed class UrlMakerTests
             BaseDomain = "offnd.at",
             UseHttps = true,
             AppName = "offnd-at",
-            Environment = "test"
+            Environment = "test",
+            Version = "test-version"
         };
 
         var phrase = Phrase.Create("test-phrase").Value;

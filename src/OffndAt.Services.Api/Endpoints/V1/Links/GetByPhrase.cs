@@ -27,6 +27,7 @@ internal sealed class GetByPhrase : IEndpoint
                         .From(new GetLinkByPhraseQuery(phrase, false))
                         .BindAsync(query => sender.Send(query, cancellationToken))
                         .MatchAsync(Results.Ok, () => CustomResults.NotFound(DomainErrors.Link.NotFound)))
+            .RequireAuthorization()
             .WithTags(nameof(ApiRoutes.Links))
             .WithSummary("Get link by phrase")
             .WithDescription("Retrieves a link using its unique phrase.")

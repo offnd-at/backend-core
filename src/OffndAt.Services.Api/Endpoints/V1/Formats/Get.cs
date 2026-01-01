@@ -22,6 +22,7 @@ internal sealed class Get : IEndpoint
                         .From(new GetSupportedFormatsQuery())
                         .BindAsync(query => sender.Send(query, cancellationToken))
                         .MatchAsync(Results.Ok, () => CustomResults.NotFound(DomainErrors.Format.NoneAvailable)))
+            .RequireAuthorization()
             .WithTags(nameof(ApiRoutes.Formats))
             .WithSummary("Get supported formats")
             .WithDescription("Retrieves a list of all supported formats.")

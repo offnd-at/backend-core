@@ -29,6 +29,7 @@ internal sealed class Generate : IEndpoint
                             request.FormatId ?? -1))
                         .BindAsync(command => sender.Send(command, cancellationToken))
                         .MatchAsync(response => Results.Created(new Uri(response.Url), response), CustomResults.BadRequest))
+            .RequireAuthorization()
             .WithTags(nameof(ApiRoutes.Links))
             .WithSummary("Generate a link")
             .WithDescription("Generates a new link using the provided details.")

@@ -37,6 +37,7 @@ internal sealed class RedirectByPhrase : IEndpoint
                                 return Results.Redirect(response.Link.TargetUrl, true);
                             },
                             () => CustomResults.NotFound(DomainErrors.Link.NotFound)))
+            .RequireAuthorization()
             .WithTags(nameof(ApiRoutes.Redirects))
             .WithSummary("Redirect by phrase")
             .WithDescription("Retrieves a link using its unique phrase and redirects to its target URL.")

@@ -22,6 +22,7 @@ internal sealed class Get : IEndpoint
                         .From(new GetSupportedLanguagesQuery())
                         .BindAsync(query => sender.Send(query, cancellationToken))
                         .MatchAsync(Results.Ok, () => CustomResults.NotFound(DomainErrors.Language.NoneAvailable)))
+            .RequireAuthorization()
             .WithTags(nameof(ApiRoutes.Languages))
             .WithSummary("Get supported languages")
             .WithDescription("Retrieves a list of all supported languages.")

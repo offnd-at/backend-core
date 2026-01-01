@@ -22,6 +22,7 @@ internal sealed class Get : IEndpoint
                         .From(new GetSupportedThemesQuery())
                         .BindAsync(query => sender.Send(query, cancellationToken))
                         .MatchAsync(Results.Ok, () => CustomResults.NotFound(DomainErrors.Theme.NoneAvailable)))
+            .RequireAuthorization()
             .WithTags(nameof(ApiRoutes.Themes))
             .WithSummary("Get supported themes")
             .WithDescription("Retrieves a list of all supported themes.")
