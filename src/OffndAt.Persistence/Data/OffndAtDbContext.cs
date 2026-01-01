@@ -1,9 +1,9 @@
-﻿namespace OffndAt.Persistence.Data;
-
-using System.Reflection;
+﻿using System.Reflection;
 using MassTransit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+
+namespace OffndAt.Persistence.Data;
 
 /// <summary>
 ///     Represents the offnd.at application database context.
@@ -15,7 +15,7 @@ public sealed class OffndAtDbContext(DbContextOptions options, IMediator mediato
     /// <inheritdoc />
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        _ = modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
         base.OnModelCreating(modelBuilder);
 

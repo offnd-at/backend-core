@@ -1,11 +1,11 @@
-﻿namespace OffndAt.Services.Api.Middleware;
-
-using System.Net;
-using Application.Core.Exceptions;
-using Domain.Core.Errors;
-using Domain.Core.Exceptions;
-using Domain.Core.Primitives;
+﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
+using OffndAt.Application.Core.Exceptions;
+using OffndAt.Domain.Core.Errors;
+using OffndAt.Domain.Core.Exceptions;
+using OffndAt.Domain.Core.Primitives;
+
+namespace OffndAt.Services.Api.Middleware;
 
 /// <summary>
 ///     Represents the exception handler middleware.
@@ -49,7 +49,7 @@ internal sealed class ExceptionHandlerMiddleware(
 
         httpContext.Response.StatusCode = httpStatusCode;
 
-        _ = await problemDetailsService.TryWriteAsync(
+        await problemDetailsService.TryWriteAsync(
             new ProblemDetailsContext
             {
                 HttpContext = httpContext,
@@ -58,7 +58,12 @@ internal sealed class ExceptionHandlerMiddleware(
                 {
                     Title = title,
                     Status = httpStatusCode,
-                    Extensions = new Dictionary<string, object?> { { "errors", errors } }
+                    Extensions = new Dictionary<string, object?>
+                    {
+                        {
+                            "errors", errors
+                        }
+                    }
                 }
             });
     }

@@ -1,11 +1,11 @@
-﻿namespace OffndAt.Services.Api.Endpoints.Extensions;
-
-using System.Net.Mime;
-using Examples;
+﻿using System.Net.Mime;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.OpenApi.Models;
+using OffndAt.Services.Api.Endpoints.Examples;
+
+namespace OffndAt.Services.Api.Endpoints.Extensions;
 
 /// <summary>
 ///     Contains extension methods for OpenAPI transformers configuration.
@@ -18,16 +18,18 @@ internal static class OpenApiTransformersExtensions
     /// <param name="options">The OpenAPI options.</param>
     /// <returns>The configured options.</returns>
     public static OpenApiOptions UseDocumentTitleAndVersion(this OpenApiOptions options) =>
-        options.AddDocumentTransformer(
-            (document, context, _) =>
+        options.AddDocumentTransformer((document, context, _) =>
+        {
+            document.Info.Title = $"offnd.at API | {context.DocumentName}";
+            document.Info.Contact = new OpenApiContact
             {
-                document.Info.Title = $"offnd.at API | {context.DocumentName}";
-                document.Info.Contact = new OpenApiContact { Url = new Uri("https://github.com/ghawliczek") };
+                Url = new Uri("https://github.com/ghawliczek")
+            };
 
-                document.Tags = [.. document.Tags.OrderBy(tag => tag.Name)];
+            document.Tags = [.. document.Tags.OrderBy(tag => tag.Name)];
 
-                return Task.CompletedTask;
-            });
+            return Task.CompletedTask;
+        });
 
     /// <summary>
     ///     Registers problem details response examples with the OpenAPI options.
@@ -35,42 +37,40 @@ internal static class OpenApiTransformersExtensions
     /// <param name="options">The OpenAPI options.</param>
     /// <returns>The configured options.</returns>
     public static OpenApiOptions UseProblemDetailsExampleResponses(this OpenApiOptions options) =>
-        options.AddOperationTransformer(
-            (operation, _, _) =>
+        options.AddOperationTransformer((operation, _, _) =>
+        {
+            var badRequestResponse =
+                operation.Responses.FirstOrDefault(response =>
+                    int.TryParse(response.Key, out var statusCode) && statusCode == StatusCodes.Status400BadRequest);
+
+            var notFoundResponse =
+                operation.Responses.FirstOrDefault(response =>
+                    int.TryParse(response.Key, out var statusCode) && statusCode == StatusCodes.Status404NotFound);
+
+            var internalServerErrorResponse =
+                operation.Responses.FirstOrDefault(response => int.TryParse(response.Key, out var statusCode) &&
+                    statusCode == StatusCodes.Status500InternalServerError);
+
+            if (badRequestResponse.Value != null)
             {
-                var badRequestResponse =
-                    operation.Responses.FirstOrDefault(
-                        response => int.TryParse(response.Key, out var statusCode) && statusCode == StatusCodes.Status400BadRequest);
+                badRequestResponse.Value.Content[MediaTypeNames.Application.ProblemJson].Example =
+                    ProblemResponseExamples.BadRequestExampleResponse;
+            }
 
-                var notFoundResponse =
-                    operation.Responses.FirstOrDefault(
-                        response => int.TryParse(response.Key, out var statusCode) && statusCode == StatusCodes.Status404NotFound);
+            if (notFoundResponse.Value != null)
+            {
+                notFoundResponse.Value.Content[MediaTypeNames.Application.ProblemJson].Example =
+                    ProblemResponseExamples.NotFoundExampleResponse;
+            }
 
-                var internalServerErrorResponse =
-                    operation.Responses.FirstOrDefault(
-                        response => int.TryParse(response.Key, out var statusCode) &&
-                                    statusCode == StatusCodes.Status500InternalServerError);
+            if (internalServerErrorResponse.Value != null)
+            {
+                internalServerErrorResponse.Value.Content[MediaTypeNames.Application.ProblemJson].Example =
+                    ProblemResponseExamples.InternalServerErrorExampleResponse;
+            }
 
-                if (badRequestResponse.Value != null)
-                {
-                    badRequestResponse.Value.Content[MediaTypeNames.Application.ProblemJson].Example =
-                        ProblemResponseExamples.BadRequestExampleResponse;
-                }
-
-                if (notFoundResponse.Value != null)
-                {
-                    notFoundResponse.Value.Content[MediaTypeNames.Application.ProblemJson].Example =
-                        ProblemResponseExamples.NotFoundExampleResponse;
-                }
-
-                if (internalServerErrorResponse.Value != null)
-                {
-                    internalServerErrorResponse.Value.Content[MediaTypeNames.Application.ProblemJson].Example =
-                        ProblemResponseExamples.InternalServerErrorExampleResponse;
-                }
-
-                return Task.CompletedTask;
-            });
+            return Task.CompletedTask;
+        });
 
     /// <summary>
     ///     Registers the JWT Bearer authentication scheme with the OpenAPI options.
@@ -91,25 +91,29 @@ internal static class OpenApiTransformersExtensions
             }
         };
 
-        _ = options.AddDocumentTransformer(
-            (document, _, _) =>
+        options.AddDocumentTransformer((document, _, _) =>
+        {
+            document.Components ??= new OpenApiComponents();
+            document.Components.SecuritySchemes.Add(JwtBearerDefaults.AuthenticationScheme, scheme);
+
+            return Task.CompletedTask;
+        });
+
+        options.AddOperationTransformer((operation, context, _) =>
+        {
+            if (context.Description.ActionDescriptor.EndpointMetadata.OfType<IAuthorizeData>().Any())
             {
-                document.Components ??= new OpenApiComponents();
-                document.Components.SecuritySchemes.Add(JwtBearerDefaults.AuthenticationScheme, scheme);
+                operation.Security =
+                [
+                    new OpenApiSecurityRequirement
+                    {
+                        [scheme] = []
+                    }
+                ];
+            }
 
-                return Task.CompletedTask;
-            });
-
-        _ = options.AddOperationTransformer(
-            (operation, context, _) =>
-            {
-                if (context.Description.ActionDescriptor.EndpointMetadata.OfType<IAuthorizeData>().Any())
-                {
-                    operation.Security = [new OpenApiSecurityRequirement { [scheme] = [] }];
-                }
-
-                return Task.CompletedTask;
-            });
+            return Task.CompletedTask;
+        });
 
         return options;
     }
@@ -122,19 +126,18 @@ internal static class OpenApiTransformersExtensions
     /// <returns>The configured options.</returns>
     public static OpenApiOptions UseRequestAndResponseExamples(this OpenApiOptions options, IServiceProvider serviceProvider)
     {
-        _ = options.AddSchemaTransformer(
-            (schema, context, _) =>
+        options.AddSchemaTransformer((schema, context, _) =>
+        {
+            var type = typeof(IOpenApiExample<>).MakeGenericType(context.JsonTypeInfo.Type);
+
+            var service = serviceProvider.GetService(type);
+            if (service is IOpenApiExample example)
             {
-                var type = typeof(IOpenApiExample<>).MakeGenericType(context.JsonTypeInfo.Type);
+                schema.Example = example.GetExample();
+            }
 
-                var service = serviceProvider.GetService(type);
-                if (service is IOpenApiExample example)
-                {
-                    schema.Example = example.GetExample();
-                }
-
-                return Task.CompletedTask;
-            });
+            return Task.CompletedTask;
+        });
 
         return options;
     }

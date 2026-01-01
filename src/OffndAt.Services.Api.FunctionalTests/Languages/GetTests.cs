@@ -1,6 +1,6 @@
-﻿namespace OffndAt.Services.Api.FunctionalTests.Languages;
+﻿using OffndAt.Services.Api.FunctionalTests.Abstractions;
 
-using Abstractions;
+namespace OffndAt.Services.Api.FunctionalTests.Languages;
 
 internal sealed class GetTests : BaseFunctionalTest
 {
@@ -9,6 +9,6 @@ internal sealed class GetTests : BaseFunctionalTest
     {
         var response = await HttpClient.GetAsync("v1/languages");
 
-        _ = await Verify(response);
+        await Verify(response);
     }
 }

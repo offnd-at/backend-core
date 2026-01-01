@@ -1,8 +1,8 @@
-﻿namespace OffndAt.Services.Api.FunctionalTests.Links;
-
-using System.Net.Http.Json;
-using Abstractions;
+﻿using System.Net.Http.Json;
 using OffndAt.Contracts.Links;
+using OffndAt.Services.Api.FunctionalTests.Abstractions;
+
+namespace OffndAt.Services.Api.FunctionalTests.Links;
 
 internal sealed class GenerateTests : BaseFunctionalTest
 {
@@ -19,7 +19,7 @@ internal sealed class GenerateTests : BaseFunctionalTest
                 ThemeId = 0
             });
 
-        _ = await Verify(response)
+        await Verify(response)
             .ScrubMember("url")
             .ScrubMember("statsUrl")
             .ScrubMember("Location");
@@ -37,7 +37,7 @@ internal sealed class GenerateTests : BaseFunctionalTest
                 ThemeId = 0
             });
 
-        _ = await Verify(response)
+        await Verify(response)
             .ScrubMember("message")
             .ScrubMember("traceId")
             .ScrubMember("activityId")
@@ -57,7 +57,7 @@ internal sealed class GenerateTests : BaseFunctionalTest
                 ThemeId = 0
             });
 
-        _ = await Verify(response)
+        await Verify(response)
             .ScrubMember("message")
             .ScrubMember("traceId")
             .ScrubMember("activityId")
@@ -76,7 +76,7 @@ internal sealed class GenerateTests : BaseFunctionalTest
                 ThemeId = 0
             });
 
-        _ = await Verify(response)
+        await Verify(response)
             .ScrubMember("message")
             .ScrubMember("traceId")
             .ScrubMember("activityId")
@@ -95,7 +95,7 @@ internal sealed class GenerateTests : BaseFunctionalTest
                 LanguageId = 0
             });
 
-        _ = await Verify(response)
+        await Verify(response)
             .ScrubMember("message")
             .ScrubMember("traceId")
             .ScrubMember("activityId")
@@ -114,7 +114,7 @@ internal sealed class GenerateTests : BaseFunctionalTest
                 ThemeId = 0
             });
 
-        _ = await Verify(response)
+        await Verify(response)
             .ScrubMember("message")
             .ScrubMember("traceId")
             .ScrubMember("activityId")

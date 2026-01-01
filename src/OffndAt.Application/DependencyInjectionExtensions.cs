@@ -1,11 +1,11 @@
-﻿namespace OffndAt.Application;
-
-using System.Reflection;
-using Core.Behaviours;
+﻿using System.Reflection;
 using FluentValidation;
-using Links.Commands.GenerateLink;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using OffndAt.Application.Core.Behaviours;
+using OffndAt.Application.Links.Commands.GenerateLink;
+
+namespace OffndAt.Application;
 
 /// <summary>
 ///     Contains extensions used to configure DI Container.
@@ -19,7 +19,7 @@ public static class DependencyInjectionExtensions
     /// <returns>The configured service collection.</returns>
     public static IServiceCollection AddCleanMediator(this IServiceCollection services)
     {
-        _ = services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetCallingAssembly()));
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetCallingAssembly()));
 
         return services;
     }
@@ -28,14 +28,15 @@ public static class DependencyInjectionExtensions
     ///     Registers the MediatR and its behaviours with the DI framework.
     /// </summary>
     /// <param name="services">The service collection.</param>
+    /// <param name="assemblies">The assemblies with the MediatR services.</param>
     /// <returns>The configured service collection.</returns>
-    public static IServiceCollection AddMediatorWithBehaviours(this IServiceCollection services)
+    public static IServiceCollection AddMediatorWithBehaviours(this IServiceCollection services, Assembly[]? assemblies = null)
     {
-        _ = services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assemblies ?? [Assembly.GetCallingAssembly()]));
 
-        _ = services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
-        _ = services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionBehaviour<,>));
-        _ = services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionBehaviour<,>));
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
 
         return services;
     }

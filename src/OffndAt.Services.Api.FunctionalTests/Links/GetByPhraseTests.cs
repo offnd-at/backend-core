@@ -1,8 +1,8 @@
-﻿namespace OffndAt.Services.Api.FunctionalTests.Links;
-
-using System.Net.Http.Json;
-using Abstractions;
+﻿using System.Net.Http.Json;
 using OffndAt.Contracts.Links;
+using OffndAt.Services.Api.FunctionalTests.Abstractions;
+
+namespace OffndAt.Services.Api.FunctionalTests.Links;
 
 internal sealed class GetByPhraseTests : BaseFunctionalTest
 {
@@ -11,7 +11,7 @@ internal sealed class GetByPhraseTests : BaseFunctionalTest
     {
         var response = await HttpClient.GetAsync("v1/links/non-existent-phrase");
 
-        _ = await Verify(response)
+        await Verify(response)
             .ScrubMembers("traceId", "activityId", "requestId");
     }
 
@@ -33,6 +33,6 @@ internal sealed class GetByPhraseTests : BaseFunctionalTest
 
         var response = await HttpClient.GetAsync($"v1/links/{phrase}");
 
-        _ = await Verify(response);
+        await Verify(response);
     }
 }

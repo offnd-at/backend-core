@@ -1,19 +1,19 @@
-﻿namespace OffndAt.Application.UnitTests.Links.Commands.GenerateLink;
-
-using Application.Links.Commands.GenerateLink;
-using Core.Abstractions.Phrases;
-using Core.Abstractions.Urls;
-using Core.Constants;
-using Domain.Core.Errors;
-using Domain.Core.Primitives;
-using Domain.Entities;
-using Domain.Enumerations;
-using Domain.Repositories;
-using Domain.ValueObjects;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using NSubstitute;
+using OffndAt.Application.Core.Abstractions.Phrases;
+using OffndAt.Application.Core.Abstractions.Urls;
+using OffndAt.Application.Core.Constants;
+using OffndAt.Application.Links.Commands.GenerateLink;
+using OffndAt.Domain.Core.Errors;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.Entities;
+using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.Repositories;
+using OffndAt.Domain.ValueObjects;
 using Polly;
 using Polly.Registry;
+
+namespace OffndAt.Application.UnitTests.Links.Commands.GenerateLink;
 
 internal sealed class GenerateLinkCommandHandlerTests
 {
@@ -55,12 +55,11 @@ internal sealed class GenerateLinkCommandHandlerTests
                 0),
             CancellationToken.None);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.IsFailure, Is.True);
-                Assert.That(actual.Error, Is.EqualTo(DomainErrors.Url.NullOrEmpty));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.IsFailure, Is.True);
+            Assert.That(actual.Error, Is.EqualTo(DomainErrors.Url.NullOrEmpty));
+        });
     }
 
     [Test]
@@ -74,12 +73,11 @@ internal sealed class GenerateLinkCommandHandlerTests
                 -1),
             CancellationToken.None);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.IsFailure, Is.True);
-                Assert.That(actual.Error, Is.EqualTo(DomainErrors.Format.NotFound));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.IsFailure, Is.True);
+            Assert.That(actual.Error, Is.EqualTo(DomainErrors.Format.NotFound));
+        });
     }
 
     [Test]
@@ -93,12 +91,11 @@ internal sealed class GenerateLinkCommandHandlerTests
                 0),
             CancellationToken.None);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.IsFailure, Is.True);
-                Assert.That(actual.Error, Is.EqualTo(DomainErrors.Language.NotFound));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.IsFailure, Is.True);
+            Assert.That(actual.Error, Is.EqualTo(DomainErrors.Language.NotFound));
+        });
     }
 
     [Test]
@@ -112,12 +109,11 @@ internal sealed class GenerateLinkCommandHandlerTests
                 0),
             CancellationToken.None);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.IsFailure, Is.True);
-                Assert.That(actual.Error, Is.EqualTo(DomainErrors.Theme.NotFound));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.IsFailure, Is.True);
+            Assert.That(actual.Error, Is.EqualTo(DomainErrors.Theme.NotFound));
+        });
     }
 
     [Test]
@@ -140,12 +136,11 @@ internal sealed class GenerateLinkCommandHandlerTests
                 0),
             CancellationToken.None);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.IsFailure, Is.True);
-                Assert.That(actual.Error, Is.EqualTo(expectedError));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.IsFailure, Is.True);
+            Assert.That(actual.Error, Is.EqualTo(expectedError));
+        });
     }
 
     [Test]
@@ -168,12 +163,11 @@ internal sealed class GenerateLinkCommandHandlerTests
                 0),
             CancellationToken.None);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.IsFailure, Is.True);
-                Assert.That(actual.Error, Is.EqualTo(DomainErrors.Phrase.AlreadyInUse));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.IsFailure, Is.True);
+            Assert.That(actual.Error, Is.EqualTo(DomainErrors.Phrase.AlreadyInUse));
+        });
     }
 
     [Test]
@@ -193,7 +187,7 @@ internal sealed class GenerateLinkCommandHandlerTests
         _urlMaker.MakeRedirectUrlForPhrase(Arg.Any<Phrase>()).Returns(Result.Success(Url.Create("https://example.com").Value));
         _urlMaker.MakeStatsUrlForPhrase(Arg.Any<Phrase>()).Returns(Result.Success(Url.Create("https://example.com/stats").Value));
 
-        _ = await _handler.Handle(
+        await _handler.Handle(
             new GenerateLinkCommand(
                 "https://example.com",
                 0,
@@ -228,12 +222,11 @@ internal sealed class GenerateLinkCommandHandlerTests
                 0),
             CancellationToken.None);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.IsFailure, Is.True);
-                Assert.That(actual.Error, Is.EqualTo(expectedError));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.IsFailure, Is.True);
+            Assert.That(actual.Error, Is.EqualTo(expectedError));
+        });
     }
 
     [Test]
@@ -261,12 +254,11 @@ internal sealed class GenerateLinkCommandHandlerTests
                 0),
             CancellationToken.None);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.IsFailure, Is.True);
-                Assert.That(actual.Error, Is.EqualTo(expectedError));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.IsFailure, Is.True);
+            Assert.That(actual.Error, Is.EqualTo(expectedError));
+        });
     }
 
     [Test]
@@ -292,12 +284,11 @@ internal sealed class GenerateLinkCommandHandlerTests
                 0),
             CancellationToken.None);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.IsSuccess, Is.True);
-                Assert.That(actual.Value.Url, Is.EqualTo("https://example.com"));
-                Assert.That(actual.Value.StatsUrl, Is.EqualTo("https://example.com/stats"));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.IsSuccess, Is.True);
+            Assert.That(actual.Value.Url, Is.EqualTo("https://example.com"));
+            Assert.That(actual.Value.StatsUrl, Is.EqualTo("https://example.com/stats"));
+        });
     }
 }

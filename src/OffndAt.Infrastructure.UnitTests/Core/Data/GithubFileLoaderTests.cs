@@ -1,10 +1,10 @@
-﻿namespace OffndAt.Infrastructure.UnitTests.Core.Data;
-
-using Infrastructure.Core.Data;
-using Infrastructure.Core.Data.Settings;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using NSubstitute;
 using Octokit;
+using OffndAt.Infrastructure.Core.Data;
+using OffndAt.Infrastructure.Core.Data.Settings;
+
+namespace OffndAt.Infrastructure.UnitTests.Core.Data;
 
 internal sealed class GithubFileLoaderTests
 {
@@ -36,7 +36,7 @@ internal sealed class GithubFileLoaderTests
     {
         const string expectedPath = "path/to/file";
 
-        _ = await _loader.DownloadAsync(expectedPath, CancellationToken.None);
+        await _loader.DownloadAsync(expectedPath, CancellationToken.None);
 
         await _repositoryContentsClient.Received(1)
             .GetRawContent(
@@ -55,11 +55,10 @@ internal sealed class GithubFileLoaderTests
 
         var actual = await _loader.DownloadAsync(expectedPath, CancellationToken.None);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.HasValue, Is.True);
-                Assert.That(actual.Value, Is.EqualTo(expectedBytes));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.HasValue, Is.True);
+            Assert.That(actual.Value, Is.EqualTo(expectedBytes));
+        });
     }
 }

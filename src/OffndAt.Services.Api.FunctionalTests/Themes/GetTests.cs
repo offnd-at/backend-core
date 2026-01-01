@@ -1,6 +1,6 @@
-﻿namespace OffndAt.Services.Api.FunctionalTests.Themes;
+﻿using OffndAt.Services.Api.FunctionalTests.Abstractions;
 
-using Abstractions;
+namespace OffndAt.Services.Api.FunctionalTests.Themes;
 
 internal sealed class GetTests : BaseFunctionalTest
 {
@@ -9,6 +9,6 @@ internal sealed class GetTests : BaseFunctionalTest
     {
         var response = await HttpClient.GetAsync("v1/themes");
 
-        _ = await Verify(response);
+        await Verify(response);
     }
 }
