@@ -1,8 +1,8 @@
-﻿namespace OffndAt.Application.Core.Abstractions.Phrases;
+﻿using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.ValueObjects;
 
-using Domain.Core.Primitives;
-using Domain.Enumerations;
-using Domain.ValueObjects;
+namespace OffndAt.Application.Core.Abstractions.Phrases;
 
 /// <summary>
 ///     Represents the phrase generator interface.

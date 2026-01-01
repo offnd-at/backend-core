@@ -53,7 +53,7 @@ public static class DependencyInjectionExtensions
     }
 
     /// <summary>
-    ///     Registers the OpenAPI services, request examples and response examples with the DI framework.
+    ///     Registers the OpenAPI services, request examples, and response examples with the DI framework.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The configured service collection.</returns>
@@ -64,9 +64,8 @@ public static class DependencyInjectionExtensions
                 "v1",
                 options => options
                     .UseDocumentTitleAndVersion()
-                    .UseJwtBearerAuthentication()
-                    .UseProblemDetailsExampleResponses()
-                    .UseRequestAndResponseExamples(services.BuildServiceProvider()));
+                    .UseApiKeyAuthentication()
+                    .UseRequestAndResponseExamples());
 
         return services;
     }

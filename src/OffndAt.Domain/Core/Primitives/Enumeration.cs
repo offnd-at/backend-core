@@ -1,6 +1,6 @@
-﻿namespace OffndAt.Domain.Core.Primitives;
-
 using System.Reflection;
+namespace OffndAt.Domain.Core.Primitives;
+
 
 /// <summary>
 ///     Represents an enumeration type.

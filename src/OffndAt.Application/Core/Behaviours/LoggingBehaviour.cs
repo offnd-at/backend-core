@@ -1,8 +1,8 @@
-﻿namespace OffndAt.Application.Core.Behaviours;
-
-using Domain.Core.Primitives;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.Logging;
+using OffndAt.Domain.Core.Primitives;
+
+namespace OffndAt.Application.Core.Behaviours;
 
 /// <summary>
 ///     Represents the logging behaviour middleware.

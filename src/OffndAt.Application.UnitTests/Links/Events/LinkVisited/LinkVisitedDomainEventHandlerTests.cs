@@ -1,12 +1,12 @@
-﻿namespace OffndAt.Application.UnitTests.Links.Events.LinkVisited;
+﻿using NSubstitute;
+using OffndAt.Application.Core.Abstractions.Messaging;
+using OffndAt.Application.Links.Events.LinkVisited;
+using OffndAt.Domain.Entities;
+using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.Events;
+using OffndAt.Domain.ValueObjects;
 
-using Application.Links.Events.LinkVisited;
-using Core.Abstractions.Messaging;
-using Domain.Entities;
-using Domain.Enumerations;
-using Domain.Events;
-using Domain.ValueObjects;
-using NSubstitute;
+namespace OffndAt.Application.UnitTests.Links.Events.LinkVisited;
 
 internal sealed class LinkVisitedDomainEventHandlerTests
 {

@@ -1,13 +1,13 @@
-﻿namespace OffndAt.Persistence.Data;
-
-using Application.Core.Abstractions.Data;
-using Domain.Core.Abstractions;
-using Domain.Core.Primitives;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage;
+using OffndAt.Application.Core.Abstractions.Data;
+using OffndAt.Domain.Core.Abstractions;
+using OffndAt.Domain.Core.Primitives;
+
+namespace OffndAt.Persistence.Data;
 
 /// <summary>
 ///     Represents the application database context.

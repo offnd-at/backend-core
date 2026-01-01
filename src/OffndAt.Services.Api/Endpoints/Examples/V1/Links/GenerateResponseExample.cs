@@ -1,9 +1,9 @@
-﻿namespace OffndAt.Services.Api.Endpoints.Examples.V1.Links;
-
+﻿using System.Text.Json.Nodes;
 using Bogus;
-using Extensions;
-using Microsoft.OpenApi.Any;
 using OffndAt.Contracts.Links;
+using OffndAt.Services.Api.Endpoints.Extensions;
+
+namespace OffndAt.Services.Api.Endpoints.Examples.V1.Links;
 
 /// <summary>
 ///     Represents the example response for the generate link endpoint.
@@ -11,10 +11,10 @@ using OffndAt.Contracts.Links;
 internal sealed class GenerateResponseExample : IOpenApiExample<GenerateLinkResponse>
 {
     /// <inheritdoc />
-    public OpenApiObject GetExample() =>
+    public JsonNode GetExample() =>
         new Faker<GenerateLinkResponse>()
             .RuleFor(r => r.Url, f => f.Internet.Url())
             .RuleFor(r => r.StatsUrl, f => f.Internet.Url())
             .Generate()
-            .ToOpenApiObject();
+            .ToJsonNode();
 }

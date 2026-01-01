@@ -1,11 +1,11 @@
-﻿namespace OffndAt.Application.Links.Events.LinkCreated;
+﻿using System.Text.Json.Serialization;
+using OffndAt.Application.Core.Abstractions.Messaging;
+using OffndAt.Domain.Events;
 
-using System.Text.Json.Serialization;
-using Core.Abstractions.Messaging;
-using Domain.Events;
+namespace OffndAt.Application.Links.Events.LinkCreated;
 
 /// <summary>
-///     Represents an integration event that is raised when a link is created.
+///     Represents an integration event raised when a link is created.
 /// </summary>
 public sealed class LinkCreatedIntegrationEvent : IIntegrationEvent
 {

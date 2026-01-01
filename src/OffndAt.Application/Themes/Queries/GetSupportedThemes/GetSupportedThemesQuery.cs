@@ -1,7 +1,7 @@
-﻿namespace OffndAt.Application.Themes.Queries.GetSupportedThemes;
+﻿using OffndAt.Application.Core.Abstractions.Messaging;
+using OffndAt.Contracts.Themes;
 
-using Contracts.Themes;
-using Core.Abstractions.Messaging;
+namespace OffndAt.Application.Themes.Queries.GetSupportedThemes;
 
 /// <summary>
 ///     Represents the query used for getting supported themes.

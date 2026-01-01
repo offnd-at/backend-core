@@ -65,11 +65,10 @@ app.MapScalarApiReference(
     "docs",
     options => options
         .WithTitle("offnd.at | API reference")
-        .WithTagSorter(TagSorter.Alpha)
-        .WithOperationSorter(OperationSorter.Alpha)
+        .SortTagsAlphabetically()
+        .SortOperationsByMethod()
         .WithDefaultHttpClient(ScalarTarget.Http, ScalarClient.Http11)
-        .WithClientButton(false)
-        .WithModels(false));
+        .HideClientButton());
 
 app.Run();
 

@@ -1,9 +1,9 @@
-﻿namespace OffndAt.Infrastructure.Words;
+﻿using Humanizer;
+using OffndAt.Application.Core.Abstractions.Words;
+using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.ValueObjects;
 
-using Application.Core.Abstractions.Words;
-using Domain.Enumerations;
-using Domain.ValueObjects;
-using Humanizer;
+namespace OffndAt.Infrastructure.Words;
 
 /// <summary>
 ///     Represents the case converter

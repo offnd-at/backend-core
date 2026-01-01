@@ -1,12 +1,12 @@
-﻿namespace OffndAt.Infrastructure.Phrases;
+﻿using OffndAt.Application.Core.Abstractions.Phrases;
+using OffndAt.Application.Core.Abstractions.Words;
+using OffndAt.Domain.Core.Errors;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.Repositories;
+using OffndAt.Domain.ValueObjects;
 
-using Application.Core.Abstractions.Phrases;
-using Application.Core.Abstractions.Words;
-using Domain.Core.Errors;
-using Domain.Core.Primitives;
-using Domain.Enumerations;
-using Domain.Repositories;
-using Domain.ValueObjects;
+namespace OffndAt.Infrastructure.Phrases;
 
 /// <summary>
 ///     Represents the phrase generator.

@@ -1,6 +1,6 @@
-﻿namespace OffndAt.Domain.ValueObjects.Identifiers;
+﻿using OffndAt.Domain.Core.Primitives;
 
-using Core.Primitives;
+namespace OffndAt.Domain.ValueObjects.Identifiers;
 
 /// <summary>
 ///     Represents the link identified value object.

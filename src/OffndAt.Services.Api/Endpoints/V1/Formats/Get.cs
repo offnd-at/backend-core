@@ -1,12 +1,12 @@
-﻿namespace OffndAt.Services.Api.Endpoints.V1.Formats;
-
-using Application.Formats.Queries.GetSupportedFormats;
-using Contracts;
-using Domain.Core.Errors;
-using Domain.Core.Extensions;
-using Domain.Core.Primitives;
-using MediatR;
+﻿using MediatR;
+using OffndAt.Application.Formats.Queries.GetSupportedFormats;
 using OffndAt.Contracts.Formats;
+using OffndAt.Domain.Core.Errors;
+using OffndAt.Domain.Core.Extensions;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Services.Api.Contracts;
+
+namespace OffndAt.Services.Api.Endpoints.V1.Formats;
 
 /// <summary>
 ///     Represents the get supported formats endpoint.

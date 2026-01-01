@@ -1,7 +1,7 @@
-﻿namespace OffndAt.Application.Core.Extensions;
+﻿using FluentValidation;
+using OffndAt.Domain.Core.Primitives;
 
-using Domain.Core.Primitives;
-using FluentValidation;
+namespace OffndAt.Application.Core.Extensions;
 
 /// <summary>
 ///     Contains extension methods for fluent validations.

@@ -1,8 +1,8 @@
-﻿namespace OffndAt.Domain.Repositories;
+﻿using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.ValueObjects;
 
-using Core.Primitives;
-using Enumerations;
-using ValueObjects;
+namespace OffndAt.Domain.Repositories;
 
 /// <summary>
 ///     Represents the vocabularies repository interface.
@@ -10,7 +10,7 @@ using ValueObjects;
 public interface IVocabulariesRepository
 {
     /// <summary>
-    ///     Gets a vocabulary containing nouns with the specified parameters.
+    ///     Gets vocabulary containing nouns with the specified parameters.
     /// </summary>
     /// <param name="language">The language.</param>
     /// <param name="offensiveness">The offensiveness.</param>
@@ -24,7 +24,7 @@ public interface IVocabulariesRepository
         CancellationToken cancellationToken = default);
 
     /// <summary>
-    ///     Gets a vocabulary containing adjectives with the specified parameters.
+    ///     Gets vocabulary containing adjectives with the specified parameters.
     /// </summary>
     /// <param name="language">The language.</param>
     /// <param name="offensiveness">The offensiveness.</param>
@@ -40,7 +40,7 @@ public interface IVocabulariesRepository
         CancellationToken cancellationToken = default);
 
     /// <summary>
-    ///     Gets a vocabulary containing adverbs with the specified parameters.
+    ///     Gets vocabulary containing adverbs with the specified parameters.
     /// </summary>
     /// <param name="language">The language.</param>
     /// <param name="offensiveness">The offensiveness.</param>

@@ -1,10 +1,10 @@
-﻿namespace OffndAt.Infrastructure.Urls;
+﻿using Microsoft.Extensions.Options;
+using OffndAt.Application.Core.Abstractions.Urls;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.ValueObjects;
+using OffndAt.Infrastructure.Core.Settings;
 
-using Application.Core.Abstractions.Urls;
-using Core.Settings;
-using Domain.Core.Primitives;
-using Domain.ValueObjects;
-using Microsoft.Extensions.Options;
+namespace OffndAt.Infrastructure.Urls;
 
 /// <summary>
 ///     Represents the URL maker.
@@ -14,9 +14,11 @@ internal sealed class UrlMaker(IOptions<ApplicationSettings> applicationOptions)
 {
     private readonly ApplicationSettings _applicationSettings = applicationOptions.Value;
 
-    private string Protocol => _applicationSettings.UseHttps ? "https" : "http";
+    private string Protocol =>
+        _applicationSettings.UseHttps ? "https" : "http";
 
-    private string BaseUrl => $"{Protocol}://{_applicationSettings.BaseDomain}";
+    private string BaseUrl =>
+        $"{Protocol}://{_applicationSettings.BaseDomain}";
 
     /// <inheritdoc />
     public Result<Url> MakeRedirectUrlForPhrase(Phrase phrase) => Url.Create($"{BaseUrl}/{phrase}");

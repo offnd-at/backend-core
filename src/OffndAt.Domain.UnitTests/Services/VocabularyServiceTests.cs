@@ -1,7 +1,7 @@
-﻿namespace OffndAt.Domain.UnitTests.Services;
+using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.Services;
 
-using Domain.Services;
-using Enumerations;
+namespace OffndAt.Domain.UnitTests.Services;
 
 internal sealed class VocabularyServiceTests
 {
@@ -18,12 +18,11 @@ internal sealed class VocabularyServiceTests
 
         var (actualNumber, actualGender) = _service.GenerateGrammaticalPropertiesForNounVocabulary(language, theme);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actualNumber, Is.EqualTo(GrammaticalNumber.None));
-                Assert.That(actualGender, Is.EqualTo(GrammaticalGender.None));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actualNumber, Is.EqualTo(GrammaticalNumber.None));
+            Assert.That(actualGender, Is.EqualTo(GrammaticalGender.None));
+        });
     }
 
     [Test]
@@ -34,12 +33,11 @@ internal sealed class VocabularyServiceTests
 
         var (actualNumber, actualGender) = _service.GenerateGrammaticalPropertiesForNounVocabulary(language, theme);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actualNumber, Is.Not.EqualTo(GrammaticalNumber.None));
-                Assert.That(actualGender, Is.Not.EqualTo(GrammaticalGender.None));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actualNumber, Is.Not.EqualTo(GrammaticalNumber.None));
+            Assert.That(actualGender, Is.Not.EqualTo(GrammaticalGender.None));
+        });
     }
 
     [Test]
@@ -51,12 +49,11 @@ internal sealed class VocabularyServiceTests
 
         var (actualNumber, actualGender) = _service.GenerateGrammaticalPropertiesForNounVocabulary(language, theme);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actualNumber, Is.EqualTo(GrammaticalNumber.Singular));
-                Assert.That(actualGender, Is.Not.EqualTo(GrammaticalGender.Neuter));
-                Assert.That(actualGender, Is.Not.EqualTo(GrammaticalGender.None));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actualNumber, Is.EqualTo(GrammaticalNumber.Singular));
+            Assert.That(actualGender, Is.Not.EqualTo(GrammaticalGender.Neuter));
+            Assert.That(actualGender, Is.Not.EqualTo(GrammaticalGender.None));
+        });
     }
 }

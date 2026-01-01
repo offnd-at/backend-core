@@ -1,8 +1,8 @@
-﻿namespace OffndAt.Services.Api.Contracts;
+﻿using Microsoft.AspNetCore.Mvc;
+using OffndAt.Domain.Core.Errors;
+using OffndAt.Domain.Core.Primitives;
 
-using Domain.Core.Errors;
-using Domain.Core.Primitives;
-using Microsoft.AspNetCore.Mvc;
+namespace OffndAt.Services.Api.Contracts;
 
 /// <summary>
 ///     Contains the API custom results.
@@ -18,7 +18,15 @@ internal static class CustomResults
         TypedResults.Problem(
             error.Message,
             statusCode: StatusCodes.Status400BadRequest,
-            extensions: new Dictionary<string, object?> { { "errors", new[] { error } } });
+            extensions: new Dictionary<string, object?>
+            {
+                {
+                    "errors", new[]
+                    {
+                        error
+                    }
+                }
+            });
 
     /// <summary>
     ///     Produces a <see cref="StatusCodes.Status404NotFound" /> response in accordance with <see cref="ProblemDetails" /> specification.
@@ -32,6 +40,14 @@ internal static class CustomResults
         return TypedResults.Problem(
             error.Message,
             statusCode: StatusCodes.Status404NotFound,
-            extensions: new Dictionary<string, object?> { { "errors", new[] { error } } });
+            extensions: new Dictionary<string, object?>
+            {
+                {
+                    "errors", new[]
+                    {
+                        error
+                    }
+                }
+            });
     }
 }

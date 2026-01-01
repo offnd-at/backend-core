@@ -1,7 +1,7 @@
-﻿namespace OffndAt.Infrastructure.Core.Messaging;
+﻿using MassTransit;
+using OffndAt.Application.Core.Abstractions.Messaging;
 
-using Application.Core.Abstractions.Messaging;
-using MassTransit;
+namespace OffndAt.Infrastructure.Core.Messaging;
 
 /// <summary>
 ///     Represents the integration event publisher.

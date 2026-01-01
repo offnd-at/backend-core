@@ -1,7 +1,7 @@
-﻿namespace OffndAt.Application.UnitTests.Languages.Queries.GetSupportedLanguages;
+﻿using OffndAt.Application.Languages.Queries.GetSupportedLanguages;
+using OffndAt.Domain.Enumerations;
 
-using Application.Languages.Queries.GetSupportedLanguages;
-using Domain.Enumerations;
+namespace OffndAt.Application.UnitTests.Languages.Queries.GetSupportedLanguages;
 
 internal sealed class GetSupportedLanguagesQueryHandlerTests
 {
@@ -17,12 +17,11 @@ internal sealed class GetSupportedLanguagesQueryHandlerTests
 
         var actual = await _handler.Handle(new GetSupportedLanguagesQuery(), CancellationToken.None);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.HasValue, Is.True);
-                Assert.That(expected, Has.Count.EqualTo(actual.Value.Languages.Count()));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.HasValue, Is.True);
+            Assert.That(expected, Has.Count.EqualTo(actual.Value.Languages.Count()));
+        });
 
         foreach (var language in expected)
         {

@@ -1,6 +1,6 @@
-﻿namespace OffndAt.Application.Core.Errors;
+﻿using OffndAt.Domain.Core.Primitives;
 
-using Domain.Core.Primitives;
+namespace OffndAt.Application.Core.Errors;
 
 /// <summary>
 ///     Contains validation errors.
@@ -12,7 +12,8 @@ internal static class ValidationErrors
     /// </summary>
     internal static class GenerateLink
     {
-        internal static Error TargetUrlIsRequired => new("GenerateLink.TargetUrlIsRequired", "The target URL is required.");
+        internal static Error TargetUrlIsRequired =>
+            new("GenerateLink.TargetUrlIsRequired", "The target URL is required.");
 
         internal static Error TargetUrlMustBeAbsoluteUri =>
             new("GenerateLink.TargetUrlMustBeAbsoluteUri", "The target URL must be an absolute URI.");
@@ -32,6 +33,7 @@ internal static class ValidationErrors
     /// </summary>
     internal static class GetLinkByPhrase
     {
-        internal static Error PhraseIsRequired => new("GetLinkByPhrase.PhraseIsRequired", "The phrase is required.");
+        internal static Error PhraseIsRequired =>
+            new("GetLinkByPhrase.PhraseIsRequired", "The phrase is required.");
     }
 }

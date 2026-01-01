@@ -1,6 +1,6 @@
-﻿namespace OffndAt.Domain.Core.Primitives;
+﻿using OffndAt.Domain.Core.Abstractions;
 
-using Abstractions;
+namespace OffndAt.Domain.Core.Primitives;
 
 /// <summary>
 ///     Represent a base soft deletable entity.

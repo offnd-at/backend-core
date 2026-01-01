@@ -1,7 +1,7 @@
-﻿namespace OffndAt.Application.Core.Exceptions;
+﻿using FluentValidation.Results;
+using OffndAt.Domain.Core.Primitives;
 
-using Domain.Core.Primitives;
-using FluentValidation.Results;
+namespace OffndAt.Application.Core.Exceptions;
 
 /// <summary>
 ///     Represents an exception that occurs when a validation fails.

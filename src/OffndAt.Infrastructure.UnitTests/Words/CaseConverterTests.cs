@@ -1,8 +1,8 @@
-﻿namespace OffndAt.Infrastructure.UnitTests.Words;
+using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.ValueObjects;
+using OffndAt.Infrastructure.Words;
 
-using Domain.Enumerations;
-using Domain.ValueObjects;
-using Infrastructure.Words;
+namespace OffndAt.Infrastructure.UnitTests.Words;
 
 internal sealed class CaseConverterTests
 {
@@ -30,7 +30,13 @@ internal sealed class CaseConverterTests
 
     private static IEnumerable<object> TestCases()
     {
-        yield return new object[] { Format.KebabCase, "test-adverb-test-adjective-te-st-123-n-o-un" };
-        yield return new object[] { Format.PascalCase, "TestAdverbTESTAdjectiveTeST-123-nOUn" };
+        yield return new object[]
+        {
+            Format.KebabCase, "test-adverb-test-adjective-te-st-123-n-o-un"
+        };
+        yield return new object[]
+        {
+            Format.PascalCase, "TestAdverbTESTAdjectiveTeST-123-nOUn"
+        };
     }
 }

@@ -1,8 +1,8 @@
-﻿namespace OffndAt.Application.Links.Commands.GenerateLink;
+﻿using FluentValidation;
+using OffndAt.Application.Core.Errors;
+using OffndAt.Application.Core.Extensions;
 
-using Core.Errors;
-using Core.Extensions;
-using FluentValidation;
+namespace OffndAt.Application.Links.Commands.GenerateLink;
 
 /// <summary>
 ///     Represents the <see cref="GenerateLinkCommand" /> validator.

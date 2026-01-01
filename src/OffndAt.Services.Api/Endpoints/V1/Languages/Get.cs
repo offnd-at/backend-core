@@ -1,12 +1,12 @@
-﻿namespace OffndAt.Services.Api.Endpoints.V1.Languages;
-
-using Application.Languages.Queries.GetSupportedLanguages;
-using Contracts;
-using Domain.Core.Errors;
-using Domain.Core.Extensions;
-using Domain.Core.Primitives;
-using MediatR;
+﻿using MediatR;
+using OffndAt.Application.Languages.Queries.GetSupportedLanguages;
 using OffndAt.Contracts.Languages;
+using OffndAt.Domain.Core.Errors;
+using OffndAt.Domain.Core.Extensions;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Services.Api.Contracts;
+
+namespace OffndAt.Services.Api.Endpoints.V1.Languages;
 
 /// <summary>
 ///     Represents the get supported languages endpoint.

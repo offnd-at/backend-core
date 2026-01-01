@@ -1,11 +1,11 @@
-﻿namespace OffndAt.Domain.Entities;
+﻿using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.Core.Utils;
+using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.Events;
+using OffndAt.Domain.ValueObjects;
+using OffndAt.Domain.ValueObjects.Identifiers;
 
-using Core.Primitives;
-using Core.Utils;
-using Enumerations;
-using Events;
-using ValueObjects;
-using ValueObjects.Identifiers;
+namespace OffndAt.Domain.Entities;
 
 /// <summary>
 ///     Represents the link.

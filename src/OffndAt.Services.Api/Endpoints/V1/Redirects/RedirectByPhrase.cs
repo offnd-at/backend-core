@@ -1,14 +1,14 @@
-﻿namespace OffndAt.Services.Api.Endpoints.V1.Redirects;
-
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
-using Application.Links.Queries.GetLinkByPhrase;
-using Contracts;
-using Domain.Core.Errors;
-using Domain.Core.Extensions;
-using Domain.Core.Primitives;
 using MediatR;
+using OffndAt.Application.Links.Queries.GetLinkByPhrase;
+using OffndAt.Domain.Core.Errors;
+using OffndAt.Domain.Core.Extensions;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Services.Api.Contracts;
+
+namespace OffndAt.Services.Api.Endpoints.V1.Redirects;
 
 /// <summary>
 ///     Represents the redirect by phrase endpoint.
@@ -20,7 +20,7 @@ internal sealed class RedirectByPhrase : IEndpoint
         app.MapGet(
                 ApiRoutes.Redirects.RedirectByPhrase,
                 async (
-                        [Description("The phrase of the shortened URL to search for.")][Required] string phrase,
+                        [Description("The phrase of the shortened URL to search for.")] [Required] string phrase,
                         ISender sender,
                         HttpContext httpContext,
                         CancellationToken cancellationToken) =>

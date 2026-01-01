@@ -1,8 +1,8 @@
-﻿namespace OffndAt.Application.Links.Events.LinkVisited;
+﻿using OffndAt.Application.Core.Abstractions.Messaging;
+using OffndAt.Domain.Core.Events;
+using OffndAt.Domain.Events;
 
-using Core.Abstractions.Messaging;
-using Domain.Core.Events;
-using Domain.Events;
+namespace OffndAt.Application.Links.Events.LinkVisited;
 
 /// <summary>
 ///     Represents the <see cref="LinkVisitedDomainEvent" /> handler.

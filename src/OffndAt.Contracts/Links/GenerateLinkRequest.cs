@@ -1,7 +1,7 @@
-﻿namespace OffndAt.Contracts.Links;
-
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+namespace OffndAt.Contracts.Links;
+
 
 /// <summary>
 ///     Represents the generate link request.

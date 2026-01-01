@@ -1,7 +1,7 @@
-﻿namespace OffndAt.Application.Formats.Queries.GetSupportedFormats;
+﻿using OffndAt.Application.Core.Abstractions.Messaging;
+using OffndAt.Contracts.Formats;
 
-using Contracts.Formats;
-using Core.Abstractions.Messaging;
+namespace OffndAt.Application.Formats.Queries.GetSupportedFormats;
 
 /// <summary>
 ///     Represents the query used for getting supported formats.

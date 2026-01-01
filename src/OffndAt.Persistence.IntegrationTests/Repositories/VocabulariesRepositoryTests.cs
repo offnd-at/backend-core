@@ -1,16 +1,16 @@
-﻿namespace OffndAt.Persistence.IntegrationTests.Repositories;
-
-using Application.Core.Abstractions.Data;
-using Core.Cache.Settings;
-using Domain.Core.Primitives;
-using Domain.Enumerations;
-using Domain.Models;
-using Domain.Services;
-using Domain.ValueObjects;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using NSubstitute;
-using Persistence.Repositories;
+using OffndAt.Application.Core.Abstractions.Data;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.Models;
+using OffndAt.Domain.Services;
+using OffndAt.Domain.ValueObjects;
+using OffndAt.Persistence.Core.Cache.Settings;
+using OffndAt.Persistence.Repositories;
+
+namespace OffndAt.Persistence.IntegrationTests.Repositories;
 
 internal sealed class VocabulariesRepositoryTests
 {
@@ -79,12 +79,11 @@ internal sealed class VocabulariesRepositoryTests
 
         await _vocabularyLoader.Received(1).DownloadAsync(Arg.Any<VocabularyDescriptor>(), Arg.Any<CancellationToken>());
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.HasValue, Is.True);
-                Assert.That(actual.Value, Is.EqualTo(expected));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.HasValue, Is.True);
+            Assert.That(actual.Value, Is.EqualTo(expected));
+        });
     }
 
     [Test]
@@ -110,12 +109,11 @@ internal sealed class VocabulariesRepositoryTests
             Theme.None,
             CancellationToken.None);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.HasValue, Is.True);
-                Assert.That(actual.Value, Is.EqualTo(expected));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.HasValue, Is.True);
+            Assert.That(actual.Value, Is.EqualTo(expected));
+        });
 
         var actual2 = await _repository.GetNounsAsync(
             Language.English,
@@ -123,12 +121,11 @@ internal sealed class VocabulariesRepositoryTests
             Theme.None,
             CancellationToken.None);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual2.HasValue, Is.True);
-                Assert.That(actual2.Value, Is.EqualTo(expected));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual2.HasValue, Is.True);
+            Assert.That(actual2.Value, Is.EqualTo(expected));
+        });
 
         Assert.That(actual, Is.SameAs(actual2));
 
@@ -161,12 +158,11 @@ internal sealed class VocabulariesRepositoryTests
             Theme.None,
             CancellationToken.None);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.HasValue, Is.True);
-                Assert.That(actual.Value, Is.EqualTo(vocabulary1));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.HasValue, Is.True);
+            Assert.That(actual.Value, Is.EqualTo(vocabulary1));
+        });
 
         var actual2 = await _repository.GetNounsAsync(
             Language.English,
@@ -174,12 +170,11 @@ internal sealed class VocabulariesRepositoryTests
             Theme.None,
             CancellationToken.None);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual2.HasValue, Is.True);
-                Assert.That(actual2.Value, Is.EqualTo(expected));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual2.HasValue, Is.True);
+            Assert.That(actual2.Value, Is.EqualTo(expected));
+        });
 
         Assert.That(actual, Is.Not.SameAs(actual2));
 
@@ -225,12 +220,11 @@ internal sealed class VocabulariesRepositoryTests
 
         await _vocabularyLoader.Received(1).DownloadAsync(Arg.Any<VocabularyDescriptor>(), Arg.Any<CancellationToken>());
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.HasValue, Is.True);
-                Assert.That(actual.Value, Is.EqualTo(expected));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.HasValue, Is.True);
+            Assert.That(actual.Value, Is.EqualTo(expected));
+        });
     }
 
     [Test]
@@ -257,12 +251,11 @@ internal sealed class VocabulariesRepositoryTests
             GrammaticalGender.None,
             CancellationToken.None);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.HasValue, Is.True);
-                Assert.That(actual.Value, Is.EqualTo(expected));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.HasValue, Is.True);
+            Assert.That(actual.Value, Is.EqualTo(expected));
+        });
 
         var actual2 = await _repository.GetAdjectivesAsync(
             Language.English,
@@ -271,12 +264,11 @@ internal sealed class VocabulariesRepositoryTests
             GrammaticalGender.None,
             CancellationToken.None);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual2.HasValue, Is.True);
-                Assert.That(actual2.Value, Is.EqualTo(expected));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual2.HasValue, Is.True);
+            Assert.That(actual2.Value, Is.EqualTo(expected));
+        });
 
         Assert.That(actual, Is.SameAs(actual2));
 
@@ -318,12 +310,11 @@ internal sealed class VocabulariesRepositoryTests
 
         await _vocabularyLoader.Received(1).DownloadAsync(Arg.Any<VocabularyDescriptor>(), Arg.Any<CancellationToken>());
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.HasValue, Is.True);
-                Assert.That(actual.Value, Is.EqualTo(expected));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.HasValue, Is.True);
+            Assert.That(actual.Value, Is.EqualTo(expected));
+        });
     }
 
     [Test]
@@ -348,24 +339,22 @@ internal sealed class VocabulariesRepositoryTests
             Offensiveness.NonOffensive,
             CancellationToken.None);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.HasValue, Is.True);
-                Assert.That(actual.Value, Is.EqualTo(expected));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.HasValue, Is.True);
+            Assert.That(actual.Value, Is.EqualTo(expected));
+        });
 
         var actual2 = await _repository.GetAdverbsAsync(
             Language.English,
             Offensiveness.NonOffensive,
             CancellationToken.None);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual2.HasValue, Is.True);
-                Assert.That(actual2.Value, Is.EqualTo(expected));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual2.HasValue, Is.True);
+            Assert.That(actual2.Value, Is.EqualTo(expected));
+        });
 
         Assert.That(actual, Is.SameAs(actual2));
 

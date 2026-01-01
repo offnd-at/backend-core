@@ -1,6 +1,6 @@
-﻿namespace OffndAt.Domain.Models;
+﻿using OffndAt.Domain.Enumerations;
 
-using Enumerations;
+namespace OffndAt.Domain.Models;
 
 /// <summary>
 ///     Represents an object that describes the properties of a vocabulary.

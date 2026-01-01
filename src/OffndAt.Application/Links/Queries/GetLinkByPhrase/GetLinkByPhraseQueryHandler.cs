@@ -1,11 +1,11 @@
-﻿namespace OffndAt.Application.Links.Queries.GetLinkByPhrase;
+﻿using OffndAt.Application.Core.Abstractions.Data;
+using OffndAt.Application.Core.Abstractions.Messaging;
+using OffndAt.Contracts.Links;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.Repositories;
+using OffndAt.Domain.ValueObjects;
 
-using Contracts.Links;
-using Core.Abstractions.Data;
-using Core.Abstractions.Messaging;
-using Domain.Core.Primitives;
-using Domain.Repositories;
-using Domain.ValueObjects;
+namespace OffndAt.Application.Links.Queries.GetLinkByPhrase;
 
 /// <summary>
 ///     Represents the <see cref="GetLinkByPhraseQuery" /> handler.

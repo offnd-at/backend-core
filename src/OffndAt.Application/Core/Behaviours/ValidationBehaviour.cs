@@ -1,8 +1,8 @@
-﻿namespace OffndAt.Application.Core.Behaviours;
-
-using FluentValidation;
+﻿using FluentValidation;
 using MediatR;
-using ValidationException = Exceptions.ValidationException;
+using ValidationException = OffndAt.Application.Core.Exceptions.ValidationException;
+
+namespace OffndAt.Application.Core.Behaviours;
 
 /// <summary>
 ///     Represents the validation behaviour middleware.
@@ -33,6 +33,6 @@ public sealed class ValidationBehaviour<TRequest, TResponse>(IEnumerable<IValida
             throw new ValidationException(failures);
         }
 
-        return await next();
+        return await next(cancellationToken);
     }
 }

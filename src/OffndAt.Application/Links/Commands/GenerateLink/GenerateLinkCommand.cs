@@ -1,7 +1,7 @@
-﻿namespace OffndAt.Application.Links.Commands.GenerateLink;
+﻿using OffndAt.Application.Core.Abstractions.Messaging;
+using OffndAt.Contracts.Links;
 
-using Contracts.Links;
-using Core.Abstractions.Messaging;
+namespace OffndAt.Application.Links.Commands.GenerateLink;
 
 /// <summary>
 ///     Represents the command used for generating a link.

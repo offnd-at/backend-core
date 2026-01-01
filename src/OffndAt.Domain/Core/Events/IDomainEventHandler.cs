@@ -1,6 +1,6 @@
-﻿namespace OffndAt.Domain.Core.Events;
-
 using MediatR;
+namespace OffndAt.Domain.Core.Events;
+
 
 /// <summary>
 ///     Represents a domain event handler interface.

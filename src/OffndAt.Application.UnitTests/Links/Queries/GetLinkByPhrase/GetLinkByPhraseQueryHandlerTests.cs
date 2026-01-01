@@ -1,13 +1,13 @@
-﻿namespace OffndAt.Application.UnitTests.Links.Queries.GetLinkByPhrase;
+﻿using NSubstitute;
+using OffndAt.Application.Core.Abstractions.Data;
+using OffndAt.Application.Links.Queries.GetLinkByPhrase;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.Entities;
+using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.Repositories;
+using OffndAt.Domain.ValueObjects;
 
-using Application.Links.Queries.GetLinkByPhrase;
-using Core.Abstractions.Data;
-using Domain.Core.Primitives;
-using Domain.Entities;
-using Domain.Enumerations;
-using Domain.Repositories;
-using Domain.ValueObjects;
-using NSubstitute;
+namespace OffndAt.Application.UnitTests.Links.Queries.GetLinkByPhrase;
 
 internal sealed class GetLinkByPhraseQueryHandlerTests
 {
@@ -60,13 +60,12 @@ internal sealed class GetLinkByPhraseQueryHandlerTests
 
         var actual = await _handler.Handle(new GetLinkByPhraseQuery("test-phrase", false), CancellationToken.None);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.HasValue, Is.True);
-                Assert.That(actual.Value.Link.TargetUrl, Is.EqualTo(link.TargetUrl.Value));
-                Assert.That(actual.Value.Link.Visits, Is.EqualTo(link.Visits));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.HasValue, Is.True);
+            Assert.That(actual.Value.Link.TargetUrl, Is.EqualTo(link.TargetUrl.Value));
+            Assert.That(actual.Value.Link.Visits, Is.EqualTo(link.Visits));
+        });
     }
 
     [Test]
@@ -89,13 +88,12 @@ internal sealed class GetLinkByPhraseQueryHandlerTests
 
         await _unitOfWork.Received(0).SaveChangesAsync(Arg.Any<CancellationToken>());
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.HasValue, Is.True);
-                Assert.That(actual.Value.Link.TargetUrl, Is.EqualTo(link.TargetUrl.Value));
-                Assert.That(actual.Value.Link.Visits, Is.EqualTo(0));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.HasValue, Is.True);
+            Assert.That(actual.Value.Link.TargetUrl, Is.EqualTo(link.TargetUrl.Value));
+            Assert.That(actual.Value.Link.Visits, Is.EqualTo(0));
+        });
     }
 
     [Test]
@@ -118,12 +116,11 @@ internal sealed class GetLinkByPhraseQueryHandlerTests
 
         await _unitOfWork.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.HasValue, Is.True);
-                Assert.That(actual.Value.Link.TargetUrl, Is.EqualTo(link.TargetUrl.Value));
-                Assert.That(actual.Value.Link.Visits, Is.EqualTo(1));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.HasValue, Is.True);
+            Assert.That(actual.Value.Link.TargetUrl, Is.EqualTo(link.TargetUrl.Value));
+            Assert.That(actual.Value.Link.Visits, Is.EqualTo(1));
+        });
     }
 }

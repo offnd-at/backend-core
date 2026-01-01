@@ -1,6 +1,6 @@
-﻿namespace OffndAt.Contracts.Formats;
-
 using System.ComponentModel;
+namespace OffndAt.Contracts.Formats;
+
 
 /// <summary>
 ///     Represents the supported formats response.

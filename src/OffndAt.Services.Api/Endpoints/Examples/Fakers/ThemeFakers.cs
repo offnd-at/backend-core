@@ -1,7 +1,7 @@
-﻿namespace OffndAt.Services.Api.Endpoints.Examples.Fakers;
-
-using Bogus;
+﻿using Bogus;
 using OffndAt.Contracts.Themes;
+
+namespace OffndAt.Services.Api.Endpoints.Examples.Fakers;
 
 /// <summary>
 ///     Contains fake data generators for themes.

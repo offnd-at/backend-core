@@ -1,14 +1,14 @@
-﻿namespace OffndAt.Services.Api.FunctionalTests.Abstractions;
-
-using Core;
-using Microsoft.AspNetCore.Mvc.Testing;
+﻿using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Persistence.Data;
+using OffndAt.Persistence.Data;
+using OffndAt.Services.Api.FunctionalTests.Core;
 using Testcontainers.PostgreSql;
 using Testcontainers.RabbitMq;
+
+namespace OffndAt.Services.Api.FunctionalTests.Abstractions;
 
 [TestFixture]
 internal abstract class BaseFunctionalTest
@@ -34,18 +34,20 @@ internal abstract class BaseFunctionalTest
         await RabbitContainer.StartAsync();
 
         ApplicationFactory = new WebApplicationFactory<Program>()
-            .WithWebHostBuilder(
-                builder => builder.ConfigureTestServices(
-                    services =>
-                    {
-                        services.RemoveAll<DbContextOptions<OffndAtDbContext>>();
+            .WithWebHostBuilder(builder => builder.ConfigureTestServices(services =>
+            {
+                services.RemoveAll<DbContextOptions<OffndAtDbContext>>();
 
-                        services.AddDbContext<OffndAtDbContext>(options => options.UseNpgsql(PostgresContainer.GetConnectionString()));
-                    }));
+                services.AddDbContext<OffndAtDbContext>(options => options.UseNpgsql(PostgresContainer.GetConnectionString()));
+            }));
 
         HttpClient = ApplicationFactory.CreateClient();
         HttpClientWithoutRedirects = ApplicationFactory.CreateDefaultClient(
-            new NoRedirectHandler(new HttpClientHandler { AllowAutoRedirect = false }));
+            new NoRedirectHandler(
+                new HttpClientHandler
+                {
+                    AllowAutoRedirect = false
+                }));
     }
 
     [OneTimeTearDown]
