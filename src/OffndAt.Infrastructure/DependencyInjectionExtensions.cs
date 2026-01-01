@@ -1,4 +1,6 @@
 ﻿using MassTransit;
+using MassTransit.Logging;
+using MassTransit.Monitoring;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -185,13 +187,14 @@ public static class DependencyInjectionExtensions
             .WithMetrics(options => options
                 .AddAspNetCoreInstrumentation()
                 .AddHttpClientInstrumentation()
+                .AddMeter(InstrumentationOptions.MeterName)
                 .AddOtlpExporter(exporterOptions => exporterOptions.Endpoint = new Uri(telemetrySettings.ExporterEndpoint)))
             .WithTracing(options => options
                 // TODO: trace sampler
                 .AddAspNetCoreInstrumentation(instrumentationOptions =>
                     instrumentationOptions.Filter = context => context.Request.Method != HttpMethod.Options.Method)
                 .AddHttpClientInstrumentation()
-                .AddSource("MassTransit")
+                .AddSource(DiagnosticHeaders.DefaultListenerName)
                 .AddEntityFrameworkCoreInstrumentation(instrumentationOptions =>
                 {
                     instrumentationOptions.Filter = (_, command) =>
