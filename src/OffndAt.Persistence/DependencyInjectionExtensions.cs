@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using OffndAt.Application.Core.Abstractions.Data;
 using OffndAt.Domain.Repositories;
 using OffndAt.Persistence.Core.Cache.Settings;
@@ -31,7 +30,7 @@ public static class DependencyInjectionExtensions
         services
             .AddPersistenceSettings(configuration)
             .AddInMemoryCache(configuration)
-            .AddDatabaseContext()
+            .AddDatabaseContext(configuration)
             .AddPersistenceServices()
             .AddMemoryCache();
 
@@ -66,10 +65,12 @@ public static class DependencyInjectionExtensions
     ///     Registers the database context with the DI framework.
     /// </summary>
     /// <param name="services">The service collection.</param>
+    /// <param name="configuration">The configuration.</param>
     /// <returns>The configured service collection.</returns>
-    private static IServiceCollection AddDatabaseContext(this IServiceCollection services)
+    private static IServiceCollection AddDatabaseContext(this IServiceCollection services, IConfiguration configuration)
     {
-        var settings = services.BuildServiceProvider().GetRequiredService<IOptions<PersistenceSettings>>().Value;
+        var settings = configuration.GetSection(PersistenceSettings.SettingsKey).Get<PersistenceSettings>() ??
+            throw new InvalidOperationException($"Missing configuration section - {PersistenceSettings.SettingsKey}.");
 
         services.AddDbContext<OffndAtDbContext>(options =>
             options.UseNpgsql(

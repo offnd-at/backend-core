@@ -14,7 +14,7 @@ internal sealed class UrlMakerTests
         {
             BaseDomain = "offnd.at",
             UseHttps = true,
-            ApplicationName = "offnd-at",
+            AppName = "offnd-at",
             Environment = "test"
         };
 
@@ -38,7 +38,7 @@ internal sealed class UrlMakerTests
         {
             BaseDomain = "offnd.at",
             UseHttps = false,
-            ApplicationName = "offnd-at",
+            AppName = "offnd-at",
             Environment = "test"
         };
 
@@ -62,7 +62,7 @@ internal sealed class UrlMakerTests
         {
             BaseDomain = "offnd.at",
             UseHttps = true,
-            ApplicationName = "offnd-at",
+            AppName = "offnd-at",
             Environment = "test"
         };
 
@@ -87,7 +87,7 @@ internal sealed class UrlMakerTests
         {
             BaseDomain = "offnd.at",
             UseHttps = true,
-            ApplicationName = "offnd-at",
+            AppName = "offnd-at",
             Environment = "test"
         };
 
@@ -111,7 +111,7 @@ internal sealed class UrlMakerTests
         {
             BaseDomain = "offnd.at",
             UseHttps = false,
-            ApplicationName = "offnd-at",
+            AppName = "offnd-at",
             Environment = "test"
         };
 
@@ -135,7 +135,7 @@ internal sealed class UrlMakerTests
         {
             BaseDomain = "offnd.at",
             UseHttps = true,
-            ApplicationName = "offnd-at",
+            AppName = "offnd-at",
             Environment = "test"
         };
 

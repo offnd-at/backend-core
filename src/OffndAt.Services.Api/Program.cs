@@ -1,4 +1,6 @@
 using FluentValidation.AspNetCore;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Mvc;
 using OffndAt.Application;
@@ -30,12 +32,13 @@ builder.Services.AddPersistence(builder.Configuration)
     .AddInMemoryCache(builder.Configuration);
 
 builder.Services.AddInfrastructureSettings(builder.Configuration)
+    .AddTelemetry(builder.Configuration)
     .AddInfrastructureServices()
     .AddCorsPolicies(builder.Configuration)
+    .AddApiAuthentication(builder.Configuration)
     .AddResiliencePolicies()
     .AddMassTransitProducer(builder.Configuration)
-    .AddAuthorization()
-    .AddAuthentication();
+    .AddHealthMonitoring();
 
 builder.Services
     .AddVersioning()
@@ -59,6 +62,13 @@ app.MapEndpointsForAllVersions()
     .EnsureMigrations() // TODO: only viable while running single instance in production
     .UseHttpsRedirection()
     .UseHttpLogging();
+
+app.MapHealthChecks(
+    "/health",
+    new HealthCheckOptions
+    {
+        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+    });
 
 app.MapOpenApi();
 app.MapScalarApiReference(

@@ -12,18 +12,23 @@ using OffndAt.Application.Core.Abstractions.Words;
 using OffndAt.Domain.Core.Errors;
 using OffndAt.Domain.Core.Primitives;
 using OffndAt.Domain.ValueObjects;
+using OffndAt.Infrastructure.Authentication.ApiKey;
+using OffndAt.Infrastructure.Authentication.Settings;
 using OffndAt.Infrastructure.Core.Constants;
 using OffndAt.Infrastructure.Core.Data;
 using OffndAt.Infrastructure.Core.Data.Settings;
 using OffndAt.Infrastructure.Core.Http.Cors.Settings;
-using OffndAt.Infrastructure.Core.Logging.Settings;
 using OffndAt.Infrastructure.Core.Messaging;
 using OffndAt.Infrastructure.Core.Messaging.Settings;
 using OffndAt.Infrastructure.Core.Settings;
+using OffndAt.Infrastructure.Core.Telemetry.Settings;
 using OffndAt.Infrastructure.Phrases;
 using OffndAt.Infrastructure.Urls;
 using OffndAt.Infrastructure.Words;
 using OffndAt.Persistence.Data;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Polly;
 using Polly.Retry;
 
@@ -43,7 +48,6 @@ public static class DependencyInjectionExtensions
     public static IServiceCollection AddInfrastructureSettings(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<ApplicationSettings>(configuration.GetSection(ApplicationSettings.SettingsKey));
-        services.Configure<OpenObserveLoggerSettings>(configuration.GetSection(OpenObserveLoggerSettings.SettingsKey));
         services.Configure<GithubDataSourceSettings>(configuration.GetSection(GithubDataSourceSettings.SettingsKey));
 
         return services;
@@ -64,7 +68,7 @@ public static class DependencyInjectionExtensions
         services.AddScoped<IGitHubClient>(serviceProvider =>
         {
             var applicationSettings = serviceProvider.GetRequiredService<IOptions<ApplicationSettings>>().Value;
-            return new GitHubClient(new ProductHeaderValue(applicationSettings.ApplicationName));
+            return new GitHubClient(new ProductHeaderValue(applicationSettings.AppName));
         });
 
         return services;
@@ -80,7 +84,8 @@ public static class DependencyInjectionExtensions
     {
         services.Configure<CorsSettings>(configuration.GetSection(CorsSettings.SettingsKey));
 
-        var settings = services.BuildServiceProvider().GetRequiredService<IOptions<CorsSettings>>().Value;
+        var settings = configuration.GetSection(CorsSettings.SettingsKey).Get<CorsSettings>() ??
+            throw new InvalidOperationException($"Missing configuration section - {CorsSettings.SettingsKey}.");
 
         services.AddCors(options => options.AddDefaultPolicy(builder => builder
             .SetIsOriginAllowed(origin =>
@@ -137,6 +142,7 @@ public static class DependencyInjectionExtensions
             configurator.UsingRabbitMq((context, factoryConfigurator) =>
             {
                 var messageBrokerSettings = context.GetRequiredService<IOptions<MessageBrokerSettings>>().Value;
+                var applicationSettings = context.GetRequiredService<IOptions<ApplicationSettings>>().Value;
 
                 factoryConfigurator.Host(
                     messageBrokerSettings.Hostname,
@@ -148,11 +154,91 @@ public static class DependencyInjectionExtensions
 
                 factoryConfigurator.UseMessageRetry(retryConfigurator => retryConfigurator.Interval(3, TimeSpan.FromSeconds(3)));
 
-                factoryConfigurator.ConfigureEndpoints(context);
+                factoryConfigurator.ConfigureEndpoints(
+                    context,
+                    new KebabCaseEndpointNameFormatter(applicationSettings.AppName));
             });
         });
 
         services.TryAddScoped<IIntegrationEventPublisher, IntegrationEventPublisher>();
+
+        return services;
+    }
+
+    /// <summary>
+    ///     Registers the Open Telemetry services with the DI framework.
+    /// </summary>
+    /// <param name="services">The service collection.</param>
+    /// <param name="configuration">The configuration.</param>
+    /// <returns>The configured service collection.</returns>
+    public static IServiceCollection AddTelemetry(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<TelemetrySettings>(configuration.GetSection(TelemetrySettings.SettingsKey));
+
+        var telemetrySettings = configuration.GetSection(TelemetrySettings.SettingsKey).Get<TelemetrySettings>() ??
+            throw new InvalidOperationException($"Missing configuration section - {TelemetrySettings.SettingsKey}.");
+        var applicationSettings = configuration.GetSection(ApplicationSettings.SettingsKey).Get<ApplicationSettings>() ??
+            throw new InvalidOperationException($"Missing configuration section - {ApplicationSettings.SettingsKey}.");
+
+        services.AddOpenTelemetry()
+            .ConfigureResource(builder => builder.AddService(applicationSettings.AppName))
+            .WithMetrics(options => options
+                .AddAspNetCoreInstrumentation()
+                .AddHttpClientInstrumentation()
+                .AddOtlpExporter(exporterOptions => exporterOptions.Endpoint = new Uri(telemetrySettings.ExporterEndpoint)))
+            .WithTracing(options => options
+                // TODO: trace sampler
+                .AddAspNetCoreInstrumentation(instrumentationOptions =>
+                    instrumentationOptions.Filter = context => context.Request.Method != HttpMethod.Options.Method)
+                .AddHttpClientInstrumentation()
+                .AddSource("MassTransit")
+                .AddEntityFrameworkCoreInstrumentation(instrumentationOptions =>
+                {
+                    instrumentationOptions.Filter = (_, command) =>
+                    {
+                        var shouldFilterOut = command.CommandText.Contains("FROM \"OutboxState\"") ||
+                            command.CommandText.Contains("FROM \"OutboxMessage\"") ||
+                            command.CommandText.Contains("FROM \"InboxState\"");
+
+                        return !shouldFilterOut;
+                    };
+                    instrumentationOptions.SetDbStatementForText = true;
+                    instrumentationOptions.SetDbStatementForStoredProcedure = true;
+                })
+                .AddOtlpExporter(exporterOptions => exporterOptions.Endpoint = new Uri(telemetrySettings.ExporterEndpoint)));
+
+        return services;
+    }
+
+    /// <summary>
+    ///     Registers the authentication services with the DI framework.
+    /// </summary>
+    /// <param name="services">The service collection.</param>
+    /// <param name="configuration">The configuration.</param>
+    /// <returns>The configured service collection.</returns>
+    public static IServiceCollection AddApiAuthentication(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<AuthSettings>(configuration.GetSection(AuthSettings.SettingsKey));
+
+        var settings = configuration.GetSection(AuthSettings.SettingsKey).Get<AuthSettings>() ??
+            throw new InvalidOperationException($"Missing configuration section - {AuthSettings.SettingsKey}.");
+
+        services.AddAuthorization();
+        services.AddAuthentication(options => options.DefaultScheme = ApiKeyDefaults.AuthenticationScheme)
+            .AddScheme<ApiKeyOptions, ApiKeyHandler>(ApiKeyDefaults.AuthenticationScheme, null);
+
+        return services;
+    }
+
+    /// <summary>
+    ///     Registers the health-checking services with the DI framework.
+    /// </summary>
+    /// <param name="services">The service collection.</param>
+    /// <returns>The configured service collection.</returns>
+    public static IServiceCollection AddHealthMonitoring(this IServiceCollection services)
+    {
+        services.AddHealthChecks()
+            .AddDbContextCheck<OffndAtDbContext>("ef-core-db-context");
 
         return services;
     }

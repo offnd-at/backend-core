@@ -2,10 +2,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using OffndAt.Infrastructure.Core.Logging.Settings;
 using OffndAt.Infrastructure.Core.Settings;
+using OffndAt.Infrastructure.Core.Telemetry.Settings;
 using Serilog;
-using Serilog.Sinks.OpenObserve;
 
 namespace OffndAt.Infrastructure.Core.Logging.Extensions;
 
@@ -19,12 +18,12 @@ public static class SerilogHostBuilderExtensions
     /// </summary>
     /// <param name="builder">The host builder.</param>
     /// <returns>The configured host builder.</returns>
-    /// <exception cref="InvalidOperationException">when Environment or ApplicationName is not configured in application settings.</exception>
+    /// <exception cref="InvalidOperationException">when Environment or AppName is not configured in application settings.</exception>
     public static IHostBuilder UseOffndAtSerilog(this IHostBuilder builder) =>
         builder.UseSerilog((context, services, configuration) =>
         {
+            var telemetrySettings = services.GetRequiredService<IOptions<TelemetrySettings>>().Value;
             var applicationSettings = services.GetRequiredService<IOptions<ApplicationSettings>>().Value;
-            var loggerSettings = services.GetRequiredService<IOptions<OpenObserveLoggerSettings>>().Value;
 
             configuration
                 .MinimumLevel.Information()
@@ -33,48 +32,9 @@ public static class SerilogHostBuilderExtensions
                 .Enrich.WithClientIp()
                 .Enrich.WithCorrelationId()
                 .Enrich.WithProperty(nameof(applicationSettings.Environment), applicationSettings.Environment)
-                .Enrich.WithProperty(nameof(applicationSettings.ApplicationName), applicationSettings.ApplicationName)
-                .WriteTo.OpenObserve(
-                    loggerSettings.ApiUrl,
-                    loggerSettings.Organization,
-                    loggerSettings.Username,
-                    loggerSettings.Key,
-                    loggerSettings.StreamName)
+                .Enrich.WithProperty(nameof(applicationSettings.AppName), applicationSettings.AppName)
                 .WriteTo.Console(formatProvider: CultureInfo.InvariantCulture)
+                .WriteTo.OpenTelemetry(options => options.Endpoint = telemetrySettings.ExporterEndpoint)
                 .ReadFrom.Configuration(context.Configuration);
         });
-
-    /// <summary>
-    ///     Registers Serilog with configuration specific to offnd.at application.
-    /// </summary>
-    /// <param name="builder">The host builder.</param>
-    /// <param name="configureLogger">The delegate for configuring the <see cref="LoggerConfiguration" /> that will be used to construct a logger.</param>
-    /// <returns>The configured host builder.</returns>
-    /// <exception cref="InvalidOperationException">when Environment or ApplicationName is not configured in application settings.</exception>
-    public static IHostBuilder UseOffndAtSerilog(
-        this IHostBuilder builder,
-        Action<HostBuilderContext, IServiceProvider, LoggerConfiguration> configureLogger) =>
-        builder.UseSerilog(
-            ((context, services, configuration) =>
-            {
-                var applicationSettings = services.GetRequiredService<IOptions<ApplicationSettings>>().Value;
-                var loggerSettings = services.GetRequiredService<IOptions<OpenObserveLoggerSettings>>().Value;
-
-                configuration
-                    .MinimumLevel.Information()
-                    .Enrich.FromLogContext()
-                    .Enrich.WithMachineName()
-                    .Enrich.WithEnvironmentName()
-                    .Enrich.WithProperty(nameof(applicationSettings.Environment), applicationSettings.Environment)
-                    .Enrich.WithProperty(nameof(applicationSettings.ApplicationName), applicationSettings.ApplicationName)
-                    .WriteTo.OpenObserve(
-                        loggerSettings.ApiUrl,
-                        loggerSettings.Organization,
-                        loggerSettings.Username,
-                        loggerSettings.Key,
-                        loggerSettings.StreamName)
-                    .WriteTo.Console(formatProvider: CultureInfo.InvariantCulture)
-                    .ReadFrom.Configuration(context.Configuration);
-            }) +
-            configureLogger);
 }
