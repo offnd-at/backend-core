@@ -1,6 +1,6 @@
 using MediatR;
-namespace OffndAt.Application.Core.Abstractions.Messaging;
 
+namespace OffndAt.Application.Core.Abstractions.Messaging;
 
 /// <summary>
 ///     Represents the marker interface for an integration event.

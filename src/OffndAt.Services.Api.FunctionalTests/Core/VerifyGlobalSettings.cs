@@ -1,6 +1,6 @@
 using System.Runtime.CompilerServices;
-namespace OffndAt.Services.Api.FunctionalTests.Core;
 
+namespace OffndAt.Services.Api.FunctionalTests.Core;
 
 internal sealed class VerifyGlobalSettings
 {

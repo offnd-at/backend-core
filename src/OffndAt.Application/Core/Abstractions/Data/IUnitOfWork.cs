@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore.Storage;
-namespace OffndAt.Application.Core.Abstractions.Data;
 
+namespace OffndAt.Application.Core.Abstractions.Data;
 
 /// <summary>
 ///     Represents the unit of work interface.

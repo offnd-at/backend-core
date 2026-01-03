@@ -1,6 +1,4 @@
 ﻿using MassTransit;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using OffndAt.Infrastructure.Core.Messaging.Settings;
 using OffndAt.Persistence.Data;

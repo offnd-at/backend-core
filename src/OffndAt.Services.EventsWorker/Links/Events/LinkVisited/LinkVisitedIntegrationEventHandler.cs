@@ -1,5 +1,4 @@
 ﻿using MassTransit;
-using Microsoft.Extensions.Logging;
 using OffndAt.Application.Links.Events.LinkVisited;
 using OffndAt.Services.EventsWorker.Abstractions.Messaging;
 

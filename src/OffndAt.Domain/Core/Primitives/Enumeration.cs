@@ -1,6 +1,6 @@
 using System.Reflection;
-namespace OffndAt.Domain.Core.Primitives;
 
+namespace OffndAt.Domain.Core.Primitives;
 
 /// <summary>
 ///     Represents an enumeration type.
@@ -39,7 +39,8 @@ public abstract class Enumeration<TEnum> : IEquatable<Enumeration<TEnum>>, IComp
     ///     Gets the enumeration values.
     /// </summary>
     /// <returns>The read-only collection of enumeration values.</returns>
-    public static IReadOnlyList<TEnum> List => [.. EnumerationsDictionary.Value.Values];
+    public static IReadOnlyList<TEnum> List =>
+        [.. EnumerationsDictionary.Value.Values];
 
     /// <summary>
     ///     Gets the value.
