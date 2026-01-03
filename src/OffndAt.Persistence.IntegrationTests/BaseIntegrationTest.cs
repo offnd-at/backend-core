@@ -7,13 +7,9 @@ using Testcontainers.PostgreSql;
 
 namespace OffndAt.Persistence.IntegrationTests;
 
-internal abstract class BaseTestFixture : IDisposable
+[TestFixture]
+internal abstract class BaseIntegrationTest
 {
-    protected OffndAtDbContext DbContext { get; private set; } = null!;
-    private PostgreSqlContainer? PostgresContainer { get; set; }
-
-    public void Dispose() => DbContext.Dispose();
-
     [OneTimeSetUp]
     public async Task OneTimeSetup()
     {
@@ -38,11 +34,13 @@ internal abstract class BaseTestFixture : IDisposable
     [OneTimeTearDown]
     public async Task OneTimeTeardown()
     {
-        if (PostgresContainer is not null)
-        {
-            await PostgresContainer.StopAsync();
-        }
+        await DbContext.DisposeAsync();
+        await PostgresContainer.StopAsync();
+        await PostgresContainer.DisposeAsync();
     }
+
+    protected OffndAtDbContext DbContext { get; private set; }
+    private PostgreSqlContainer PostgresContainer { get; set; }
 
     private static DbContextOptions<OffndAtDbContext> CreateNewContextOptions(string connectionString)
     {

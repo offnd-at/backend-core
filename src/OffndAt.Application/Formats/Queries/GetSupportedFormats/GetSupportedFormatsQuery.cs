@@ -1,5 +1,5 @@
 ﻿using OffndAt.Application.Core.Abstractions.Messaging;
-using OffndAt.Contracts.Formats;
+using OffndAt.Contracts.Formats.Responses;
 
 namespace OffndAt.Application.Formats.Queries.GetSupportedFormats;
 

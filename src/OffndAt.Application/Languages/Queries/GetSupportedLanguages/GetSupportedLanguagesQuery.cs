@@ -1,5 +1,5 @@
 ﻿using OffndAt.Application.Core.Abstractions.Messaging;
-using OffndAt.Contracts.Languages;
+using OffndAt.Contracts.Languages.Responses;
 
 namespace OffndAt.Application.Languages.Queries.GetSupportedLanguages;
 

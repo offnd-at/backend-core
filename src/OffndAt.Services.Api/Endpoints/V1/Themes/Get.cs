@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using OffndAt.Application.Themes.Queries.GetSupportedThemes;
-using OffndAt.Contracts.Themes;
+using OffndAt.Contracts.Themes.Responses;
 using OffndAt.Domain.Core.Errors;
 using OffndAt.Domain.Core.Extensions;
 using OffndAt.Domain.Core.Primitives;

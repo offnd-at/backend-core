@@ -1,6 +1,7 @@
 ﻿using OffndAt.Application.Core.Abstractions.Data;
 using OffndAt.Application.Core.Abstractions.Messaging;
-using OffndAt.Contracts.Links;
+using OffndAt.Contracts.Links.Dtos;
+using OffndAt.Contracts.Links.Responses;
 using OffndAt.Domain.Core.Primitives;
 using OffndAt.Domain.Repositories;
 using OffndAt.Domain.ValueObjects;

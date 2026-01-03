@@ -1,5 +1,5 @@
 ﻿using Bogus;
-using OffndAt.Contracts.Links;
+using OffndAt.Contracts.Links.Dtos;
 
 namespace OffndAt.Services.Api.Endpoints.Examples.Fakers;
 

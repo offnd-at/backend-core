@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Nodes;
 using Bogus;
-using OffndAt.Contracts.Themes;
+using OffndAt.Contracts.Themes.Responses;
 using OffndAt.Services.Api.Endpoints.Examples.Fakers;
 using OffndAt.Services.Api.Endpoints.Extensions;
 

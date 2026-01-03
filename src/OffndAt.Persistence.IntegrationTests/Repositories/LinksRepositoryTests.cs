@@ -7,7 +7,7 @@ using OffndAt.Persistence.Repositories;
 
 namespace OffndAt.Persistence.IntegrationTests.Repositories;
 
-internal sealed class LinksRepositoryTests : BaseTestFixture
+internal sealed class LinksRepositoryTests : BaseIntegrationTest
 {
     private LinksRepository _repository = null!;
 

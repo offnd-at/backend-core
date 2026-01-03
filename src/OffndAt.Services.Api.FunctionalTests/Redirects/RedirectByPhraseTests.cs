@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Json;
-using OffndAt.Contracts.Links;
+using OffndAt.Contracts.Links.Requests;
+using OffndAt.Contracts.Links.Responses;
 using OffndAt.Services.Api.FunctionalTests.Abstractions;
 
 namespace OffndAt.Services.Api.FunctionalTests.Redirects;
@@ -34,6 +35,6 @@ internal sealed class RedirectByPhraseTests : BaseFunctionalTest
         var response = await HttpClientWithoutRedirects.GetAsync($"v1/redirects/{phrase}");
 
         await Verify(response)
-            .ScrubMember("RequestMessage");
+            .ScrubMember("Request");
     }
 }

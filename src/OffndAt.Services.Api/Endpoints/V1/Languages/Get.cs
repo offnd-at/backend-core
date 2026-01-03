@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using OffndAt.Application.Languages.Queries.GetSupportedLanguages;
-using OffndAt.Contracts.Languages;
+using OffndAt.Contracts.Languages.Responses;
 using OffndAt.Domain.Core.Errors;
 using OffndAt.Domain.Core.Extensions;
 using OffndAt.Domain.Core.Primitives;

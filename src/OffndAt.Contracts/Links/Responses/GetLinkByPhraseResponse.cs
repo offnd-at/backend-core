@@ -1,6 +1,7 @@
 using System.ComponentModel;
-namespace OffndAt.Contracts.Links;
+using OffndAt.Contracts.Links.Dtos;
 
+namespace OffndAt.Contracts.Links.Responses;
 
 /// <summary>
 ///     Represents the get link by phrase response.

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using OffndAt.Application.Core.Abstractions.Data;
 using OffndAt.Domain.Repositories;
 using OffndAt.Persistence.Core.Cache.Settings;
@@ -30,7 +31,7 @@ public static class DependencyInjectionExtensions
         services
             .AddPersistenceSettings(configuration)
             .AddInMemoryCache(configuration)
-            .AddDatabaseContext(configuration)
+            .AddDatabaseContext()
             .AddPersistenceServices()
             .AddMemoryCache();
 
@@ -65,17 +66,17 @@ public static class DependencyInjectionExtensions
     ///     Registers the database context with the DI framework.
     /// </summary>
     /// <param name="services">The service collection.</param>
-    /// <param name="configuration">The configuration.</param>
     /// <returns>The configured service collection.</returns>
-    private static IServiceCollection AddDatabaseContext(this IServiceCollection services, IConfiguration configuration)
+    private static IServiceCollection AddDatabaseContext(this IServiceCollection services)
     {
-        var settings = configuration.GetSection(PersistenceSettings.SettingsKey).Get<PersistenceSettings>() ??
-            throw new InvalidOperationException($"Missing configuration section - {PersistenceSettings.SettingsKey}.");
+        services.AddDbContext<OffndAtDbContext>((serviceProvider, options) =>
+        {
+            var settings = serviceProvider.GetRequiredService<IOptions<PersistenceSettings>>().Value;
 
-        services.AddDbContext<OffndAtDbContext>(options =>
             options.UseNpgsql(
                 settings.ConnectionString,
-                innerOptions => innerOptions.MigrationsAssembly("OffndAt.Persistence")));
+                innerOptions => innerOptions.MigrationsAssembly("OffndAt.Persistence"));
+        });
 
         return services;
     }

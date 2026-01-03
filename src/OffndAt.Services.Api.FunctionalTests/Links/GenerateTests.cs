@@ -1,5 +1,5 @@
 ﻿using System.Net.Http.Json;
-using OffndAt.Contracts.Links;
+using OffndAt.Contracts.Links.Requests;
 using OffndAt.Services.Api.FunctionalTests.Abstractions;
 
 namespace OffndAt.Services.Api.FunctionalTests.Links;
@@ -22,7 +22,8 @@ internal sealed class GenerateTests : BaseFunctionalTest
         await Verify(response)
             .ScrubMember("url")
             .ScrubMember("statsUrl")
-            .ScrubMember("Location");
+            .ScrubMember("Location")
+            .ScrubMember("Content-Length");
     }
 
     [Test]

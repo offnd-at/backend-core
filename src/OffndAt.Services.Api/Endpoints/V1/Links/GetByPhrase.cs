@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using MediatR;
 using OffndAt.Application.Links.Queries.GetLinkByPhrase;
-using OffndAt.Contracts.Links;
+using OffndAt.Contracts.Links.Responses;
 using OffndAt.Domain.Core.Errors;
 using OffndAt.Domain.Core.Extensions;
 using OffndAt.Domain.Core.Primitives;

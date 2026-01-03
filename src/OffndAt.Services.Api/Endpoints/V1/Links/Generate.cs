@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using OffndAt.Application.Links.Commands.GenerateLink;
-using OffndAt.Contracts.Links;
+using OffndAt.Contracts.Links.Requests;
+using OffndAt.Contracts.Links.Responses;
 using OffndAt.Domain.Core.Errors;
 using OffndAt.Domain.Core.Extensions;
 using OffndAt.Domain.Core.Primitives;

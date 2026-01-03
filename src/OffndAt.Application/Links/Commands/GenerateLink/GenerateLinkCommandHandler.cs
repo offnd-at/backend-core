@@ -3,7 +3,7 @@ using OffndAt.Application.Core.Abstractions.Messaging;
 using OffndAt.Application.Core.Abstractions.Phrases;
 using OffndAt.Application.Core.Abstractions.Urls;
 using OffndAt.Application.Core.Constants;
-using OffndAt.Contracts.Links;
+using OffndAt.Contracts.Links.Responses;
 using OffndAt.Domain.Core.Errors;
 using OffndAt.Domain.Core.Primitives;
 using OffndAt.Domain.Entities;

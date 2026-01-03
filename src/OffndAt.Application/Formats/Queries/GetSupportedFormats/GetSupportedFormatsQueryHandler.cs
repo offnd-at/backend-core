@@ -1,5 +1,6 @@
 ﻿using OffndAt.Application.Core.Abstractions.Messaging;
-using OffndAt.Contracts.Formats;
+using OffndAt.Contracts.Formats.Dtos;
+using OffndAt.Contracts.Formats.Responses;
 using OffndAt.Domain.Core.Primitives;
 using OffndAt.Domain.Enumerations;
 

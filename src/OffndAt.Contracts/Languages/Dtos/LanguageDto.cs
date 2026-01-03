@@ -1,6 +1,6 @@
 using System.ComponentModel;
-namespace OffndAt.Contracts.Languages;
 
+namespace OffndAt.Contracts.Languages.Dtos;
 
 /// <summary>
 ///     Represents the language data transfer object.

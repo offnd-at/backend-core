@@ -1,5 +1,5 @@
 ﻿using Bogus;
-using OffndAt.Contracts.Themes;
+using OffndAt.Contracts.Themes.Dtos;
 
 namespace OffndAt.Services.Api.Endpoints.Examples.Fakers;
 

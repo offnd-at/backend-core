@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Nodes;
 using Bogus;
-using OffndAt.Contracts.Links;
+using OffndAt.Contracts.Links.Requests;
 using OffndAt.Domain.Enumerations;
 using OffndAt.Services.Api.Endpoints.Extensions;
 

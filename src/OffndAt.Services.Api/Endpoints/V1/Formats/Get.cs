@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using OffndAt.Application.Formats.Queries.GetSupportedFormats;
-using OffndAt.Contracts.Formats;
+using OffndAt.Contracts.Formats.Responses;
 using OffndAt.Domain.Core.Errors;
 using OffndAt.Domain.Core.Extensions;
 using OffndAt.Domain.Core.Primitives;

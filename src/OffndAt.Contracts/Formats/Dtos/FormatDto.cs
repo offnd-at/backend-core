@@ -1,6 +1,6 @@
 using System.ComponentModel;
-namespace OffndAt.Contracts.Formats;
 
+namespace OffndAt.Contracts.Formats.Dtos;
 
 /// <summary>
 ///     Represents the format data transfer object.

@@ -29,6 +29,6 @@ internal sealed class CaseConverter : ICaseConverter
             return wordsAsString.Pascalize();
         }
 
-        throw new ArgumentOutOfRangeException(nameof(format), format, "Could convert case to unknown format.");
+        throw new ArgumentOutOfRangeException(nameof(format), format, "Could not convert case to unknown format.");
     }
 }

@@ -1,6 +1,7 @@
 using System.ComponentModel;
-namespace OffndAt.Contracts.Themes;
+using OffndAt.Contracts.Themes.Dtos;
 
+namespace OffndAt.Contracts.Themes.Responses;
 
 /// <summary>
 ///     Represents the supported themes response.

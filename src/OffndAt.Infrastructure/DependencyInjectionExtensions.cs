@@ -179,6 +179,12 @@ public static class DependencyInjectionExtensions
 
         var telemetrySettings = configuration.GetSection(TelemetrySettings.SettingsKey).Get<TelemetrySettings>() ??
             throw new InvalidOperationException($"Missing configuration section - {TelemetrySettings.SettingsKey}.");
+
+        if (!telemetrySettings.Enabled)
+        {
+            return services;
+        }
+
         var applicationSettings = configuration.GetSection(ApplicationSettings.SettingsKey).Get<ApplicationSettings>() ??
             throw new InvalidOperationException($"Missing configuration section - {ApplicationSettings.SettingsKey}.");
 
@@ -222,9 +228,6 @@ public static class DependencyInjectionExtensions
     public static IServiceCollection AddApiAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<AuthSettings>(configuration.GetSection(AuthSettings.SettingsKey));
-
-        var settings = configuration.GetSection(AuthSettings.SettingsKey).Get<AuthSettings>() ??
-            throw new InvalidOperationException($"Missing configuration section - {AuthSettings.SettingsKey}.");
 
         services.AddAuthorization();
         services.AddAuthentication(options => options.DefaultScheme = ApiKeyDefaults.AuthenticationScheme)

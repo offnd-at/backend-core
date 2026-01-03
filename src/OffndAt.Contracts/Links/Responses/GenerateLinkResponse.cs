@@ -1,6 +1,6 @@
 using System.ComponentModel;
-namespace OffndAt.Contracts.Links;
 
+namespace OffndAt.Contracts.Links.Responses;
 
 /// <summary>
 ///     Represents the generate link response.

@@ -1,6 +1,6 @@
 using System.ComponentModel;
-namespace OffndAt.Contracts.Links;
 
+namespace OffndAt.Contracts.Links.Dtos;
 
 /// <summary>
 ///     Represents the link data transfer object.

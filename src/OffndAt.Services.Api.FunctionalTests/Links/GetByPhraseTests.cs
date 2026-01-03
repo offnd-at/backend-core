@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Json;
-using OffndAt.Contracts.Links;
+using OffndAt.Contracts.Links.Requests;
+using OffndAt.Contracts.Links.Responses;
 using OffndAt.Services.Api.FunctionalTests.Abstractions;
 
 namespace OffndAt.Services.Api.FunctionalTests.Links;
