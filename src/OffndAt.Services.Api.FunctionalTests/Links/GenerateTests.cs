@@ -39,7 +39,6 @@ internal sealed class GenerateTests : BaseFunctionalTest
             });
 
         await Verify(response)
-            .ScrubMember("message")
             .ScrubMember("traceId")
             .ScrubMember("activityId")
             .ScrubMember("requestId");
@@ -59,7 +58,6 @@ internal sealed class GenerateTests : BaseFunctionalTest
             });
 
         await Verify(response)
-            .ScrubMember("message")
             .ScrubMember("traceId")
             .ScrubMember("activityId")
             .ScrubMember("requestId");
@@ -78,7 +76,6 @@ internal sealed class GenerateTests : BaseFunctionalTest
             });
 
         await Verify(response)
-            .ScrubMember("message")
             .ScrubMember("traceId")
             .ScrubMember("activityId")
             .ScrubMember("requestId");
@@ -97,7 +94,6 @@ internal sealed class GenerateTests : BaseFunctionalTest
             });
 
         await Verify(response)
-            .ScrubMember("message")
             .ScrubMember("traceId")
             .ScrubMember("activityId")
             .ScrubMember("requestId");
@@ -116,7 +112,6 @@ internal sealed class GenerateTests : BaseFunctionalTest
             });
 
         await Verify(response)
-            .ScrubMember("message")
             .ScrubMember("traceId")
             .ScrubMember("activityId")
             .ScrubMember("requestId");

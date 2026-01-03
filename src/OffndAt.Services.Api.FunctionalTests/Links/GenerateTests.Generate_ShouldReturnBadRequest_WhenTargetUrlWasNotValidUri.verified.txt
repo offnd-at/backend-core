@@ -16,7 +16,7 @@
       errors: [
         {
           code: GenerateLink.TargetUrlMustBeAbsoluteUri,
-          message: {Scrubbed}
+          message: The target URL must be an absolute URI.
         }
       ],
       traceId: {Scrubbed},

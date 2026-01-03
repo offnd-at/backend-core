@@ -7,7 +7,7 @@ namespace OffndAt.Application.Core.Exceptions;
 ///     Represents an exception that occurs when a validation fails.
 /// </summary>
 public sealed class ValidationException(IEnumerable<ValidationFailure> failures)
-    : Exception("One or more validation failures has occurred.")
+    : Exception("One or more validation errors occurred.")
 {
     /// <summary>
     ///     Gets the validation errors.

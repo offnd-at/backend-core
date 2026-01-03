@@ -5,7 +5,7 @@
   },
   Content: {
     Headers: {
-      Content-Length: 447,
+      Content-Length: 449,
       Content-Type: application/problem+json
     },
     Value: {
@@ -15,8 +15,8 @@
       instance: POST /v1/links,
       errors: [
         {
-          code: GreaterThanOrEqualValidator,
-          message: {Scrubbed}
+          code: GenerateLink.ThemeIdOutOfRange,
+          message: The theme identifier must be in the range from 0 to 2 inclusive.
         }
       ],
       traceId: {Scrubbed},

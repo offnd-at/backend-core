@@ -20,14 +20,23 @@ public sealed class GenerateLinkCommandValidator : AbstractValidator<GenerateLin
             .Must(BeAbsoluteUri)
             .WithError(ValidationErrors.GenerateLink.TargetUrlMustBeAbsoluteUri);
 
-        RuleFor(rq => rq.FormatId).GreaterThanOrEqualTo(0).LessThanOrEqualTo(1).WithError(ValidationErrors.GenerateLink.FormatIdOutOfRange);
+        RuleFor(rq => rq.FormatId)
+            .GreaterThanOrEqualTo(0)
+            .WithError(ValidationErrors.GenerateLink.FormatIdOutOfRange)
+            .LessThanOrEqualTo(1)
+            .WithError(ValidationErrors.GenerateLink.FormatIdOutOfRange);
 
         RuleFor(rq => rq.LanguageId)
             .GreaterThanOrEqualTo(0)
+            .WithError(ValidationErrors.GenerateLink.LanguageIdOutOfRange)
             .LessThanOrEqualTo(1)
             .WithError(ValidationErrors.GenerateLink.LanguageIdOutOfRange);
 
-        RuleFor(rq => rq.ThemeId).GreaterThanOrEqualTo(0).LessThanOrEqualTo(2).WithError(ValidationErrors.GenerateLink.ThemeIdOutOfRange);
+        RuleFor(rq => rq.ThemeId)
+            .GreaterThanOrEqualTo(0)
+            .WithError(ValidationErrors.GenerateLink.ThemeIdOutOfRange)
+            .LessThanOrEqualTo(2)
+            .WithError(ValidationErrors.GenerateLink.ThemeIdOutOfRange);
     }
 
     private static bool BeAbsoluteUri(string url) => Uri.TryCreate(url, UriKind.Absolute, out var uri) && uri.IsAbsoluteUri;
