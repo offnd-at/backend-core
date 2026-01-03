@@ -12,8 +12,8 @@ services:
     ports:
       - "8090:8080"
     environment:
-      OTEL_SERVICE_NAME: "offnd-core-api"
-      OTEL_RESOURCE_ATTRIBUTES: "deployment.environment=staging,service.namespace=offnd"
+      OTEL_SERVICE_NAME: "offnd-at-api"
+      OTEL_RESOURCE_ATTRIBUTES: "deployment.environment=Production,service.namespace=offnd"
       PersistenceSettings__ConnectionString: "Host=postgres;Username=offndat;Password=offndat;Database=offndat"
       MessageBrokerSettings__Hostname: rabbit-mq
       TelemetrySettings__ExporterEndpoint: "http://otel-collector:4317/"
@@ -35,8 +35,8 @@ services:
       args:
         ApplicationSettings__Version: "0.0.0-docker"
     environment:
-      OTEL_SERVICE_NAME: "offnd-core-events-worker"
-      OTEL_RESOURCE_ATTRIBUTES: "deployment.environment=staging,service.namespace=offnd"
+      OTEL_SERVICE_NAME: "offnd-at-events-worker"
+      OTEL_RESOURCE_ATTRIBUTES: "deployment.environment=Production,service.namespace=offnd"
       PersistenceSettings__ConnectionString: "Host=postgres;Username=offndat;Password=offndat;Database=offndat"
       MessageBrokerSettings__Hostname: rabbit-mq
       TelemetrySettings__ExporterEndpoint: "http://otel-collector:4317/"
