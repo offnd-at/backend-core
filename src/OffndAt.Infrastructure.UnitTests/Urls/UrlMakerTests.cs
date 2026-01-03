@@ -1,9 +1,9 @@
-﻿namespace OffndAt.Infrastructure.UnitTests.Urls;
-
-using Domain.ValueObjects;
-using Infrastructure.Core.Settings;
-using Infrastructure.Urls;
 using Microsoft.Extensions.Options;
+using OffndAt.Domain.ValueObjects;
+using OffndAt.Infrastructure.Core.Settings;
+using OffndAt.Infrastructure.Urls;
+
+namespace OffndAt.Infrastructure.UnitTests.Urls;
 
 internal sealed class UrlMakerTests
 {
@@ -14,8 +14,9 @@ internal sealed class UrlMakerTests
         {
             BaseDomain = "offnd.at",
             UseHttps = true,
-            ApplicationName = "offnd-at",
-            Environment = "test"
+            AppName = "offnd-at",
+            Environment = "test",
+            Version = "test-version"
         };
 
         var phrase = Phrase.Create("test-phrase").Value;
@@ -24,12 +25,11 @@ internal sealed class UrlMakerTests
 
         var actual = urlMaker.MakeRedirectUrlForPhrase(phrase);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.IsSuccess, Is.True);
-                Assert.That(actual.Value.Value, Contains.Substring("https://"));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.IsSuccess, Is.True);
+            Assert.That(actual.Value.Value, Contains.Substring("https://"));
+        });
     }
 
     [Test]
@@ -39,8 +39,9 @@ internal sealed class UrlMakerTests
         {
             BaseDomain = "offnd.at",
             UseHttps = false,
-            ApplicationName = "offnd-at",
-            Environment = "test"
+            AppName = "offnd-at",
+            Environment = "test",
+            Version = "test-version"
         };
 
         var phrase = Phrase.Create("test-phrase").Value;
@@ -49,12 +50,11 @@ internal sealed class UrlMakerTests
 
         var actual = urlMaker.MakeRedirectUrlForPhrase(phrase);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.IsSuccess, Is.True);
-                Assert.That(actual.Value.Value, Contains.Substring("http://"));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.IsSuccess, Is.True);
+            Assert.That(actual.Value.Value, Contains.Substring("http://"));
+        });
     }
 
     [Test]
@@ -64,8 +64,9 @@ internal sealed class UrlMakerTests
         {
             BaseDomain = "offnd.at",
             UseHttps = true,
-            ApplicationName = "offnd-at",
-            Environment = "test"
+            AppName = "offnd-at",
+            Environment = "test",
+            Version = "test-version"
         };
 
         var phrase = Phrase.Create("test-phrase").Value;
@@ -75,12 +76,11 @@ internal sealed class UrlMakerTests
 
         var actual = urlMaker.MakeRedirectUrlForPhrase(phrase);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.IsSuccess, Is.True);
-                Assert.That(actual.Value, Is.EqualTo(expectedUrl));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.IsSuccess, Is.True);
+            Assert.That(actual.Value, Is.EqualTo(expectedUrl));
+        });
     }
 
     [Test]
@@ -90,8 +90,9 @@ internal sealed class UrlMakerTests
         {
             BaseDomain = "offnd.at",
             UseHttps = true,
-            ApplicationName = "offnd-at",
-            Environment = "test"
+            AppName = "offnd-at",
+            Environment = "test",
+            Version = "test-version"
         };
 
         var phrase = Phrase.Create("test-phrase").Value;
@@ -100,12 +101,11 @@ internal sealed class UrlMakerTests
 
         var actual = urlMaker.MakeStatsUrlForPhrase(phrase);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.IsSuccess, Is.True);
-                Assert.That(actual.Value.Value, Contains.Substring("https://"));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.IsSuccess, Is.True);
+            Assert.That(actual.Value.Value, Contains.Substring("https://"));
+        });
     }
 
     [Test]
@@ -115,8 +115,9 @@ internal sealed class UrlMakerTests
         {
             BaseDomain = "offnd.at",
             UseHttps = false,
-            ApplicationName = "offnd-at",
-            Environment = "test"
+            AppName = "offnd-at",
+            Environment = "test",
+            Version = "test-version"
         };
 
         var phrase = Phrase.Create("test-phrase").Value;
@@ -125,12 +126,11 @@ internal sealed class UrlMakerTests
 
         var actual = urlMaker.MakeStatsUrlForPhrase(phrase);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.IsSuccess, Is.True);
-                Assert.That(actual.Value.Value, Contains.Substring("http://"));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.IsSuccess, Is.True);
+            Assert.That(actual.Value.Value, Contains.Substring("http://"));
+        });
     }
 
     [Test]
@@ -140,8 +140,9 @@ internal sealed class UrlMakerTests
         {
             BaseDomain = "offnd.at",
             UseHttps = true,
-            ApplicationName = "offnd-at",
-            Environment = "test"
+            AppName = "offnd-at",
+            Environment = "test",
+            Version = "test-version"
         };
 
         var phrase = Phrase.Create("test-phrase").Value;
@@ -151,11 +152,10 @@ internal sealed class UrlMakerTests
 
         var actual = urlMaker.MakeStatsUrlForPhrase(phrase);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.IsSuccess, Is.True);
-                Assert.That(actual.Value, Is.EqualTo(expectedUrl));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.IsSuccess, Is.True);
+            Assert.That(actual.Value, Is.EqualTo(expectedUrl));
+        });
     }
 }

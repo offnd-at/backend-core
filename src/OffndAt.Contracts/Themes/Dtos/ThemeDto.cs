@@ -1,6 +1,6 @@
-﻿namespace OffndAt.Contracts.Themes;
-
 using System.ComponentModel;
+
+namespace OffndAt.Contracts.Themes.Dtos;
 
 /// <summary>
 ///     Represents the theme data transfer object.

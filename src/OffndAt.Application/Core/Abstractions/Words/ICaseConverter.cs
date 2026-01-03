@@ -1,7 +1,7 @@
-﻿namespace OffndAt.Application.Core.Abstractions.Words;
+﻿using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.ValueObjects;
 
-using Domain.Enumerations;
-using Domain.ValueObjects;
+namespace OffndAt.Application.Core.Abstractions.Words;
 
 /// <summary>
 ///     Represents the case converter interface.

@@ -1,6 +1,6 @@
-﻿namespace OffndAt.Domain.Enumerations;
+﻿using OffndAt.Domain.Core.Primitives;
 
-using Core.Primitives;
+namespace OffndAt.Domain.Enumerations;
 
 /// <summary>
 ///     Represents the language enumeration.

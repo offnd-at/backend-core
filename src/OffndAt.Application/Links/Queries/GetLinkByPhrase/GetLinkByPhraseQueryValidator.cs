@@ -1,8 +1,8 @@
-﻿namespace OffndAt.Application.Links.Queries.GetLinkByPhrase;
+﻿using FluentValidation;
+using OffndAt.Application.Core.Errors;
+using OffndAt.Application.Core.Extensions;
 
-using Core.Errors;
-using Core.Extensions;
-using FluentValidation;
+namespace OffndAt.Application.Links.Queries.GetLinkByPhrase;
 
 /// <summary>
 ///     Represents the <see cref="GetLinkByPhraseQuery" /> validator.

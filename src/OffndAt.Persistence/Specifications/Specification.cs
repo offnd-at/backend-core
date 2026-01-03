@@ -1,7 +1,7 @@
-﻿namespace OffndAt.Persistence.Specifications;
+﻿using System.Linq.Expressions;
+using OffndAt.Domain.Core.Primitives;
 
-using System.Linq.Expressions;
-using Domain.Core.Primitives;
+namespace OffndAt.Persistence.Specifications;
 
 /// <summary>
 ///     Represents the abstract base class for specifications.

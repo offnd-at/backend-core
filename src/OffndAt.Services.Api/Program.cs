@@ -1,8 +1,12 @@
 using FluentValidation.AspNetCore;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Mvc;
 using OffndAt.Application;
+using OffndAt.Application.Core.Abstractions.Messaging;
 using OffndAt.Domain;
+using OffndAt.Domain.Core.Events;
 using OffndAt.Infrastructure;
 using OffndAt.Infrastructure.Core.Logging.Extensions;
 using OffndAt.Persistence;
@@ -20,7 +24,7 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddDomain();
 
-builder.Services.AddMediatorWithBehaviours()
+builder.Services.AddMediatorWithBehaviours([typeof(ICommand).Assembly, typeof(IDomainEvent).Assembly])
     .AddValidators()
     .AddFluentValidationAutoValidation();
 
@@ -28,23 +32,23 @@ builder.Services.AddPersistence(builder.Configuration)
     .AddInMemoryCache(builder.Configuration);
 
 builder.Services.AddInfrastructureSettings(builder.Configuration)
+    .AddTelemetry(builder.Configuration)
     .AddInfrastructureServices()
     .AddCorsPolicies(builder.Configuration)
+    .AddApiAuthentication(builder.Configuration)
     .AddResiliencePolicies()
     .AddMassTransitProducer(builder.Configuration)
-    .AddAuthorization()
-    .AddAuthentication();
+    .AddHealthMonitoring();
 
 builder.Services
     .AddVersioning()
     .AddOpenApiWithExamples()
     .AddApi()
-    .AddHttpLogging(
-        options =>
-        {
-            options.LoggingFields = HttpLoggingFields.RequestBody;
-            options.MediaTypeOptions.AddText("application/json");
-        });
+    .AddHttpLogging(options =>
+    {
+        options.LoggingFields = HttpLoggingFields.RequestBody;
+        options.MediaTypeOptions.AddText("application/json");
+    });
 
 builder.Host.UseOffndAtSerilog();
 
@@ -59,16 +63,22 @@ app.MapEndpointsForAllVersions()
     .UseHttpsRedirection()
     .UseHttpLogging();
 
+app.MapHealthChecks(
+    "/health",
+    new HealthCheckOptions
+    {
+        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+    });
+
 app.MapOpenApi();
 app.MapScalarApiReference(
     "docs",
     options => options
         .WithTitle("offnd.at | API reference")
-        .WithTagSorter(TagSorter.Alpha)
-        .WithOperationSorter(OperationSorter.Alpha)
+        .SortTagsAlphabetically()
+        .SortOperationsByMethod()
         .WithDefaultHttpClient(ScalarTarget.Http, ScalarClient.Http11)
-        .WithClientButton(false)
-        .WithModels(false));
+        .HideClientButton());
 
 app.Run();
 

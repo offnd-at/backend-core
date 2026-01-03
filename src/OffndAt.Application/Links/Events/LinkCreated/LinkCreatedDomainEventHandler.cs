@@ -1,8 +1,8 @@
-﻿namespace OffndAt.Application.Links.Events.LinkCreated;
+﻿using OffndAt.Application.Core.Abstractions.Messaging;
+using OffndAt.Domain.Core.Events;
+using OffndAt.Domain.Events;
 
-using Core.Abstractions.Messaging;
-using Domain.Core.Events;
-using Domain.Events;
+namespace OffndAt.Application.Links.Events.LinkCreated;
 
 /// <summary>
 ///     Represents the <see cref="LinkCreatedDomainEvent" /> handler.

@@ -1,11 +1,11 @@
-﻿namespace OffndAt.Persistence.Configurations;
-
-using Domain.Entities;
-using Domain.Enumerations;
-using Domain.ValueObjects;
-using Domain.ValueObjects.Identifiers;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using OffndAt.Domain.Entities;
+using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.ValueObjects;
+using OffndAt.Domain.ValueObjects.Identifiers;
+
+namespace OffndAt.Persistence.Configurations;
 
 /// <summary>
 ///     Represents the configuration for the <see cref="Link" /> entity.

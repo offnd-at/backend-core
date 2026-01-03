@@ -1,13 +1,13 @@
-﻿namespace OffndAt.Persistence.IntegrationTests.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using OffndAt.Domain.Entities;
+using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.ValueObjects;
+using OffndAt.Domain.ValueObjects.Identifiers;
+using OffndAt.Persistence.Repositories;
 
-using Domain.Entities;
-using Domain.Enumerations;
-using Domain.ValueObjects;
-using Domain.ValueObjects.Identifiers;
-using Microsoft.EntityFrameworkCore;
-using Persistence.Repositories;
+namespace OffndAt.Persistence.IntegrationTests.Repositories;
 
-internal sealed class LinksRepositoryTests : BaseTestFixture
+internal sealed class LinksRepositoryTests : BaseIntegrationTest
 {
     private LinksRepository _repository = null!;
 
@@ -36,12 +36,11 @@ internal sealed class LinksRepositoryTests : BaseTestFixture
 
         var actual = await _repository.GetByPhraseAsync(phrase, CancellationToken.None);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.HasValue, Is.True);
-                Assert.That(actual.Value, Is.EqualTo(link));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.HasValue, Is.True);
+            Assert.That(actual.Value, Is.EqualTo(link));
+        });
     }
 
     [Test]

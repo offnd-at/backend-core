@@ -1,12 +1,12 @@
-﻿namespace OffndAt.Persistence.Repositories;
+﻿using OffndAt.Application.Core.Abstractions.Data;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.Entities;
+using OffndAt.Domain.Repositories;
+using OffndAt.Domain.ValueObjects;
+using OffndAt.Domain.ValueObjects.Identifiers;
+using OffndAt.Persistence.Specifications.Links;
 
-using Application.Core.Abstractions.Data;
-using Domain.Core.Primitives;
-using Domain.Entities;
-using Domain.Repositories;
-using Domain.ValueObjects;
-using Domain.ValueObjects.Identifiers;
-using Specifications.Links;
+namespace OffndAt.Persistence.Repositories;
 
 /// <summary>
 ///     Represents the links repository.

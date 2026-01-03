@@ -1,9 +1,9 @@
-﻿namespace OffndAt.Infrastructure.Words;
+﻿using Humanizer;
+using OffndAt.Application.Core.Abstractions.Words;
+using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.ValueObjects;
 
-using Application.Core.Abstractions.Words;
-using Domain.Enumerations;
-using Domain.ValueObjects;
-using Humanizer;
+namespace OffndAt.Infrastructure.Words;
 
 /// <summary>
 ///     Represents the case converter
@@ -29,6 +29,6 @@ internal sealed class CaseConverter : ICaseConverter
             return wordsAsString.Pascalize();
         }
 
-        throw new ArgumentOutOfRangeException(nameof(format), format, "Could convert case to unknown format.");
+        throw new ArgumentOutOfRangeException(nameof(format), format, "Could not convert case to unknown format.");
     }
 }

@@ -1,7 +1,7 @@
-﻿namespace OffndAt.Application.Core.Abstractions.Urls;
+﻿using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.ValueObjects;
 
-using Domain.Core.Primitives;
-using Domain.ValueObjects;
+namespace OffndAt.Application.Core.Abstractions.Urls;
 
 /// <summary>
 ///     Represents the URL maker interface.

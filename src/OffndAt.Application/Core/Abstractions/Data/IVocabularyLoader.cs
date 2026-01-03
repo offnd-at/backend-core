@@ -1,8 +1,8 @@
-﻿namespace OffndAt.Application.Core.Abstractions.Data;
+﻿using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.Models;
+using OffndAt.Domain.ValueObjects;
 
-using Domain.Core.Primitives;
-using Domain.Models;
-using Domain.ValueObjects;
+namespace OffndAt.Application.Core.Abstractions.Data;
 
 /// <summary>
 ///     Represents the vocabulary loader interface.

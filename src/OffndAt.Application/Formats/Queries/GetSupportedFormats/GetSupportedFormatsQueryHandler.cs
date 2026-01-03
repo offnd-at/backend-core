@@ -1,9 +1,10 @@
-﻿namespace OffndAt.Application.Formats.Queries.GetSupportedFormats;
+﻿using OffndAt.Application.Core.Abstractions.Messaging;
+using OffndAt.Contracts.Formats.Dtos;
+using OffndAt.Contracts.Formats.Responses;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.Enumerations;
 
-using Contracts.Formats;
-using Core.Abstractions.Messaging;
-using Domain.Core.Primitives;
-using Domain.Enumerations;
+namespace OffndAt.Application.Formats.Queries.GetSupportedFormats;
 
 /// <summary>
 ///     Represents the <see cref="GetSupportedFormatsQuery" /> handler.
@@ -13,14 +14,17 @@ internal sealed class GetSupportedFormatsQueryHandler : IQueryHandler<GetSupport
     /// <inheritdoc />
     public Task<Maybe<GetSupportedFormatsResponse>> Handle(GetSupportedFormatsQuery request, CancellationToken cancellationToken)
     {
-        var formatDtos = Format.List.Select(
-            format => new FormatDto
-            {
-                Name = format.Name,
-                Value = format.Value
-            });
+        var formatDtos = Format.List.Select(format => new FormatDto
+        {
+            Name = format.Name,
+            Value = format.Value
+        });
 
-        var maybeFormats = Maybe<GetSupportedFormatsResponse>.From(new GetSupportedFormatsResponse { Formats = formatDtos });
+        var maybeFormats = Maybe<GetSupportedFormatsResponse>.From(
+            new GetSupportedFormatsResponse
+            {
+                Formats = formatDtos
+            });
 
         return Task.FromResult(maybeFormats);
     }

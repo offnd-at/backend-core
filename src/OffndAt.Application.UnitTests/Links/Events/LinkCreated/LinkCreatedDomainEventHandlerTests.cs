@@ -1,12 +1,12 @@
-﻿namespace OffndAt.Application.UnitTests.Links.Events.LinkCreated;
+﻿using NSubstitute;
+using OffndAt.Application.Core.Abstractions.Messaging;
+using OffndAt.Application.Links.Events.LinkCreated;
+using OffndAt.Domain.Entities;
+using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.Events;
+using OffndAt.Domain.ValueObjects;
 
-using Application.Links.Events.LinkCreated;
-using Core.Abstractions.Messaging;
-using Domain.Entities;
-using Domain.Enumerations;
-using Domain.Events;
-using Domain.ValueObjects;
-using NSubstitute;
+namespace OffndAt.Application.UnitTests.Links.Events.LinkCreated;
 
 internal sealed class LinkCreatedDomainEventHandlerTests
 {

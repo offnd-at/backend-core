@@ -1,7 +1,7 @@
-﻿namespace OffndAt.Application.Links.Queries.GetLinkByPhrase;
+﻿using OffndAt.Application.Core.Abstractions.Messaging;
+using OffndAt.Contracts.Links.Responses;
 
-using Contracts.Links;
-using Core.Abstractions.Messaging;
+namespace OffndAt.Application.Links.Queries.GetLinkByPhrase;
 
 /// <summary>
 ///     Represents the query used for getting a link by phrase.

@@ -1,9 +1,8 @@
-﻿namespace OffndAt.Services.EventsWorker.Links.Events.LinkCreated;
+﻿using MassTransit;
+using OffndAt.Application.Links.Events.LinkCreated;
+using OffndAt.Services.EventsWorker.Abstractions.Messaging;
 
-using Abstractions.Messaging;
-using Application.Links.Events.LinkCreated;
-using MassTransit;
-using Microsoft.Extensions.Logging;
+namespace OffndAt.Services.EventsWorker.Links.Events.LinkCreated;
 
 /// <summary>
 ///     Represents the <see cref="LinkCreatedIntegrationEvent" /> handler.

@@ -1,8 +1,8 @@
-﻿namespace OffndAt.Application.Core.Abstractions.Data;
-
-using Domain.Core.Primitives;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using OffndAt.Domain.Core.Primitives;
+
+namespace OffndAt.Application.Core.Abstractions.Data;
 
 /// <summary>
 ///     Represents the application database context interface.

@@ -1,10 +1,10 @@
-﻿namespace OffndAt.Services.Api.Endpoints.Examples.V1.Themes;
-
+﻿using System.Text.Json.Nodes;
 using Bogus;
-using Extensions;
-using Fakers;
-using Microsoft.OpenApi.Any;
-using OffndAt.Contracts.Themes;
+using OffndAt.Contracts.Themes.Responses;
+using OffndAt.Services.Api.Endpoints.Examples.Fakers;
+using OffndAt.Services.Api.Endpoints.Extensions;
+
+namespace OffndAt.Services.Api.Endpoints.Examples.V1.Themes;
 
 /// <summary>
 ///     Represents the example response for the get supported themes endpoint.
@@ -12,9 +12,9 @@ using OffndAt.Contracts.Themes;
 internal sealed class GetResponseExample : IOpenApiExample<GetSupportedThemesResponse>
 {
     /// <inheritdoc />
-    public OpenApiObject GetExample() =>
+    public JsonNode GetExample() =>
         new Faker<GetSupportedThemesResponse>()
             .RuleFor(r => r.Themes, _ => ThemeFakers.Theme.Generate(2))
             .Generate()
-            .ToOpenApiObject();
+            .ToJsonNode();
 }

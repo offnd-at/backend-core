@@ -1,6 +1,6 @@
-﻿namespace OffndAt.Domain.Core.Primitives;
+﻿using OffndAt.Domain.Core.Utils;
 
-using Utils;
+namespace OffndAt.Domain.Core.Primitives;
 
 /// <summary>
 ///     Represents the entity identifier value object.

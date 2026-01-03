@@ -1,15 +1,15 @@
-﻿namespace OffndAt.Persistence;
-
-using Application.Core.Abstractions.Data;
-using Core.Cache.Settings;
-using Data;
-using Domain.Repositories;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Repositories;
-using Settings;
+using OffndAt.Application.Core.Abstractions.Data;
+using OffndAt.Domain.Repositories;
+using OffndAt.Persistence.Core.Cache.Settings;
+using OffndAt.Persistence.Data;
+using OffndAt.Persistence.Repositories;
+using OffndAt.Persistence.Settings;
+
+namespace OffndAt.Persistence;
 
 /// <summary>
 ///     Contains extensions used to configure DI Container.
@@ -43,8 +43,8 @@ public static class DependencyInjectionExtensions
     /// <returns>The configured service collection.</returns>
     public static IServiceCollection AddInMemoryCache(this IServiceCollection services, IConfiguration configuration)
     {
-        _ = services.Configure<CacheSettings>(configuration.GetSection(CacheSettings.SettingsKey));
-        _ = services.AddMemoryCache();
+        services.Configure<CacheSettings>(configuration.GetSection(CacheSettings.SettingsKey));
+        services.AddMemoryCache();
 
         return services;
     }
@@ -69,13 +69,14 @@ public static class DependencyInjectionExtensions
     /// <returns>The configured service collection.</returns>
     private static IServiceCollection AddDatabaseContext(this IServiceCollection services)
     {
-        var settings = services.BuildServiceProvider().GetRequiredService<IOptions<PersistenceSettings>>().Value;
+        services.AddDbContext<OffndAtDbContext>((serviceProvider, options) =>
+        {
+            var settings = serviceProvider.GetRequiredService<IOptions<PersistenceSettings>>().Value;
 
-        services.AddDbContext<OffndAtDbContext>(
-            options =>
-                options.UseNpgsql(
-                    settings.ConnectionString,
-                    innerOptions => innerOptions.MigrationsAssembly("OffndAt.Persistence")));
+            options.UseNpgsql(
+                settings.ConnectionString,
+                innerOptions => innerOptions.MigrationsAssembly("OffndAt.Persistence"));
+        });
 
         return services;
     }

@@ -1,12 +1,12 @@
-﻿namespace OffndAt.Services.Api.Endpoints.V1.Formats;
+﻿using MediatR;
+using OffndAt.Application.Formats.Queries.GetSupportedFormats;
+using OffndAt.Contracts.Formats.Responses;
+using OffndAt.Domain.Core.Errors;
+using OffndAt.Domain.Core.Extensions;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Services.Api.Contracts;
 
-using Application.Formats.Queries.GetSupportedFormats;
-using Contracts;
-using Domain.Core.Errors;
-using Domain.Core.Extensions;
-using Domain.Core.Primitives;
-using MediatR;
-using OffndAt.Contracts.Formats;
+namespace OffndAt.Services.Api.Endpoints.V1.Formats;
 
 /// <summary>
 ///     Represents the get supported formats endpoint.
@@ -22,6 +22,7 @@ internal sealed class Get : IEndpoint
                         .From(new GetSupportedFormatsQuery())
                         .BindAsync(query => sender.Send(query, cancellationToken))
                         .MatchAsync(Results.Ok, () => CustomResults.NotFound(DomainErrors.Format.NoneAvailable)))
+            .RequireAuthorization()
             .WithTags(nameof(ApiRoutes.Formats))
             .WithSummary("Get supported formats")
             .WithDescription("Retrieves a list of all supported formats.")

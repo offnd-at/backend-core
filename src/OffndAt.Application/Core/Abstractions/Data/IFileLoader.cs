@@ -1,6 +1,6 @@
-﻿namespace OffndAt.Application.Core.Abstractions.Data;
+﻿using OffndAt.Domain.Core.Primitives;
 
-using Domain.Core.Primitives;
+namespace OffndAt.Application.Core.Abstractions.Data;
 
 /// <summary>
 ///     Represents the file loader interface.

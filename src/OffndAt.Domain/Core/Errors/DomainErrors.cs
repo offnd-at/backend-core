@@ -1,6 +1,6 @@
-﻿namespace OffndAt.Domain.Core.Errors;
+﻿using OffndAt.Domain.Core.Primitives;
 
-using Primitives;
+namespace OffndAt.Domain.Core.Errors;
 
 /// <summary>
 ///     Contains domain errors.
@@ -15,17 +15,26 @@ public static class DomainErrors
         /// <summary>
         ///     Gets the unprocessable request error.
         /// </summary>
-        public static Error UnprocessableRequest => new("General.UnprocessableRequest", "The server could not process the request.");
+        public static Error UnprocessableRequest =>
+            new("General.UnprocessableRequest", "The server could not process the request.");
 
         /// <summary>
         ///     Gets the general server error.
         /// </summary>
-        public static Error ServerError => new("General.ServerError", "The server encountered an unrecoverable error.");
+        public static Error ServerError =>
+            new("General.ServerError", "The server encountered an unrecoverable error.");
 
         /// <summary>
         ///     Gets the not found error.
         /// </summary>
-        public static Error NotFound => new("General.NotFound", "The requested resource was not found.");
+        public static Error NotFound =>
+            new("General.NotFound", "The requested resource was not found.");
+
+        /// <summary>
+        ///     Gets the unauthorized error.
+        /// </summary>
+        public static Error Unauthorized =>
+            new("General.Unauthorized", "You are not authorized to access the requested resource or perform the requested action.");
     }
 
     /// <summary>
@@ -36,17 +45,20 @@ public static class DomainErrors
         /// <summary>
         ///     Gets the null or empty error.
         /// </summary>
-        public static Error NullOrEmpty => new("Phrase.NullOrEmpty", "The phrase is required.");
+        public static Error NullOrEmpty =>
+            new("Phrase.NullOrEmpty", "The phrase is required.");
 
         /// <summary>
         ///     Gets the longer than allowed error.
         /// </summary>
-        public static Error LongerThanAllowed => new("Phrase.LongerThanAllowed", "The phrase is longer than allowed.");
+        public static Error LongerThanAllowed =>
+            new("Phrase.LongerThanAllowed", "The phrase is longer than allowed.");
 
         /// <summary>
         ///     Gets the already in use error.
         /// </summary>
-        public static Error AlreadyInUse => new("Phrase.AlreadyInUse", "The phrase is already in use.");
+        public static Error AlreadyInUse =>
+            new("Phrase.AlreadyInUse", "The phrase is already in use.");
     }
 
     /// <summary>
@@ -57,12 +69,14 @@ public static class DomainErrors
         /// <summary>
         ///     Gets the null or empty error.
         /// </summary>
-        public static Error NullOrEmpty => new("TargetUrl.NullOrEmpty", "The target URL is required.");
+        public static Error NullOrEmpty =>
+            new("TargetUrl.NullOrEmpty", "The target URL is required.");
 
         /// <summary>
         ///     Gets the longer than allowed error.
         /// </summary>
-        public static Error LongerThanAllowed => new("TargetUrl.LongerThanAllowed", "The target URL is longer than allowed.");
+        public static Error LongerThanAllowed =>
+            new("TargetUrl.LongerThanAllowed", "The target URL is longer than allowed.");
     }
 
     /// <summary>
@@ -73,12 +87,14 @@ public static class DomainErrors
         /// <summary>
         ///     Gets the null or empty error.
         /// </summary>
-        public static Error NullOrEmpty => new("Word.NullOrEmpty", "The word is required.");
+        public static Error NullOrEmpty =>
+            new("Word.NullOrEmpty", "The word is required.");
 
         /// <summary>
         ///     Gets the longer than allowed error.
         /// </summary>
-        public static Error LongerThanAllowed => new("Word.LongerThanAllowed", "The word is longer than allowed.");
+        public static Error LongerThanAllowed =>
+            new("Word.LongerThanAllowed", "The word is longer than allowed.");
     }
 
     /// <summary>
@@ -89,12 +105,14 @@ public static class DomainErrors
         /// <summary>
         ///     Gets the not found error.
         /// </summary>
-        public static Error NotFound => new("Format.NotFound", "The format with the specified identifier was not found.");
+        public static Error NotFound =>
+            new("Format.NotFound", "The format with the specified identifier was not found.");
 
         /// <summary>
         ///     Gets the none available error.
         /// </summary>
-        public static Error NoneAvailable => new("Format.NoneAvailable", "There are no supported formats.");
+        public static Error NoneAvailable =>
+            new("Format.NoneAvailable", "There are no supported formats.");
     }
 
     /// <summary>
@@ -105,12 +123,14 @@ public static class DomainErrors
         /// <summary>
         ///     Gets the not found error.
         /// </summary>
-        public static Error NotFound => new("Language.NotFound", "The language with the specified identifier was not found.");
+        public static Error NotFound =>
+            new("Language.NotFound", "The language with the specified identifier was not found.");
 
         /// <summary>
         ///     Gets the none available error.
         /// </summary>
-        public static Error NoneAvailable => new("Language.NoneAvailable", "There are no supported languages.");
+        public static Error NoneAvailable =>
+            new("Language.NoneAvailable", "There are no supported languages.");
     }
 
     /// <summary>
@@ -121,12 +141,14 @@ public static class DomainErrors
         /// <summary>
         ///     Gets the not found error.
         /// </summary>
-        public static Error NotFound => new("Theme.NotFound", "The theme with the specified identifier was not found.");
+        public static Error NotFound =>
+            new("Theme.NotFound", "The theme with the specified identifier was not found.");
 
         /// <summary>
         ///     Gets the none available error.
         /// </summary>
-        public static Error NoneAvailable => new("Theme.NoneAvailable", "There are no supported themes.");
+        public static Error NoneAvailable =>
+            new("Theme.NoneAvailable", "There are no supported themes.");
     }
 
     /// <summary>
@@ -137,12 +159,14 @@ public static class DomainErrors
         /// <summary>
         ///     Gets the not found error.
         /// </summary>
-        public static Error NotFound => new("Vocabulary.NotFound", "The vocabulary with the specified parameters was not found.");
+        public static Error NotFound =>
+            new("Vocabulary.NotFound", "The vocabulary with the specified parameters was not found.");
 
         /// <summary>
         ///     Gets the empty words list error.
         /// </summary>
-        public static Error EmptyWordsList => new("Vocabulary.EmptyWordsList", "At least one word is required in the vocabulary.");
+        public static Error EmptyWordsList =>
+            new("Vocabulary.EmptyWordsList", "At least one word is required in the vocabulary.");
     }
 
     /// <summary>
@@ -153,6 +177,7 @@ public static class DomainErrors
         /// <summary>
         ///     Gets the not found error.
         /// </summary>
-        public static Error NotFound => new("Link.NotFound", "The link with the specified phrase was not found.");
+        public static Error NotFound =>
+            new("Link.NotFound", "The link with the specified phrase was not found.");
     }
 }

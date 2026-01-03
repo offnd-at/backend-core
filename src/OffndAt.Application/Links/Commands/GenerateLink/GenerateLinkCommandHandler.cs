@@ -1,18 +1,18 @@
-﻿namespace OffndAt.Application.Links.Commands.GenerateLink;
-
-using Contracts.Links;
-using Core.Abstractions.Messaging;
-using Core.Abstractions.Phrases;
-using Core.Abstractions.Urls;
-using Core.Constants;
-using Domain.Core.Errors;
-using Domain.Core.Primitives;
-using Domain.Entities;
-using Domain.Enumerations;
-using Domain.Repositories;
-using Domain.ValueObjects;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
+using OffndAt.Application.Core.Abstractions.Messaging;
+using OffndAt.Application.Core.Abstractions.Phrases;
+using OffndAt.Application.Core.Abstractions.Urls;
+using OffndAt.Application.Core.Constants;
+using OffndAt.Contracts.Links.Responses;
+using OffndAt.Domain.Core.Errors;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.Entities;
+using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.Repositories;
+using OffndAt.Domain.ValueObjects;
 using Polly.Registry;
+
+namespace OffndAt.Application.Links.Commands.GenerateLink;
 
 /// <summary>
 ///     Represents the <see cref="GenerateLinkCommand" /> handler.

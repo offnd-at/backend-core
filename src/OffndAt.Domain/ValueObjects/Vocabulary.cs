@@ -1,10 +1,10 @@
-﻿namespace OffndAt.Domain.ValueObjects;
+﻿using OffndAt.Domain.Core.Errors;
+using OffndAt.Domain.Core.Extensions;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.Models;
 
-using Core.Errors;
-using Core.Extensions;
-using Core.Primitives;
-using Enumerations;
-using Models;
+namespace OffndAt.Domain.ValueObjects;
 
 /// <summary>
 ///     Represents the vocabulary value object.
@@ -63,12 +63,14 @@ public sealed class Vocabulary : ValueObject
     /// <summary>
     ///     Gets the list of words.
     /// </summary>
-    public IReadOnlyList<Word> Words => _words.AsReadOnly();
+    public IReadOnlyList<Word> Words =>
+        _words.AsReadOnly();
 
     /// <summary>
     ///     Gets the random word from the list of words.
     /// </summary>
-    public Word RandomWord => _words[_random.Next(_words.Count)];
+    public Word RandomWord =>
+        _words[_random.Next(_words.Count)];
 
     /// <summary>
     ///     Creates a new <see cref="Vocabulary" /> instance based on the specified arguments.

@@ -1,8 +1,5 @@
-version: "3.7"
-
 volumes:
   offndat-postgres-data:
-  offndat-pg-admin-data:
 
 services:
   api:
@@ -10,11 +7,17 @@ services:
     build:
       context: ./
       dockerfile: ./OffndAt.Services.Api/Dockerfile
+      args:
+        ApplicationSettings__Version: "0.0.0-docker"
     ports:
       - "8090:8080"
     environment:
+      OTEL_SERVICE_NAME: "offnd-at-api"
+      OTEL_RESOURCE_ATTRIBUTES: "deployment.environment=Production,service.namespace=offnd"
       PersistenceSettings__ConnectionString: "Host=postgres;Username=offndat;Password=offndat;Database=offndat"
       MessageBrokerSettings__Hostname: rabbit-mq
+      TelemetrySettings__ExporterEndpoint: "http://otel-collector:4317/"
+      AuthSettings__ApiKey: "test-api-key"
     container_name: api
     deploy:
       resources:
@@ -29,18 +32,25 @@ services:
     build:
       context: ./
       dockerfile: ./OffndAt.Services.EventsWorker/Dockerfile
+      args:
+        ApplicationSettings__Version: "0.0.0-docker"
     environment:
+      OTEL_SERVICE_NAME: "offnd-at-events-worker"
+      OTEL_RESOURCE_ATTRIBUTES: "deployment.environment=Production,service.namespace=offnd"
+      PersistenceSettings__ConnectionString: "Host=postgres;Username=offndat;Password=offndat;Database=offndat"
       MessageBrokerSettings__Hostname: rabbit-mq
+      TelemetrySettings__ExporterEndpoint: "http://otel-collector:4317/"
     container_name: events-worker
     deploy:
       resources:
         limits:
           memory: 1024M
     depends_on:
-      - api
+      - postgres
+      - rabbit-mq
 
   postgres:
-    image: postgres
+    image: postgres:17
     restart: unless-stopped
     environment:
       POSTGRES_USER: offndat
@@ -59,3 +69,15 @@ services:
       - "5672:5672"
       - "15672:15672"
     container_name: rabbit-mq
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    restart: unless-stopped
+    ports:
+      - "4317:4317"
+    command: [ "--config", "/etc/otel/config.yaml" ]
+    volumes:
+      - ./otel-config.yaml:/etc/otel/config.yaml
+    env_file:
+      - ./.env
+    container_name: otel-collector

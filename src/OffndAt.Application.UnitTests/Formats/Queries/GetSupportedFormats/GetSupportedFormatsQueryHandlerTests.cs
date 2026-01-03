@@ -1,7 +1,7 @@
-﻿namespace OffndAt.Application.UnitTests.Formats.Queries.GetSupportedFormats;
+using OffndAt.Application.Formats.Queries.GetSupportedFormats;
+using OffndAt.Domain.Enumerations;
 
-using Application.Formats.Queries.GetSupportedFormats;
-using Domain.Enumerations;
+namespace OffndAt.Application.UnitTests.Formats.Queries.GetSupportedFormats;
 
 internal sealed class GetSupportedFormatsQueryHandlerTests
 {
@@ -17,12 +17,11 @@ internal sealed class GetSupportedFormatsQueryHandlerTests
 
         var actual = await _handler.Handle(new GetSupportedFormatsQuery(), CancellationToken.None);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.HasValue, Is.True);
-                Assert.That(expected, Has.Count.EqualTo(actual.Value.Formats.Count()));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.HasValue, Is.True);
+            Assert.That(expected, Has.Count.EqualTo(actual.Value.Formats.Count()));
+        });
 
         foreach (var format in expected)
         {

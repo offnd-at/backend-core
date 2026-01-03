@@ -1,12 +1,12 @@
-﻿namespace OffndAt.Infrastructure.UnitTests.Core.Data;
+﻿using NSubstitute;
+using OffndAt.Application.Core.Abstractions.Data;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.Models;
+using OffndAt.Infrastructure.Core.Data;
+using Language = OffndAt.Domain.Enumerations.Language;
 
-using Application.Core.Abstractions.Data;
-using Domain.Core.Primitives;
-using Domain.Enumerations;
-using Domain.Models;
-using Infrastructure.Core.Data;
-using NSubstitute;
-using Language = Domain.Enumerations.Language;
+namespace OffndAt.Infrastructure.UnitTests.Core.Data;
 
 internal sealed class GithubVocabularyLoaderTests
 {
@@ -36,7 +36,7 @@ internal sealed class GithubVocabularyLoaderTests
 
         const string expectedPath = "/en/offensive/plural/masculine-personal/politicians/nouns.txt";
 
-        _ = await _loader.DownloadAsync(_descriptor);
+        await _loader.DownloadAsync(_descriptor);
 
         await _fileLoader.Received(1).DownloadAsync(Arg.Is<string>(value => value == expectedPath), Arg.Any<CancellationToken>());
     }
@@ -69,13 +69,12 @@ internal sealed class GithubVocabularyLoaderTests
         _fileLoader.DownloadAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns(Maybe<byte[]>.From(bytes));
 
         var actual = await _loader.DownloadAsync(_descriptor);
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.HasValue, Is.True);
-                Assert.That(actual.Value.Words, Has.Count.EqualTo(2));
-                Assert.That(actual.Value.Words[0].Value, Is.EqualTo("word1"));
-                Assert.That(actual.Value.Words[1].Value, Is.EqualTo("word2"));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.HasValue, Is.True);
+            Assert.That(actual.Value.Words, Has.Count.EqualTo(2));
+            Assert.That(actual.Value.Words[0].Value, Is.EqualTo("word1"));
+            Assert.That(actual.Value.Words[1].Value, Is.EqualTo("word2"));
+        });
     }
 }

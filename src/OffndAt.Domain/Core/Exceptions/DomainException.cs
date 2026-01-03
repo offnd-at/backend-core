@@ -1,6 +1,6 @@
-﻿namespace OffndAt.Domain.Core.Exceptions;
+﻿using OffndAt.Domain.Core.Primitives;
 
-using Primitives;
+namespace OffndAt.Domain.Core.Exceptions;
 
 /// <summary>
 ///     Represents an exception that occurred in the domain.

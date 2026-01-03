@@ -1,7 +1,7 @@
-﻿namespace OffndAt.Application.UnitTests.Themes.Queries.GetSupportedThemes;
+﻿using OffndAt.Application.Themes.Queries.GetSupportedThemes;
+using OffndAt.Domain.Enumerations;
 
-using Application.Themes.Queries.GetSupportedThemes;
-using Domain.Enumerations;
+namespace OffndAt.Application.UnitTests.Themes.Queries.GetSupportedThemes;
 
 internal sealed class GetSupportedThemesQueryHandlerTests
 {
@@ -17,12 +17,11 @@ internal sealed class GetSupportedThemesQueryHandlerTests
 
         var actual = await _handler.Handle(new GetSupportedThemesQuery(), CancellationToken.None);
 
-        Assert.Multiple(
-            () =>
-            {
-                Assert.That(actual.HasValue, Is.True);
-                Assert.That(expected, Has.Count.EqualTo(actual.Value.Themes.Count()));
-            });
+        Assert.Multiple(() =>
+        {
+            Assert.That(actual.HasValue, Is.True);
+            Assert.That(expected, Has.Count.EqualTo(actual.Value.Themes.Count()));
+        });
 
         foreach (var theme in expected)
         {

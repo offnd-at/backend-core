@@ -1,7 +1,7 @@
-﻿namespace OffndAt.Domain.Events;
+﻿using OffndAt.Domain.Core.Events;
+using OffndAt.Domain.Entities;
 
-using Core.Events;
-using Entities;
+namespace OffndAt.Domain.Events;
 
 /// <summary>
 ///     Represents a domain event that is raised when a link is visited.

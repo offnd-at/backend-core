@@ -1,11 +1,11 @@
-﻿namespace OffndAt.Infrastructure.Core.Data;
-
-using System.Globalization;
+﻿using System.Globalization;
 using System.Text;
-using Application.Core.Abstractions.Data;
-using Domain.Core.Primitives;
-using Domain.Models;
-using Domain.ValueObjects;
+using OffndAt.Application.Core.Abstractions.Data;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.Models;
+using OffndAt.Domain.ValueObjects;
+
+namespace OffndAt.Infrastructure.Core.Data;
 
 /// <summary>
 ///     Represents the GitHub vocabulary loader.

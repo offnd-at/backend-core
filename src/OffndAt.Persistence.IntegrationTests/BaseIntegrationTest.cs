@@ -1,19 +1,15 @@
-﻿namespace OffndAt.Persistence.IntegrationTests;
-
-using Data;
-using MediatR;
+﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
+using OffndAt.Persistence.Data;
 using Testcontainers.PostgreSql;
 
-internal class BaseTestFixture : IDisposable
+namespace OffndAt.Persistence.IntegrationTests;
+
+[TestFixture]
+internal abstract class BaseIntegrationTest
 {
-    protected OffndAtDbContext DbContext { get; private set; } = null!;
-    private PostgreSqlContainer? PostgresContainer { get; set; }
-
-    public void Dispose() => DbContext.Dispose();
-
     [OneTimeSetUp]
     public async Task OneTimeSetup()
     {
@@ -38,11 +34,13 @@ internal class BaseTestFixture : IDisposable
     [OneTimeTearDown]
     public async Task OneTimeTeardown()
     {
-        if (PostgresContainer is not null)
-        {
-            await PostgresContainer.StopAsync();
-        }
+        await DbContext.DisposeAsync();
+        await PostgresContainer.StopAsync();
+        await PostgresContainer.DisposeAsync();
     }
+
+    protected OffndAtDbContext DbContext { get; private set; }
+    private PostgreSqlContainer PostgresContainer { get; set; }
 
     private static DbContextOptions<OffndAtDbContext> CreateNewContextOptions(string connectionString)
     {

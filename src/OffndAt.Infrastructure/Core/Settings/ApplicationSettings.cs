@@ -13,7 +13,12 @@ public sealed class ApplicationSettings
     /// <summary>
     ///     Gets or sets the application name.
     /// </summary>
-    public required string ApplicationName { get; init; }
+    public required string AppName { get; init; }
+
+    /// <summary>
+    ///     Gets or sets the application version.
+    /// </summary>
+    public required string Version { get; init; }
 
     /// <summary>
     ///     Gets or sets the environment name.

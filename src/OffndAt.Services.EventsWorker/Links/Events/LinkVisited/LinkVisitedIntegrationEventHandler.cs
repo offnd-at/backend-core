@@ -1,9 +1,8 @@
-﻿namespace OffndAt.Services.EventsWorker.Links.Events.LinkVisited;
+﻿using MassTransit;
+using OffndAt.Application.Links.Events.LinkVisited;
+using OffndAt.Services.EventsWorker.Abstractions.Messaging;
 
-using Abstractions.Messaging;
-using Application.Links.Events.LinkVisited;
-using MassTransit;
-using Microsoft.Extensions.Logging;
+namespace OffndAt.Services.EventsWorker.Links.Events.LinkVisited;
 
 /// <summary>
 ///     Represents the <see cref="LinkVisitedIntegrationEvent" /> handler.

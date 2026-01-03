@@ -1,11 +1,11 @@
-﻿namespace OffndAt.Application.Links.Events.LinkVisited;
+﻿using System.Text.Json.Serialization;
+using OffndAt.Application.Core.Abstractions.Messaging;
+using OffndAt.Domain.Events;
 
-using System.Text.Json.Serialization;
-using Core.Abstractions.Messaging;
-using Domain.Events;
+namespace OffndAt.Application.Links.Events.LinkVisited;
 
 /// <summary>
-///     Represents an integration event that is raised when a link is visited.
+///     Represents an integration event raised when a link is visited.
 /// </summary>
 public sealed class LinkVisitedIntegrationEvent : IIntegrationEvent
 {

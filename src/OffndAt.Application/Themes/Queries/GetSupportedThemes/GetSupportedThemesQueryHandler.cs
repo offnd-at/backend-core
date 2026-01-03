@@ -1,9 +1,10 @@
-﻿namespace OffndAt.Application.Themes.Queries.GetSupportedThemes;
+﻿using OffndAt.Application.Core.Abstractions.Messaging;
+using OffndAt.Contracts.Themes.Dtos;
+using OffndAt.Contracts.Themes.Responses;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.Enumerations;
 
-using Contracts.Themes;
-using Core.Abstractions.Messaging;
-using Domain.Core.Primitives;
-using Domain.Enumerations;
+namespace OffndAt.Application.Themes.Queries.GetSupportedThemes;
 
 /// <summary>
 ///     Represents the <see cref="GetSupportedThemesQuery" /> handler.
@@ -13,14 +14,17 @@ internal sealed class GetSupportedThemesQueryHandler : IQueryHandler<GetSupporte
     /// <inheritdoc />
     public Task<Maybe<GetSupportedThemesResponse>> Handle(GetSupportedThemesQuery request, CancellationToken cancellationToken)
     {
-        var themeDtos = Theme.List.Select(
-            theme => new ThemeDto
-            {
-                Name = theme.Name,
-                Value = theme.Value
-            });
+        var themeDtos = Theme.List.Select(theme => new ThemeDto
+        {
+            Name = theme.Name,
+            Value = theme.Value
+        });
 
-        var maybeThemes = Maybe<GetSupportedThemesResponse>.From(new GetSupportedThemesResponse { Themes = themeDtos });
+        var maybeThemes = Maybe<GetSupportedThemesResponse>.From(
+            new GetSupportedThemesResponse
+            {
+                Themes = themeDtos
+            });
 
         return Task.FromResult(maybeThemes);
     }

@@ -1,6 +1,6 @@
-﻿namespace OffndAt.Domain.Core.Abstractions;
+﻿using OffndAt.Domain.Core.Events;
 
-using Events;
+namespace OffndAt.Domain.Core.Abstractions;
 
 /// <summary>
 ///     Represents an aggregate root interface.

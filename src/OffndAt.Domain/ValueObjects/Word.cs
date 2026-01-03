@@ -1,8 +1,8 @@
-﻿namespace OffndAt.Domain.ValueObjects;
+﻿using OffndAt.Domain.Core.Errors;
+using OffndAt.Domain.Core.Extensions;
+using OffndAt.Domain.Core.Primitives;
 
-using Core.Errors;
-using Core.Extensions;
-using Core.Primitives;
+namespace OffndAt.Domain.ValueObjects;
 
 /// <summary>
 ///     Represents the word value object.

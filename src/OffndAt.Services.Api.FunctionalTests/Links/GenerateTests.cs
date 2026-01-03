@@ -1,8 +1,8 @@
-﻿namespace OffndAt.Services.Api.FunctionalTests.Links;
+﻿using System.Net.Http.Json;
+using OffndAt.Contracts.Links.Requests;
+using OffndAt.Services.Api.FunctionalTests.Abstractions;
 
-using System.Net.Http.Json;
-using Abstractions;
-using OffndAt.Contracts.Links;
+namespace OffndAt.Services.Api.FunctionalTests.Links;
 
 internal sealed class GenerateTests : BaseFunctionalTest
 {
@@ -19,10 +19,11 @@ internal sealed class GenerateTests : BaseFunctionalTest
                 ThemeId = 0
             });
 
-        _ = await Verify(response)
+        await Verify(response)
             .ScrubMember("url")
             .ScrubMember("statsUrl")
-            .ScrubMember("Location");
+            .ScrubMember("Location")
+            .ScrubMember("Content-Length");
     }
 
     [Test]
@@ -37,8 +38,7 @@ internal sealed class GenerateTests : BaseFunctionalTest
                 ThemeId = 0
             });
 
-        _ = await Verify(response)
-            .ScrubMember("message")
+        await Verify(response)
             .ScrubMember("traceId")
             .ScrubMember("activityId")
             .ScrubMember("requestId");
@@ -57,8 +57,7 @@ internal sealed class GenerateTests : BaseFunctionalTest
                 ThemeId = 0
             });
 
-        _ = await Verify(response)
-            .ScrubMember("message")
+        await Verify(response)
             .ScrubMember("traceId")
             .ScrubMember("activityId")
             .ScrubMember("requestId");
@@ -76,8 +75,7 @@ internal sealed class GenerateTests : BaseFunctionalTest
                 ThemeId = 0
             });
 
-        _ = await Verify(response)
-            .ScrubMember("message")
+        await Verify(response)
             .ScrubMember("traceId")
             .ScrubMember("activityId")
             .ScrubMember("requestId");
@@ -95,8 +93,7 @@ internal sealed class GenerateTests : BaseFunctionalTest
                 LanguageId = 0
             });
 
-        _ = await Verify(response)
-            .ScrubMember("message")
+        await Verify(response)
             .ScrubMember("traceId")
             .ScrubMember("activityId")
             .ScrubMember("requestId");
@@ -114,8 +111,7 @@ internal sealed class GenerateTests : BaseFunctionalTest
                 ThemeId = 0
             });
 
-        _ = await Verify(response)
-            .ScrubMember("message")
+        await Verify(response)
             .ScrubMember("traceId")
             .ScrubMember("activityId")
             .ScrubMember("requestId");

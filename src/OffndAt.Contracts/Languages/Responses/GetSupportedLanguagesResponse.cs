@@ -1,6 +1,7 @@
-﻿namespace OffndAt.Contracts.Languages;
-
 using System.ComponentModel;
+using OffndAt.Contracts.Languages.Dtos;
+
+namespace OffndAt.Contracts.Languages.Responses;
 
 /// <summary>
 ///     Represents the supported languages response.

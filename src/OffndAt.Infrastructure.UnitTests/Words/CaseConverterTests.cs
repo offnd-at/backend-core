@@ -1,8 +1,9 @@
-﻿namespace OffndAt.Infrastructure.UnitTests.Words;
+using System.Reflection;
+using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.ValueObjects;
+using OffndAt.Infrastructure.Words;
 
-using Domain.Enumerations;
-using Domain.ValueObjects;
-using Infrastructure.Words;
+namespace OffndAt.Infrastructure.UnitTests.Words;
 
 internal sealed class CaseConverterTests
 {
@@ -13,11 +14,16 @@ internal sealed class CaseConverterTests
 
     [Test]
     [TestCaseSource(nameof(TestCases))]
-    public void Convert_ShouldReturnStringInSpecifiedCase(Format format, string expected)
+    public void Convert_ShouldReturnStringInSpecifiedCase(
+        Format format,
+        string adverbValue,
+        string adjectiveValue,
+        string nounValue,
+        string expected)
     {
-        var adverb = Word.Create("test adverb").Value;
-        var adjective = Word.Create("TEST_Adjective").Value;
-        var noun = Word.Create("teST-123-nOUn").Value;
+        var adverb = Word.Create(adverbValue).Value;
+        var adjective = Word.Create(adjectiveValue).Value;
+        var noun = Word.Create(nounValue).Value;
 
         var actual = _converter.Convert(
             format,
@@ -28,9 +34,51 @@ internal sealed class CaseConverterTests
         Assert.That(actual, Is.EqualTo(expected));
     }
 
+    [Test]
+    public void Convert_ShouldThrowArgumentOutOfRangeException_WhenFormatIsUnknown()
+    {
+        var adverb = Word.Create("adverb").Value;
+        var adjective = Word.Create("adjective").Value;
+        var noun = Word.Create("noun").Value;
+        var unknownFormat = (Format)Activator.CreateInstance(
+            typeof(Format),
+            BindingFlags.NonPublic | BindingFlags.Instance,
+            null,
+            [999, "unknown"],
+            null)!;
+
+        Assert.Throws<ArgumentOutOfRangeException>(() => _converter.Convert(
+            unknownFormat,
+            adverb,
+            adjective,
+            noun));
+    }
+
     private static IEnumerable<object> TestCases()
     {
-        yield return new object[] { Format.KebabCase, "test-adverb-test-adjective-te-st-123-n-o-un" };
-        yield return new object[] { Format.PascalCase, "TestAdverbTESTAdjectiveTeST-123-nOUn" };
+        yield return new object[]
+        {
+            Format.KebabCase, "test adverb", "TEST_Adjective", "teST-123-nOUn", "test-adverb-test-adjective-te-st-123-n-o-un"
+        };
+        yield return new object[]
+        {
+            Format.PascalCase, "test adverb", "TEST_Adjective", "teST-123-nOUn", "TestAdverbTESTAdjectiveTeST-123NOUn"
+        };
+        yield return new object[]
+        {
+            Format.KebabCase, "fast", "blue", "car", "fast-blue-car"
+        };
+        yield return new object[]
+        {
+            Format.PascalCase, "fast", "blue", "car", "FastBlueCar"
+        };
+        yield return new object[]
+        {
+            Format.KebabCase, "very fast", "brightly-colored", "sports_car", "very-fast-brightly-colored-sports-car"
+        };
+        yield return new object[]
+        {
+            Format.PascalCase, "very fast", "brightly-colored", "sports_car", "VeryFastBrightlyColoredSportsCar"
+        };
     }
 }

@@ -1,12 +1,12 @@
-﻿namespace OffndAt.Services.Api.Endpoints.V1.Languages;
+﻿using MediatR;
+using OffndAt.Application.Languages.Queries.GetSupportedLanguages;
+using OffndAt.Contracts.Languages.Responses;
+using OffndAt.Domain.Core.Errors;
+using OffndAt.Domain.Core.Extensions;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Services.Api.Contracts;
 
-using Application.Languages.Queries.GetSupportedLanguages;
-using Contracts;
-using Domain.Core.Errors;
-using Domain.Core.Extensions;
-using Domain.Core.Primitives;
-using MediatR;
-using OffndAt.Contracts.Languages;
+namespace OffndAt.Services.Api.Endpoints.V1.Languages;
 
 /// <summary>
 ///     Represents the get supported languages endpoint.
@@ -22,6 +22,7 @@ internal sealed class Get : IEndpoint
                         .From(new GetSupportedLanguagesQuery())
                         .BindAsync(query => sender.Send(query, cancellationToken))
                         .MatchAsync(Results.Ok, () => CustomResults.NotFound(DomainErrors.Language.NoneAvailable)))
+            .RequireAuthorization()
             .WithTags(nameof(ApiRoutes.Languages))
             .WithSummary("Get supported languages")
             .WithDescription("Retrieves a list of all supported languages.")

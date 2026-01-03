@@ -1,9 +1,9 @@
-﻿namespace OffndAt.Application.Core.Behaviours;
+﻿using MediatR;
+using OffndAt.Application.Core.Abstractions.Data;
+using OffndAt.Application.Core.Abstractions.Messaging;
+using OffndAt.Domain.Core.Primitives;
 
-using Abstractions.Data;
-using Abstractions.Messaging;
-using Domain.Core.Primitives;
-using MediatR;
+namespace OffndAt.Application.Core.Behaviours;
 
 /// <summary>
 ///     Represents the transaction behaviour middleware.

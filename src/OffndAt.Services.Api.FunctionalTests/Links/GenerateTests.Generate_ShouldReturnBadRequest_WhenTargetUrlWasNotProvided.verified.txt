@@ -5,6 +5,7 @@
   },
   Content: {
     Headers: {
+      Content-Length: 517,
       Content-Type: application/problem+json
     },
     Value: {
@@ -15,11 +16,11 @@
       errors: [
         {
           code: GenerateLink.TargetUrlIsRequired,
-          message: {Scrubbed}
+          message: The target URL is required.
         },
         {
           code: GenerateLink.TargetUrlMustBeAbsoluteUri,
-          message: {Scrubbed}
+          message: The target URL must be an absolute URI.
         }
       ],
       traceId: {Scrubbed},

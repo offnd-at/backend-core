@@ -5,6 +5,7 @@
   },
   Content: {
     Headers: {
+      Content-Length: 471,
       Content-Type: application/problem+json
     },
     Value: {

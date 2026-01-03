@@ -5,6 +5,7 @@
   },
   Content: {
     Headers: {
+      Content-Length: 455,
       Content-Type: application/problem+json
     },
     Value: {
@@ -14,8 +15,8 @@
       instance: POST /v1/links,
       errors: [
         {
-          code: GreaterThanOrEqualValidator,
-          message: {Scrubbed}
+          code: GenerateLink.LanguageIdOutOfRange,
+          message: The language identifier must be in the range from 0 to 1 inclusive.
         }
       ],
       traceId: {Scrubbed},

@@ -1,7 +1,7 @@
-﻿namespace OffndAt.Application.Core.Abstractions.Messaging;
+﻿using MediatR;
+using OffndAt.Domain.Core.Primitives;
 
-using Domain.Core.Primitives;
-using MediatR;
+namespace OffndAt.Application.Core.Abstractions.Messaging;
 
 /// <summary>
 ///     Represents the query interface.

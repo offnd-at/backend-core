@@ -1,6 +1,6 @@
-﻿namespace OffndAt.Domain.Services;
+﻿using OffndAt.Domain.Enumerations;
 
-using Enumerations;
+namespace OffndAt.Domain.Services;
 
 /// <summary>
 ///     Represents the vocabulary service interface.

@@ -1,8 +1,9 @@
-﻿namespace OffndAt.Services.Api.FunctionalTests.Redirects;
+﻿using System.Net.Http.Json;
+using OffndAt.Contracts.Links.Requests;
+using OffndAt.Contracts.Links.Responses;
+using OffndAt.Services.Api.FunctionalTests.Abstractions;
 
-using System.Net.Http.Json;
-using Abstractions;
-using OffndAt.Contracts.Links;
+namespace OffndAt.Services.Api.FunctionalTests.Redirects;
 
 internal sealed class RedirectByPhraseTests : BaseFunctionalTest
 {
@@ -11,7 +12,7 @@ internal sealed class RedirectByPhraseTests : BaseFunctionalTest
     {
         var response = await HttpClient.GetAsync("v1/redirects/non-existent-phrase");
 
-        _ = await Verify(response)
+        await Verify(response)
             .ScrubMembers("traceId", "activityId", "requestId");
     }
 
@@ -33,7 +34,7 @@ internal sealed class RedirectByPhraseTests : BaseFunctionalTest
 
         var response = await HttpClientWithoutRedirects.GetAsync($"v1/redirects/{phrase}");
 
-        _ = await Verify(response)
-            .ScrubMember("RequestMessage");
+        await Verify(response)
+            .ScrubMember("Request");
     }
 }

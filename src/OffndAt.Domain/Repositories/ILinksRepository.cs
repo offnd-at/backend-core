@@ -1,8 +1,8 @@
-﻿namespace OffndAt.Domain.Repositories;
+﻿using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.Entities;
+using OffndAt.Domain.ValueObjects;
 
-using Core.Primitives;
-using Entities;
-using ValueObjects;
+namespace OffndAt.Domain.Repositories;
 
 /// <summary>
 ///     Represents the links repository interface.

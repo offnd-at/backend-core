@@ -1,10 +1,10 @@
-﻿namespace OffndAt.Services.Api.Endpoints.Examples.V1.Links;
-
+﻿using System.Text.Json.Nodes;
 using Bogus;
-using Extensions;
-using Fakers;
-using Microsoft.OpenApi.Any;
-using OffndAt.Contracts.Links;
+using OffndAt.Contracts.Links.Responses;
+using OffndAt.Services.Api.Endpoints.Examples.Fakers;
+using OffndAt.Services.Api.Endpoints.Extensions;
+
+namespace OffndAt.Services.Api.Endpoints.Examples.V1.Links;
 
 /// <summary>
 ///     Represents the example response for the get link by phrase endpoint.
@@ -12,9 +12,9 @@ using OffndAt.Contracts.Links;
 internal sealed class GetByPhraseResponseExample : IOpenApiExample<GetLinkByPhraseResponse>
 {
     /// <inheritdoc />
-    public OpenApiObject GetExample() =>
+    public JsonNode GetExample() =>
         new Faker<GetLinkByPhraseResponse>()
             .RuleFor(r => r.Link, _ => LinkFakers.Link.Generate())
             .Generate()
-            .ToOpenApiObject();
+            .ToJsonNode();
 }

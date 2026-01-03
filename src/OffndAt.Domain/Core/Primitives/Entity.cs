@@ -1,7 +1,7 @@
-﻿namespace OffndAt.Domain.Core.Primitives;
+﻿using OffndAt.Domain.Core.Abstractions;
+using OffndAt.Domain.Core.Utils;
 
-using Abstractions;
-using Utils;
+namespace OffndAt.Domain.Core.Primitives;
 
 /// <summary>
 ///     Represents a base entity that all other entities derive from.

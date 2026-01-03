@@ -1,9 +1,9 @@
-﻿namespace OffndAt.Persistence.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using OffndAt.Application.Core.Abstractions.Data;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Persistence.Specifications;
 
-using Application.Core.Abstractions.Data;
-using Domain.Core.Primitives;
-using Microsoft.EntityFrameworkCore;
-using Specifications;
+namespace OffndAt.Persistence.Repositories;
 
 /// <summary>
 ///     Represents the generic repository with the most common repository methods.

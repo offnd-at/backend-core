@@ -1,9 +1,9 @@
-﻿namespace OffndAt.Persistence.Specifications.Links;
+﻿using System.Linq.Expressions;
+using OffndAt.Domain.Entities;
+using OffndAt.Domain.ValueObjects;
+using OffndAt.Domain.ValueObjects.Identifiers;
 
-using System.Linq.Expressions;
-using Domain.Entities;
-using Domain.ValueObjects;
-using Domain.ValueObjects.Identifiers;
+namespace OffndAt.Persistence.Specifications.Links;
 
 /// <summary>
 ///     Represents the specification for determining the link with phrase.

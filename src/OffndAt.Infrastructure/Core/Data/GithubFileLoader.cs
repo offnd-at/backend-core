@@ -1,10 +1,10 @@
-﻿namespace OffndAt.Infrastructure.Core.Data;
-
-using Application.Core.Abstractions.Data;
-using Domain.Core.Primitives;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Octokit;
-using Settings;
+using OffndAt.Application.Core.Abstractions.Data;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Infrastructure.Core.Data.Settings;
+
+namespace OffndAt.Infrastructure.Core.Data;
 
 /// <summary>
 ///     Represents the GitHub file loader.

@@ -1,6 +1,6 @@
-﻿namespace OffndAt.Services.Api.Endpoints.Examples;
+﻿using System.Text.Json.Nodes;
 
-using Microsoft.OpenApi.Any;
+namespace OffndAt.Services.Api.Endpoints.Examples;
 
 /// <summary>
 ///     Represents the OpenAPI request or response example.
@@ -11,5 +11,5 @@ internal interface IOpenApiExample
     ///     Converts the message to an OpenAPI object.
     /// </summary>
     /// <returns>The message, represented as an OpenAPI object.</returns>
-    OpenApiObject GetExample();
+    JsonNode GetExample();
 }

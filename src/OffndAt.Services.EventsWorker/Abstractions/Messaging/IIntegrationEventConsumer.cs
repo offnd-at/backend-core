@@ -1,7 +1,7 @@
-﻿namespace OffndAt.Services.EventsWorker.Abstractions.Messaging;
+﻿using MassTransit;
+using OffndAt.Application.Core.Abstractions.Messaging;
 
-using Application.Core.Abstractions.Messaging;
-using MassTransit;
+namespace OffndAt.Services.EventsWorker.Abstractions.Messaging;
 
 /// <summary>
 ///     Represents the integration event consumer interface.

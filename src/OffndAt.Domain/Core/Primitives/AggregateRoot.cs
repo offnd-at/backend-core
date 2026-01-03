@@ -1,7 +1,7 @@
-﻿namespace OffndAt.Domain.Core.Primitives;
+﻿using OffndAt.Domain.Core.Abstractions;
+using OffndAt.Domain.Core.Events;
 
-using Abstractions;
-using Events;
+namespace OffndAt.Domain.Core.Primitives;
 
 /// <summary>
 ///     Represents an aggregate root.
@@ -31,7 +31,8 @@ public abstract class AggregateRoot<TEntityId> : SoftDeletableEntity<TEntityId>,
     }
 
     /// <inheritdoc />
-    public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
+    public IReadOnlyCollection<IDomainEvent> DomainEvents =>
+        _domainEvents.AsReadOnly();
 
     /// <inheritdoc />
     public void ClearDomainEvents() => _domainEvents.Clear();

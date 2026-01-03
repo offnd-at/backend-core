@@ -1,7 +1,7 @@
-﻿namespace OffndAt.Application.Languages.Queries.GetSupportedLanguages;
+﻿using OffndAt.Application.Core.Abstractions.Messaging;
+using OffndAt.Contracts.Languages.Responses;
 
-using Contracts.Languages;
-using Core.Abstractions.Messaging;
+namespace OffndAt.Application.Languages.Queries.GetSupportedLanguages;
 
 /// <summary>
 ///     Represents the query used for getting supported languages.

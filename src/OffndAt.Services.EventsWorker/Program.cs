@@ -12,6 +12,7 @@ builder.Services.AddCleanMediator();
 builder.Services.AddPersistence(builder.Configuration);
 
 builder.Services.AddInfrastructureSettings(builder.Configuration)
+    .AddTelemetry(builder.Configuration)
     .AddInfrastructureServices();
 
 builder.Services.AddEventsWorker(builder.Configuration);

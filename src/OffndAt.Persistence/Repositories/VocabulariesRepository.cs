@@ -1,16 +1,16 @@
-﻿namespace OffndAt.Persistence.Repositories;
-
-using Application.Core.Abstractions.Data;
-using Constants;
-using Core.Cache.Settings;
-using Domain.Core.Primitives;
-using Domain.Enumerations;
-using Domain.Models;
-using Domain.Repositories;
-using Domain.Services;
-using Domain.ValueObjects;
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
+using OffndAt.Application.Core.Abstractions.Data;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.Models;
+using OffndAt.Domain.Repositories;
+using OffndAt.Domain.Services;
+using OffndAt.Domain.ValueObjects;
+using OffndAt.Persistence.Constants;
+using OffndAt.Persistence.Core.Cache.Settings;
+
+namespace OffndAt.Persistence.Repositories;
 
 /// <summary>
 ///     Represents the vocabularies repository.
@@ -37,27 +37,27 @@ internal sealed class VocabulariesRepository(
         var (number, gender) = vocabularyService.GenerateGrammaticalPropertiesForNounVocabulary(language, theme);
 
         return await memoryCache.GetOrCreateAsync(
-                   CacheKeys.NounVocabulary(
-                       language,
-                       offensiveness,
-                       number,
-                       gender,
-                       theme),
-                   cacheEntry =>
-                   {
-                       cacheEntry.SetAbsoluteExpiration(_settings.LongTtl);
+                CacheKeys.NounVocabulary(
+                    language,
+                    offensiveness,
+                    number,
+                    gender,
+                    theme),
+                cacheEntry =>
+                {
+                    cacheEntry.SetAbsoluteExpiration(_settings.LongTtl);
 
-                       var vocabularyDescriptor = new VocabularyDescriptor(
-                           language,
-                           theme,
-                           offensiveness,
-                           number,
-                           gender,
-                           PartOfSpeech.Noun);
+                    var vocabularyDescriptor = new VocabularyDescriptor(
+                        language,
+                        theme,
+                        offensiveness,
+                        number,
+                        gender,
+                        PartOfSpeech.Noun);
 
-                       return vocabularyLoader.DownloadAsync(vocabularyDescriptor, cancellationToken);
-                   }) ??
-               Maybe<Vocabulary>.None;
+                    return vocabularyLoader.DownloadAsync(vocabularyDescriptor, cancellationToken);
+                }) ??
+            Maybe<Vocabulary>.None;
     }
 
     /// <inheritdoc />
