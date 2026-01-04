@@ -1,4 +1,5 @@
-﻿using MassTransit;
+﻿using System.Net.Http.Headers;
+using MassTransit;
 using MassTransit.Logging;
 using MassTransit.Monitoring;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +20,7 @@ using OffndAt.Infrastructure.Authentication.Settings;
 using OffndAt.Infrastructure.Core.Constants;
 using OffndAt.Infrastructure.Core.Data;
 using OffndAt.Infrastructure.Core.Data.Settings;
+using OffndAt.Infrastructure.Core.HealthChecks;
 using OffndAt.Infrastructure.Core.Http.Cors.Settings;
 using OffndAt.Infrastructure.Core.Messaging;
 using OffndAt.Infrastructure.Core.Messaging.Settings;
@@ -33,6 +35,7 @@ using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Polly;
 using Polly.Retry;
+using ProductHeaderValue = Octokit.ProductHeaderValue;
 
 namespace OffndAt.Infrastructure;
 
@@ -70,7 +73,7 @@ public static class DependencyInjectionExtensions
         services.AddScoped<IGitHubClient>(serviceProvider =>
         {
             var applicationSettings = serviceProvider.GetRequiredService<IOptions<ApplicationSettings>>().Value;
-            return new GitHubClient(new ProductHeaderValue(applicationSettings.AppName));
+            return new GitHubClient(new ProductHeaderValue(applicationSettings.AppName, applicationSettings.Version));
         });
 
         return services;
@@ -90,10 +93,7 @@ public static class DependencyInjectionExtensions
             throw new InvalidOperationException($"Missing configuration section - {CorsSettings.SettingsKey}.");
 
         services.AddCors(options => options.AddDefaultPolicy(builder => builder
-            .SetIsOriginAllowed(origin =>
-                settings.AllowedOrigins.Any(allowedOrigin => allowedOrigin.Equals(
-                    new Uri(origin).Host,
-                    StringComparison.OrdinalIgnoreCase)))
+            .WithOrigins(settings.AllowedOrigins)
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials()));
@@ -243,8 +243,18 @@ public static class DependencyInjectionExtensions
     /// <returns>The configured service collection.</returns>
     public static IServiceCollection AddHealthMonitoring(this IServiceCollection services)
     {
+        services.AddHttpClient<GitHubApiHealthCheck>((serviceProvider, client) =>
+        {
+            var applicationSettings = serviceProvider.GetRequiredService<IOptions<ApplicationSettings>>().Value;
+
+            client.Timeout = TimeSpan.FromSeconds(10);
+            client.DefaultRequestHeaders.UserAgent.Add(
+                new ProductInfoHeaderValue(applicationSettings.AppName, applicationSettings.Version));
+        });
+
         services.AddHealthChecks()
-            .AddDbContextCheck<OffndAtDbContext>("ef-core-db-context");
+            .AddDbContextCheck<OffndAtDbContext>("ef-core-db-context")
+            .AddCheck<GitHubApiHealthCheck>("github-api");
 
         return services;
     }
