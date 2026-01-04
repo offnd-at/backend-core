@@ -7,13 +7,19 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
 COPY ["OffndAt.Services.Api/OffndAt.Services.Api.csproj", "OffndAt.Services.Api/"]
-COPY ["OffndAt.Application/OffndAt.Application.csproj", "OffndAt.Services.Application/"]
+COPY ["OffndAt.Services.Api/packages.lock.json", "OffndAt.Services.Api/"]
+COPY ["OffndAt.Application/OffndAt.Application.csproj", "OffndAt.Application/"]
+COPY ["OffndAt.Application/packages.lock.json", "OffndAt.Application/"]
 COPY ["OffndAt.Contracts/OffndAt.Contracts.csproj", "OffndAt.Contracts/"]
+COPY ["OffndAt.Contracts/packages.lock.json", "OffndAt.Contracts/"]
 COPY ["OffndAt.Domain/OffndAt.Domain.csproj", "OffndAt.Domain/"]
+COPY ["OffndAt.Domain/packages.lock.json", "OffndAt.Domain/"]
 COPY ["OffndAt.Infrastructure/OffndAt.Infrastructure.csproj", "OffndAt.Infrastructure/"]
+COPY ["OffndAt.Infrastructure/packages.lock.json", "OffndAt.Infrastructure/"]
 COPY ["OffndAt.Persistence/OffndAt.Persistence.csproj", "OffndAt.Persistence/"]
+COPY ["OffndAt.Persistence/packages.lock.json", "OffndAt.Persistence/"]
 
-RUN dotnet restore "OffndAt.Services.Api/OffndAt.Services.Api.csproj"
+RUN dotnet restore "OffndAt.Services.Api/OffndAt.Services.Api.csproj" --locked-mode
 
 COPY . .
 WORKDIR "/src/OffndAt.Services.Api"
