@@ -28,6 +28,7 @@ using OffndAt.Infrastructure.Core.Http.Cors.Settings;
 using OffndAt.Infrastructure.Core.Messaging;
 using OffndAt.Infrastructure.Core.Messaging.Settings;
 using OffndAt.Infrastructure.Core.Settings;
+using OffndAt.Infrastructure.Core.Telemetry;
 using OffndAt.Infrastructure.Core.Telemetry.Settings;
 using OffndAt.Infrastructure.Phrases;
 using OffndAt.Infrastructure.Urls;
@@ -287,6 +288,8 @@ public static class DependencyInjectionExtensions
                     instrumentationOptions.SetDbStatementForStoredProcedure = true;
                 })
                 .AddOtlpExporter(exporterOptions => exporterOptions.Endpoint = new Uri(telemetrySettings.ExporterEndpoint)));
+
+        services.AddSingleton<GitHubApiUsageMetrics>();
 
         return services;
     }
