@@ -32,6 +32,8 @@ builder.Services.AddPersistence(builder.Configuration)
     .AddInMemoryCache(builder.Configuration);
 
 builder.Services.AddInfrastructureSettings(builder.Configuration)
+    .AddForwardedHeadersSettings()
+    .AddRateLimiting()
     .AddTelemetry(builder.Configuration)
     .AddInfrastructureServices()
     .AddCorsPolicies(builder.Configuration)
@@ -54,7 +56,10 @@ builder.Host.UseOffndAtSerilog();
 
 var app = builder.Build();
 
+app.UseForwardedHeaders();
+
 app.MapEndpointsForAllVersions()
+    .UseRateLimiter()
     .UseCors()
     .UseAuthentication()
     .UseAuthorization()

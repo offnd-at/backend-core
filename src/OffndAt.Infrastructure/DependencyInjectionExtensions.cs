@@ -1,8 +1,14 @@
-﻿using System.Net.Http.Headers;
+﻿using System.Globalization;
+using System.Net.Http.Headers;
 using System.Reflection;
+using System.Threading.RateLimiting;
 using MassTransit;
 using MassTransit.Logging;
 using MassTransit.Monitoring;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -15,6 +21,7 @@ using OffndAt.Application.Core.Abstractions.Telemetry;
 using OffndAt.Application.Core.Abstractions.Urls;
 using OffndAt.Application.Core.Abstractions.Words;
 using OffndAt.Application.Core.Constants;
+using OffndAt.Application.Core.Errors;
 using OffndAt.Application.Core.Exceptions;
 using OffndAt.Domain.Core.Errors;
 using OffndAt.Domain.Core.Exceptions;
@@ -23,6 +30,7 @@ using OffndAt.Domain.ValueObjects;
 using OffndAt.Infrastructure.Authentication.ApiKey;
 using OffndAt.Infrastructure.Authentication.Settings;
 using OffndAt.Infrastructure.Core.Abstractions.Telemetry;
+using OffndAt.Infrastructure.Core.Constants;
 using OffndAt.Infrastructure.Core.Data;
 using OffndAt.Infrastructure.Core.Data.Settings;
 using OffndAt.Infrastructure.Core.HealthChecks;
@@ -60,6 +68,104 @@ public static class DependencyInjectionExtensions
     {
         services.Configure<ApplicationSettings>(configuration.GetSection(ApplicationSettings.SettingsKey));
         services.Configure<GitHubDataSourceSettings>(configuration.GetSection(GitHubDataSourceSettings.SettingsKey));
+
+        return services;
+    }
+
+    /// <summary>
+    ///     Configures the forwarded headers options to correctly process client IP addresses and protocol headers when running behind a reverse
+    ///     proxy.
+    /// </summary>
+    /// <param name="services">The service collection.</param>
+    /// <returns>The configured service collection.</returns>
+    public static IServiceCollection AddForwardedHeadersSettings(this IServiceCollection services)
+    {
+        services.Configure<ForwardedHeadersOptions>(options =>
+        {
+            options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+
+            options.KnownIPNetworks.Clear();
+            options.KnownProxies.Clear();
+        });
+
+        return services;
+    }
+
+    /// <summary>
+    ///     Registers the rate limiting services with the DI framework.
+    /// </summary>
+    /// <param name="services">The service collection.</param>
+    /// <returns>The configured service collection.</returns>
+    public static IServiceCollection AddRateLimiting(this IServiceCollection services)
+    {
+        services.AddRateLimiter(options =>
+        {
+            options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(context =>
+            {
+                var clientId = context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+
+                return RateLimitPartition.GetFixedWindowLimiter(
+                    clientId,
+                    _ =>
+                        new FixedWindowRateLimiterOptions
+                        {
+                            PermitLimit = 120,
+                            Window = TimeSpan.FromMinutes(1),
+                            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+                            QueueLimit = 10
+                        });
+            });
+
+            options.AddPolicy(
+                RateLimitingPolicyNames.RedirectByPhrase,
+                context =>
+                {
+                    var clientId = context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+
+                    return RateLimitPartition.GetTokenBucketLimiter(
+                        clientId,
+                        _ =>
+                            new TokenBucketRateLimiterOptions
+                            {
+                                TokenLimit = 60,
+                                ReplenishmentPeriod = TimeSpan.FromSeconds(10),
+                                TokensPerPeriod = 10,
+                                AutoReplenishment = true
+                            });
+                });
+
+            options.OnRejected = async (context, cancellationToken) =>
+            {
+                var problemDetailsService = context.HttpContext.RequestServices.GetRequiredService<IProblemDetailsService>();
+
+                if (context.Lease.TryGetMetadata(MetadataName.RetryAfter, out var retryAfter))
+                {
+                    context.HttpContext.Response.Headers.RetryAfter = retryAfter.TotalSeconds.ToString(CultureInfo.InvariantCulture);
+                }
+
+                context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
+
+                await problemDetailsService.TryWriteAsync(
+                    new ProblemDetailsContext
+                    {
+                        HttpContext = context.HttpContext,
+                        ProblemDetails = new ProblemDetails
+                        {
+                            Title = "An application error occurred.",
+                            Status = StatusCodes.Status429TooManyRequests,
+                            Extensions = new Dictionary<string, object?>
+                            {
+                                {
+                                    "errors", new List<Error>
+                                    {
+                                        ApplicationErrors.TooManyRequests
+                                    }
+                                }
+                            }
+                        }
+                    });
+            };
+        });
 
         return services;
     }
