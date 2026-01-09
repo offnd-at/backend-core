@@ -375,6 +375,7 @@ public static class DependencyInjectionExtensions
                 .AddRuntimeInstrumentation()
                 .AddProcessInstrumentation()
                 .AddMeter(InstrumentationOptions.MeterName)
+                .AddMeter(OffndAtInstrumentationOptions.MeterName)
                 .AddOtlpExporter(exporterOptions => exporterOptions.Endpoint = new Uri(telemetrySettings.ExporterEndpoint)))
             .WithTracing(options => options
                 // TODO: trace sampler

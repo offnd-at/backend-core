@@ -1,5 +1,4 @@
 using System.Diagnostics.Metrics;
-using Microsoft.Extensions.Options;
 using OffndAt.Application.Core.Abstractions.Telemetry;
 using OffndAt.Domain.Enumerations;
 using OffndAt.Infrastructure.Core.Telemetry.Settings;
@@ -17,13 +16,12 @@ internal sealed class LinkMetrics : ILinkMetrics
     ///     Initializes a new instance of the <see cref="LinkMetrics" /> class.
     /// </summary>
     /// <param name="meterFactory">The meter factory.</param>
-    /// <param name="telemetryOptions">The telemetry options.</param>
-    public LinkMetrics(IMeterFactory meterFactory, IOptions<TelemetrySettings> telemetryOptions)
+    public LinkMetrics(IMeterFactory meterFactory)
     {
-        var meter = meterFactory.Create(telemetryOptions.Value.MeterName);
+        var meter = meterFactory.Create(OffndAtInstrumentationOptions.MeterName);
 
         _linkCreationCounter = meter.CreateCounter<long>(
-            "links.creations",
+            "offndat.links.creations",
             "{link}",
             "The number of links created over time");
     }

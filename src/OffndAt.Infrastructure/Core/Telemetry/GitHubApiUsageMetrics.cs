@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics.Metrics;
-using Microsoft.Extensions.Options;
 using OffndAt.Infrastructure.Core.Abstractions.Telemetry;
 using OffndAt.Infrastructure.Core.Telemetry.Settings;
 
@@ -18,23 +17,22 @@ internal sealed class GitHubApiUsageMetrics : IGitHubApiUsageMetrics
     ///     Initializes a new instance of the <see cref="GitHubApiUsageMetrics" /> class.
     /// </summary>
     /// <param name="meterFactory">The meter factory.</param>
-    /// <param name="telemetryOptions">The telemetry options.</param>
-    public GitHubApiUsageMetrics(IMeterFactory meterFactory, IOptions<TelemetrySettings> telemetryOptions)
+    public GitHubApiUsageMetrics(IMeterFactory meterFactory)
     {
-        var meter = meterFactory.Create(telemetryOptions.Value.MeterName);
+        var meter = meterFactory.Create(OffndAtInstrumentationOptions.MeterName);
 
         _requestCounter = meter.CreateCounter<long>(
-            "github.api.requests",
+            "offndat.github.api.requests",
             "{request}",
             "The number of requests made to the GitHub API");
 
         _requestLatency = meter.CreateHistogram<double>(
-            "github.api.request_duration",
+            "offndat.github.api.request_duration",
             "ms",
             "The duration of requests made to the GitHub API");
 
         _apiRateLimitRemaining = meter.CreateGauge<int>(
-            "github.api.rate_limit.remaining",
+            "offndat.github.api.rate_limit.remaining",
             "{request}",
             "The remaining GitHub API rate limit quota");
     }

@@ -1,5 +1,4 @@
 using System.Diagnostics.Metrics;
-using Microsoft.Extensions.Options;
 using OffndAt.Application.Core.Abstractions.Telemetry;
 using OffndAt.Domain.Enumerations;
 using OffndAt.Infrastructure.Core.Telemetry.Settings;
@@ -17,13 +16,12 @@ internal sealed class VisitMetrics : IVisitMetrics
     ///     Initializes a new instance of the <see cref="VisitMetrics" /> class.
     /// </summary>
     /// <param name="meterFactory">The meter factory.</param>
-    /// <param name="telemetryOptions">The telemetry options.</param>
-    public VisitMetrics(IMeterFactory meterFactory, IOptions<TelemetrySettings> telemetryOptions)
+    public VisitMetrics(IMeterFactory meterFactory)
     {
-        var meter = meterFactory.Create(telemetryOptions.Value.MeterName);
+        var meter = meterFactory.Create(OffndAtInstrumentationOptions.MeterName);
 
         _visitCounter = meter.CreateCounter<long>(
-            "links.visits",
+            "offndat.links.visits",
             "{visit}",
             "The number of link visits and redirections");
     }
