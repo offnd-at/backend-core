@@ -20,7 +20,7 @@ public sealed class LoggingBehaviour<TRequest, TResponse>(ILogger<LoggingBehavio
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
-        var response = await next();
+        var response = await next(cancellationToken);
 
         if (response is Result { IsFailure: true } result)
         {

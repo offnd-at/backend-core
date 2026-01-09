@@ -11,17 +11,18 @@ using Octokit;
 using OffndAt.Application.Core.Abstractions.Data;
 using OffndAt.Application.Core.Abstractions.Messaging;
 using OffndAt.Application.Core.Abstractions.Phrases;
+using OffndAt.Application.Core.Abstractions.Telemetry;
 using OffndAt.Application.Core.Abstractions.Urls;
 using OffndAt.Application.Core.Abstractions.Words;
+using OffndAt.Application.Core.Constants;
 using OffndAt.Application.Core.Exceptions;
 using OffndAt.Domain.Core.Errors;
 using OffndAt.Domain.Core.Exceptions;
 using OffndAt.Domain.Core.Primitives;
 using OffndAt.Domain.ValueObjects;
-using OffndAt.Infrastructure.Abstractions.Telemetry;
 using OffndAt.Infrastructure.Authentication.ApiKey;
 using OffndAt.Infrastructure.Authentication.Settings;
-using OffndAt.Infrastructure.Core.Constants;
+using OffndAt.Infrastructure.Core.Abstractions.Telemetry;
 using OffndAt.Infrastructure.Core.Data;
 using OffndAt.Infrastructure.Core.Data.Settings;
 using OffndAt.Infrastructure.Core.HealthChecks;
@@ -291,6 +292,8 @@ public static class DependencyInjectionExtensions
                 .AddOtlpExporter(exporterOptions => exporterOptions.Endpoint = new Uri(telemetrySettings.ExporterEndpoint)));
 
         services.AddSingleton<IGitHubApiUsageMetrics, GitHubApiUsageMetrics>();
+        services.AddSingleton<ILinkMetrics, LinkMetrics>();
+        services.AddSingleton<IVisitMetrics, VisitMetrics>();
 
         return services;
     }

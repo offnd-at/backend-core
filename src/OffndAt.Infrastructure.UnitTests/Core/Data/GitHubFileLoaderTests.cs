@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using NSubstitute;
 using Octokit;
-using OffndAt.Infrastructure.Abstractions.Telemetry;
+using OffndAt.Infrastructure.Core.Abstractions.Telemetry;
 using OffndAt.Infrastructure.Core.Data;
 using OffndAt.Infrastructure.Core.Data.Settings;
 

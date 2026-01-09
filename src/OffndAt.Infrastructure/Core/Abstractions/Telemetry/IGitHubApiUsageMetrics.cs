@@ -1,4 +1,4 @@
-namespace OffndAt.Infrastructure.Abstractions.Telemetry;
+namespace OffndAt.Infrastructure.Core.Abstractions.Telemetry;
 
 /// <summary>
 ///     Provides metrics for GitHub API usage.

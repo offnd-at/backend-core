@@ -1,5 +1,6 @@
 ﻿using NSubstitute;
 using OffndAt.Application.Core.Abstractions.Messaging;
+using OffndAt.Application.Core.Abstractions.Telemetry;
 using OffndAt.Application.Links.Events.LinkCreated;
 using OffndAt.Domain.Entities;
 using OffndAt.Domain.Enumerations;
@@ -18,7 +19,7 @@ internal sealed class LinkCreatedDomainEventHandlerTests
     {
         _integrationEventPublisher = Substitute.For<IIntegrationEventPublisher>();
 
-        _handler = new LinkCreatedDomainEventHandler(_integrationEventPublisher);
+        _handler = new LinkCreatedDomainEventHandler(_integrationEventPublisher, Substitute.For<ILinkMetrics>());
     }
 
     [Test]

@@ -23,14 +23,14 @@ public sealed class TransactionBehaviour<TRequest, TResponse>(IUnitOfWork unitOf
     {
         if (request is IQuery<TResponse>)
         {
-            return await next();
+            return await next(cancellationToken);
         }
 
         await using var transaction = await unitOfWork.BeginTransactionAsync(cancellationToken);
 
         try
         {
-            var response = await next();
+            var response = await next(cancellationToken);
 
             if (response is Result { IsFailure: true })
             {
