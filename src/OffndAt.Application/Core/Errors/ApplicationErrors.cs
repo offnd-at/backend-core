@@ -3,7 +3,7 @@
 namespace OffndAt.Application.Core.Errors;
 
 /// <summary>
-///     Contains validation errors.
+///     Contains application errors.
 /// </summary>
 public sealed class ApplicationErrors
 {
