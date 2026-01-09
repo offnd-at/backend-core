@@ -193,6 +193,8 @@ public static class DependencyInjectionExtensions
             .WithMetrics(options => options
                 .AddAspNetCoreInstrumentation()
                 .AddHttpClientInstrumentation()
+                .AddRuntimeInstrumentation()
+                .AddProcessInstrumentation()
                 .AddMeter(InstrumentationOptions.MeterName)
                 .AddOtlpExporter(exporterOptions => exporterOptions.Endpoint = new Uri(telemetrySettings.ExporterEndpoint)))
             .WithTracing(options => options
