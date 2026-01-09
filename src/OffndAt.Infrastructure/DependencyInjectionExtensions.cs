@@ -56,7 +56,7 @@ public static class DependencyInjectionExtensions
     public static IServiceCollection AddInfrastructureSettings(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<ApplicationSettings>(configuration.GetSection(ApplicationSettings.SettingsKey));
-        services.Configure<GithubDataSourceSettings>(configuration.GetSection(GithubDataSourceSettings.SettingsKey));
+        services.Configure<GitHubDataSourceSettings>(configuration.GetSection(GitHubDataSourceSettings.SettingsKey));
 
         return services;
     }
@@ -71,8 +71,8 @@ public static class DependencyInjectionExtensions
         services.AddScoped<ICaseConverter, CaseConverter>();
         services.AddScoped<IPhraseGenerator, PhraseGenerator>();
         services.AddScoped<IUrlMaker, UrlMaker>();
-        services.AddScoped<IFileLoader, GithubFileLoader>();
-        services.AddScoped<IVocabularyLoader, GithubVocabularyLoader>();
+        services.AddScoped<IFileLoader, GitHubFileLoader>();
+        services.AddScoped<IVocabularyLoader, GitHubVocabularyLoader>();
         services.AddScoped<IGitHubClient>(serviceProvider =>
         {
             var applicationSettings = serviceProvider.GetRequiredService<IOptions<ApplicationSettings>>().Value;

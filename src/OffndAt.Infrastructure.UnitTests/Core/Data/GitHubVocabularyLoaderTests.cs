@@ -8,7 +8,7 @@ using Language = OffndAt.Domain.Enumerations.Language;
 
 namespace OffndAt.Infrastructure.UnitTests.Core.Data;
 
-internal sealed class GithubVocabularyLoaderTests
+internal sealed class GitHubVocabularyLoaderTests
 {
     private readonly VocabularyDescriptor _descriptor = new(
         Language.English,
@@ -19,14 +19,14 @@ internal sealed class GithubVocabularyLoaderTests
         PartOfSpeech.Noun);
 
     private IFileLoader _fileLoader = null!;
-    private GithubVocabularyLoader _loader = null!;
+    private GitHubVocabularyLoader _loader = null!;
 
     [SetUp]
     public void Setup()
     {
         _fileLoader = Substitute.For<IFileLoader>();
 
-        _loader = new GithubVocabularyLoader(_fileLoader);
+        _loader = new GitHubVocabularyLoader(_fileLoader);
     }
 
     [Test]

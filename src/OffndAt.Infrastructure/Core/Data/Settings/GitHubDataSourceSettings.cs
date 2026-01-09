@@ -3,12 +3,12 @@
 /// <summary>
 ///     Represents the GitHub data source settings.
 /// </summary>
-public sealed class GithubDataSourceSettings
+public sealed class GitHubDataSourceSettings
 {
     /// <summary>
     ///     Gets the settings key.
     /// </summary>
-    public const string SettingsKey = "GithubDataSourceSettings";
+    public const string SettingsKey = "GitHubDataSourceSettings";
 
     /// <summary>
     ///     Gets or sets the repository owner.

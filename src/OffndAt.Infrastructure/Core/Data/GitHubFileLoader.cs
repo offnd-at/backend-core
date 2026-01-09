@@ -11,10 +11,10 @@ namespace OffndAt.Infrastructure.Core.Data;
 /// </summary>
 /// <param name="githubClient">The GitHub client.</param>
 /// <param name="githubOptions">The GitHub options.</param>
-internal sealed class GithubFileLoader(IGitHubClient githubClient, IOptions<GithubDataSourceSettings> githubOptions)
+internal sealed class GitHubFileLoader(IGitHubClient githubClient, IOptions<GitHubDataSourceSettings> githubOptions)
     : IFileLoader
 {
-    private readonly GithubDataSourceSettings _githubSettings = githubOptions.Value;
+    private readonly GitHubDataSourceSettings _githubSettings = githubOptions.Value;
 
     /// <inheritdoc />
     public async Task<Maybe<byte[]>> DownloadAsync(string filePath, CancellationToken cancellationToken = default) =>

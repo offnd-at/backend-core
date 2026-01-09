@@ -6,16 +6,16 @@ using OffndAt.Infrastructure.Core.Data.Settings;
 
 namespace OffndAt.Infrastructure.UnitTests.Core.Data;
 
-internal sealed class GithubFileLoaderTests
+internal sealed class GitHubFileLoaderTests
 {
-    private readonly IOptions<GithubDataSourceSettings> _options = Options.Create(
-        new GithubDataSourceSettings
+    private readonly IOptions<GitHubDataSourceSettings> _options = Options.Create(
+        new GitHubDataSourceSettings
         {
             RepositoryName = "test-repo",
             RepositoryOwner = "test-owner"
         });
 
-    private GithubFileLoader _loader = null!;
+    private GitHubFileLoader _loader = null!;
     private IRepositoryContentsClient _repositoryContentsClient = null!;
 
     [SetUp]
@@ -28,7 +28,7 @@ internal sealed class GithubFileLoaderTests
         githubClient.Repository.Returns(repositoriesClient);
         repositoriesClient.Content.Returns(_repositoryContentsClient);
 
-        _loader = new GithubFileLoader(githubClient, _options);
+        _loader = new GitHubFileLoader(githubClient, _options);
     }
 
     [Test]
