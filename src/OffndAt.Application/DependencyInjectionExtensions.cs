@@ -13,18 +13,6 @@ namespace OffndAt.Application;
 public static class DependencyInjectionExtensions
 {
     /// <summary>
-    ///     Registers the MediatR with the DI framework without any additional configurations.
-    /// </summary>
-    /// <param name="services">The service collection.</param>
-    /// <returns>The configured service collection.</returns>
-    public static IServiceCollection AddCleanMediator(this IServiceCollection services)
-    {
-        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetCallingAssembly()));
-
-        return services;
-    }
-
-    /// <summary>
     ///     Registers the MediatR and its behaviours with the DI framework.
     /// </summary>
     /// <param name="services">The service collection.</param>

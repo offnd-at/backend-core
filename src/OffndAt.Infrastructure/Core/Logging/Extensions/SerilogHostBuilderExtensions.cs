@@ -30,7 +30,7 @@ public static class SerilogHostBuilderExtensions
                 .Enrich.FromLogContext()
                 .Enrich.WithMachineName()
                 .Enrich.WithClientIp()
-                .Enrich.WithCorrelationId()
+                .Enrich.WithCorrelationId(addValueIfHeaderAbsence: true)
                 .Enrich.WithProperty(nameof(applicationSettings.Environment), applicationSettings.Environment)
                 .Enrich.WithProperty(nameof(applicationSettings.AppName), applicationSettings.AppName)
                 .Enrich.WithProperty(nameof(applicationSettings.Version), applicationSettings.Version)

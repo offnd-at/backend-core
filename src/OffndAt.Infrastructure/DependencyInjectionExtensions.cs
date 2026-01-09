@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Headers;
+using System.Reflection;
 using MassTransit;
 using MassTransit.Logging;
 using MassTransit.Monitoring;
@@ -12,7 +13,9 @@ using OffndAt.Application.Core.Abstractions.Messaging;
 using OffndAt.Application.Core.Abstractions.Phrases;
 using OffndAt.Application.Core.Abstractions.Urls;
 using OffndAt.Application.Core.Abstractions.Words;
+using OffndAt.Application.Core.Exceptions;
 using OffndAt.Domain.Core.Errors;
+using OffndAt.Domain.Core.Exceptions;
 using OffndAt.Domain.Core.Primitives;
 using OffndAt.Domain.ValueObjects;
 using OffndAt.Infrastructure.Authentication.ApiKey;
@@ -136,7 +139,7 @@ public static class DependencyInjectionExtensions
                 cfg.UsePostgres();
                 cfg.UseBusOutbox();
 
-                cfg.QueryDelay = TimeSpan.FromSeconds(10);
+                cfg.QueryDelay = TimeSpan.FromSeconds(1);
             });
 
             configurator.SetKebabCaseEndpointNameFormatter();
@@ -144,7 +147,6 @@ public static class DependencyInjectionExtensions
             configurator.UsingRabbitMq((context, factoryConfigurator) =>
             {
                 var messageBrokerSettings = context.GetRequiredService<IOptions<MessageBrokerSettings>>().Value;
-                var applicationSettings = context.GetRequiredService<IOptions<ApplicationSettings>>().Value;
 
                 factoryConfigurator.Host(
                     messageBrokerSettings.Hostname,
@@ -152,17 +154,85 @@ public static class DependencyInjectionExtensions
                     {
                         hostConfigurator.Username(messageBrokerSettings.Username);
                         hostConfigurator.Password(messageBrokerSettings.Password);
+                        hostConfigurator.RequestedConnectionTimeout(TimeSpan.FromSeconds(30));
+                        hostConfigurator.PublisherConfirmation = true;
                     });
 
-                factoryConfigurator.UseMessageRetry(retryConfigurator => retryConfigurator.Interval(3, TimeSpan.FromSeconds(3)));
-
-                factoryConfigurator.ConfigureEndpoints(
-                    context,
-                    new KebabCaseEndpointNameFormatter(applicationSettings.AppName));
+                // Since the API only produces messages, does not consume them
+                factoryConfigurator.PrefetchCount = 0;
             });
         });
 
         services.TryAddScoped<IIntegrationEventPublisher, IntegrationEventPublisher>();
+
+        return services;
+    }
+
+    /// <summary>
+    ///     Registers the MassTransit consumer with the DI framework.
+    /// </summary>
+    /// <param name="services">The service collection.</param>
+    /// <param name="configuration">The configuration.</param>
+    /// <param name="assemblies">The assemblies containing message consumers, sagas, saga state machines, and activities.</param>
+    /// <returns>The configured service collection.</returns>
+    public static IServiceCollection AddMassTransitConsumer(
+        this IServiceCollection services,
+        IConfiguration configuration,
+        Assembly[]? assemblies = null)
+    {
+        services.Configure<MessageBrokerSettings>(configuration.GetSection(MessageBrokerSettings.SettingsKey));
+
+        services.AddMassTransit(configurator =>
+        {
+            configurator.AddEntityFrameworkOutbox<OffndAtDbContext>(cfg =>
+            {
+                cfg.UsePostgres();
+                cfg.UseBusOutbox();
+                cfg.DuplicateDetectionWindow = TimeSpan.FromSeconds(60);
+            });
+
+            configurator.SetKebabCaseEndpointNameFormatter();
+
+            configurator.AddConsumers(assemblies ?? [Assembly.GetCallingAssembly()]);
+
+            configurator.UsingRabbitMq((context, factoryConfigurator) =>
+            {
+                var messageBrokerSettings = context.GetRequiredService<IOptions<MessageBrokerSettings>>().Value;
+
+                factoryConfigurator.Host(
+                    messageBrokerSettings.Hostname,
+                    hostConfigurator =>
+                    {
+                        hostConfigurator.Username(messageBrokerSettings.Username);
+                        hostConfigurator.Password(messageBrokerSettings.Password);
+                        hostConfigurator.RequestedConnectionTimeout(TimeSpan.FromSeconds(30));
+                    });
+
+                factoryConfigurator.PrefetchCount = messageBrokerSettings.PrefetchCount;
+
+                factoryConfigurator.UseMessageRetry(retryConfigurator =>
+                {
+                    retryConfigurator.Exponential(
+                        5,
+                        TimeSpan.FromSeconds(1),
+                        TimeSpan.FromSeconds(30),
+                        TimeSpan.FromSeconds(2));
+
+                    retryConfigurator.Ignore<ValidationException>();
+                    retryConfigurator.Ignore<DomainException>();
+                });
+
+                factoryConfigurator.UseCircuitBreaker(cb =>
+                {
+                    cb.TrackingPeriod = TimeSpan.FromSeconds(30);
+                    cb.TripThreshold = 15;
+                    cb.ActiveThreshold = 10;
+                    cb.ResetInterval = TimeSpan.FromMinutes(1);
+                });
+
+                factoryConfigurator.ConfigureEndpoints(context);
+            });
+        });
 
         return services;
     }
