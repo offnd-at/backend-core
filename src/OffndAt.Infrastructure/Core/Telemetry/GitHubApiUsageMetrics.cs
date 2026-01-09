@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.Metrics;
 using Microsoft.Extensions.Options;
+using OffndAt.Infrastructure.Abstractions.Telemetry;
 using OffndAt.Infrastructure.Core.Telemetry.Settings;
 
 namespace OffndAt.Infrastructure.Core.Telemetry;
@@ -7,7 +8,7 @@ namespace OffndAt.Infrastructure.Core.Telemetry;
 /// <summary>
 ///     Provides metrics for GitHub API usage.
 /// </summary>
-internal sealed class GitHubApiUsageMetrics
+internal sealed class GitHubApiUsageMetrics : IGitHubApiUsageMetrics
 {
     private readonly Gauge<int> _apiRateLimitRemaining;
     private readonly Counter<long> _requestCounter;
@@ -38,20 +39,12 @@ internal sealed class GitHubApiUsageMetrics
             "The remaining GitHub API rate limit quota");
     }
 
-    /// <summary>
-    ///     Records a GitHub API request.
-    /// </summary>
+    /// <inheritdoc />
     public void RecordRequest() => _requestCounter.Add(1);
 
-    /// <summary>
-    ///     Records the request latency.
-    /// </summary>
-    /// <param name="durationMs">The duration in milliseconds.</param>
+    /// <inheritdoc />
     public void RecordRequestLatency(double durationMs) => _requestLatency.Record(durationMs);
 
-    /// <summary>
-    ///     Records the API rate limit remaining count.
-    /// </summary>
-    /// <param name="remaining">The remaining rate limit count.</param>
+    /// <inheritdoc />
     public void RecordRemainingRateLimit(int remaining) => _apiRateLimitRemaining.Record(remaining);
 }

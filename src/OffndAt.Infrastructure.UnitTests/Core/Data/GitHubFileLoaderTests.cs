@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using NSubstitute;
 using Octokit;
+using OffndAt.Infrastructure.Abstractions.Telemetry;
 using OffndAt.Infrastructure.Core.Data;
 using OffndAt.Infrastructure.Core.Data.Settings;
 
@@ -28,7 +29,7 @@ internal sealed class GitHubFileLoaderTests
         githubClient.Repository.Returns(repositoriesClient);
         repositoriesClient.Content.Returns(_repositoryContentsClient);
 
-        _loader = new GitHubFileLoader(githubClient, _options);
+        _loader = new GitHubFileLoader(githubClient, _options, Substitute.For<IGitHubApiUsageMetrics>());
     }
 
     [Test]

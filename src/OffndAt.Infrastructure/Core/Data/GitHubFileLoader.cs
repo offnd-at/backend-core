@@ -3,8 +3,8 @@ using Microsoft.Extensions.Options;
 using Octokit;
 using OffndAt.Application.Core.Abstractions.Data;
 using OffndAt.Domain.Core.Primitives;
+using OffndAt.Infrastructure.Abstractions.Telemetry;
 using OffndAt.Infrastructure.Core.Data.Settings;
-using OffndAt.Infrastructure.Core.Telemetry;
 
 namespace OffndAt.Infrastructure.Core.Data;
 
@@ -17,7 +17,7 @@ namespace OffndAt.Infrastructure.Core.Data;
 internal sealed class GitHubFileLoader(
     IGitHubClient githubClient,
     IOptions<GitHubDataSourceSettings> githubOptions,
-    GitHubApiUsageMetrics metrics)
+    IGitHubApiUsageMetrics metrics)
     : IFileLoader
 {
     private readonly GitHubDataSourceSettings _githubSettings = githubOptions.Value;

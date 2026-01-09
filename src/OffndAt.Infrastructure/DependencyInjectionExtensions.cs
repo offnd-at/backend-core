@@ -18,6 +18,7 @@ using OffndAt.Domain.Core.Errors;
 using OffndAt.Domain.Core.Exceptions;
 using OffndAt.Domain.Core.Primitives;
 using OffndAt.Domain.ValueObjects;
+using OffndAt.Infrastructure.Abstractions.Telemetry;
 using OffndAt.Infrastructure.Authentication.ApiKey;
 using OffndAt.Infrastructure.Authentication.Settings;
 using OffndAt.Infrastructure.Core.Constants;
@@ -289,7 +290,7 @@ public static class DependencyInjectionExtensions
                 })
                 .AddOtlpExporter(exporterOptions => exporterOptions.Endpoint = new Uri(telemetrySettings.ExporterEndpoint)));
 
-        services.AddSingleton<GitHubApiUsageMetrics>();
+        services.AddSingleton<IGitHubApiUsageMetrics, GitHubApiUsageMetrics>();
 
         return services;
     }
