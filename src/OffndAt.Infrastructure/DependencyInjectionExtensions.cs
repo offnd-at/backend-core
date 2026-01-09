@@ -156,7 +156,7 @@ public static class DependencyInjectionExtensions
                             Extensions = new Dictionary<string, object?>
                             {
                                 {
-                                    "errors", new List<Error>
+                                    "errors", new[]
                                     {
                                         ApplicationErrors.TooManyRequests
                                     }

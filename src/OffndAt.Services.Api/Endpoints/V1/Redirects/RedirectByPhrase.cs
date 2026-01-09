@@ -45,5 +45,6 @@ internal sealed class RedirectByPhrase : IEndpoint
             .Produces(StatusCodes.Status301MovedPermanently)
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status429TooManyRequests)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
 }

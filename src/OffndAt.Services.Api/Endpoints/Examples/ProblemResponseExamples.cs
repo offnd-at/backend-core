@@ -79,6 +79,28 @@ internal static class ProblemResponseExamples
         };
 
     /// <summary>
+    ///     Gets the too many requests example response.
+    /// </summary>
+    public static JsonObject TooManyRequestsExampleResponse =>
+        new()
+        {
+            ["title"] = "An application error occurred.",
+            ["status"] = 429,
+            ["instance"] = "GET /v1/redirects/sample-url",
+            ["errors"] = new JsonArray
+            {
+                new JsonObject
+                {
+                    ["code"] = "General.TooManyRequests",
+                    ["message"] = "Too many requests. Please try again later."
+                }
+            },
+            ["traceId"] = "00-91d9c6dd47f04e2c6bb3d116b9d18a8c-ecdd4ff1eefef635-01",
+            ["requestId"] = "0HNIFO753RU9P:00000063",
+            ["activityId"] = "00-91d9c6dd47f04e2c6bb3d116b9d18a8c-ecdd4ff1eefef635-01"
+        };
+
+    /// <summary>
     ///     Gets the internal server error example response.
     /// </summary>
     public static JsonObject InternalServerErrorExampleResponse =>

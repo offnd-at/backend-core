@@ -28,6 +28,8 @@ internal sealed class Get : IEndpoint
             .WithDescription("Retrieves a list of all supported themes.")
             .Produces<GetSupportedThemesResponse>()
             .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status429TooManyRequests)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
 }
