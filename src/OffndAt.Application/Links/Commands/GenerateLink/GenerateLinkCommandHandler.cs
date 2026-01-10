@@ -68,7 +68,7 @@ internal sealed class GenerateLinkCommandHandler(
                     return phraseResult;
                 }
 
-                if (await linksRepository.HasAnyWithPhraseAsync(phraseResult.Value, cancellationToken))
+                if (await linksRepository.HasAnyWithPhraseAsync(phraseResult.Value, token))
                 {
                     logger.LogWarning("The generated phrase is already in use := {Phrase}, retrying...", phraseResult.Value);
 

@@ -33,6 +33,8 @@ internal sealed class GetByPhrase : IEndpoint
             .WithDescription("Retrieves a link using its unique phrase.")
             .Produces<GetLinkByPhraseResponse>()
             .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status429TooManyRequests)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
 }

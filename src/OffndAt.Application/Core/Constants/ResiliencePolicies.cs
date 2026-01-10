@@ -3,10 +3,10 @@
 /// <summary>
 ///     Contains the resilience policies constants.
 /// </summary>
-internal static class ResiliencePolicies
+public static class ResiliencePolicies
 {
     /// <summary>
     ///     Contains the name of the retry policy used for phrase generation.
     /// </summary>
-    internal const string PhraseGeneratorRetryPolicyName = "phrase-generator-retry";
+    public const string PhraseGeneratorRetryPolicyName = "phrase-generator-retry";
 }

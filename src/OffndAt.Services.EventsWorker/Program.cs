@@ -3,19 +3,17 @@ using OffndAt.Application;
 using OffndAt.Infrastructure;
 using OffndAt.Infrastructure.Core.Logging.Extensions;
 using OffndAt.Persistence;
-using OffndAt.Services.EventsWorker;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCleanMediator();
+builder.Services.AddMediatorWithBehaviours();
 
 builder.Services.AddPersistence(builder.Configuration);
 
 builder.Services.AddInfrastructureSettings(builder.Configuration)
     .AddTelemetry(builder.Configuration)
-    .AddInfrastructureServices();
-
-builder.Services.AddEventsWorker(builder.Configuration);
+    .AddInfrastructureServices()
+    .AddMassTransitConsumer(builder.Configuration);
 
 builder.Host.UseOffndAtSerilog();
 

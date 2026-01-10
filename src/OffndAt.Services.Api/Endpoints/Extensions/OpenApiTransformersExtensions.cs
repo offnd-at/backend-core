@@ -259,6 +259,23 @@ internal static partial class OpenApiTransformersExtensions
         }
 
         if (operation.Responses.TryGetValue(
+                StatusCodes.Status429TooManyRequests.ToString(CultureInfo.InvariantCulture),
+                out var tooManyRequestsResponse) &&
+            tooManyRequestsResponse.Content is not null &&
+            tooManyRequestsResponse.Content.TryGetValue(
+                MediaTypeNames.Application.ProblemJson,
+                out var tooManyRequestsResponseProblemJsonContent))
+        {
+            tooManyRequestsResponseProblemJsonContent.Examples ??= new Dictionary<string, IOpenApiExample>();
+            tooManyRequestsResponseProblemJsonContent.Examples.Add(
+                tooManyRequestsResponse.Description ?? "Internal Server Error",
+                new OpenApiExample
+                {
+                    Value = ProblemResponseExamples.TooManyRequestsExampleResponse
+                });
+        }
+
+        if (operation.Responses.TryGetValue(
                 StatusCodes.Status500InternalServerError.ToString(CultureInfo.InvariantCulture),
                 out var internalServerErrorResponse) &&
             internalServerErrorResponse.Content is not null &&

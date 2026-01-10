@@ -11,7 +11,7 @@ namespace OffndAt.Infrastructure.Core.Data;
 ///     Represents the GitHub vocabulary loader.
 /// </summary>
 /// <param name="fileLoader">The file loader.</param>
-internal sealed class GithubVocabularyLoader(IFileLoader fileLoader) : IVocabularyLoader
+internal sealed class GitHubVocabularyLoader(IFileLoader fileLoader) : IVocabularyLoader
 {
     /// <inheritdoc />
     public async Task<Maybe<Vocabulary>> DownloadAsync(

@@ -2,6 +2,9 @@
 
 internal sealed class NoRedirectHandler : DelegatingHandler
 {
-    public NoRedirectHandler(HttpMessageHandler innerHandler) =>
-        InnerHandler = innerHandler ?? throw new ArgumentNullException(nameof(innerHandler));
+    public NoRedirectHandler() =>
+        InnerHandler = new HttpClientHandler
+        {
+            AllowAutoRedirect = false
+        };
 }

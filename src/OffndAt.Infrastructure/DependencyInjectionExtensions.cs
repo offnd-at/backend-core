@@ -1,6 +1,14 @@
-﻿using MassTransit;
+﻿using System.Globalization;
+using System.Net.Http.Headers;
+using System.Reflection;
+using System.Threading.RateLimiting;
+using MassTransit;
 using MassTransit.Logging;
 using MassTransit.Monitoring;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -9,20 +17,28 @@ using Octokit;
 using OffndAt.Application.Core.Abstractions.Data;
 using OffndAt.Application.Core.Abstractions.Messaging;
 using OffndAt.Application.Core.Abstractions.Phrases;
+using OffndAt.Application.Core.Abstractions.Telemetry;
 using OffndAt.Application.Core.Abstractions.Urls;
 using OffndAt.Application.Core.Abstractions.Words;
+using OffndAt.Application.Core.Constants;
+using OffndAt.Application.Core.Errors;
+using OffndAt.Application.Core.Exceptions;
 using OffndAt.Domain.Core.Errors;
+using OffndAt.Domain.Core.Exceptions;
 using OffndAt.Domain.Core.Primitives;
 using OffndAt.Domain.ValueObjects;
 using OffndAt.Infrastructure.Authentication.ApiKey;
 using OffndAt.Infrastructure.Authentication.Settings;
+using OffndAt.Infrastructure.Core.Abstractions.Telemetry;
 using OffndAt.Infrastructure.Core.Constants;
 using OffndAt.Infrastructure.Core.Data;
 using OffndAt.Infrastructure.Core.Data.Settings;
+using OffndAt.Infrastructure.Core.HealthChecks;
 using OffndAt.Infrastructure.Core.Http.Cors.Settings;
 using OffndAt.Infrastructure.Core.Messaging;
 using OffndAt.Infrastructure.Core.Messaging.Settings;
 using OffndAt.Infrastructure.Core.Settings;
+using OffndAt.Infrastructure.Core.Telemetry;
 using OffndAt.Infrastructure.Core.Telemetry.Settings;
 using OffndAt.Infrastructure.Phrases;
 using OffndAt.Infrastructure.Urls;
@@ -33,6 +49,7 @@ using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Polly;
 using Polly.Retry;
+using ProductHeaderValue = Octokit.ProductHeaderValue;
 
 namespace OffndAt.Infrastructure;
 
@@ -50,7 +67,105 @@ public static class DependencyInjectionExtensions
     public static IServiceCollection AddInfrastructureSettings(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<ApplicationSettings>(configuration.GetSection(ApplicationSettings.SettingsKey));
-        services.Configure<GithubDataSourceSettings>(configuration.GetSection(GithubDataSourceSettings.SettingsKey));
+        services.Configure<GitHubDataSourceSettings>(configuration.GetSection(GitHubDataSourceSettings.SettingsKey));
+
+        return services;
+    }
+
+    /// <summary>
+    ///     Configures the forwarded headers options to correctly process client IP addresses and protocol headers when running behind a reverse
+    ///     proxy.
+    /// </summary>
+    /// <param name="services">The service collection.</param>
+    /// <returns>The configured service collection.</returns>
+    public static IServiceCollection AddForwardedHeadersSettings(this IServiceCollection services)
+    {
+        services.Configure<ForwardedHeadersOptions>(options =>
+        {
+            options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+
+            options.KnownIPNetworks.Clear();
+            options.KnownProxies.Clear();
+        });
+
+        return services;
+    }
+
+    /// <summary>
+    ///     Registers the rate limiting services with the DI framework.
+    /// </summary>
+    /// <param name="services">The service collection.</param>
+    /// <returns>The configured service collection.</returns>
+    public static IServiceCollection AddRateLimiting(this IServiceCollection services)
+    {
+        services.AddRateLimiter(options =>
+        {
+            options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(context =>
+            {
+                var clientId = context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+
+                return RateLimitPartition.GetFixedWindowLimiter(
+                    clientId,
+                    _ =>
+                        new FixedWindowRateLimiterOptions
+                        {
+                            PermitLimit = 120,
+                            Window = TimeSpan.FromMinutes(1),
+                            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+                            QueueLimit = 10
+                        });
+            });
+
+            options.AddPolicy(
+                RateLimitingPolicyNames.RedirectByPhrase,
+                context =>
+                {
+                    var clientId = context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+
+                    return RateLimitPartition.GetTokenBucketLimiter(
+                        clientId,
+                        _ =>
+                            new TokenBucketRateLimiterOptions
+                            {
+                                TokenLimit = 60,
+                                ReplenishmentPeriod = TimeSpan.FromSeconds(10),
+                                TokensPerPeriod = 10,
+                                AutoReplenishment = true
+                            });
+                });
+
+            options.OnRejected = async (context, cancellationToken) =>
+            {
+                var problemDetailsService = context.HttpContext.RequestServices.GetRequiredService<IProblemDetailsService>();
+
+                if (context.Lease.TryGetMetadata(MetadataName.RetryAfter, out var retryAfter))
+                {
+                    context.HttpContext.Response.Headers.RetryAfter = retryAfter.TotalSeconds.ToString(CultureInfo.InvariantCulture);
+                }
+
+                context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
+
+                await problemDetailsService.TryWriteAsync(
+                    new ProblemDetailsContext
+                    {
+                        HttpContext = context.HttpContext,
+                        ProblemDetails = new ProblemDetails
+                        {
+                            Title = "An application error occurred.",
+                            Status = StatusCodes.Status429TooManyRequests,
+                            Extensions = new Dictionary<string, object?>
+                            {
+                                {
+                                    "errors", new[]
+                                    {
+                                        ApplicationErrors.TooManyRequests
+                                    }
+                                }
+                            }
+                        }
+                    });
+            };
+        });
 
         return services;
     }
@@ -65,12 +180,12 @@ public static class DependencyInjectionExtensions
         services.AddScoped<ICaseConverter, CaseConverter>();
         services.AddScoped<IPhraseGenerator, PhraseGenerator>();
         services.AddScoped<IUrlMaker, UrlMaker>();
-        services.AddScoped<IFileLoader, GithubFileLoader>();
-        services.AddScoped<IVocabularyLoader, GithubVocabularyLoader>();
+        services.AddScoped<IFileLoader, GitHubFileLoader>();
+        services.AddScoped<IVocabularyLoader, GitHubVocabularyLoader>();
         services.AddScoped<IGitHubClient>(serviceProvider =>
         {
             var applicationSettings = serviceProvider.GetRequiredService<IOptions<ApplicationSettings>>().Value;
-            return new GitHubClient(new ProductHeaderValue(applicationSettings.AppName));
+            return new GitHubClient(new ProductHeaderValue(applicationSettings.AppName, applicationSettings.Version));
         });
 
         return services;
@@ -90,10 +205,7 @@ public static class DependencyInjectionExtensions
             throw new InvalidOperationException($"Missing configuration section - {CorsSettings.SettingsKey}.");
 
         services.AddCors(options => options.AddDefaultPolicy(builder => builder
-            .SetIsOriginAllowed(origin =>
-                settings.AllowedOrigins.Any(allowedOrigin => allowedOrigin.Equals(
-                    new Uri(origin).Host,
-                    StringComparison.OrdinalIgnoreCase)))
+            .WithOrigins(settings.AllowedOrigins)
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials()));
@@ -136,7 +248,7 @@ public static class DependencyInjectionExtensions
                 cfg.UsePostgres();
                 cfg.UseBusOutbox();
 
-                cfg.QueryDelay = TimeSpan.FromSeconds(10);
+                cfg.QueryDelay = TimeSpan.FromSeconds(1);
             });
 
             configurator.SetKebabCaseEndpointNameFormatter();
@@ -144,7 +256,6 @@ public static class DependencyInjectionExtensions
             configurator.UsingRabbitMq((context, factoryConfigurator) =>
             {
                 var messageBrokerSettings = context.GetRequiredService<IOptions<MessageBrokerSettings>>().Value;
-                var applicationSettings = context.GetRequiredService<IOptions<ApplicationSettings>>().Value;
 
                 factoryConfigurator.Host(
                     messageBrokerSettings.Hostname,
@@ -152,17 +263,85 @@ public static class DependencyInjectionExtensions
                     {
                         hostConfigurator.Username(messageBrokerSettings.Username);
                         hostConfigurator.Password(messageBrokerSettings.Password);
+                        hostConfigurator.RequestedConnectionTimeout(TimeSpan.FromSeconds(30));
+                        hostConfigurator.PublisherConfirmation = true;
                     });
 
-                factoryConfigurator.UseMessageRetry(retryConfigurator => retryConfigurator.Interval(3, TimeSpan.FromSeconds(3)));
-
-                factoryConfigurator.ConfigureEndpoints(
-                    context,
-                    new KebabCaseEndpointNameFormatter(applicationSettings.AppName));
+                // Since the API only produces messages, does not consume them
+                factoryConfigurator.PrefetchCount = 0;
             });
         });
 
         services.TryAddScoped<IIntegrationEventPublisher, IntegrationEventPublisher>();
+
+        return services;
+    }
+
+    /// <summary>
+    ///     Registers the MassTransit consumer with the DI framework.
+    /// </summary>
+    /// <param name="services">The service collection.</param>
+    /// <param name="configuration">The configuration.</param>
+    /// <param name="assemblies">The assemblies containing message consumers, sagas, saga state machines, and activities.</param>
+    /// <returns>The configured service collection.</returns>
+    public static IServiceCollection AddMassTransitConsumer(
+        this IServiceCollection services,
+        IConfiguration configuration,
+        Assembly[]? assemblies = null)
+    {
+        services.Configure<MessageBrokerSettings>(configuration.GetSection(MessageBrokerSettings.SettingsKey));
+
+        services.AddMassTransit(configurator =>
+        {
+            configurator.AddEntityFrameworkOutbox<OffndAtDbContext>(cfg =>
+            {
+                cfg.UsePostgres();
+                cfg.UseBusOutbox();
+                cfg.DuplicateDetectionWindow = TimeSpan.FromSeconds(60);
+            });
+
+            configurator.SetKebabCaseEndpointNameFormatter();
+
+            configurator.AddConsumers(assemblies ?? [Assembly.GetCallingAssembly()]);
+
+            configurator.UsingRabbitMq((context, factoryConfigurator) =>
+            {
+                var messageBrokerSettings = context.GetRequiredService<IOptions<MessageBrokerSettings>>().Value;
+
+                factoryConfigurator.Host(
+                    messageBrokerSettings.Hostname,
+                    hostConfigurator =>
+                    {
+                        hostConfigurator.Username(messageBrokerSettings.Username);
+                        hostConfigurator.Password(messageBrokerSettings.Password);
+                        hostConfigurator.RequestedConnectionTimeout(TimeSpan.FromSeconds(30));
+                    });
+
+                factoryConfigurator.PrefetchCount = messageBrokerSettings.PrefetchCount;
+
+                factoryConfigurator.UseMessageRetry(retryConfigurator =>
+                {
+                    retryConfigurator.Exponential(
+                        5,
+                        TimeSpan.FromSeconds(1),
+                        TimeSpan.FromSeconds(30),
+                        TimeSpan.FromSeconds(2));
+
+                    retryConfigurator.Ignore<ValidationException>();
+                    retryConfigurator.Ignore<DomainException>();
+                });
+
+                factoryConfigurator.UseCircuitBreaker(cb =>
+                {
+                    cb.TrackingPeriod = TimeSpan.FromSeconds(30);
+                    cb.TripThreshold = 15;
+                    cb.ActiveThreshold = 10;
+                    cb.ResetInterval = TimeSpan.FromMinutes(1);
+                });
+
+                factoryConfigurator.ConfigureEndpoints(context);
+            });
+        });
 
         return services;
     }
@@ -176,6 +355,10 @@ public static class DependencyInjectionExtensions
     public static IServiceCollection AddTelemetry(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<TelemetrySettings>(configuration.GetSection(TelemetrySettings.SettingsKey));
+
+        services.AddSingleton<IGitHubApiUsageMetrics, GitHubApiUsageMetrics>();
+        services.AddSingleton<ILinkMetrics, LinkMetrics>();
+        services.AddSingleton<IVisitMetrics, VisitMetrics>();
 
         var telemetrySettings = configuration.GetSection(TelemetrySettings.SettingsKey).Get<TelemetrySettings>() ??
             throw new InvalidOperationException($"Missing configuration section - {TelemetrySettings.SettingsKey}.");
@@ -193,7 +376,10 @@ public static class DependencyInjectionExtensions
             .WithMetrics(options => options
                 .AddAspNetCoreInstrumentation()
                 .AddHttpClientInstrumentation()
+                .AddRuntimeInstrumentation()
+                .AddProcessInstrumentation()
                 .AddMeter(InstrumentationOptions.MeterName)
+                .AddMeter(OffndAtInstrumentationOptions.MeterName)
                 .AddOtlpExporter(exporterOptions => exporterOptions.Endpoint = new Uri(telemetrySettings.ExporterEndpoint)))
             .WithTracing(options => options
                 // TODO: trace sampler
@@ -243,8 +429,18 @@ public static class DependencyInjectionExtensions
     /// <returns>The configured service collection.</returns>
     public static IServiceCollection AddHealthMonitoring(this IServiceCollection services)
     {
+        services.AddHttpClient<GitHubApiHealthCheck>((serviceProvider, client) =>
+        {
+            var applicationSettings = serviceProvider.GetRequiredService<IOptions<ApplicationSettings>>().Value;
+
+            client.Timeout = TimeSpan.FromSeconds(10);
+            client.DefaultRequestHeaders.UserAgent.Add(
+                new ProductInfoHeaderValue(applicationSettings.AppName, applicationSettings.Version));
+        });
+
         services.AddHealthChecks()
-            .AddDbContextCheck<OffndAtDbContext>("ef-core-db-context");
+            .AddDbContextCheck<OffndAtDbContext>("ef-core-db-context")
+            .AddCheck<GitHubApiHealthCheck>("github-api");
 
         return services;
     }

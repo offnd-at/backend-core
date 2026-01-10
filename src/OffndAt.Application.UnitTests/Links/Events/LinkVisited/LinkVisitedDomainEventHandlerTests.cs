@@ -1,5 +1,6 @@
 ﻿using NSubstitute;
 using OffndAt.Application.Core.Abstractions.Messaging;
+using OffndAt.Application.Core.Abstractions.Telemetry;
 using OffndAt.Application.Links.Events.LinkVisited;
 using OffndAt.Domain.Entities;
 using OffndAt.Domain.Enumerations;
@@ -18,7 +19,7 @@ internal sealed class LinkVisitedDomainEventHandlerTests
     {
         _integrationEventPublisher = Substitute.For<IIntegrationEventPublisher>();
 
-        _handler = new LinkVisitedDomainEventHandler(_integrationEventPublisher);
+        _handler = new LinkVisitedDomainEventHandler(_integrationEventPublisher, Substitute.For<IVisitMetrics>());
     }
 
     [Test]

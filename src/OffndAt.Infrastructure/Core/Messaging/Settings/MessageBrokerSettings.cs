@@ -29,4 +29,10 @@ public sealed class MessageBrokerSettings
     ///     Gets or sets the password.
     /// </summary>
     public required string Password { get; init; }
+
+    /// <summary>
+    ///     Gets the prefetch count, which determines the maximum number of messages
+    ///     the message broker will deliver to the consumer before requiring acknowledgements.
+    /// </summary>
+    public required int PrefetchCount { get; init; } = 16;
 }

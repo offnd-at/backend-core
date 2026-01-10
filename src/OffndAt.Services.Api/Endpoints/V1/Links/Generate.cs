@@ -36,6 +36,8 @@ internal sealed class Generate : IEndpoint
             .WithDescription("Generates a new link using the provided details.")
             .Produces<GenerateLinkResponse>(StatusCodes.Status201Created)
             .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status429TooManyRequests)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
 }

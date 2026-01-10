@@ -29,16 +29,27 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="..\.dockerignore">
-      <Link>.dockerignore</Link>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\OffndAt.Application\OffndAt.Application.csproj"/>
     <ProjectReference Include="..\OffndAt.Domain\OffndAt.Domain.csproj"/>
     <ProjectReference Include="..\OffndAt.Infrastructure\OffndAt.Infrastructure.csproj"/>
     <ProjectReference Include="..\OffndAt.Persistence\OffndAt.Persistence.csproj"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.*.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </Content>
+
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+
+    <Content Update="appsettings.Production.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

@@ -33,7 +33,6 @@ internal sealed class GetLinkByPhraseQueryHandler(ILinksRepository linksReposito
         if (request.ShouldIncrementVisits)
         {
             maybeLink.Value.IncrementVisits();
-
             await unitOfWork.SaveChangesAsync(cancellationToken);
         }
 

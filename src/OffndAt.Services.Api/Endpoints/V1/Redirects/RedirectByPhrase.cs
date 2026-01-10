@@ -6,6 +6,7 @@ using OffndAt.Application.Links.Queries.GetLinkByPhrase;
 using OffndAt.Domain.Core.Errors;
 using OffndAt.Domain.Core.Extensions;
 using OffndAt.Domain.Core.Primitives;
+using OffndAt.Infrastructure.Core.Constants;
 using OffndAt.Services.Api.Contracts;
 
 namespace OffndAt.Services.Api.Endpoints.V1.Redirects;
@@ -37,11 +38,13 @@ internal sealed class RedirectByPhrase : IEndpoint
                                 return Results.Redirect(response.Link.TargetUrl, true);
                             },
                             () => CustomResults.NotFound(DomainErrors.Link.NotFound)))
+            .RequireRateLimiting(RateLimitingPolicyNames.RedirectByPhrase)
             .WithTags(nameof(ApiRoutes.Redirects))
             .WithSummary("Redirect by phrase")
             .WithDescription("Retrieves a link using its unique phrase and redirects to its target URL.")
             .Produces(StatusCodes.Status301MovedPermanently)
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status429TooManyRequests)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
 }
