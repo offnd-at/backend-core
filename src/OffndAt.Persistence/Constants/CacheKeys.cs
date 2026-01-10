@@ -8,7 +8,7 @@ namespace OffndAt.Persistence.Constants;
 internal static class CacheKeys
 {
     /// <summary>
-    ///     Generates the cache key for a noun vocabulary.
+    ///     Generates the cache key for vocabulary of nouns.
     /// </summary>
     internal static Func<Language, Offensiveness, GrammaticalNumber, GrammaticalGender, Theme, string> NounVocabulary { get; } =
         (
@@ -17,15 +17,15 @@ internal static class CacheKeys
                 number,
                 gender,
                 theme) =>
-            $"noun-vocabulary-" +
-            $"{language.Code.ToLowerInvariant()}-" +
-            $"{offensiveness.Name.ToLowerInvariant()}-" +
-            $"{number.Name.ToLowerInvariant()}-" +
-            $"{gender.Name.ToLowerInvariant()}" +
+            $"vocabulary:noun:" +
+            $"{language.Code.ToLowerInvariant()}:" +
+            $"{offensiveness.Name.ToLowerInvariant()}:" +
+            $"{number.Name.ToLowerInvariant()}:" +
+            $"{gender.Name.ToLowerInvariant()}:" +
             $"{theme.Name.ToLowerInvariant()}";
 
     /// <summary>
-    ///     Generates the cache key for an adjective vocabulary.
+    ///     Generates the cache key for vocabulary of adjectives.
     /// </summary>
     internal static Func<Language, Offensiveness, GrammaticalNumber, GrammaticalGender, string> AdjectiveVocabulary { get; } =
         (
@@ -33,17 +33,17 @@ internal static class CacheKeys
                 offensiveness,
                 number,
                 gender) =>
-            $"adjective-vocabulary-" +
-            $"{language.Code.ToLowerInvariant()}-" +
-            $"{offensiveness.Name.ToLowerInvariant()}-" +
-            $"{number.Name.ToLowerInvariant()}-" +
+            $"vocabulary:adjective:" +
+            $"{language.Code.ToLowerInvariant()}:" +
+            $"{offensiveness.Name.ToLowerInvariant()}:" +
+            $"{number.Name.ToLowerInvariant()}:" +
             $"{gender.Name.ToLowerInvariant()}";
 
     /// <summary>
-    ///     Generates the cache key for an adverb vocabulary.
+    ///     Generates the cache key for vocabulary of adverbs.
     /// </summary>
     internal static Func<Language, Offensiveness, string> AdverbVocabulary { get; } = (language, offensiveness) =>
-        $"adverb-vocabulary-" +
-        $"{language.Code.ToLowerInvariant()}-" +
+        $"vocabulary:adverb:" +
+        $"{language.Code.ToLowerInvariant()}:" +
         $"{offensiveness.Name.ToLowerInvariant()}";
 }
