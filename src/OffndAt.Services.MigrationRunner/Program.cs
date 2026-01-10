@@ -4,6 +4,7 @@ using OffndAt.Domain;
 using OffndAt.Infrastructure;
 using OffndAt.Infrastructure.Core.Logging.Extensions;
 using OffndAt.Persistence;
+using OffndAt.Services.MigrationRunner.Jobs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,10 +15,10 @@ builder.Services.AddMediatorWithBehaviours();
 builder.Services.AddPersistence(builder.Configuration);
 
 builder.Services.AddInfrastructureSettings(builder.Configuration)
-    .AddInMemoryCache(builder.Configuration)
     .AddTelemetry(builder.Configuration)
-    .AddInfrastructureServices()
-    .AddMassTransitConsumer(builder.Configuration, [typeof(Program).Assembly]);
+    .AddInfrastructureServices();
+
+builder.Services.AddHostedService<MigrationRunner>();
 
 builder.Host.UseOffndAtSerilog();
 

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace OffndAt.Persistence.Migrations.Extensions;
 
@@ -10,12 +11,18 @@ namespace OffndAt.Persistence.Migrations.Extensions;
 public static class DatabaseMigrationsExtensions
 {
     /// <summary>
-    ///     Ensures all migrations.
+    ///     Ensures all migrations. Does nothing in the Production environment.
     /// </summary>
     /// <param name="builder">The application builder.</param>
     /// <returns>The configured application builder.</returns>
-    public static IApplicationBuilder EnsureMigrations(this IApplicationBuilder builder)
+    public static IApplicationBuilder EnsureMigrationsIfDevelopment(this IApplicationBuilder builder)
     {
+        var env = builder.ApplicationServices.GetRequiredService<IHostEnvironment>();
+        if (env.IsProduction())
+        {
+            return builder;
+        }
+
         using var serviceScope = builder.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
         var context = serviceScope.ServiceProvider.GetService<DbContext>();
         context?.Database.Migrate();

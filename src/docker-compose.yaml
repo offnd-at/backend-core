@@ -24,8 +24,12 @@ services:
         limits:
           memory: 2048M
     depends_on:
-      - postgres
-      - rabbit-mq
+      postgres:
+        condition: service_healthy
+      rabbit-mq:
+        condition: service_healthy
+      migration-runner:
+        condition: service_completed_successfully
 
   events-worker:
     restart: unless-stopped
@@ -46,8 +50,31 @@ services:
         limits:
           memory: 1024M
     depends_on:
-      - postgres
-      - rabbit-mq
+      postgres:
+        condition: service_healthy
+      rabbit-mq:
+        condition: service_healthy
+      migration-runner:
+        condition: service_completed_successfully
+
+  migration-runner:
+    restart: on-failure
+    build:
+      context: ./
+      dockerfile: ./OffndAt.Services.MigrationRunner/Dockerfile
+    environment:
+      OTEL_SERVICE_NAME: "offnd-at-migration-runner"
+      OTEL_RESOURCE_ATTRIBUTES: "deployment.environment=Production,service.namespace=offnd"
+      PersistenceSettings__ConnectionString: "Host=postgres;Username=offndat;Password=offndat;Database=offndat"
+      TelemetrySettings__ExporterEndpoint: "http://otel-collector:4317/"
+    container_name: migration-runner
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
+    depends_on:
+      postgres:
+        condition: service_healthy
 
   postgres:
     image: postgres:17
@@ -58,6 +85,12 @@ services:
       POSTGRES_DB: offndat
     ports:
       - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U offndat -d offndat" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
     volumes:
       - offndat-postgres-data:/var/lib/postgresql/data
     container_name: postgres
@@ -68,6 +101,12 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+    healthcheck:
+      test: [ "CMD-SHELL", "rabbitmq-diagnostics -q status" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
     container_name: rabbit-mq
 
   otel-collector:
