@@ -64,7 +64,7 @@ app.MapEndpointsForAllVersions()
     .UseAuthentication()
     .UseAuthorization()
     .UseCustomExceptionHandler()
-    .EnsureMigrations() // TODO: only viable while running single instance in production
+    .EnsureMigrationsIfDevelopment()
     .UseHttpsRedirection()
     .UseHttpLogging();
 

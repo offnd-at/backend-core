@@ -104,15 +104,17 @@ public static class DependencyInjectionExtensions
             {
                 var clientId = context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
 
-                return RateLimitPartition.GetFixedWindowLimiter(
+                return RateLimitPartition.GetSlidingWindowLimiter(
                     clientId,
                     _ =>
-                        new FixedWindowRateLimiterOptions
+                        new SlidingWindowRateLimiterOptions
                         {
                             PermitLimit = 120,
                             Window = TimeSpan.FromMinutes(1),
+                            AutoReplenishment = true,
+                            SegmentsPerWindow = 6,
                             QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
-                            QueueLimit = 10
+                            QueueLimit = 0
                         });
             });
 
@@ -134,7 +136,7 @@ public static class DependencyInjectionExtensions
                             });
                 });
 
-            options.OnRejected = async (context, cancellationToken) =>
+            options.OnRejected = async (context, _) =>
             {
                 var problemDetailsService = context.HttpContext.RequestServices.GetRequiredService<IProblemDetailsService>();
 
