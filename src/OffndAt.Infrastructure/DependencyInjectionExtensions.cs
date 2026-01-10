@@ -356,6 +356,10 @@ public static class DependencyInjectionExtensions
     {
         services.Configure<TelemetrySettings>(configuration.GetSection(TelemetrySettings.SettingsKey));
 
+        services.AddSingleton<IGitHubApiUsageMetrics, GitHubApiUsageMetrics>();
+        services.AddSingleton<ILinkMetrics, LinkMetrics>();
+        services.AddSingleton<IVisitMetrics, VisitMetrics>();
+
         var telemetrySettings = configuration.GetSection(TelemetrySettings.SettingsKey).Get<TelemetrySettings>() ??
             throw new InvalidOperationException($"Missing configuration section - {TelemetrySettings.SettingsKey}.");
 
@@ -397,10 +401,6 @@ public static class DependencyInjectionExtensions
                     instrumentationOptions.SetDbStatementForStoredProcedure = true;
                 })
                 .AddOtlpExporter(exporterOptions => exporterOptions.Endpoint = new Uri(telemetrySettings.ExporterEndpoint)));
-
-        services.AddSingleton<IGitHubApiUsageMetrics, GitHubApiUsageMetrics>();
-        services.AddSingleton<ILinkMetrics, LinkMetrics>();
-        services.AddSingleton<IVisitMetrics, VisitMetrics>();
 
         return services;
     }

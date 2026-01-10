@@ -48,12 +48,7 @@ internal abstract class BaseFunctionalTest
         HttpClient = ApplicationFactory.CreateClient();
         HttpClient.DefaultRequestHeaders.Add(HeaderNames.ApiKey, "test-api-key");
 
-        HttpClientWithoutRedirects = ApplicationFactory.CreateDefaultClient(
-            new NoRedirectHandler(
-                new HttpClientHandler
-                {
-                    AllowAutoRedirect = false
-                }));
+        HttpClientWithoutRedirects = ApplicationFactory.CreateDefaultClient(new NoRedirectHandler());
     }
 
     [OneTimeTearDown]
