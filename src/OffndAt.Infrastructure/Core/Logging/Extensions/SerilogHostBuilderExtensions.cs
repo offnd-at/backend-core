@@ -34,6 +34,9 @@ public static class SerilogHostBuilderExtensions
                 .Enrich.WithProperty(nameof(applicationSettings.Environment), applicationSettings.Environment)
                 .Enrich.WithProperty(nameof(applicationSettings.AppName), applicationSettings.AppName)
                 .Enrich.WithProperty(nameof(applicationSettings.Version), applicationSettings.Version)
+                .Destructure.ToMaximumDepth(10)
+                .Destructure.ToMaximumStringLength(2048)
+                .Destructure.ToMaximumCollectionCount(64)
                 .WriteTo.Console(formatProvider: CultureInfo.InvariantCulture)
                 .WriteTo.OpenTelemetry(options => options.Endpoint = telemetrySettings.ExporterEndpoint)
                 .ReadFrom.Configuration(context.Configuration);
