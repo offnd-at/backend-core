@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OffndAt.Persistence.Data;
 
-namespace OffndAt.Services.MigrationRunner;
+namespace OffndAt.Services.MigrationRunner.Jobs;
 
 /// <summary>
 ///     Represents the background service that runs database migrations.
@@ -9,10 +9,10 @@ namespace OffndAt.Services.MigrationRunner;
 /// <param name="hostApplicationLifetime">The host application lifetime.</param>
 /// <param name="serviceProvider">The service provider.</param>
 /// <param name="logger">The logger.</param>
-internal sealed class MigrationRunnerBackgroundService(
+internal sealed class MigrationRunner(
     IHostApplicationLifetime hostApplicationLifetime,
     IServiceProvider serviceProvider,
-    ILogger<MigrationRunnerBackgroundService> logger) : BackgroundService
+    ILogger<MigrationRunner> logger) : BackgroundService
 {
     /// <inheritdoc />
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)

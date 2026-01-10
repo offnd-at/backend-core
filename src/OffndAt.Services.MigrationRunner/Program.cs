@@ -4,7 +4,7 @@ using OffndAt.Domain;
 using OffndAt.Infrastructure;
 using OffndAt.Infrastructure.Core.Logging.Extensions;
 using OffndAt.Persistence;
-using OffndAt.Services.MigrationRunner;
+using OffndAt.Services.MigrationRunner.Jobs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +18,7 @@ builder.Services.AddInfrastructureSettings(builder.Configuration)
     .AddTelemetry(builder.Configuration)
     .AddInfrastructureServices();
 
-builder.Services.AddHostedService<MigrationRunnerBackgroundService>();
+builder.Services.AddHostedService<MigrationRunner>();
 
 builder.Host.UseOffndAtSerilog();
 
