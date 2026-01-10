@@ -63,7 +63,10 @@ services:
       context: ./
       dockerfile: ./OffndAt.Services.MigrationRunner/Dockerfile
     environment:
+      OTEL_SERVICE_NAME: "offnd-at-migration-runner"
+      OTEL_RESOURCE_ATTRIBUTES: "deployment.environment=Production,service.namespace=offnd"
       PersistenceSettings__ConnectionString: "Host=postgres;Username=offndat;Password=offndat;Database=offndat"
+      TelemetrySettings__ExporterEndpoint: "http://otel-collector:4317/"
     container_name: migration-runner
     deploy:
       resources:

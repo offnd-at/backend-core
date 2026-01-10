@@ -139,3 +139,5 @@ jobs:
           context: "{{defaultContext}}:src"
           file: ./OffndAt.Services.MigrationRunner/Dockerfile
           tags: ghcr.io/${{ env.PACKAGE_NAME }}:${{ needs.prepare-version.outputs.semVer }}
+          build-args: |
+            ApplicationSettings__Version=${{ needs.prepare-version.outputs.semVer }}
