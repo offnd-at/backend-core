@@ -420,6 +420,7 @@ public static class DependencyInjectionExtensions
                 .AddHttpClientInstrumentation()
                 .AddRuntimeInstrumentation()
                 .AddProcessInstrumentation()
+                .AddMeter("Polly")
                 .AddMeter(InstrumentationOptions.MeterName)
                 .AddMeter(OffndAtInstrumentationOptions.MeterName)
                 .AddOtlpExporter(exporterOptions => exporterOptions.Endpoint = new Uri(telemetrySettings.ExporterEndpoint)))
@@ -428,6 +429,7 @@ public static class DependencyInjectionExtensions
                 .AddAspNetCoreInstrumentation(instrumentationOptions =>
                     instrumentationOptions.Filter = context => context.Request.Method != HttpMethod.Options.Method)
                 .AddHttpClientInstrumentation()
+                .AddSource("Polly")
                 .AddSource(DiagnosticHeaders.DefaultListenerName)
                 .AddEntityFrameworkCoreInstrumentation(instrumentationOptions =>
                 {

@@ -1,6 +1,8 @@
-﻿using Asp.Versioning;
+﻿using System.Net.Mime;
+using Asp.Versioning;
 using Asp.Versioning.Conventions;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Mvc;
 using OffndAt.Services.Api.Endpoints.Extensions;
 
@@ -27,7 +29,16 @@ public static class DependencyInjectionExtensions
                 context.ProblemDetails.Extensions.Add("activityId", activity?.Id);
             })
             .AddEndpointsFromAssemblyContaining<Program>()
-            .Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
+            .Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true)
+            .AddHttpLogging(options =>
+            {
+                options.LoggingFields = HttpLoggingFields.RequestHeaders |
+                    HttpLoggingFields.RequestBody |
+                    HttpLoggingFields.ResponseHeaders |
+                    HttpLoggingFields.ResponseBody;
+                options.MediaTypeOptions.AddText(MediaTypeNames.Application.Json);
+                options.MediaTypeOptions.AddText(MediaTypeNames.Application.ProblemJson);
+            });
 
     /// <summary>
     ///     Registers the API versioning services with the DI framework.
