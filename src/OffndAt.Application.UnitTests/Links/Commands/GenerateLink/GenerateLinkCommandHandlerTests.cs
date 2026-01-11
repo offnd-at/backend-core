@@ -166,7 +166,7 @@ internal sealed class GenerateLinkCommandHandlerTests
         Assert.Multiple(() =>
         {
             Assert.That(actual.IsFailure, Is.True);
-            Assert.That(actual.Error, Is.EqualTo(DomainErrors.Phrase.AlreadyInUse));
+            Assert.That(actual.Error, Is.EqualTo(DomainErrors.Link.CouldNotGenerate));
         });
     }
 
