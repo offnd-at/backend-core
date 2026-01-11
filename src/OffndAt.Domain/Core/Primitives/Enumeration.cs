@@ -31,7 +31,7 @@ public abstract class Enumeration<TEnum> : IEquatable<Enumeration<TEnum>>, IComp
     /// </remarks>
     protected Enumeration()
     {
-        Value = default;
+        Value = 0;
         Name = string.Empty;
     }
 
@@ -66,6 +66,9 @@ public abstract class Enumeration<TEnum> : IEquatable<Enumeration<TEnum>>, IComp
         return GetType() == other.GetType() && other.Value.Equals(Value);
     }
 
+    /// <inheritdoc />
+    public override string ToString() => $"{nameof(Enumeration<>)}<{typeof(TEnum).Name}> {{ Name = {Name}, Value = {Value} }}";
+
     /// <summary>
     ///     Creates an enumeration of the specified type based on the specified value.
     /// </summary>
@@ -77,7 +80,7 @@ public abstract class Enumeration<TEnum> : IEquatable<Enumeration<TEnum>>, IComp
             : Maybe<TEnum>.None;
 
     /// <summary>
-    ///     Checks if the there is an enumeration with the specified value.
+    ///     Checks if there is an enumeration with the specified value.
     /// </summary>
     /// <param name="value">The value.</param>
     /// <returns>True if there is an enumeration with the specified value, otherwise false.</returns>
@@ -127,7 +130,7 @@ public abstract class Enumeration<TEnum> : IEquatable<Enumeration<TEnum>>, IComp
     public override int GetHashCode() => Value.GetHashCode();
 
     /// <summary>
-    ///     Gets all of the defined enumeration options.
+    ///     Gets all the defined enumeration options.
     /// </summary>
     /// <returns>The enumerable collection of enumerations.</returns>
     private static List<TEnum> GetAllEnumerationOptions()

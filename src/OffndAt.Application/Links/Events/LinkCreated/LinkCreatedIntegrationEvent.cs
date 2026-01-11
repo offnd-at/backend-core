@@ -1,5 +1,5 @@
 ﻿using System.Text.Json.Serialization;
-using OffndAt.Application.Core.Abstractions.Messaging;
+using OffndAt.Application.Abstractions.Messaging;
 using OffndAt.Domain.Events;
 
 namespace OffndAt.Application.Links.Events.LinkCreated;

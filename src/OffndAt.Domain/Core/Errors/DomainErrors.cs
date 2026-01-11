@@ -35,6 +35,11 @@ public static class DomainErrors
         /// </summary>
         public static Error Unauthorized =>
             new("General.Unauthorized", "You are not authorized to access the requested resource or perform the requested action.");
+
+        /// <summary>
+        ///     Gets the invariant violated error.
+        /// </summary>
+        public static Error InvariantViolated(string message) => new("General.InvariantViolated", message);
     }
 
     /// <summary>
@@ -179,5 +184,11 @@ public static class DomainErrors
         /// </summary>
         public static Error NotFound =>
             new("Link.NotFound", "The link with the specified phrase was not found.");
+
+        /// <summary>
+        ///     Gets the error indicating that the link could not be generated.
+        /// </summary>
+        public static Error CouldNotGenerate =>
+            new("Link.CouldNotGenerate", "The link could not be generated at this time. Please try again.");
     }
 }

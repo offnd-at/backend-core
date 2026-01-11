@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using NSubstitute;
-using OffndAt.Application.Core.Abstractions.Data;
+using OffndAt.Application.Abstractions.Data;
 using OffndAt.Domain.Core.Primitives;
 using OffndAt.Domain.Enumerations;
 using OffndAt.Domain.Models;

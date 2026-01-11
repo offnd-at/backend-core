@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OffndAt.Application.Core.Abstractions.Data;
+using OffndAt.Application.Abstractions.Data;
 using OffndAt.Domain.Core.Primitives;
 using OffndAt.Persistence.Specifications;
 

@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Net;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Threading.RateLimiting;
@@ -14,12 +15,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using Octokit;
-using OffndAt.Application.Core.Abstractions.Data;
-using OffndAt.Application.Core.Abstractions.Messaging;
-using OffndAt.Application.Core.Abstractions.Phrases;
-using OffndAt.Application.Core.Abstractions.Telemetry;
-using OffndAt.Application.Core.Abstractions.Urls;
-using OffndAt.Application.Core.Abstractions.Words;
+using OffndAt.Application.Abstractions.Data;
+using OffndAt.Application.Abstractions.Messaging;
+using OffndAt.Application.Abstractions.Phrases;
+using OffndAt.Application.Abstractions.Telemetry;
+using OffndAt.Application.Abstractions.Urls;
+using OffndAt.Application.Abstractions.Words;
 using OffndAt.Application.Core.Constants;
 using OffndAt.Application.Core.Errors;
 using OffndAt.Application.Core.Exceptions;
@@ -27,9 +28,9 @@ using OffndAt.Domain.Core.Errors;
 using OffndAt.Domain.Core.Exceptions;
 using OffndAt.Domain.Core.Primitives;
 using OffndAt.Domain.ValueObjects;
+using OffndAt.Infrastructure.Abstractions.Telemetry;
 using OffndAt.Infrastructure.Authentication.ApiKey;
 using OffndAt.Infrastructure.Authentication.Settings;
-using OffndAt.Infrastructure.Core.Abstractions.Telemetry;
 using OffndAt.Infrastructure.Core.Constants;
 using OffndAt.Infrastructure.Core.Data;
 using OffndAt.Infrastructure.Core.Data.Settings;
@@ -48,6 +49,7 @@ using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Polly;
+using Polly.CircuitBreaker;
 using Polly.Retry;
 using ProductHeaderValue = Octokit.ProductHeaderValue;
 
@@ -220,18 +222,54 @@ public static class DependencyInjectionExtensions
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The configured service collection.</returns>
-    public static IServiceCollection AddResiliencePolicies(this IServiceCollection services) =>
+    public static IServiceCollection AddResiliencePolicies(this IServiceCollection services)
+    {
         services.AddResiliencePipeline<string, Result<Phrase>>(
-            ResiliencePolicies.PhraseGeneratorRetryPolicyName,
+            ResiliencePolicies.PhraseAlreadyInUsePolicyName,
             builder => builder.AddRetry(
                 new RetryStrategyOptions<Result<Phrase>>
                 {
                     Delay = TimeSpan.Zero,
                     BackoffType = DelayBackoffType.Constant,
+                    UseJitter = false,
                     MaxRetryAttempts = 10,
                     ShouldHandle = new PredicateBuilder<Result<Phrase>>().HandleResult(result =>
                         result.IsFailure && result.Error == DomainErrors.Phrase.AlreadyInUse)
                 }));
+
+        services.AddResiliencePipeline<string>(
+            ResiliencePolicies.GitHubApiPolicyName,
+            builder =>
+            {
+                builder
+                    .AddTimeout(TimeSpan.FromSeconds(15))
+                    .AddRetry(
+                        new RetryStrategyOptions
+                        {
+                            Delay = TimeSpan.FromSeconds(1),
+                            BackoffType = DelayBackoffType.Exponential,
+                            UseJitter = true,
+                            MaxRetryAttempts = 3,
+                            ShouldHandle = new PredicateBuilder()
+                                .Handle<Exception>(ex => ex.InnerException is ApiException)
+                                .Handle<ApiException>(ex =>
+                                    ex.StatusCode is HttpStatusCode.TooManyRequests or >= HttpStatusCode.InternalServerError)
+                        })
+                    .AddCircuitBreaker(
+                        new CircuitBreakerStrategyOptions
+                        {
+                            FailureRatio = 0.25,
+                            SamplingDuration = TimeSpan.FromSeconds(30),
+                            MinimumThroughput = 10,
+                            BreakDuration = TimeSpan.FromSeconds(10),
+                            ShouldHandle = new PredicateBuilder()
+                                .Handle<Exception>(ex => ex.InnerException is ApiException)
+                                .Handle<ApiException>(ex => ex.StatusCode >= HttpStatusCode.InternalServerError)
+                        });
+            });
+
+        return services;
+    }
 
     /// <summary>
     ///     Registers the MassTransit producer with the DI framework.

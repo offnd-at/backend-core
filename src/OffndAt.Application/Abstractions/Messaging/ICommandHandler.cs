@@ -1,0 +1,11 @@
+﻿using MediatR;
+using OffndAt.Domain.Core.Primitives;
+
+namespace OffndAt.Application.Abstractions.Messaging;
+
+/// <summary>
+///     Represents the command handler interface.
+/// </summary>
+/// <typeparam name="TCommand">The command type.</typeparam>
+public interface ICommandHandler<in TCommand> : IRequestHandler<TCommand, Result>
+    where TCommand : ICommand;

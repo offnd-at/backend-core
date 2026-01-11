@@ -6,8 +6,6 @@
 /// <typeparam name="TValue">The result value type.</typeparam>
 public class Result<TValue> : Result
 {
-    private readonly TValue _value;
-
     /// <summary>
     ///     Initializes a new instance of the <see cref="Result{TValueType}" /> class with the specified parameters.
     /// </summary>
@@ -16,7 +14,7 @@ public class Result<TValue> : Result
     /// <param name="error">The error.</param>
     protected internal Result(TValue value, bool isSuccess, Error error)
         : base(isSuccess, error) =>
-        _value = value;
+        Value = value;
 
     /// <summary>
     ///     Gets the result value if the result is successful, otherwise throws an exception.
@@ -25,8 +23,14 @@ public class Result<TValue> : Result
     /// <exception cref="InvalidOperationException"> when <see cref="Result.IsFailure" /> is true.</exception>
     public TValue Value =>
         IsSuccess
-            ? _value
+            ? field
             : throw new InvalidOperationException("The value of a failure result can not be accessed.");
+
+    /// <inheritdoc />
+    public override string ToString() =>
+        IsSuccess
+            ? $"{nameof(Result)}<{typeof(TValue).Name}> {{ IsSuccess = {IsSuccess}, Value = {Value?.ToString() ?? "<null>"} }}"
+            : $"{nameof(Result)}<{typeof(TValue).Name}> {{ IsSuccess = {IsSuccess}, Error = {Error} }}";
 
     /// <summary>
     ///     Implicitly converts a <typeparamref name="TValue" /> to a <see cref="Result{T}" /> as a success result.

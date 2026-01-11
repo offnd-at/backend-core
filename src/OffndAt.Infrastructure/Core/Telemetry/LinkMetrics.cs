@@ -1,5 +1,5 @@
 using System.Diagnostics.Metrics;
-using OffndAt.Application.Core.Abstractions.Telemetry;
+using OffndAt.Application.Abstractions.Telemetry;
 using OffndAt.Domain.Enumerations;
 using OffndAt.Infrastructure.Core.Telemetry.Settings;
 

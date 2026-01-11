@@ -18,7 +18,11 @@ public sealed class Error(string code, string message) : ValueObject
     /// <summary>
     ///     Gets the empty error instance.
     /// </summary>
-    public static Error None => new(string.Empty, string.Empty);
+    public static Error None =>
+        new(string.Empty, string.Empty);
+
+    /// <inheritdoc />
+    public override string ToString() => $"{nameof(Error)} {{ Code = {Code}, Message = {Message} }}";
 
     /// <summary>
     ///     Implicitly converts an <see cref="Error" /> to a <see cref="string" /> by returning the <see cref="Error.Code" />.

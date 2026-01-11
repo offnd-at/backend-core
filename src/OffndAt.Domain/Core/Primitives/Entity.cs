@@ -1,5 +1,5 @@
-﻿using OffndAt.Domain.Core.Abstractions;
-using OffndAt.Domain.Core.Utils;
+﻿using OffndAt.Domain.Abstractions;
+using OffndAt.Domain.Core.Guards;
 
 namespace OffndAt.Domain.Core.Primitives;
 
@@ -16,7 +16,7 @@ public abstract class Entity<TEntityId> : IAuditableEntity, IEquatable<Entity<TE
     protected Entity(TEntityId id)
         : this()
     {
-        Ensure.NotNull(id, "The identifier is required.", nameof(id));
+        Guard.AgainstNull(id, "The identifier is required.");
 
         Id = id;
     }

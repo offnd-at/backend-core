@@ -12,12 +12,7 @@ public class Result
     /// <param name="error">The error.</param>
     protected Result(bool isSuccess, Error error)
     {
-        if (isSuccess && error != Error.None)
-        {
-            throw new InvalidOperationException();
-        }
-
-        if (!isSuccess && error == Error.None)
+        if (isSuccess && error != Error.None || !isSuccess && error == Error.None)
         {
             throw new InvalidOperationException();
         }
@@ -34,12 +29,16 @@ public class Result
     /// <summary>
     ///     Gets a value indicating whether the result is a failure result.
     /// </summary>
-    public bool IsFailure => !IsSuccess;
+    public bool IsFailure =>
+        !IsSuccess;
 
     /// <summary>
     ///     Gets the error.
     /// </summary>
     public Error Error { get; }
+
+    /// <inheritdoc />
+    public override string ToString() => $"{nameof(Result)} {{ IsSuccess = {IsSuccess}, Error = {Error} }}";
 
     /// <summary>
     ///     Returns a success <see cref="Result" />.
@@ -87,7 +86,7 @@ public class Result
 
     /// <summary>
     ///     Returns the first failure from the specified <paramref name="results" />.
-    ///     If there is no failure, a success is returned.
+    ///     If there is no failure, success is returned.
     /// </summary>
     /// <param name="results">The results array.</param>
     /// <returns>

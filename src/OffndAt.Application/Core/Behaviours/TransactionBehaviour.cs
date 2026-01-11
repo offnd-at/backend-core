@@ -1,6 +1,6 @@
 ﻿using MediatR;
-using OffndAt.Application.Core.Abstractions.Data;
-using OffndAt.Application.Core.Abstractions.Messaging;
+using OffndAt.Application.Abstractions.Data;
+using OffndAt.Application.Abstractions.Messaging;
 using OffndAt.Domain.Core.Primitives;
 
 namespace OffndAt.Application.Core.Behaviours;

@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using OffndAt.Application.Core.Abstractions.Data;
+using OffndAt.Application.Abstractions.Data;
 using OffndAt.Domain.Repositories;
 using OffndAt.Persistence.Core.Cache.Settings;
 using OffndAt.Persistence.Data;

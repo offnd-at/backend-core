@@ -1,5 +1,5 @@
-﻿using OffndAt.Domain.Core.Primitives;
-using OffndAt.Domain.Core.Utils;
+﻿using OffndAt.Domain.Core.Guards;
+using OffndAt.Domain.Core.Primitives;
 using OffndAt.Domain.Enumerations;
 using OffndAt.Domain.Events;
 using OffndAt.Domain.ValueObjects;
@@ -26,10 +26,10 @@ public sealed class Link : AggregateRoot<LinkId>
         Theme theme)
         : base(new LinkId(Guid.NewGuid()))
     {
-        Ensure.NotEmpty(phrase, "The phrase is required.", nameof(phrase));
-        Ensure.NotEmpty(targetUrl, "The target URL is required.", nameof(targetUrl));
-        Ensure.NotNull(language, "The language is required.", nameof(language));
-        Ensure.NotNull(theme, "The theme is required.", nameof(theme));
+        Guard.AgainstEmpty(phrase, "The phrase is required.");
+        Guard.AgainstEmpty(targetUrl, "The target URL is required.");
+        Guard.AgainstNull(language, "The language is required.");
+        Guard.AgainstNull(theme, "The theme is required.");
 
         Phrase = phrase;
         TargetUrl = targetUrl;

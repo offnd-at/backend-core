@@ -3,8 +3,8 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage;
-using OffndAt.Application.Core.Abstractions.Data;
-using OffndAt.Domain.Core.Abstractions;
+using OffndAt.Application.Abstractions.Data;
+using OffndAt.Domain.Abstractions;
 using OffndAt.Domain.Core.Primitives;
 
 namespace OffndAt.Persistence.Data;

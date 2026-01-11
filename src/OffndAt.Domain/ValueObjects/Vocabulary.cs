@@ -72,6 +72,15 @@ public sealed class Vocabulary : ValueObject
     public Word RandomWord =>
         _words[_random.Next(_words.Count)];
 
+    /// <inheritdoc />
+    public override string ToString() =>
+        $"{nameof(Vocabulary)} {{ Language = {Language}, " +
+        $"Theme = {Theme}, " +
+        $"Offensiveness = {Offensiveness}, " +
+        $"GrammaticalNumber = {GrammaticalNumber}, " +
+        $"GrammaticalGender = {GrammaticalGender}, " +
+        $"PartOfSpeech = {PartOfSpeech} }}";
+
     /// <summary>
     ///     Creates a new <see cref="Vocabulary" /> instance based on the specified arguments.
     /// </summary>

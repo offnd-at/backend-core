@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
-using OffndAt.Application.Core.Abstractions.Messaging;
-using OffndAt.Application.Core.Abstractions.Phrases;
-using OffndAt.Application.Core.Abstractions.Urls;
+using OffndAt.Application.Abstractions.Messaging;
+using OffndAt.Application.Abstractions.Phrases;
+using OffndAt.Application.Abstractions.Urls;
 using OffndAt.Application.Core.Constants;
 using OffndAt.Contracts.Links.Responses;
 using OffndAt.Domain.Core.Errors;
@@ -17,6 +17,11 @@ namespace OffndAt.Application.Links.Commands.GenerateLink;
 /// <summary>
 ///     Represents the <see cref="GenerateLinkCommand" /> handler.
 /// </summary>
+/// <param name="linksRepository">The links repository.</param>
+/// <param name="phraseGenerator">The phrase generator.</param>
+/// <param name="urlMaker">The URL maker.</param>
+/// <param name="resiliencePipelineProvider">The provider for Polly resilience pipelines.</param>
+/// <param name="logger">The logger.</param>
 internal sealed class GenerateLinkCommandHandler(
     ILinksRepository linksRepository,
     IPhraseGenerator phraseGenerator,
@@ -52,9 +57,9 @@ internal sealed class GenerateLinkCommandHandler(
             return Result.Failure<GenerateLinkResponse>(DomainErrors.Theme.NotFound);
         }
 
-        var retryPipeline = resiliencePipelineProvider.GetPipeline<Result<Phrase>>(ResiliencePolicies.PhraseGeneratorRetryPolicyName);
+        var phraseInUsePipeline = resiliencePipelineProvider.GetPipeline<Result<Phrase>>(ResiliencePolicies.PhraseAlreadyInUsePolicyName);
 
-        var phraseResult = await retryPipeline.ExecuteAsync(
+        var phraseResult = await phraseInUsePipeline.ExecuteAsync(
             async token =>
             {
                 var phraseResult = await phraseGenerator.GenerateAsync(
@@ -63,25 +68,21 @@ internal sealed class GenerateLinkCommandHandler(
                     maybeTheme.Value,
                     token);
 
-                if (phraseResult.IsFailure)
+                var x = false;
+                if (x && (phraseResult.IsFailure || !await linksRepository.HasAnyWithPhraseAsync(phraseResult.Value, token)))
                 {
                     return phraseResult;
                 }
 
-                if (await linksRepository.HasAnyWithPhraseAsync(phraseResult.Value, token))
-                {
-                    logger.LogWarning("The generated phrase is already in use := {Phrase}, retrying...", phraseResult.Value);
-
-                    return Result.Failure<Phrase>(DomainErrors.Phrase.AlreadyInUse);
-                }
-
-                return phraseResult;
+                logger.LogWarning("The generated phrase is already in use := {Phrase}, retrying...", phraseResult.Value);
+                return Result.Failure<Phrase>(DomainErrors.Phrase.AlreadyInUse);
             },
             cancellationToken);
 
         if (phraseResult.IsFailure)
         {
-            return Result.Failure<GenerateLinkResponse>(phraseResult.Error);
+            var error = phraseResult.Error == DomainErrors.Phrase.AlreadyInUse ? DomainErrors.Link.CouldNotGenerate : phraseResult.Error;
+            return Result.Failure<GenerateLinkResponse>(error);
         }
 
         var link = Link.Create(

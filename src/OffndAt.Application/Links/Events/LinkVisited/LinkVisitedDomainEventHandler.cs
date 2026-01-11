@@ -1,5 +1,5 @@
-﻿using OffndAt.Application.Core.Abstractions.Messaging;
-using OffndAt.Application.Core.Abstractions.Telemetry;
+﻿using OffndAt.Application.Abstractions.Messaging;
+using OffndAt.Application.Abstractions.Telemetry;
 using OffndAt.Domain.Core.Events;
 using OffndAt.Domain.Events;
 

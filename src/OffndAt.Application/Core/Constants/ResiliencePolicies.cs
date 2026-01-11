@@ -6,7 +6,12 @@
 public static class ResiliencePolicies
 {
     /// <summary>
-    ///     Contains the name of the retry policy used for phrase generation.
+    ///     Returns the name of a policy used for phrase generation, that retries when the phrase is already in use.
     /// </summary>
-    public const string PhraseGeneratorRetryPolicyName = "phrase-generator-retry";
+    public const string PhraseAlreadyInUsePolicyName = "phrase-already-in-use";
+
+    /// <summary>
+    ///     Returns the name of a policy used for making requests to GitHub API.
+    /// </summary>
+    public const string GitHubApiPolicyName = "github-api";
 }

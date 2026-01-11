@@ -1,5 +1,5 @@
-﻿using OffndAt.Application.Core.Abstractions.Phrases;
-using OffndAt.Application.Core.Abstractions.Words;
+﻿using OffndAt.Application.Abstractions.Phrases;
+using OffndAt.Application.Abstractions.Words;
 using OffndAt.Domain.Core.Errors;
 using OffndAt.Domain.Core.Primitives;
 using OffndAt.Domain.Enumerations;

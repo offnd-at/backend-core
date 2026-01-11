@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 using System.Text;
-using OffndAt.Application.Core.Abstractions.Data;
+using OffndAt.Application.Abstractions.Data;
 using OffndAt.Domain.Core.Primitives;
 using OffndAt.Domain.Models;
 using OffndAt.Domain.ValueObjects;

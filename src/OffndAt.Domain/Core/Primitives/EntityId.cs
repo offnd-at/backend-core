@@ -1,4 +1,4 @@
-﻿using OffndAt.Domain.Core.Utils;
+﻿using OffndAt.Domain.Core.Guards;
 
 namespace OffndAt.Domain.Core.Primitives;
 
@@ -13,7 +13,7 @@ public abstract class EntityId : ValueObject
     /// <param name="value">The entity identifier value.</param>
     protected EntityId(Guid value)
     {
-        Ensure.NotEmpty(value, "The entity identifier is required.", nameof(value));
+        Guard.AgainstEmpty(value, "The entity identifier is required.");
 
         Value = value;
     }
@@ -22,6 +22,9 @@ public abstract class EntityId : ValueObject
     ///     Gets the entity identifier value.
     /// </summary>
     public Guid Value { get; }
+
+    /// <inheritdoc />
+    public override string ToString() => $"{nameof(EntityId)} {{ Value = {Value} }}";
 
     /// <summary>
     ///     Implicitly converts an <see cref="EntityId" /> to a <see cref="string" /> by returning the string representation of its value.
@@ -36,9 +39,6 @@ public abstract class EntityId : ValueObject
     /// <param name="entityId">The <see cref="EntityId" /> instance to convert.</param>
     /// <returns>A <see cref="Guid" /> representing the value of the <paramref name="entityId" />.</returns>
     public static implicit operator Guid(EntityId entityId) => entityId.Value;
-
-    /// <inheritdoc />
-    public override string ToString() => Value.ToString();
 
     /// <inheritdoc />
     protected override IEnumerable<object> GetAtomicValues()

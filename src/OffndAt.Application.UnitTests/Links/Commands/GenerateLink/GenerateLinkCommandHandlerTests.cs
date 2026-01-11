@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using NSubstitute;
-using OffndAt.Application.Core.Abstractions.Phrases;
-using OffndAt.Application.Core.Abstractions.Urls;
+using OffndAt.Application.Abstractions.Phrases;
+using OffndAt.Application.Abstractions.Urls;
 using OffndAt.Application.Core.Constants;
 using OffndAt.Application.Links.Commands.GenerateLink;
 using OffndAt.Domain.Core.Errors;
@@ -33,7 +33,7 @@ internal sealed class GenerateLinkCommandHandlerTests
         _logger = Substitute.For<ILogger<GenerateLinkCommandHandler>>();
 
         _resiliencePipelineProvider = Substitute.For<ResiliencePipelineProvider<string>>();
-        _resiliencePipelineProvider.GetPipeline<Result<Phrase>>(ResiliencePolicies.PhraseGeneratorRetryPolicyName)
+        _resiliencePipelineProvider.GetPipeline<Result<Phrase>>(ResiliencePolicies.PhraseAlreadyInUsePolicyName)
             .Returns(ResiliencePipeline<Result<Phrase>>.Empty);
 
         _handler = new GenerateLinkCommandHandler(
