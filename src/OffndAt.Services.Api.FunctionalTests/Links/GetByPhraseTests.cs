@@ -34,6 +34,7 @@ internal sealed class GetByPhraseTests : BaseFunctionalTest
 
         var response = await HttpClient.GetAsync($"v1/links/{phrase}");
 
-        await Verify(response);
+        await Verify(response)
+            .ScrubMember("Content-Length");
     }
 }
