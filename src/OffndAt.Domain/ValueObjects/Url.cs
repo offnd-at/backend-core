@@ -26,7 +26,7 @@ public sealed class Url : ValueObject
     public string Value { get; }
 
     /// <inheritdoc />
-    public override string ToString() => $"{nameof(Url)} {{ Value = {Value} }}";
+    public override string ToString() => Value;
 
     /// <summary>
     ///     Implicitly converts a <see cref="Url" /> to a <see cref="string" /> by returning its value.

@@ -26,7 +26,7 @@ public sealed class Word : ValueObject
     public string Value { get; }
 
     /// <inheritdoc />
-    public override string ToString() => $"{nameof(Word)} {{ Value = {Value} }}";
+    public override string ToString() => Value;
 
     /// <summary>
     ///     Implicitly converts a <see cref="Word" /> to a <see cref="string" /> by returning its value.

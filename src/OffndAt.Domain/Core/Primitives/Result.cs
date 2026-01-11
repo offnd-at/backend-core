@@ -38,7 +38,7 @@ public class Result
     public Error Error { get; }
 
     /// <inheritdoc />
-    public override string ToString() => $"{nameof(Result)} {{ IsSuccess = {IsSuccess}, Error = {Error} }}";
+    public override string ToString() => $"{{ IsSuccess = {IsSuccess}, Error = {Error} }}";
 
     /// <summary>
     ///     Returns a success <see cref="Result" />.

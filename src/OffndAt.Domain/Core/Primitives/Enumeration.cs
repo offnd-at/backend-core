@@ -67,7 +67,7 @@ public abstract class Enumeration<TEnum> : IEquatable<Enumeration<TEnum>>, IComp
     }
 
     /// <inheritdoc />
-    public override string ToString() => $"{nameof(Enumeration<>)}<{typeof(TEnum).Name}> {{ Name = {Name}, Value = {Value} }}";
+    public override string ToString() => $"{{ Name = {Name}, Value = {Value} }}";
 
     /// <summary>
     ///     Creates an enumeration of the specified type based on the specified value.

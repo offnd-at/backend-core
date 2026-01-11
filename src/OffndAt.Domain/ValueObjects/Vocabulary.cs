@@ -74,7 +74,7 @@ public sealed class Vocabulary : ValueObject
 
     /// <inheritdoc />
     public override string ToString() =>
-        $"{nameof(Vocabulary)} {{ Language = {Language}, " +
+        $"{{ Language = {Language}, " +
         $"Theme = {Theme}, " +
         $"Offensiveness = {Offensiveness}, " +
         $"GrammaticalNumber = {GrammaticalNumber}, " +

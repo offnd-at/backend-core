@@ -26,7 +26,7 @@ public sealed class Phrase : ValueObject
     public string Value { get; }
 
     /// <inheritdoc />
-    public override string ToString() => $"{nameof(Phrase)} {{ Value = {Value} }}";
+    public override string ToString() => Value;
 
     /// <summary>
     ///     Implicitly converts a <see cref="Phrase" /> to a <see cref="string" /> by returning its value.

@@ -254,6 +254,8 @@ public static class DependencyInjectionExtensions
                                 .Handle<Exception>(ex => ex.InnerException is ApiException)
                                 .Handle<ApiException>(ex =>
                                     ex.StatusCode is HttpStatusCode.TooManyRequests or >= HttpStatusCode.InternalServerError)
+                                .Handle<RateLimitExceededException>()
+                                .Handle<SecondaryRateLimitExceededException>()
                         })
                     .AddCircuitBreaker(
                         new CircuitBreakerStrategyOptions

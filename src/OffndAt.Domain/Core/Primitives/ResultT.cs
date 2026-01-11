@@ -29,8 +29,8 @@ public class Result<TValue> : Result
     /// <inheritdoc />
     public override string ToString() =>
         IsSuccess
-            ? $"{nameof(Result)}<{typeof(TValue).Name}> {{ IsSuccess = {IsSuccess}, Value = {Value?.ToString() ?? "<null>"} }}"
-            : $"{nameof(Result)}<{typeof(TValue).Name}> {{ IsSuccess = {IsSuccess}, Error = {Error} }}";
+            ? $"{{ IsSuccess = {IsSuccess}, Value = {Value?.ToString() ?? "<null>"} }}"
+            : $"{{ IsSuccess = {IsSuccess}, Error = {Error} }}";
 
     /// <summary>
     ///     Implicitly converts a <typeparamref name="TValue" /> to a <see cref="Result{T}" /> as a success result.

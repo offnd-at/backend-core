@@ -22,7 +22,7 @@ public sealed class Error(string code, string message) : ValueObject
         new(string.Empty, string.Empty);
 
     /// <inheritdoc />
-    public override string ToString() => $"{nameof(Error)} {{ Code = {Code}, Message = {Message} }}";
+    public override string ToString() => $"{{ Code = {Code}, Message = {Message} }}";
 
     /// <summary>
     ///     Implicitly converts an <see cref="Error" /> to a <see cref="string" /> by returning the <see cref="Error.Code" />.

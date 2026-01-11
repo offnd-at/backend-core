@@ -24,7 +24,7 @@ public abstract class EntityId : ValueObject
     public Guid Value { get; }
 
     /// <inheritdoc />
-    public override string ToString() => $"{nameof(EntityId)} {{ Value = {Value} }}";
+    public override string ToString() => Value.ToString();
 
     /// <summary>
     ///     Implicitly converts an <see cref="EntityId" /> to a <see cref="string" /> by returning the string representation of its value.

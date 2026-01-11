@@ -68,8 +68,7 @@ internal sealed class GenerateLinkCommandHandler(
                     maybeTheme.Value,
                     token);
 
-                var x = false;
-                if (x && (phraseResult.IsFailure || !await linksRepository.HasAnyWithPhraseAsync(phraseResult.Value, token)))
+                if (phraseResult.IsFailure || !await linksRepository.HasAnyWithPhraseAsync(phraseResult.Value, token))
                 {
                     return phraseResult;
                 }
