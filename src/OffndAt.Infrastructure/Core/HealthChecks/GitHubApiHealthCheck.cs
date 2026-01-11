@@ -17,7 +17,13 @@ internal sealed class GitHubApiHealthCheck(HttpClient httpClient) : IHealthCheck
             var jsonResponse = await httpClient.GetStringAsync("https://www.githubstatus.com/api/v2/status.json", cancellationToken);
             using var jsonDoc = JsonDocument.Parse(jsonResponse);
 
-            var statusIndicator = jsonDoc.RootElement.GetProperty("status").GetProperty("indicator").GetString();
+            if (!jsonDoc.RootElement.TryGetProperty("status", out var statusElement) ||
+                !statusElement.TryGetProperty("indicator", out var indicatorElement))
+            {
+                return HealthCheckResult.Unhealthy("GitHub API is unavailable.");
+            }
+
+            var statusIndicator = indicatorElement.GetString();
             return statusIndicator switch
             {
                 "none" => HealthCheckResult.Healthy(),
