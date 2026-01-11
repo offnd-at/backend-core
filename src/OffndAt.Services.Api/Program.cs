@@ -1,7 +1,6 @@
 using FluentValidation.AspNetCore;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Mvc;
 using OffndAt.Application;
 using OffndAt.Application.Abstractions.Messaging;
@@ -44,12 +43,8 @@ builder.Services.AddInfrastructureSettings(builder.Configuration)
 builder.Services
     .AddVersioning()
     .AddOpenApiWithExamples()
-    .AddApi()
-    .AddHttpLogging(options =>
-    {
-        options.LoggingFields = HttpLoggingFields.RequestBody;
-        options.MediaTypeOptions.AddText("application/json");
-    });
+    .AddJsonResponseCompression()
+    .AddApi();
 
 builder.Host.UseOffndAtSerilog();
 
@@ -58,14 +53,26 @@ var app = builder.Build();
 app.UseForwardedHeaders();
 
 app.MapEndpointsForAllVersions()
+    .UseResponseCompression()
     .UseRateLimiter()
     .UseCors()
     .UseAuthentication()
     .UseAuthorization()
     .UseCustomExceptionHandler()
     .EnsureMigrationsIfDevelopment()
-    .UseHttpsRedirection()
-    .UseHttpLogging();
+    .UseHttpsRedirection();
+
+if (builder.Configuration.GetValue("EnableHttpLogging", false))
+{
+    app.UseWhen(
+        context =>
+            !context.Request.Path.StartsWithSegments("/favicon") &&
+            !context.Request.Path.StartsWithSegments("/openapi") &&
+            !context.Request.Path.StartsWithSegments("/docs") &&
+            !context.Request.Path.StartsWithSegments("/health") &&
+            !context.Request.Path.StartsWithSegments("/metrics"),
+        appBuilder => appBuilder.UseHttpLogging());
+}
 
 app.MapHealthChecks(
     "/health",

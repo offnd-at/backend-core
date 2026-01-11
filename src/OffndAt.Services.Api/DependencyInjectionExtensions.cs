@@ -1,7 +1,11 @@
-﻿using Asp.Versioning;
+﻿using System.IO.Compression;
+using System.Net.Mime;
+using Asp.Versioning;
 using Asp.Versioning.Conventions;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.ResponseCompression;
 using OffndAt.Services.Api.Endpoints.Extensions;
 
 namespace OffndAt.Services.Api;
@@ -27,7 +31,16 @@ public static class DependencyInjectionExtensions
                 context.ProblemDetails.Extensions.Add("activityId", activity?.Id);
             })
             .AddEndpointsFromAssemblyContaining<Program>()
-            .Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
+            .Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true)
+            .AddHttpLogging(options =>
+            {
+                options.LoggingFields = HttpLoggingFields.RequestHeaders |
+                    HttpLoggingFields.RequestBody |
+                    HttpLoggingFields.ResponseHeaders |
+                    HttpLoggingFields.ResponseBody;
+                options.MediaTypeOptions.AddText(MediaTypeNames.Application.Json);
+                options.MediaTypeOptions.AddText(MediaTypeNames.Application.ProblemJson);
+            });
 
     /// <summary>
     ///     Registers the API versioning services with the DI framework.
@@ -39,6 +52,7 @@ public static class DependencyInjectionExtensions
         services.AddApiVersioning(options =>
             {
                 options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.AssumeDefaultVersionWhenUnspecified = true;
                 options.ReportApiVersions = true;
                 options.ApiVersionReader = new UrlSegmentApiVersionReader();
             })
@@ -66,6 +80,31 @@ public static class DependencyInjectionExtensions
                     .UseDocumentTitleAndVersion()
                     .UseApiKeyAuthentication()
                     .UseRequestAndResponseExamples());
+
+        return services;
+    }
+
+    /// <summary>
+    ///     Registers the response compression services with the DI framework.
+    /// </summary>
+    /// <param name="services">The service collection.</param>
+    /// <returns>The configured service collection.</returns>
+    public static IServiceCollection AddJsonResponseCompression(this IServiceCollection services)
+    {
+        services.AddResponseCompression(options =>
+        {
+            options.EnableForHttps = true;
+            options.Providers.Add<BrotliCompressionProvider>();
+            options.Providers.Add<GzipCompressionProvider>();
+            options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+                new[]
+                {
+                    MediaTypeNames.Application.Json, MediaTypeNames.Application.ProblemJson
+                });
+        });
+
+        services.Configure<BrotliCompressionProviderOptions>(options => options.Level = CompressionLevel.Fastest);
+        services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Fastest);
 
         return services;
     }
