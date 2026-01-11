@@ -43,6 +43,7 @@ builder.Services.AddInfrastructureSettings(builder.Configuration)
 builder.Services
     .AddVersioning()
     .AddOpenApiWithExamples()
+    .AddJsonResponseCompression()
     .AddApi();
 
 builder.Host.UseOffndAtSerilog();
@@ -52,6 +53,7 @@ var app = builder.Build();
 app.UseForwardedHeaders();
 
 app.MapEndpointsForAllVersions()
+    .UseResponseCompression()
     .UseRateLimiter()
     .UseCors()
     .UseAuthentication()
