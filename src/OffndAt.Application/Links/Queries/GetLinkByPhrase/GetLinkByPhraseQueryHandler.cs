@@ -1,5 +1,5 @@
-﻿using OffndAt.Application.Core.Abstractions.Data;
-using OffndAt.Application.Core.Abstractions.Messaging;
+﻿using OffndAt.Application.Abstractions.Data;
+using OffndAt.Application.Abstractions.Messaging;
 using OffndAt.Contracts.Links.Dtos;
 using OffndAt.Contracts.Links.Responses;
 using OffndAt.Domain.Core.Primitives;
@@ -11,6 +11,8 @@ namespace OffndAt.Application.Links.Queries.GetLinkByPhrase;
 /// <summary>
 ///     Represents the <see cref="GetLinkByPhraseQuery" /> handler.
 /// </summary>
+/// <param name="linksRepository">The links repository.</param>
+/// <param name="unitOfWork">The unit of work.</param>
 internal sealed class GetLinkByPhraseQueryHandler(ILinksRepository linksRepository, IUnitOfWork unitOfWork)
     : IQueryHandler<GetLinkByPhraseQuery, GetLinkByPhraseResponse>
 {
@@ -41,7 +43,8 @@ internal sealed class GetLinkByPhraseQueryHandler(ILinksRepository linksReposito
             Link = new LinkDto
             {
                 Visits = maybeLink.Value.Visits,
-                TargetUrl = maybeLink.Value.TargetUrl
+                TargetUrl = maybeLink.Value.TargetUrl,
+                CreatedAt = maybeLink.Value.CreatedAt
             }
         };
     }

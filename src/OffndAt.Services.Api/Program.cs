@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Mvc;
 using OffndAt.Application;
-using OffndAt.Application.Core.Abstractions.Messaging;
+using OffndAt.Application.Abstractions.Messaging;
 using OffndAt.Domain;
 using OffndAt.Domain.Core.Events;
 using OffndAt.Infrastructure;
@@ -28,8 +28,7 @@ builder.Services.AddMediatorWithBehaviours([typeof(ICommand).Assembly, typeof(ID
     .AddValidators()
     .AddFluentValidationAutoValidation();
 
-builder.Services.AddPersistence(builder.Configuration)
-    .AddInMemoryCache(builder.Configuration);
+builder.Services.AddPersistence(builder.Configuration);
 
 builder.Services.AddInfrastructureSettings(builder.Configuration)
     .AddForwardedHeadersSettings()

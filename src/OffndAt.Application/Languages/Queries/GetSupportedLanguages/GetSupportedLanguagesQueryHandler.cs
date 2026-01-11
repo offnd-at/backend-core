@@ -1,4 +1,4 @@
-﻿using OffndAt.Application.Core.Abstractions.Messaging;
+﻿using OffndAt.Application.Abstractions.Messaging;
 using OffndAt.Contracts.Languages.Dtos;
 using OffndAt.Contracts.Languages.Responses;
 using OffndAt.Domain.Core.Primitives;

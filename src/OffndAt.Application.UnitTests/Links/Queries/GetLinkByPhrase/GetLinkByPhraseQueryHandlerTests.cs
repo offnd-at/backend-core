@@ -1,5 +1,5 @@
 ﻿using NSubstitute;
-using OffndAt.Application.Core.Abstractions.Data;
+using OffndAt.Application.Abstractions.Data;
 using OffndAt.Application.Links.Queries.GetLinkByPhrase;
 using OffndAt.Domain.Core.Primitives;
 using OffndAt.Domain.Entities;

@@ -1,4 +1,4 @@
-﻿using OffndAt.Domain.Core.Abstractions;
+﻿using OffndAt.Domain.Abstractions;
 using OffndAt.Domain.Core.Events;
 
 namespace OffndAt.Domain.Core.Primitives;

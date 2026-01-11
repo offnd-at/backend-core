@@ -1,4 +1,4 @@
-﻿using OffndAt.Application.Core.Abstractions.Messaging;
+﻿using OffndAt.Application.Abstractions.Messaging;
 using OffndAt.Contracts.Themes.Responses;
 
 namespace OffndAt.Application.Themes.Queries.GetSupportedThemes;

@@ -1,9 +1,12 @@
 ﻿using Microsoft.Extensions.Options;
 using NSubstitute;
 using Octokit;
-using OffndAt.Infrastructure.Core.Abstractions.Telemetry;
+using OffndAt.Application.Core.Constants;
+using OffndAt.Infrastructure.Abstractions.Telemetry;
 using OffndAt.Infrastructure.Core.Data;
 using OffndAt.Infrastructure.Core.Data.Settings;
+using Polly;
+using Polly.Registry;
 
 namespace OffndAt.Infrastructure.UnitTests.Core.Data;
 
@@ -18,6 +21,7 @@ internal sealed class GitHubFileLoaderTests
 
     private GitHubFileLoader _loader = null!;
     private IRepositoryContentsClient _repositoryContentsClient = null!;
+    private ResiliencePipelineProvider<string> _resiliencePipelineProvider = null!;
 
     [SetUp]
     public void Setup()
@@ -25,11 +29,17 @@ internal sealed class GitHubFileLoaderTests
         var githubClient = Substitute.For<IGitHubClient>();
         var repositoriesClient = Substitute.For<IRepositoriesClient>();
         _repositoryContentsClient = Substitute.For<IRepositoryContentsClient>();
+        _resiliencePipelineProvider = Substitute.For<ResiliencePipelineProvider<string>>();
+        _resiliencePipelineProvider.GetPipeline(ResiliencePolicies.GitHubApiPolicyName).Returns(ResiliencePipeline.Empty);
 
         githubClient.Repository.Returns(repositoriesClient);
         repositoriesClient.Content.Returns(_repositoryContentsClient);
 
-        _loader = new GitHubFileLoader(githubClient, _options, Substitute.For<IGitHubApiUsageMetrics>());
+        _loader = new GitHubFileLoader(
+            githubClient,
+            _options,
+            _resiliencePipelineProvider,
+            Substitute.For<IGitHubApiUsageMetrics>());
     }
 
     [Test]

@@ -25,6 +25,9 @@ public sealed class Word : ValueObject
     /// </summary>
     public string Value { get; }
 
+    /// <inheritdoc />
+    public override string ToString() => Value;
+
     /// <summary>
     ///     Implicitly converts a <see cref="Word" /> to a <see cref="string" /> by returning its value.
     /// </summary>
@@ -42,9 +45,6 @@ public sealed class Word : ValueObject
             .Ensure(value => !string.IsNullOrWhiteSpace(value), DomainErrors.Word.NullOrEmpty)
             .Ensure(value => value.Length <= MaxLength, DomainErrors.Word.LongerThanAllowed)
             .Map(value => new Word(value));
-
-    /// <inheritdoc />
-    public override string ToString() => Value;
 
     /// <inheritdoc />
     protected override IEnumerable<object> GetAtomicValues()

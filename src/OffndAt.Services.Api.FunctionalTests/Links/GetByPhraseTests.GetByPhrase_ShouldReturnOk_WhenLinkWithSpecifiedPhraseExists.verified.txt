@@ -5,13 +5,14 @@
   },
   Content: {
     Headers: {
-      Content-Length: 52,
+      Content-Length: {Scrubbed},
       Content-Type: application/json; charset=utf-8
     },
     Value: {
       link: {
         targetUrl: http://localhost,
-        visits: 0
+        visits: 0,
+        createdAt: DateTimeOffset_1
       }
     }
   }

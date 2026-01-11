@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
-using OffndAt.Application.Core.Abstractions.Urls;
+using OffndAt.Application.Abstractions.Urls;
 using OffndAt.Domain.Core.Primitives;
 using OffndAt.Domain.ValueObjects;
 using OffndAt.Infrastructure.Core.Settings;

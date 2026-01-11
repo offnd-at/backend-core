@@ -1,5 +1,5 @@
 ﻿using MassTransit;
-using OffndAt.Application.Core.Abstractions.Messaging;
+using OffndAt.Application.Abstractions.Messaging;
 
 namespace OffndAt.Infrastructure.Core.Messaging;
 

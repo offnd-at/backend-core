@@ -1,5 +1,5 @@
 ﻿using Humanizer;
-using OffndAt.Application.Core.Abstractions.Words;
+using OffndAt.Application.Abstractions.Words;
 using OffndAt.Domain.Enumerations;
 using OffndAt.Domain.ValueObjects;
 

@@ -14,7 +14,6 @@ builder.Services.AddMediatorWithBehaviours();
 builder.Services.AddPersistence(builder.Configuration);
 
 builder.Services.AddInfrastructureSettings(builder.Configuration)
-    .AddInMemoryCache(builder.Configuration)
     .AddTelemetry(builder.Configuration)
     .AddInfrastructureServices()
     .AddMassTransitConsumer(builder.Configuration, [typeof(Program).Assembly]);

@@ -1,6 +1,6 @@
 ﻿using NSubstitute;
-using OffndAt.Application.Core.Abstractions.Messaging;
-using OffndAt.Application.Core.Abstractions.Telemetry;
+using OffndAt.Application.Abstractions.Messaging;
+using OffndAt.Application.Abstractions.Telemetry;
 using OffndAt.Application.Links.Events.LinkVisited;
 using OffndAt.Domain.Entities;
 using OffndAt.Domain.Enumerations;

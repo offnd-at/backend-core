@@ -25,6 +25,9 @@ public sealed class Phrase : ValueObject
     /// </summary>
     public string Value { get; }
 
+    /// <inheritdoc />
+    public override string ToString() => Value;
+
     /// <summary>
     ///     Implicitly converts a <see cref="Phrase" /> to a <see cref="string" /> by returning its value.
     /// </summary>
@@ -42,9 +45,6 @@ public sealed class Phrase : ValueObject
             .Ensure(value => !string.IsNullOrWhiteSpace(value), DomainErrors.Phrase.NullOrEmpty)
             .Ensure(value => value.Length <= MaxLength, DomainErrors.Phrase.LongerThanAllowed)
             .Map(value => new Phrase(value));
-
-    /// <inheritdoc />
-    public override string ToString() => Value;
 
     /// <inheritdoc />
     protected override IEnumerable<object> GetAtomicValues()

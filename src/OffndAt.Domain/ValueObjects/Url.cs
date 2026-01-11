@@ -25,6 +25,9 @@ public sealed class Url : ValueObject
     /// </summary>
     public string Value { get; }
 
+    /// <inheritdoc />
+    public override string ToString() => Value;
+
     /// <summary>
     ///     Implicitly converts a <see cref="Url" /> to a <see cref="string" /> by returning its value.
     /// </summary>
@@ -42,9 +45,6 @@ public sealed class Url : ValueObject
             .Ensure(value => !string.IsNullOrWhiteSpace(value), DomainErrors.Url.NullOrEmpty)
             .Ensure(value => value.Length <= MaxLength, DomainErrors.Url.LongerThanAllowed)
             .Map(value => new Url(value));
-
-    /// <inheritdoc />
-    public override string ToString() => Value;
 
     /// <inheritdoc />
     protected override IEnumerable<object> GetAtomicValues()

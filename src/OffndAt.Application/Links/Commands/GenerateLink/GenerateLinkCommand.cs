@@ -1,4 +1,4 @@
-﻿using OffndAt.Application.Core.Abstractions.Messaging;
+﻿using OffndAt.Application.Abstractions.Messaging;
 using OffndAt.Contracts.Links.Responses;
 
 namespace OffndAt.Application.Links.Commands.GenerateLink;

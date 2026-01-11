@@ -18,4 +18,10 @@ public sealed class LinkDto
     /// </summary>
     [Description("The number of times the link has been visited.")]
     public required int Visits { get; init; }
+
+    /// <summary>
+    ///     Gets or sets the created at date and time in UTC format.
+    /// </summary>
+    [Description("The date and time when the link was created, in UTC.")]
+    public required DateTimeOffset CreatedAt { get; init; }
 }
