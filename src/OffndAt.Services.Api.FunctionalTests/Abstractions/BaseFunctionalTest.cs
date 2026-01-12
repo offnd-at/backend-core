@@ -18,15 +18,13 @@ internal abstract class BaseFunctionalTest
     [OneTimeSetUp]
     public async Task OneTimeSetup()
     {
-        PostgresContainer = new PostgreSqlBuilder()
-            .WithImage("postgres:latest")
+        PostgresContainer = new PostgreSqlBuilder("postgres:17-alpine")
             .WithDatabase($"functional_tests_{GetType().Name}_{Guid.NewGuid()}")
             .WithUsername("integration")
             .WithPassword("integration")
             .Build();
 
-        RabbitContainer = new RabbitMqBuilder()
-            .WithImage("rabbitmq:4")
+        RabbitContainer = new RabbitMqBuilder("rabbitmq:4-alpine")
             .WithPortBinding(5673, 5672)
             .WithUsername("guest")
             .WithPassword("guest")

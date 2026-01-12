@@ -3,6 +3,7 @@ using OffndAt.Domain.Entities;
 using OffndAt.Domain.Enumerations;
 using OffndAt.Domain.ValueObjects;
 using OffndAt.Domain.ValueObjects.Identifiers;
+using OffndAt.Persistence.IntegrationTests.Abstractions;
 using OffndAt.Persistence.Repositories;
 
 namespace OffndAt.Persistence.IntegrationTests.Repositories;
