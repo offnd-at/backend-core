@@ -32,17 +32,19 @@ jobs:
 
       - name: Build solution
         run: dotnet build ./src/OffndAt.sln --configuration Release --no-restore
-      
-      # - name: Run tests
-      #   run: dotnet test ./src/OffndAt.sln --configuration Release --no-restore --no-build --verbosity normal
 
       - name: Run tests with coverage
         run: |
-          dotnet test ./src/OffndAt.sln --configuration Release --no-restore --no-build --verbosity normal \
+          for proj in $(find ./src -name "*Tests.csproj"); do
+            TEST_NAME=$(basename $proj .csproj)
+            echo "Running tests for $TEST_NAME"
+          
+            dotnet test $proj --configuration Release --no-restore --no-build --verbosity normal \
             --collect:"XPlat Code Coverage" \
-            --results-directory ./coverage \
-            --logger "trx;LogFileName=test-results.trx" \
-            -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura,opencover
+            --results-directory "./coverage/$TEST_NAME" \
+            --logger "trx;LogFileName=${TEST_NAME}-results.trx" \
+            -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
+          done
 
       - name: Install report generator tool
         run: dotnet tool install -g dotnet-reportgenerator-globaltool
