@@ -55,7 +55,7 @@ jobs:
             -reporttypes:"Html;JsonSummary;MarkdownSummaryGithub" \
             -assemblyfilters:"+*;-*Tests*" \
             -classfilters:"-System*;-Microsoft*" \
-            -filefilters:"-*.g.cs;-*.designer.cs;-*Extensions.cs;-*/Examples/*"
+            -filefilters:"-*.g.cs;-*.designer.cs;-*Extensions.cs;-*Program.cs;-*/Examples/*"
 
       - name: Extract coverage percentage
         id: coverage
