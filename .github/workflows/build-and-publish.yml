@@ -1,8 +1,9 @@
 name: Build and publish apps
 permissions:
-  contents: read
+  checks: write
   packages: write
   pull-requests: write
+  contents: read
 
 on:
   workflow_dispatch:
@@ -68,8 +69,8 @@ jobs:
 
       - name: Check coverage threshold
         env:
-          LINE_COVERAGE_THRESHOLD: 80
-          BRANCH_COVERAGE_THRESHOLD: 60
+          LINE_COVERAGE_THRESHOLD: ${{ vars.LINE_COVERAGE_THRESHOLD }}
+          BRANCH_COVERAGE_THRESHOLD: ${{ vars.BRANCH_COVERAGE_THRESHOLD }}
         run: |
           LINE_COVERAGE=${{ steps.coverage.outputs.line }}
           BRANCH_COVERAGE=${{ steps.coverage.outputs.branch }}
