@@ -5,7 +5,7 @@ using NSubstitute;
 using OffndAt.Persistence.Data;
 using Testcontainers.PostgreSql;
 
-namespace OffndAt.Persistence.IntegrationTests;
+namespace OffndAt.Persistence.IntegrationTests.Abstractions;
 
 [TestFixture]
 internal abstract class BaseIntegrationTest
@@ -13,8 +13,7 @@ internal abstract class BaseIntegrationTest
     [OneTimeSetUp]
     public async Task OneTimeSetup()
     {
-        PostgresContainer = new PostgreSqlBuilder()
-            .WithImage("postgres:latest")
+        PostgresContainer = new PostgreSqlBuilder("postgres:17-alpine")
             .WithDatabase($"integration_tests_{GetType().Name}_{Guid.NewGuid()}")
             .WithUsername("integration")
             .WithPassword("integration")
