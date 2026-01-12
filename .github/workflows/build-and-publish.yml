@@ -2,12 +2,13 @@ name: Build and publish apps
 permissions:
   contents: read
   packages: write
+  pull-requests: write
 
 on:
   workflow_dispatch:
   push:
-    branches: ["master", "feature/**", "bugfix/**"]
-    tags: ["*.*.*"]
+    branches: [ "master", "feature/**", "bugfix/**" ]
+    tags: [ "*.*.*" ]
 
 jobs:
   build-and-test:
@@ -30,9 +31,106 @@ jobs:
 
       - name: Build solution
         run: dotnet build ./src/OffndAt.sln --configuration Release --no-restore
+        
+        #      - name: Run tests
+        #        run: dotnet test ./src/OffndAt.sln --configuration Release --no-restore --no-build --verbosity normal
 
-      - name: Run tests
-        run: dotnet test ./src/OffndAt.sln --configuration Release --no-restore --no-build --verbosity normal
+      - name: Run tests with coverage
+          run: |
+            dotnet test ./src/OffndAt.sln --configuration Release --no-restore --no-build --verbosity normal \
+              --collect:"XPlat Code Coverage" \
+              --results-directory ./coverage \
+              --logger "trx;LogFileName=test-results.trx" \
+              -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura,opencover
+
+      - name: Install report generator tool
+          run: dotnet tool install -g dotnet-reportgenerator-globaltool
+
+      - name: Generate coverage report
+        run: |
+          reportgenerator \
+            -reports:"coverage/**/coverage.cobertura.xml" \
+            -targetdir:"coverage/report" \
+            -reporttypes:"Html;JsonSummary;MarkdownSummaryGithub" \
+            -assemblyfilters:"+*;-*Tests*" \
+            -classfilters:"-System*;-Microsoft*" \
+            -filefilters:"-*.g.cs;-*.designer.cs;-*Extensions.cs;-*/Examples/*"
+
+      - name: Extract coverage percentage
+        id: coverage
+        run: |
+          LINE_COVERAGE=$(jq -r '.summary.linecoverage' coverage/report/Summary.json)
+          BRANCH_COVERAGE=$(jq -r '.summary.branchcoverage' coverage/report/Summary.json)
+          echo "line=$LINE_COVERAGE" >> $GITHUB_OUTPUT
+          echo "branch=$BRANCH_COVERAGE" >> $GITHUB_OUTPUT
+          echo "Line Coverage: $LINE_COVERAGE%"
+          echo "Branch Coverage: $BRANCH_COVERAGE%"
+
+      - name: Check coverage threshold
+        env:
+          LINE_COVERAGE_THRESHOLD: 80
+          BRANCH_COVERAGE_THRESHOLD: 60
+        run: |
+          LINE_COVERAGE=${{ steps.coverage.outputs.line }}
+          BRANCH_COVERAGE=${{ steps.coverage.outputs.branch }}
+          LINE_THRESHOLD=${{ env.LINE_COVERAGE_THRESHOLD }}
+          BRANCH_THRESHOLD=${{ env.BRANCH_COVERAGE_THRESHOLD }}
+
+          echo "Line Coverage: $LINE_COVERAGE% (threshold: $LINE_THRESHOLD%)"
+          echo "Branch Coverage: $BRANCH_COVERAGE% (threshold: $BRANCH_THRESHOLD%)"
+
+          FAILED=0
+
+          if (( $(echo "$LINE_COVERAGE < $LINE_THRESHOLD" | bc -l) )); then
+            echo "❌ Line coverage $LINE_COVERAGE% is below threshold $LINE_THRESHOLD%"
+            FAILED=1
+          else
+            echo "✅ Line coverage $LINE_COVERAGE% meets threshold $LINE_THRESHOLD%"
+          fi
+
+          if (( $(echo "$BRANCH_COVERAGE < $BRANCH_THRESHOLD" | bc -l) )); then
+            echo "❌ Branch coverage $BRANCH_COVERAGE% is below threshold $BRANCH_THRESHOLD%"
+            FAILED=1
+          else
+            echo "✅ Branch coverage $BRANCH_COVERAGE% meets threshold $BRANCH_THRESHOLD%"
+          fi
+
+          if [ $FAILED -eq 1 ]; then
+            exit 1
+          fi
+
+      - name: Find PR for this branch
+        id: find-pr
+        if: github.ref_type == 'branch'
+        uses: juliangruber/find-pull-request-action@v1
+        with:
+          branch: ${{ github.ref_name }}
+
+      - name: Add coverage PR comment
+        if: github.ref_type == 'branch' && steps.find-pr.outputs.number != ''
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: coverage
+          recreate: true
+          path: coverage/report/SummaryGithub.md
+          number: ${{ steps.find-pr.outputs.number }}
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/report/
+          retention-days: 30
+
+      - name: Publish test results
+        if: always()
+        uses: dorny/test-reporter@v1
+        with:
+          name: Test Results
+          path: coverage/**/*.trx
+          reporter: dotnet-trx
+          fail-on-error: true
 
   prepare-version:
     name: Prepare semantic version
@@ -58,7 +156,7 @@ jobs:
   api-docker-publish:
     name: Build and publish Docker image for API
     runs-on: ubuntu-latest
-    needs: [build-and-test, prepare-version]
+    needs: [ build-and-test, prepare-version ]
     if: github.ref_type == 'tag'
     steps:
       - name: Prepare the package name
@@ -87,7 +185,7 @@ jobs:
   events-worker-docker-publish:
     name: Build and publish Docker image for Events Worker
     runs-on: ubuntu-latest
-    needs: [build-and-test, prepare-version]
+    needs: [ build-and-test, prepare-version ]
     if: github.ref_type == 'tag'
     steps:
       - name: Prepare the package name
@@ -116,7 +214,7 @@ jobs:
   migration-runner-docker-publish:
     name: Build and publish Docker image for Migration Runner
     runs-on: ubuntu-latest
-    needs: [build-and-test, prepare-version]
+    needs: [ build-and-test, prepare-version ]
     if: github.ref_type == 'tag'
     steps:
       - name: Prepare the package name
