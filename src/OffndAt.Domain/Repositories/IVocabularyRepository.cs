@@ -5,9 +5,9 @@ using OffndAt.Domain.ValueObjects;
 namespace OffndAt.Domain.Repositories;
 
 /// <summary>
-///     Represents the vocabularies repository interface.
+///     Represents the vocabulary repository interface.
 /// </summary>
-public interface IVocabulariesRepository
+public interface IVocabularyRepository
 {
     /// <summary>
     ///     Gets vocabulary containing nouns with the specified parameters.

@@ -27,13 +27,13 @@ using OffndAt.Application.Core.Exceptions;
 using OffndAt.Domain.Core.Errors;
 using OffndAt.Domain.Core.Exceptions;
 using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.Repositories;
 using OffndAt.Domain.ValueObjects;
 using OffndAt.Infrastructure.Abstractions.Telemetry;
 using OffndAt.Infrastructure.Authentication.ApiKey;
 using OffndAt.Infrastructure.Authentication.Settings;
+using OffndAt.Infrastructure.Core.Cache.Settings;
 using OffndAt.Infrastructure.Core.Constants;
-using OffndAt.Infrastructure.Core.Data;
-using OffndAt.Infrastructure.Core.Data.Settings;
 using OffndAt.Infrastructure.Core.HealthChecks;
 using OffndAt.Infrastructure.Core.Http.Cors.Settings;
 using OffndAt.Infrastructure.Core.Messaging;
@@ -41,7 +41,10 @@ using OffndAt.Infrastructure.Core.Messaging.Settings;
 using OffndAt.Infrastructure.Core.Settings;
 using OffndAt.Infrastructure.Core.Telemetry;
 using OffndAt.Infrastructure.Core.Telemetry.Settings;
+using OffndAt.Infrastructure.Data;
+using OffndAt.Infrastructure.Data.Settings;
 using OffndAt.Infrastructure.Phrases;
+using OffndAt.Infrastructure.Repositories;
 using OffndAt.Infrastructure.Urls;
 using OffndAt.Infrastructure.Words;
 using OffndAt.Persistence.Data;
@@ -186,6 +189,7 @@ public static class DependencyInjectionExtensions
         services.AddScoped<IUrlMaker, UrlMaker>();
         services.AddScoped<IFileLoader, GitHubFileLoader>();
         services.AddScoped<IVocabularyLoader, GitHubVocabularyLoader>();
+        services.AddScoped<IVocabularyRepository, VocabularyRepository>();
         services.AddScoped<IGitHubClient>(serviceProvider =>
         {
             var applicationSettings = serviceProvider.GetRequiredService<IOptions<ApplicationSettings>>().Value;
@@ -489,6 +493,20 @@ public static class DependencyInjectionExtensions
         services.AddHealthChecks()
             .AddDbContextCheck<OffndAtDbContext>("ef-core-db-context")
             .AddCheck<GitHubApiHealthCheck>("github-api");
+
+        return services;
+    }
+
+    /// <summary>
+    ///     Registers the memory cache with the DI framework.
+    /// </summary>
+    /// <param name="services">The service collection.</param>
+    /// <param name="configuration">The configuration.</param>
+    /// <returns>The configured service collection.</returns>
+    public static IServiceCollection AddInMemoryCache(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<CacheSettings>(configuration.GetSection(CacheSettings.SettingsKey));
+        services.AddMemoryCache();
 
         return services;
     }

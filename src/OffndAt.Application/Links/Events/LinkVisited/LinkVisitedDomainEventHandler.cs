@@ -18,7 +18,7 @@ internal sealed class LinkVisitedDomainEventHandler(
     /// <inheritdoc />
     public async Task Handle(LinkVisitedDomainEvent notification, CancellationToken cancellationToken)
     {
-        linkMetrics.RecordLinkVisit(notification.Link.Language, notification.Link.Theme);
+        linkMetrics.RecordLinkVisit(notification.Language, notification.Theme);
 
         await integrationEventPublisher.PublishAsync(new LinkVisitedIntegrationEvent(notification), cancellationToken);
     }

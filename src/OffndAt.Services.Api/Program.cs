@@ -28,11 +28,11 @@ builder.Services.AddMediatorWithBehaviours([typeof(ICommand).Assembly, typeof(ID
     .AddFluentValidationAutoValidation();
 
 builder.Services.AddPersistenceSettings(builder.Configuration)
-    .AddInMemoryCache(builder.Configuration)
     .AddDatabaseContext()
     .AddPersistenceServices();
 
 builder.Services.AddInfrastructureSettings(builder.Configuration)
+    .AddInMemoryCache(builder.Configuration)
     .AddForwardedHeadersSettings()
     .AddRateLimiting()
     .AddTelemetry(builder.Configuration)

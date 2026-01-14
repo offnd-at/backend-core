@@ -1,13 +1,13 @@
 ﻿using OffndAt.Application.Abstractions.Messaging;
-using OffndAt.Contracts.Links.Responses;
+using OffndAt.Domain.ValueObjects;
 
-namespace OffndAt.Application.Links.Queries.GetLinkByPhrase;
+namespace OffndAt.Application.Links.Commands.VisitLink;
 
 /// <summary>
-///     Represents the query used for getting a link by phrase.
+///     Represents the command used for visiting a link.
 /// </summary>
 /// <param name="phrase">The phrase used to identify the link.</param>
-public sealed class GetLinkByPhraseQuery(string phrase) : IQuery<GetLinkByPhraseResponse>
+public sealed class VisitLinkCommand(string phrase) : ICommand<Url>
 {
     /// <summary>
     ///     Gets the phrase.

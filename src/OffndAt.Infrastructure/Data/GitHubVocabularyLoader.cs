@@ -5,7 +5,7 @@ using OffndAt.Domain.Core.Primitives;
 using OffndAt.Domain.Models;
 using OffndAt.Domain.ValueObjects;
 
-namespace OffndAt.Infrastructure.Core.Data;
+namespace OffndAt.Infrastructure.Data;
 
 /// <summary>
 ///     Represents the GitHub vocabulary loader.

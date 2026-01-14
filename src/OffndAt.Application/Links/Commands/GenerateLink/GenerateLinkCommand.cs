@@ -6,6 +6,10 @@ namespace OffndAt.Application.Links.Commands.GenerateLink;
 /// <summary>
 ///     Represents the command used for generating a link.
 /// </summary>
+/// <param name="targetUrl">The target URL.</param>
+/// <param name="languageId">The language identifier.</param>
+/// <param name="themeId">The theme identifier.</param>
+/// <param name="formatId">The format identifier.</param>
 public sealed class GenerateLinkCommand(
     string targetUrl,
     int languageId,

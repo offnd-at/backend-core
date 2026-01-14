@@ -1,21 +1,39 @@
 ﻿using OffndAt.Domain.Core.Events;
-using OffndAt.Domain.Entities;
+using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.ValueObjects.Identifiers;
 
 namespace OffndAt.Domain.Events;
 
 /// <summary>
-///     Represents a domain event that is raised when a link is visited.
+///     Represents a domain event raised when a link is visited.
 /// </summary>
 public sealed class LinkVisitedDomainEvent : IDomainEvent
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="LinkVisitedDomainEvent" /> class.
     /// </summary>
-    /// <param name="link">The link.</param>
-    internal LinkVisitedDomainEvent(Link link) => Link = link;
+    /// <param name="linkId">The link identifier.</param>
+    /// <param name="language">The language.</param>
+    /// <param name="theme">The theme.</param>
+    internal LinkVisitedDomainEvent(LinkId linkId, Language language, Theme theme)
+    {
+        LinkId = linkId;
+        Language = language;
+        Theme = theme;
+    }
 
     /// <summary>
-    ///     Gets the link.
+    ///     Gets the link identifier.
     /// </summary>
-    public Link Link { get; }
+    public LinkId LinkId { get; }
+
+    /// <summary>
+    ///     Gets the language.
+    /// </summary>
+    public Language Language { get; }
+
+    /// <summary>
+    ///     Gets the theme.
+    /// </summary>
+    public Theme Theme { get; }
 }

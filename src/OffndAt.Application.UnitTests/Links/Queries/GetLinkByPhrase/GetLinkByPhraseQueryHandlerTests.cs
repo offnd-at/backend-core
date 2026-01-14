@@ -12,16 +12,16 @@ namespace OffndAt.Application.UnitTests.Links.Queries.GetLinkByPhrase;
 internal sealed class GetLinkByPhraseQueryHandlerTests
 {
     private GetLinkByPhraseQueryHandler _handler = null!;
-    private ILinksRepository _linksRepository = null!;
+    private ILinkRepository _linkRepository = null!;
     private IUnitOfWork _unitOfWork = null!;
 
     [SetUp]
     public void Setup()
     {
-        _linksRepository = Substitute.For<ILinksRepository>();
+        _linkRepository = Substitute.For<ILinkRepository>();
         _unitOfWork = Substitute.For<IUnitOfWork>();
 
-        _handler = new GetLinkByPhraseQueryHandler(_linksRepository, _unitOfWork);
+        _handler = new GetLinkByPhraseQueryHandler(_linkRepository, _unitOfWork);
     }
 
     [Test]
@@ -35,7 +35,7 @@ internal sealed class GetLinkByPhraseQueryHandlerTests
     [Test]
     public async Task Handle_ShouldReturnEmptyMaybe_WhenDidNotFindLink()
     {
-        _linksRepository.GetByPhraseAsync(Arg.Any<Phrase>(), Arg.Any<CancellationToken>()).Returns(Maybe<Link>.None);
+        _linkRepository.GetByPhraseAsync(Arg.Any<Phrase>(), Arg.Any<CancellationToken>()).Returns(Maybe<Link>.None);
 
         var actual = await _handler.Handle(new GetLinkByPhraseQuery("test-phrase", false), CancellationToken.None);
 
@@ -56,7 +56,7 @@ internal sealed class GetLinkByPhraseQueryHandlerTests
             language,
             theme);
 
-        _linksRepository.GetByPhraseAsync(Arg.Any<Phrase>(), Arg.Any<CancellationToken>()).Returns(Maybe<Link>.From(link));
+        _linkRepository.GetByPhraseAsync(Arg.Any<Phrase>(), Arg.Any<CancellationToken>()).Returns(Maybe<Link>.From(link));
 
         var actual = await _handler.Handle(new GetLinkByPhraseQuery("test-phrase", false), CancellationToken.None);
 
@@ -82,7 +82,7 @@ internal sealed class GetLinkByPhraseQueryHandlerTests
             language,
             theme);
 
-        _linksRepository.GetByPhraseAsync(Arg.Any<Phrase>(), Arg.Any<CancellationToken>()).Returns(Maybe<Link>.From(link));
+        _linkRepository.GetByPhraseAsync(Arg.Any<Phrase>(), Arg.Any<CancellationToken>()).Returns(Maybe<Link>.From(link));
 
         var actual = await _handler.Handle(new GetLinkByPhraseQuery("test-phrase", false), CancellationToken.None);
 
@@ -110,7 +110,7 @@ internal sealed class GetLinkByPhraseQueryHandlerTests
             language,
             theme);
 
-        _linksRepository.GetByPhraseAsync(Arg.Any<Phrase>(), Arg.Any<CancellationToken>()).Returns(Maybe<Link>.From(link));
+        _linkRepository.GetByPhraseAsync(Arg.Any<Phrase>(), Arg.Any<CancellationToken>()).Returns(Maybe<Link>.From(link));
 
         var actual = await _handler.Handle(new GetLinkByPhraseQuery("test-phrase", true), CancellationToken.None);
 

@@ -1,4 +1,4 @@
-﻿using OffndAt.Application.Abstractions.Data;
+﻿using Microsoft.Extensions.Logging;
 using OffndAt.Application.Abstractions.Messaging;
 using OffndAt.Contracts.Links.Dtos;
 using OffndAt.Contracts.Links.Responses;
@@ -11,31 +11,26 @@ namespace OffndAt.Application.Links.Queries.GetLinkByPhrase;
 /// <summary>
 ///     Represents the <see cref="GetLinkByPhraseQuery" /> handler.
 /// </summary>
-/// <param name="linksRepository">The links repository.</param>
-/// <param name="unitOfWork">The unit of work.</param>
-internal sealed class GetLinkByPhraseQueryHandler(ILinksRepository linksRepository, IUnitOfWork unitOfWork)
+/// <param name="linkRepository">The link repository.</param>
+/// <param name="logger">The logger.</param>
+internal sealed class GetLinkByPhraseQueryHandler(ILinkRepository linkRepository, ILogger<GetLinkByPhraseQueryHandler> logger)
     : IQueryHandler<GetLinkByPhraseQuery, GetLinkByPhraseResponse>
 {
     /// <inheritdoc />
     public async Task<Maybe<GetLinkByPhraseResponse>> Handle(GetLinkByPhraseQuery request, CancellationToken cancellationToken)
     {
+        logger.LogInformation("Fetching a link with phrase := {Phrase}", request.Phrase);
+
         var phraseResult = Phrase.Create(request.Phrase);
         if (phraseResult.IsFailure)
         {
             return Maybe<GetLinkByPhraseResponse>.None;
         }
 
-        var maybeLink = await linksRepository.GetByPhraseAsync(phraseResult.Value, cancellationToken);
-
+        var maybeLink = await linkRepository.GetByPhraseAsync(phraseResult.Value, cancellationToken);
         if (maybeLink.HasNoValue)
         {
             return Maybe<GetLinkByPhraseResponse>.None;
-        }
-
-        if (request.ShouldIncrementVisits)
-        {
-            maybeLink.Value.RecordVisit();
-            await unitOfWork.SaveChangesAsync(cancellationToken);
         }
 
         return new GetLinkByPhraseResponse

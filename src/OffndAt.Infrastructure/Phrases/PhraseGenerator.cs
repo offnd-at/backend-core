@@ -11,9 +11,9 @@ namespace OffndAt.Infrastructure.Phrases;
 /// <summary>
 ///     Represents the phrase generator.
 /// </summary>
-/// <param name="vocabulariesRepository">The vocabularies repository.</param>
+/// <param name="vocabularyRepository">The vocabulary repository.</param>
 /// <param name="caseConverter">The case converter.</param>
-internal sealed class PhraseGenerator(IVocabulariesRepository vocabulariesRepository, ICaseConverter caseConverter) : IPhraseGenerator
+internal sealed class PhraseGenerator(IVocabularyRepository vocabularyRepository, ICaseConverter caseConverter) : IPhraseGenerator
 {
     private readonly Random _random = new(Guid.NewGuid().GetHashCode());
 
@@ -30,7 +30,7 @@ internal sealed class PhraseGenerator(IVocabulariesRepository vocabulariesReposi
         var adverbOffensiveness = Offensiveness.FromBoolean(
             nounOffensiveness == Offensiveness.NonOffensive && adjectiveOffensiveness == Offensiveness.NonOffensive);
 
-        var maybeNounVocabulary = await vocabulariesRepository.GetNounsAsync(
+        var maybeNounVocabulary = await vocabularyRepository.GetNounsAsync(
             language,
             nounOffensiveness,
             theme,
@@ -41,7 +41,7 @@ internal sealed class PhraseGenerator(IVocabulariesRepository vocabulariesReposi
             return Result.Failure<Phrase>(DomainErrors.Vocabulary.NotFound);
         }
 
-        var maybeAdjectiveVocabulary = await vocabulariesRepository.GetAdjectivesAsync(
+        var maybeAdjectiveVocabulary = await vocabularyRepository.GetAdjectivesAsync(
             language,
             adjectiveOffensiveness,
             maybeNounVocabulary.Value.GrammaticalNumber,
@@ -53,7 +53,7 @@ internal sealed class PhraseGenerator(IVocabulariesRepository vocabulariesReposi
             return Result.Failure<Phrase>(DomainErrors.Vocabulary.NotFound);
         }
 
-        var maybeAdverbVocabulary = await vocabulariesRepository.GetAdverbsAsync(language, adverbOffensiveness, cancellationToken);
+        var maybeAdverbVocabulary = await vocabularyRepository.GetAdverbsAsync(language, adverbOffensiveness, cancellationToken);
 
         if (maybeAdverbVocabulary.HasNoValue)
         {

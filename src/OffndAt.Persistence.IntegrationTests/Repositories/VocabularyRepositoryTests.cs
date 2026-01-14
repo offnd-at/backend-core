@@ -1,3 +1,4 @@
+using MassTransit.Caching;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using NSubstitute;
@@ -7,15 +8,14 @@ using OffndAt.Domain.Enumerations;
 using OffndAt.Domain.Models;
 using OffndAt.Domain.Services;
 using OffndAt.Domain.ValueObjects;
-using OffndAt.Persistence.Core.Cache.Settings;
 using OffndAt.Persistence.Repositories;
 
 namespace OffndAt.Persistence.IntegrationTests.Repositories;
 
-internal sealed class VocabulariesRepositoryTests
+internal sealed class VocabularyRepositoryTests
 {
     private IOptions<CacheSettings> _cacheSettingsOptions = null!;
-    private VocabulariesRepository _repository = null!;
+    private VocabularyRepository _repository = null!;
     private IVocabularyLoader _vocabularyLoader = null!;
     private IVocabularyService _vocabularyService = null!;
 
@@ -35,7 +35,7 @@ internal sealed class VocabulariesRepositoryTests
         _vocabularyService.GenerateGrammaticalPropertiesForNounVocabulary(Arg.Any<Language>(), Arg.Any<Theme>())
             .Returns((GrammaticalNumber.None, GrammaticalGender.None));
 
-        _repository = new VocabulariesRepository(
+        _repository = new VocabularyRepository(
             _cacheSettingsOptions,
             new MemoryCache(new MemoryCacheOptions()),
             _vocabularyLoader,

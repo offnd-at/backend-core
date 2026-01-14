@@ -1,6 +1,7 @@
 ﻿using OffndAt.Domain.Enumerations;
+using OffndAt.Domain.ValueObjects;
 
-namespace OffndAt.Persistence.Constants;
+namespace OffndAt.Infrastructure.Core.Constants;
 
 /// <summary>
 ///     Contains the cache keys constants.
@@ -46,4 +47,9 @@ internal static class CacheKeys
         $"vocabulary:adverb:" +
         $"{language.Code.ToLowerInvariant()}:" +
         $"{offensiveness.Name.ToLowerInvariant()}";
+
+    /// <summary>
+    ///     Generates the cache key for the target URL of a link.
+    /// </summary>
+    internal static Func<Phrase, string> LinkTargetUrl { get; } = phrase => $"link:target:{phrase.Value}";
 }

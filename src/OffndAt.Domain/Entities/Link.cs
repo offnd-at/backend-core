@@ -83,7 +83,7 @@ public sealed class Link : AggregateRoot<LinkId>
     public void RecordVisit()
     {
         Visits += 1;
-        RaiseDomainEvent(new LinkVisitedDomainEvent(this));
+        RaiseDomainEvent(new LinkVisitedDomainEvent(Id, Language, Theme));
     }
 
     /// <summary>
@@ -106,7 +106,7 @@ public sealed class Link : AggregateRoot<LinkId>
             language,
             theme);
 
-        link.RaiseDomainEvent(new LinkCreatedDomainEvent(link));
+        link.RaiseDomainEvent(new LinkCreatedDomainEvent(link.Id, link.Language, link.Theme));
 
         return link;
     }

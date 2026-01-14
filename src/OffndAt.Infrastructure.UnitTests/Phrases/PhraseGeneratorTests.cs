@@ -25,21 +25,21 @@ internal sealed class PhraseGeneratorTests
 
     private ICaseConverter _caseConverter = null!;
     private PhraseGenerator _phraseGenerator = null!;
-    private IVocabulariesRepository _vocabulariesRepository = null!;
+    private IVocabularyRepository _vocabularyRepository = null!;
 
     [SetUp]
     public void Setup()
     {
-        _vocabulariesRepository = Substitute.For<IVocabulariesRepository>();
+        _vocabularyRepository = Substitute.For<IVocabularyRepository>();
         _caseConverter = Substitute.For<ICaseConverter>();
 
-        _phraseGenerator = new PhraseGenerator(_vocabulariesRepository, _caseConverter);
+        _phraseGenerator = new PhraseGenerator(_vocabularyRepository, _caseConverter);
     }
 
     [Test]
     public async Task GenerateAsync_ShouldReturnError_WhenCouldNotFindNounsVocabulary()
     {
-        _vocabulariesRepository.GetNounsAsync(
+        _vocabularyRepository.GetNounsAsync(
                 Arg.Any<Language>(),
                 Arg.Any<Offensiveness>(),
                 Arg.Any<Theme>(),
@@ -62,14 +62,14 @@ internal sealed class PhraseGeneratorTests
     [Test]
     public async Task GenerateAsync_ShouldReturnError_WhenCouldNotFindAdjectivesVocabulary()
     {
-        _vocabulariesRepository.GetNounsAsync(
+        _vocabularyRepository.GetNounsAsync(
                 Arg.Any<Language>(),
                 Arg.Any<Offensiveness>(),
                 Arg.Any<Theme>(),
                 Arg.Any<CancellationToken>())
             .Returns(_vocabulary);
 
-        _vocabulariesRepository.GetAdjectivesAsync(
+        _vocabularyRepository.GetAdjectivesAsync(
                 Arg.Any<Language>(),
                 Arg.Any<Offensiveness>(),
                 Arg.Any<GrammaticalNumber>(),
@@ -93,14 +93,14 @@ internal sealed class PhraseGeneratorTests
     [Test]
     public async Task GenerateAsync_ShouldReturnError_WhenCouldNotFindAdverbsVocabulary()
     {
-        _vocabulariesRepository.GetNounsAsync(
+        _vocabularyRepository.GetNounsAsync(
                 Arg.Any<Language>(),
                 Arg.Any<Offensiveness>(),
                 Arg.Any<Theme>(),
                 Arg.Any<CancellationToken>())
             .Returns(_vocabulary);
 
-        _vocabulariesRepository.GetAdjectivesAsync(
+        _vocabularyRepository.GetAdjectivesAsync(
                 Arg.Any<Language>(),
                 Arg.Any<Offensiveness>(),
                 Arg.Any<GrammaticalNumber>(),
@@ -108,7 +108,7 @@ internal sealed class PhraseGeneratorTests
                 Arg.Any<CancellationToken>())
             .Returns(_vocabulary);
 
-        _vocabulariesRepository.GetAdverbsAsync(
+        _vocabularyRepository.GetAdverbsAsync(
                 Arg.Any<Language>(),
                 Arg.Any<Offensiveness>(),
                 Arg.Any<CancellationToken>())
@@ -130,14 +130,14 @@ internal sealed class PhraseGeneratorTests
     [Test]
     public async Task GenerateAsync_ShouldReturnError_WhenPhraseCreationFailed()
     {
-        _vocabulariesRepository.GetNounsAsync(
+        _vocabularyRepository.GetNounsAsync(
                 Arg.Any<Language>(),
                 Arg.Any<Offensiveness>(),
                 Arg.Any<Theme>(),
                 Arg.Any<CancellationToken>())
             .Returns(_vocabulary);
 
-        _vocabulariesRepository.GetAdjectivesAsync(
+        _vocabularyRepository.GetAdjectivesAsync(
                 Arg.Any<Language>(),
                 Arg.Any<Offensiveness>(),
                 Arg.Any<GrammaticalNumber>(),
@@ -145,7 +145,7 @@ internal sealed class PhraseGeneratorTests
                 Arg.Any<CancellationToken>())
             .Returns(_vocabulary);
 
-        _vocabulariesRepository.GetAdverbsAsync(
+        _vocabularyRepository.GetAdverbsAsync(
                 Arg.Any<Language>(),
                 Arg.Any<Offensiveness>(),
                 Arg.Any<CancellationToken>())
@@ -174,14 +174,14 @@ internal sealed class PhraseGeneratorTests
     [Test]
     public async Task GenerateAsync_ShouldReturnPhrase_WhenGenerationWasSuccessful()
     {
-        _vocabulariesRepository.GetNounsAsync(
+        _vocabularyRepository.GetNounsAsync(
                 Arg.Any<Language>(),
                 Arg.Any<Offensiveness>(),
                 Arg.Any<Theme>(),
                 Arg.Any<CancellationToken>())
             .Returns(_vocabulary);
 
-        _vocabulariesRepository.GetAdjectivesAsync(
+        _vocabularyRepository.GetAdjectivesAsync(
                 Arg.Any<Language>(),
                 Arg.Any<Offensiveness>(),
                 Arg.Any<GrammaticalNumber>(),
@@ -189,7 +189,7 @@ internal sealed class PhraseGeneratorTests
                 Arg.Any<CancellationToken>())
             .Returns(_vocabulary);
 
-        _vocabulariesRepository.GetAdverbsAsync(
+        _vocabularyRepository.GetAdverbsAsync(
                 Arg.Any<Language>(),
                 Arg.Any<Offensiveness>(),
                 Arg.Any<CancellationToken>())

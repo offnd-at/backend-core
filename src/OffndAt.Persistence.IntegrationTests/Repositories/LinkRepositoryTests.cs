@@ -8,12 +8,12 @@ using OffndAt.Persistence.Repositories;
 
 namespace OffndAt.Persistence.IntegrationTests.Repositories;
 
-internal sealed class LinksRepositoryTests : BaseIntegrationTest
+internal sealed class LinkRepositoryTests : BaseIntegrationTest
 {
-    private LinksRepository _repository = null!;
+    private LinkRepository _repository = null!;
 
     [SetUp]
-    public void Setup() => _repository = new LinksRepository(DbContext);
+    public void Setup() => _repository = new LinkRepository(DbContext);
 
     [TearDown]
     public async Task Teardown() => await DbContext.Database.ExecuteSqlRawAsync("DELETE FROM \"Link\"");

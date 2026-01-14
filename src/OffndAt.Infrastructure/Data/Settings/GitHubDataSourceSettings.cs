@@ -1,4 +1,4 @@
-﻿namespace OffndAt.Infrastructure.Core.Data.Settings;
+﻿namespace OffndAt.Infrastructure.Data.Settings;
 
 /// <summary>
 ///     Represents the GitHub data source settings.

@@ -18,7 +18,7 @@ internal sealed class LinkCreatedDomainEventHandler(
     /// <inheritdoc />
     public async Task Handle(LinkCreatedDomainEvent notification, CancellationToken cancellationToken)
     {
-        linkMetrics.RecordLinkCreation(notification.Link.Language, notification.Link.Theme);
+        linkMetrics.RecordLinkCreation(notification.Language, notification.Theme);
 
         await integrationEventPublisher.PublishAsync(new LinkCreatedIntegrationEvent(notification), cancellationToken);
     }

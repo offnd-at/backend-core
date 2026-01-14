@@ -5,10 +5,10 @@ using OffndAt.Application.Abstractions.Data;
 using OffndAt.Application.Core.Constants;
 using OffndAt.Domain.Core.Primitives;
 using OffndAt.Infrastructure.Abstractions.Telemetry;
-using OffndAt.Infrastructure.Core.Data.Settings;
+using OffndAt.Infrastructure.Data.Settings;
 using Polly.Registry;
 
-namespace OffndAt.Infrastructure.Core.Data;
+namespace OffndAt.Infrastructure.Data;
 
 /// <summary>
 ///     Represents the GitHub file loader.

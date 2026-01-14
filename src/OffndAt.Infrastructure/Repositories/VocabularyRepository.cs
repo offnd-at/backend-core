@@ -7,23 +7,23 @@ using OffndAt.Domain.Models;
 using OffndAt.Domain.Repositories;
 using OffndAt.Domain.Services;
 using OffndAt.Domain.ValueObjects;
-using OffndAt.Persistence.Constants;
-using OffndAt.Persistence.Core.Cache.Settings;
+using OffndAt.Infrastructure.Core.Cache.Settings;
+using OffndAt.Infrastructure.Core.Constants;
 
-namespace OffndAt.Persistence.Repositories;
+namespace OffndAt.Infrastructure.Repositories;
 
 /// <summary>
-///     Represents the vocabularies repository.
+///     Represents the repository for Vocabularies.
 /// </summary>
 /// <param name="cacheOptions">The cache options.</param>
 /// <param name="memoryCache">The memory cache.</param>
 /// <param name="vocabularyLoader">The vocabulary loader.</param>
 /// <param name="vocabularyService">The vocabulary service.</param>
-internal sealed class VocabulariesRepository(
+internal sealed class VocabularyRepository(
     IOptions<CacheSettings> cacheOptions,
     IMemoryCache memoryCache,
     IVocabularyLoader vocabularyLoader,
-    IVocabularyService vocabularyService) : IVocabulariesRepository
+    IVocabularyService vocabularyService) : IVocabularyRepository
 {
     private readonly CacheSettings _settings = cacheOptions.Value;
 

@@ -13,34 +13,20 @@ public sealed class LinkVisitedIntegrationEvent : IIntegrationEvent
     ///     Initializes a new instance of the <see cref="LinkVisitedIntegrationEvent" /> class.
     /// </summary>
     /// <param name="domainEvent">The link visited domain event.</param>
-    internal LinkVisitedIntegrationEvent(LinkVisitedDomainEvent domainEvent)
-    {
-        LinkId = domainEvent.Link.Id;
-        Visits = domainEvent.Link.Visits;
-    }
+    internal LinkVisitedIntegrationEvent(LinkVisitedDomainEvent domainEvent) => LinkId = domainEvent.LinkId;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="LinkVisitedIntegrationEvent" /> class.
     /// </summary>
     /// <param name="linkId">The link identifier.</param>
-    /// <param name="visits">The link visits count.</param>
     /// <remarks>
     ///     Required by JSON deserializer.
     /// </remarks>
     [JsonConstructor]
-    private LinkVisitedIntegrationEvent(Guid linkId, int visits)
-    {
-        LinkId = linkId;
-        Visits = visits;
-    }
+    private LinkVisitedIntegrationEvent(Guid linkId) => LinkId = linkId;
 
     /// <summary>
     ///     Gets the link identifier.
     /// </summary>
     public Guid LinkId { get; }
-
-    /// <summary>
-    ///     Gets the link visits count.
-    /// </summary>
-    public int Visits { get; }
 }

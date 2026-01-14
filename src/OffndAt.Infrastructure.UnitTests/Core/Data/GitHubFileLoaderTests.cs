@@ -3,8 +3,8 @@ using NSubstitute;
 using Octokit;
 using OffndAt.Application.Core.Constants;
 using OffndAt.Infrastructure.Abstractions.Telemetry;
-using OffndAt.Infrastructure.Core.Data;
-using OffndAt.Infrastructure.Core.Data.Settings;
+using OffndAt.Infrastructure.Data;
+using OffndAt.Infrastructure.Data.Settings;
 using Polly;
 using Polly.Registry;
 

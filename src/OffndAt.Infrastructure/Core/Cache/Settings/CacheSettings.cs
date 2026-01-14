@@ -1,4 +1,4 @@
-﻿namespace OffndAt.Persistence.Core.Cache.Settings;
+﻿namespace OffndAt.Infrastructure.Core.Cache.Settings;
 
 /// <summary>
 ///     Represents the cache settings.

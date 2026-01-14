@@ -5,9 +5,9 @@ using OffndAt.Domain.ValueObjects;
 namespace OffndAt.Domain.Repositories;
 
 /// <summary>
-///     Represents the links repository interface.
+///     Represents the link repository interface.
 /// </summary>
-public interface ILinksRepository
+public interface ILinkRepository
 {
     /// <summary>
     ///     Gets the link with the specified phrase.

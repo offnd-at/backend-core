@@ -17,13 +17,13 @@ namespace OffndAt.Application.Links.Commands.GenerateLink;
 /// <summary>
 ///     Represents the <see cref="GenerateLinkCommand" /> handler.
 /// </summary>
-/// <param name="linksRepository">The links repository.</param>
+/// <param name="linkRepository">The link repository.</param>
 /// <param name="phraseGenerator">The phrase generator.</param>
 /// <param name="urlMaker">The URL maker.</param>
 /// <param name="resiliencePipelineProvider">The provider for Polly resilience pipelines.</param>
 /// <param name="logger">The logger.</param>
 internal sealed class GenerateLinkCommandHandler(
-    ILinksRepository linksRepository,
+    ILinkRepository linkRepository,
     IPhraseGenerator phraseGenerator,
     IUrlMaker urlMaker,
     ResiliencePipelineProvider<string> resiliencePipelineProvider,
@@ -68,7 +68,7 @@ internal sealed class GenerateLinkCommandHandler(
                     maybeTheme.Value,
                     token);
 
-                if (phraseResult.IsFailure || !await linksRepository.HasAnyWithPhraseAsync(phraseResult.Value, token))
+                if (phraseResult.IsFailure || !await linkRepository.HasAnyWithPhraseAsync(phraseResult.Value, token))
                 {
                     return phraseResult;
                 }
@@ -90,7 +90,7 @@ internal sealed class GenerateLinkCommandHandler(
             maybeLanguage,
             maybeTheme);
 
-        linksRepository.Insert(link);
+        linkRepository.Insert(link);
 
         var redirectUrl = urlMaker.MakeRedirectUrlForPhrase(phraseResult.Value);
         var statsUrl = urlMaker.MakeStatsUrlForPhrase(phraseResult.Value);

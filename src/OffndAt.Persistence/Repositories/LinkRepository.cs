@@ -9,10 +9,10 @@ using OffndAt.Persistence.Specifications.Links;
 namespace OffndAt.Persistence.Repositories;
 
 /// <summary>
-///     Represents the links repository.
+///     Represents the repository for Links.
 /// </summary>
 /// <param name="dbContext">The database context.</param>
-internal sealed class LinksRepository(IDbContext dbContext) : GenericRepository<Link, LinkId>(dbContext), ILinksRepository
+internal sealed class LinkRepository(IDbContext dbContext) : GenericRepository<Link, LinkId>(dbContext), ILinkRepository
 {
     /// <inheritdoc />
     public Task<Maybe<Link>> GetByPhraseAsync(Phrase phrase, CancellationToken cancellationToken = default) =>

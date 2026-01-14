@@ -13,7 +13,7 @@ public sealed class LinkCreatedIntegrationEvent : IIntegrationEvent
     ///     Initializes a new instance of the <see cref="LinkCreatedIntegrationEvent" /> class.
     /// </summary>
     /// <param name="domainEvent">The link created domain event.</param>
-    internal LinkCreatedIntegrationEvent(LinkCreatedDomainEvent domainEvent) => LinkId = domainEvent.Link.Id;
+    internal LinkCreatedIntegrationEvent(LinkCreatedDomainEvent domainEvent) => LinkId = domainEvent.LinkId;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="LinkCreatedIntegrationEvent" /> class.
