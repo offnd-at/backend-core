@@ -34,7 +34,7 @@ internal sealed class GetLinkByPhraseQueryHandler(ILinksRepository linksReposito
 
         if (request.ShouldIncrementVisits)
         {
-            maybeLink.Value.IncrementVisits();
+            maybeLink.Value.RecordVisit();
             await unitOfWork.SaveChangesAsync(cancellationToken);
         }
 

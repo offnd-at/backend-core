@@ -16,5 +16,6 @@ public sealed class GetLinkByPhraseQuery(string phrase, bool shouldIncrementVisi
     /// <summary>
     ///     Gets the flag indicating whether link's visits should be incremented upon successful read from the database.
     /// </summary>
+    // TODO: rework to use a separate command for that
     public bool ShouldIncrementVisits { get; } = shouldIncrementVisits;
 }

@@ -36,7 +36,7 @@ public abstract class GenericRepository<TEntity, TEntityId>(IDbContext dbContext
     /// <param name="ids">The entity identifiers.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>The maybe instance that may contain the entities with the specified identifiers.</returns>
-    public async Task<Maybe<IReadOnlyList<TEntity>>> GetManyByIdsAsync(
+    public async Task<Maybe<IReadOnlyCollection<TEntity>>> GetManyByIdsAsync(
         IEnumerable<TEntityId> ids,
         CancellationToken cancellationToken = default) =>
         await DbContext.Set<TEntity, TEntityId>()

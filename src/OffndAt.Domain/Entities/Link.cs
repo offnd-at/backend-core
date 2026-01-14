@@ -78,12 +78,11 @@ public sealed class Link : AggregateRoot<LinkId>
     public int Visits { get; private set; }
 
     /// <summary>
-    ///     Increments the visits counter.
+    ///     Records a visit to the link.
     /// </summary>
-    public void IncrementVisits()
+    public void RecordVisit()
     {
         Visits += 1;
-
         RaiseDomainEvent(new LinkVisitedDomainEvent(this));
     }
 

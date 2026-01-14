@@ -21,7 +21,7 @@ internal sealed class LinkTests
     }
 
     [Test]
-    public void IncrementVisits_ShouldRaiseDomainEvent()
+    public void RecordVisit_ShouldRaiseDomainEvent()
     {
         var actual = Link.Create(
             Phrase.Create("test").Value,
@@ -29,7 +29,7 @@ internal sealed class LinkTests
             Language.English,
             Theme.None);
 
-        actual.IncrementVisits();
+        actual.RecordVisit();
 
         Assert.Multiple(() =>
         {
