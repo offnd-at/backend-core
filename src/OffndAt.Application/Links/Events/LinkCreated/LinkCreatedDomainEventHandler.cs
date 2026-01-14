@@ -8,6 +8,8 @@ namespace OffndAt.Application.Links.Events.LinkCreated;
 /// <summary>
 ///     Represents the <see cref="LinkCreatedDomainEvent" /> handler.
 /// </summary>
+/// <param name="integrationEventPublisher">The integration event publisher.</param>
+/// <param name="linkMetrics">The collection of link-related metrics.</param>
 internal sealed class LinkCreatedDomainEventHandler(
     IIntegrationEventPublisher integrationEventPublisher,
     ILinkMetrics linkMetrics)

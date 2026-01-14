@@ -8,15 +8,17 @@ namespace OffndAt.Application.Links.Events.LinkVisited;
 /// <summary>
 ///     Represents the <see cref="LinkVisitedDomainEvent" /> handler.
 /// </summary>
+/// <param name="integrationEventPublisher">The integration event publisher.</param>
+/// <param name="linkMetrics">The collection of link-related metrics.</param>
 internal sealed class LinkVisitedDomainEventHandler(
     IIntegrationEventPublisher integrationEventPublisher,
-    IVisitMetrics visitMetrics)
+    ILinkMetrics linkMetrics)
     : IDomainEventHandler<LinkVisitedDomainEvent>
 {
     /// <inheritdoc />
     public async Task Handle(LinkVisitedDomainEvent notification, CancellationToken cancellationToken)
     {
-        visitMetrics.RecordVisit(notification.Link.Language, notification.Link.Theme);
+        linkMetrics.RecordLinkVisit(notification.Link.Language, notification.Link.Theme);
 
         await integrationEventPublisher.PublishAsync(new LinkVisitedIntegrationEvent(notification), cancellationToken);
     }

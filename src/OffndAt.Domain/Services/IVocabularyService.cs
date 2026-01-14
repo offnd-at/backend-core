@@ -8,7 +8,7 @@ namespace OffndAt.Domain.Services;
 public interface IVocabularyService
 {
     /// <summary>
-    ///     Generates grammatical properties for a noun vocabulary.
+    ///     Generates grammatical properties for vocabulary of nouns.
     /// </summary>
     /// <param name="language">The language.</param>
     /// <param name="theme">The theme.</param>

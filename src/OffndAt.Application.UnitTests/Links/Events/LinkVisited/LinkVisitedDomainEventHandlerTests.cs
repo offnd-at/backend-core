@@ -19,7 +19,7 @@ internal sealed class LinkVisitedDomainEventHandlerTests
     {
         _integrationEventPublisher = Substitute.For<IIntegrationEventPublisher>();
 
-        _handler = new LinkVisitedDomainEventHandler(_integrationEventPublisher, Substitute.For<IVisitMetrics>());
+        _handler = new LinkVisitedDomainEventHandler(_integrationEventPublisher, Substitute.For<ILinkMetrics>());
     }
 
     [Test]

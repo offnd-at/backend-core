@@ -28,10 +28,10 @@ public sealed class ApplicationSettings
     /// <summary>
     ///     Gets or sets the base domain used for links generation.
     /// </summary>
-    public required string BaseDomain { get; init; }
+    public string? BaseDomain { get; init; }
 
     /// <summary>
     ///     Gets or sets the use https flag, which determines the protocol version for links generation.
     /// </summary>
-    public required bool UseHttps { get; init; }
+    public bool? UseHttps { get; init; }
 }

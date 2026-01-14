@@ -359,7 +359,12 @@ public static class DependencyInjectionExtensions
                         hostConfigurator.RequestedConnectionTimeout(TimeSpan.FromSeconds(30));
                     });
 
-                factoryConfigurator.PrefetchCount = messageBrokerSettings.PrefetchCount;
+                if (messageBrokerSettings.PrefetchCount is null)
+                {
+                    throw new InvalidOperationException("Prefetch count is required for consumer workers");
+                }
+
+                factoryConfigurator.PrefetchCount = messageBrokerSettings.PrefetchCount.Value;
 
                 factoryConfigurator.UseMessageRetry(retryConfigurator =>
                 {
@@ -400,7 +405,6 @@ public static class DependencyInjectionExtensions
 
         services.AddSingleton<IGitHubApiUsageMetrics, GitHubApiUsageMetrics>();
         services.AddSingleton<ILinkMetrics, LinkMetrics>();
-        services.AddSingleton<IVisitMetrics, VisitMetrics>();
 
         var telemetrySettings = configuration.GetSection(TelemetrySettings.SettingsKey).Get<TelemetrySettings>() ??
             throw new InvalidOperationException($"Missing configuration section - {TelemetrySettings.SettingsKey}.");

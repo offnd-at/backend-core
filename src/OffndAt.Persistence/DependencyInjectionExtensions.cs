@@ -20,22 +20,6 @@ namespace OffndAt.Persistence;
 public static class DependencyInjectionExtensions
 {
     /// <summary>
-    ///     Registers the persistence services with the DI framework.
-    /// </summary>
-    /// <param name="services">The service collection.</param>
-    /// <param name="configuration">The configuration.</param>
-    /// <returns>The configured service collection.</returns>
-    public static IServiceCollection AddPersistence(
-        this IServiceCollection services,
-        IConfiguration configuration) =>
-        services
-            .AddPersistenceSettings(configuration)
-            .AddInMemoryCache(configuration)
-            .AddDatabaseContext()
-            .AddPersistenceServices()
-            .AddMemoryCache();
-
-    /// <summary>
     ///     Registers the memory cache with the DI framework.
     /// </summary>
     /// <param name="services">The service collection.</param>
@@ -55,7 +39,7 @@ public static class DependencyInjectionExtensions
     /// <param name="services">The service collection.</param>
     /// <param name="configuration">The configuration.</param>
     /// <returns>The configured service collection.</returns>
-    private static IServiceCollection AddPersistenceSettings(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddPersistenceSettings(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<PersistenceSettings>(configuration.GetSection(PersistenceSettings.SettingsKey));
 
@@ -67,7 +51,7 @@ public static class DependencyInjectionExtensions
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The configured service collection.</returns>
-    private static IServiceCollection AddDatabaseContext(this IServiceCollection services)
+    public static IServiceCollection AddDatabaseContext(this IServiceCollection services)
     {
         services.AddDbContext<OffndAtDbContext>((serviceProvider, options) =>
         {
@@ -86,7 +70,7 @@ public static class DependencyInjectionExtensions
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The configured service collection.</returns>
-    private static IServiceCollection AddPersistenceServices(this IServiceCollection services)
+    public static IServiceCollection AddPersistenceServices(this IServiceCollection services)
     {
         services.AddScoped<DbContext, OffndAtDbContext>();
         services.AddScoped<IDbContext>(serviceProvider => serviceProvider.GetRequiredService<OffndAtDbContext>());
