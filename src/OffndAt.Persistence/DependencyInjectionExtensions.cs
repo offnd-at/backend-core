@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using OffndAt.Application.Abstractions.Data;
+using OffndAt.Application.Abstractions.Links;
 using OffndAt.Domain.Repositories;
 using OffndAt.Persistence.Data;
 using OffndAt.Persistence.Repositories;
@@ -61,6 +62,7 @@ public static class DependencyInjectionExtensions
         services.AddScoped<IDbContext>(serviceProvider => serviceProvider.GetRequiredService<OffndAtDbContext>());
         services.AddScoped<IUnitOfWork>(serviceProvider => serviceProvider.GetRequiredService<OffndAtDbContext>());
         services.AddScoped<ILinkRepository, LinkRepository>();
+        services.AddScoped<ILinkVisitSummaryRepository, LinkVisitSummaryRepository>();
 
         return services;
     }

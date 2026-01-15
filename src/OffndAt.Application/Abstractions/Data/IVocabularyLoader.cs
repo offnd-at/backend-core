@@ -1,5 +1,4 @@
 ﻿using OffndAt.Domain.Core.Primitives;
-using OffndAt.Domain.Models;
 using OffndAt.Domain.ValueObjects;
 
 namespace OffndAt.Application.Abstractions.Data;

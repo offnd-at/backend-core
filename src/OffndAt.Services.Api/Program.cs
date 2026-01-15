@@ -4,8 +4,9 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc;
 using OffndAt.Application;
 using OffndAt.Application.Abstractions.Messaging;
+using OffndAt.Application.Links.IntegrationEvents.LinkVisited;
 using OffndAt.Domain;
-using OffndAt.Domain.Core.Events;
+using OffndAt.Domain.Abstractions.Events;
 using OffndAt.Infrastructure;
 using OffndAt.Infrastructure.Core.Logging.Extensions;
 using OffndAt.Persistence;
@@ -40,7 +41,7 @@ builder.Services.AddInfrastructureSettings(builder.Configuration)
     .AddCorsPolicies(builder.Configuration)
     .AddApiAuthentication(builder.Configuration)
     .AddResiliencePolicies()
-    .AddMassTransitProducer(builder.Configuration)
+    .AddMassTransitForProducerAndConsumer(builder.Configuration, [typeof(LinkVisitedIntegrationEvent).Assembly])
     .AddHealthMonitoring();
 
 builder.Services

@@ -1,4 +1,5 @@
 using System.Reflection;
+using OffndAt.Domain.Core.Errors;
 
 namespace OffndAt.Domain.Core.Primitives;
 
@@ -9,7 +10,7 @@ namespace OffndAt.Domain.Core.Primitives;
 public abstract class Enumeration<TEnum> : IEquatable<Enumeration<TEnum>>, IComparable<Enumeration<TEnum>>
     where TEnum : Enumeration<TEnum>
 {
-    private static readonly Lazy<Dictionary<int, TEnum>> EnumerationsDictionary =
+    private static readonly Lazy<Dictionary<int, TEnum>> EnumerationDictionary =
         new(() => GetAllEnumerationOptions().ToDictionary(item => item.Value));
 
     /// <summary>
@@ -40,7 +41,7 @@ public abstract class Enumeration<TEnum> : IEquatable<Enumeration<TEnum>>, IComp
     /// </summary>
     /// <returns>The read-only collection of enumeration values.</returns>
     public static IReadOnlyList<TEnum> List =>
-        [.. EnumerationsDictionary.Value.Values];
+        [.. EnumerationDictionary.Value.Values];
 
     /// <summary>
     ///     Gets the value.
@@ -75,16 +76,30 @@ public abstract class Enumeration<TEnum> : IEquatable<Enumeration<TEnum>>, IComp
     /// <param name="value">The enumeration value.</param>
     /// <returns>The enumeration instance that matches the specified value.</returns>
     public static Maybe<TEnum> FromValue(int value) =>
-        EnumerationsDictionary.Value.TryGetValue(value, out var enumeration)
+        EnumerationDictionary.Value.TryGetValue(value, out var enumeration)
             ? Maybe<TEnum>.From(enumeration)
             : Maybe<TEnum>.None;
+
+    /// <summary>
+    ///     Creates an enumeration of the specified type based on the specified value.
+    /// </summary>
+    /// <param name="value">The enumeration value.</param>
+    /// <returns>The enumeration instance that matches the specified value.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">when the value is out of range of the enumeration.</exception>
+    public static TEnum FromValueOrFail(int value) =>
+        EnumerationDictionary.Value.TryGetValue(value, out var enumeration)
+            ? enumeration
+            : throw new ArgumentOutOfRangeException(
+                nameof(value),
+                value,
+                DomainErrors.Enumeration<TEnum>.OutOfRange.Message);
 
     /// <summary>
     ///     Checks if there is an enumeration with the specified value.
     /// </summary>
     /// <param name="value">The value.</param>
     /// <returns>True if there is an enumeration with the specified value, otherwise false.</returns>
-    public static bool ContainsValue(int value) => EnumerationsDictionary.Value.ContainsKey(value);
+    public static bool ContainsValue(int value) => EnumerationDictionary.Value.ContainsKey(value);
 
     /// <summary>
     ///     Determines whether two <see cref="Enumeration{T}" /> instances are equal.

@@ -2,7 +2,6 @@
 using System.Text;
 using OffndAt.Application.Abstractions.Data;
 using OffndAt.Domain.Core.Primitives;
-using OffndAt.Domain.Models;
 using OffndAt.Domain.ValueObjects;
 
 namespace OffndAt.Infrastructure.Data;

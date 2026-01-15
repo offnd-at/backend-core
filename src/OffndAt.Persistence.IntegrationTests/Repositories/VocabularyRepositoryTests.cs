@@ -3,12 +3,10 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using NSubstitute;
 using OffndAt.Application.Abstractions.Data;
+using OffndAt.Domain.Abstractions.Services;
 using OffndAt.Domain.Core.Primitives;
 using OffndAt.Domain.Enumerations;
-using OffndAt.Domain.Models;
-using OffndAt.Domain.Services;
 using OffndAt.Domain.ValueObjects;
-using OffndAt.Persistence.Repositories;
 
 namespace OffndAt.Persistence.IntegrationTests.Repositories;
 

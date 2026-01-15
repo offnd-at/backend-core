@@ -7,7 +7,7 @@ namespace OffndAt.Domain.ValueObjects;
 /// <summary>
 ///     Represents the URL value object.
 /// </summary>
-public sealed class Url : ValueObject
+public sealed record Url
 {
     /// <summary>
     ///     The maximum length.
@@ -15,7 +15,7 @@ public sealed class Url : ValueObject
     public const int MaxLength = 4096;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="Url" /> class.
+    ///     Initializes a new instance of the <see cref="Url" /> record.
     /// </summary>
     /// <param name="value">The value.</param>
     private Url(string value) => Value = value;
@@ -45,10 +45,4 @@ public sealed class Url : ValueObject
             .Ensure(value => !string.IsNullOrWhiteSpace(value), DomainErrors.Url.NullOrEmpty)
             .Ensure(value => value.Length <= MaxLength, DomainErrors.Url.LongerThanAllowed)
             .Map(value => new Url(value));
-
-    /// <inheritdoc />
-    protected override IEnumerable<object> GetAtomicValues()
-    {
-        yield return Value;
-    }
 }

@@ -1,5 +1,5 @@
-﻿using OffndAt.Domain.Core.Events;
-using OffndAt.Domain.Enumerations;
+﻿using OffndAt.Domain.Abstractions.Events;
+using OffndAt.Domain.ValueObjects;
 using OffndAt.Domain.ValueObjects.Identifiers;
 
 namespace OffndAt.Domain.Events;
@@ -13,13 +13,13 @@ public sealed class LinkVisitedDomainEvent : IDomainEvent
     ///     Initializes a new instance of the <see cref="LinkVisitedDomainEvent" /> class.
     /// </summary>
     /// <param name="linkId">The link identifier.</param>
-    /// <param name="language">The language.</param>
-    /// <param name="theme">The theme.</param>
-    internal LinkVisitedDomainEvent(LinkId linkId, Language language, Theme theme)
+    /// <param name="context">The context of the link visit.</param>
+    internal LinkVisitedDomainEvent(
+        LinkId linkId,
+        LinkVisitedContext context)
     {
         LinkId = linkId;
-        Language = language;
-        Theme = theme;
+        Context = context;
     }
 
     /// <summary>
@@ -28,12 +28,7 @@ public sealed class LinkVisitedDomainEvent : IDomainEvent
     public LinkId LinkId { get; }
 
     /// <summary>
-    ///     Gets the language.
+    ///     Gets the context of the link visit.
     /// </summary>
-    public Language Language { get; }
-
-    /// <summary>
-    ///     Gets the theme.
-    /// </summary>
-    public Theme Theme { get; }
+    public LinkVisitedContext Context { get; }
 }

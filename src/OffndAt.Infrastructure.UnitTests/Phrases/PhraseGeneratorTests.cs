@@ -3,7 +3,6 @@ using OffndAt.Application.Abstractions.Words;
 using OffndAt.Domain.Core.Errors;
 using OffndAt.Domain.Core.Primitives;
 using OffndAt.Domain.Enumerations;
-using OffndAt.Domain.Models;
 using OffndAt.Domain.Repositories;
 using OffndAt.Domain.ValueObjects;
 using OffndAt.Infrastructure.Phrases;

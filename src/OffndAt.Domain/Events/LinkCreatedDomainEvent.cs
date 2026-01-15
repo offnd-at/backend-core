@@ -1,4 +1,4 @@
-﻿using OffndAt.Domain.Core.Events;
+﻿using OffndAt.Domain.Abstractions.Events;
 using OffndAt.Domain.Enumerations;
 using OffndAt.Domain.ValueObjects.Identifiers;
 

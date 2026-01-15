@@ -2,7 +2,7 @@
 using OffndAt.Application.Abstractions.Data;
 using OffndAt.Domain.Core.Primitives;
 using OffndAt.Domain.Enumerations;
-using OffndAt.Domain.Models;
+using OffndAt.Domain.ValueObjects;
 using OffndAt.Infrastructure.Data;
 using Language = OffndAt.Domain.Enumerations.Language;
 

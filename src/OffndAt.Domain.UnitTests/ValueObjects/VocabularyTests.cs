@@ -1,6 +1,5 @@
 ﻿using OffndAt.Domain.Core.Errors;
 using OffndAt.Domain.Enumerations;
-using OffndAt.Domain.Models;
 using OffndAt.Domain.ValueObjects;
 
 namespace OffndAt.Domain.UnitTests.ValueObjects;

@@ -1,10 +1,9 @@
-﻿using MediatR;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage;
 using OffndAt.Application.Abstractions.Data;
 using OffndAt.Domain.Abstractions;
+using OffndAt.Domain.Abstractions.Events;
 using OffndAt.Domain.Core.Primitives;
 
 namespace OffndAt.Persistence.Data;
@@ -13,8 +12,12 @@ namespace OffndAt.Persistence.Data;
 ///     Represents the application database context.
 /// </summary>
 /// <param name="options">The database context options.</param>
-/// <param name="mediator">The mediator.</param>
-public abstract class BaseDbContext(DbContextOptions options, IMediator mediator)
+/// <param name="domainEventPublisher">The domain event publisher.</param>
+/// <param name="domainEventCollector">The domain event collector.</param>
+public abstract class BaseDbContext(
+    DbContextOptions options,
+    IDomainEventPublisher domainEventPublisher,
+    IDomainEventCollector domainEventCollector)
     : DbContext(options), IDbContext, IUnitOfWork
 {
     /// <inheritdoc />
@@ -24,9 +27,14 @@ public abstract class BaseDbContext(DbContextOptions options, IMediator mediator
         base.Set<TEntity>();
 
     /// <inheritdoc />
+    public new DbSet<TDataModel> Set<TDataModel>()
+        where TDataModel : class, IDataModel =>
+        base.Set<TDataModel>();
+
+    /// <inheritdoc />
     public Task<int> ExecuteSqlAsync(
         string sql,
-        IEnumerable<SqlParameter> parameters,
+        IEnumerable<object> parameters,
         CancellationToken cancellationToken = default) =>
         Database.ExecuteSqlRawAsync(sql, parameters, cancellationToken);
 
@@ -113,10 +121,7 @@ public abstract class BaseDbContext(DbContextOptions options, IMediator mediator
 
         foreach (var referenceEntry in entityEntry?.References.Where(r => r.TargetEntry?.State == EntityState.Deleted) ?? [])
         {
-            if (referenceEntry.TargetEntry is not null)
-            {
-                referenceEntry.TargetEntry.State = EntityState.Unchanged;
-            }
+            referenceEntry.TargetEntry?.State = EntityState.Unchanged;
 
             UpdateDeletedEntityEntryReferencesToUnchanged(referenceEntry.TargetEntry);
         }
@@ -130,14 +135,16 @@ public abstract class BaseDbContext(DbContextOptions options, IMediator mediator
     private async Task<int> PublishDomainEventsAsync(CancellationToken cancellationToken)
     {
         var aggregateRoots = GetAggregateRootsWithDomainEvents();
+        var domainEvents = aggregateRoots
+            .SelectMany(entityEntry => entityEntry.Entity.DomainEvents)
+            .Concat(domainEventCollector.GetEvents())
+            .ToList();
 
-        var domainEvents = aggregateRoots.SelectMany(entityEntry => entityEntry.Entity.DomainEvents).ToList();
+        var tasks = domainEvents.Select(domainEvent => domainEventPublisher.PublishAsync(domainEvent, cancellationToken));
+        await Task.WhenAll(tasks);
 
         aggregateRoots.ForEach(entityEntry => entityEntry.Entity.ClearDomainEvents());
-
-        var tasks = domainEvents.Select(domainEvent => mediator.Publish(domainEvent, cancellationToken));
-
-        await Task.WhenAll(tasks);
+        domainEventCollector.ClearEvents();
 
         return domainEvents.Count;
     }

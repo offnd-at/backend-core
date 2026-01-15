@@ -42,8 +42,6 @@ internal sealed class LinkConfiguration : IEntityTypeConfiguration<Link>
             .HasConversion(property => property.Value, value => Theme.FromValue(value))
             .IsRequired();
 
-        builder.Property(entity => entity.Visits).IsRequired();
-
         builder.Property(entity => entity.CreatedAt).IsRequired();
 
         builder.Property(entity => entity.ModifiedAt);
@@ -53,5 +51,7 @@ internal sealed class LinkConfiguration : IEntityTypeConfiguration<Link>
         builder.Property(entity => entity.IsDeleted).HasDefaultValue(false);
 
         builder.HasQueryFilter(entity => !entity.IsDeleted);
+
+        builder.ToTable(nameof(Link));
     }
 }

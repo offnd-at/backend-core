@@ -37,7 +37,8 @@ internal sealed class GetLinkByPhraseQueryHandler(ILinkRepository linkRepository
         {
             Link = new LinkDto
             {
-                Visits = maybeLink.Value.Visits,
+                // TODO: query service
+                Visits = 0,
                 TargetUrl = maybeLink.Value.TargetUrl,
                 CreatedAt = maybeLink.Value.CreatedAt
             }

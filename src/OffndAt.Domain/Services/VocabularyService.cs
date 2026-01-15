@@ -1,4 +1,5 @@
-﻿using OffndAt.Domain.Enumerations;
+﻿using OffndAt.Domain.Abstractions.Services;
+using OffndAt.Domain.Enumerations;
 
 namespace OffndAt.Domain.Services;
 

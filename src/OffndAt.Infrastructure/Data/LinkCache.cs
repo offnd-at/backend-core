@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using OffndAt.Application.Abstractions.Data;
+using OffndAt.Application.Links.Models;
 using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.Entities;
 using OffndAt.Domain.ValueObjects;
 using OffndAt.Infrastructure.Core.Cache.Settings;
 using OffndAt.Infrastructure.Core.Constants;
@@ -18,23 +20,27 @@ internal sealed class LinkCache(IOptions<CacheSettings> cacheOptions, IMemoryCac
     private readonly CacheSettings _settings = cacheOptions.Value;
 
     /// <inheritdoc />
-    public Task<Maybe<Url>> GetTargetUrlAsync(Phrase phrase, CancellationToken cancellationToken = default)
+    public Task<Maybe<CachedLink>> GetLinkAsync(Phrase phrase, CancellationToken cancellationToken = default)
     {
         var cacheKey = CacheKeys.LinkTargetUrl(phrase);
 
-        memoryCache.TryGetValue<Url>(cacheKey, out var url);
+        memoryCache.TryGetValue<CachedLink>(cacheKey, out var url);
 
-        return Task.FromResult(Maybe<Url>.From(url));
+        return Task.FromResult(Maybe<CachedLink>.From(url));
     }
 
     /// <inheritdoc />
-    public Task SetTargetUrlAsync(Phrase phrase, Url targetUrl, CancellationToken cancellationToken = default)
+    public Task SetLinkAsync(Link link, CancellationToken cancellationToken = default)
     {
-        var cacheKey = CacheKeys.LinkTargetUrl(phrase);
+        var cacheKey = CacheKeys.LinkTargetUrl(link.Phrase);
 
         memoryCache.Set(
             cacheKey,
-            targetUrl,
+            new CachedLink(
+                link.Id,
+                link.TargetUrl,
+                link.Language,
+                link.Theme),
             new MemoryCacheEntryOptions
             {
                 AbsoluteExpirationRelativeToNow = _settings.LongTtl,

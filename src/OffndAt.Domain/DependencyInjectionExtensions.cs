@@ -1,4 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using OffndAt.Domain.Abstractions.Events;
+using OffndAt.Domain.Abstractions.Services;
+using OffndAt.Domain.Events;
 using OffndAt.Domain.Services;
 
 namespace OffndAt.Domain;
@@ -22,7 +25,10 @@ public static class DependencyInjectionExtensions
     /// <returns>The configured service collection.</returns>
     private static IServiceCollection AddDomainServices(this IServiceCollection services)
     {
+        services.AddScoped<IDomainEventCollector, DomainEventCollector>();
+        services.AddScoped<IDomainEventPublisher, DomainEventPublisher>();
         services.AddScoped<IVocabularyService, VocabularyService>();
+        services.AddScoped<ILinkService, LinkService>();
 
         return services;
     }

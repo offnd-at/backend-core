@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using MassTransit;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
+using OffndAt.Domain.Abstractions.Events;
 
 namespace OffndAt.Persistence.Data;
 
@@ -9,8 +9,13 @@ namespace OffndAt.Persistence.Data;
 ///     Represents the offnd.at application database context.
 /// </summary>
 /// <param name="options">The database context options.</param>
-/// <param name="mediator">The mediator.</param>
-public sealed class OffndAtDbContext(DbContextOptions options, IMediator mediator) : BaseDbContext(options, mediator)
+/// <param name="domainEventPublisher">The domain event publisher.</param>
+/// <param name="domainEventCollector">The domain event collector.</param>
+public sealed class OffndAtDbContext(
+    DbContextOptions options,
+    IDomainEventPublisher domainEventPublisher,
+    IDomainEventCollector domainEventCollector)
+    : BaseDbContext(options, domainEventPublisher, domainEventCollector)
 {
     /// <inheritdoc />
     protected override void OnModelCreating(ModelBuilder modelBuilder)

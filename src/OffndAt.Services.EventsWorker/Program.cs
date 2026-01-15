@@ -13,7 +13,7 @@ builder.Services.AddPersistenceSettings(builder.Configuration)
 
 builder.Services.AddInfrastructureSettings(builder.Configuration)
     .AddTelemetry(builder.Configuration)
-    .AddMassTransitConsumer(builder.Configuration, [typeof(Program).Assembly]);
+    .AddMassTransitForConsumer(builder.Configuration, [typeof(Program).Assembly]);
 
 builder.Host.UseOffndAtSerilog();
 

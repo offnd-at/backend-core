@@ -1,5 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using OffndAt.Domain.Core.Primitives;
 
 namespace OffndAt.Application.Abstractions.Data;
@@ -20,6 +19,14 @@ public interface IDbContext
         where TEntityId : EntityId;
 
     /// <summary>
+    ///     Gets the database set for the specified data model type.
+    /// </summary>
+    /// <typeparam name="TDataModel">The data model type.</typeparam>
+    /// <returns>The database set for the specified data model type.</returns>
+    DbSet<TDataModel> Set<TDataModel>()
+        where TDataModel : class, IDataModel;
+
+    /// <summary>
     ///     Executes the specified SQL command asynchronously and returns the number of affected rows.
     /// </summary>
     /// <param name="sql">The SQL command.</param>
@@ -28,6 +35,6 @@ public interface IDbContext
     /// <returns>The number of rows affected.</returns>
     Task<int> ExecuteSqlAsync(
         string sql,
-        IEnumerable<SqlParameter> parameters,
+        IEnumerable<object> parameters,
         CancellationToken cancellationToken = default);
 }
