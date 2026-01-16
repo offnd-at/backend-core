@@ -7,12 +7,14 @@ using MassTransit;
 using MassTransit.Logging;
 using MassTransit.Monitoring;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Octokit;
 using OffndAt.Application.Abstractions.Data;
@@ -183,8 +185,9 @@ public static class DependencyInjectionExtensions
     ///     Registers the service instances with the DI framework.
     /// </summary>
     /// <param name="services">The service collection.</param>
+    /// <param name="environment">The web host environment.</param>
     /// <returns>The configured service collection.</returns>
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IWebHostEnvironment environment)
     {
         services.AddSingleton<ILinkVisitTracker, LinkVisitTracker>();
 
@@ -201,7 +204,10 @@ public static class DependencyInjectionExtensions
             return new GitHubClient(new ProductHeaderValue(applicationSettings.AppName, applicationSettings.Version));
         });
 
-        services.AddHostedService<LinkVisitFlushWorker>();
+        if (!environment.IsEnvironment(EnvironmentNames.Testing))
+        {
+            services.AddHostedService<LinkVisitFlushWorker>();
+        }
 
         return services;
     }

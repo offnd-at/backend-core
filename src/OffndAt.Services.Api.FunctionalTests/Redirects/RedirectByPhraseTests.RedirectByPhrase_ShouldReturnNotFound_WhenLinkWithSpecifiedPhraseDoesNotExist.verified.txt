@@ -1,17 +1,17 @@
 ﻿{
-  Status: 404 Not Found,
+  Status: 400 Bad Request,
   Headers: {
     api-supported-versions: 1
   },
   Content: {
     Headers: {
-      Content-Length: 471,
+      Content-Length: 473,
       Content-Type: application/problem+json
     },
     Value: {
-      type: https://tools.ietf.org/html/rfc9110#section-15.5.5,
-      title: Not Found,
-      status: 404,
+      type: https://tools.ietf.org/html/rfc9110#section-15.5.1,
+      title: Bad Request,
+      status: 400,
       detail: The link with the specified phrase was not found.,
       instance: GET /v1/redirects/non-existent-phrase,
       errors: [
