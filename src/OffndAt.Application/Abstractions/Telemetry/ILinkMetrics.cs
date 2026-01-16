@@ -20,4 +20,14 @@ public interface ILinkMetrics
     /// <param name="language">The language.</param>
     /// <param name="theme">The theme.</param>
     void RecordLinkVisit(Language language, Theme theme);
+
+    /// <summary>
+    ///     Records a cache hit during redirection.
+    /// </summary>
+    void RecordRedirectCacheHit();
+
+    /// <summary>
+    ///     Records a cache miss during redirection.
+    /// </summary>
+    void RecordRedirectCacheMiss();
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using OffndAt.Application.Abstractions.Data;
 using OffndAt.Application.Abstractions.Messaging;
+using OffndAt.Application.Abstractions.Telemetry;
 using OffndAt.Domain.Abstractions.Services;
 using OffndAt.Domain.Core.Errors;
 using OffndAt.Domain.Core.Primitives;
@@ -15,11 +16,13 @@ namespace OffndAt.Application.Links.Commands.VisitLink;
 /// <param name="linkRepository">The link repository.</param>
 /// <param name="linkCache">The link cache.</param>
 /// <param name="linkService">The link service.</param>
+/// <param name="linkMetrics">The link metrics.</param>
 /// <param name="logger">The logger.</param>
 internal sealed class VisitLinkCommandHandler(
     ILinkRepository linkRepository,
     ILinkCache linkCache,
     ILinkService linkService,
+    ILinkMetrics linkMetrics,
     ILogger<VisitLinkCommandHandler> logger)
     : ICommandHandler<VisitLinkCommand, Url>
 {
@@ -37,6 +40,8 @@ internal sealed class VisitLinkCommandHandler(
         var maybeCachedLink = await linkCache.GetLinkAsync(phraseResult.Value, cancellationToken);
         if (maybeCachedLink.HasValue)
         {
+            linkMetrics.RecordRedirectCacheHit();
+
             await linkService.RecordLinkVisitAsync(
                 maybeCachedLink.Value.LinkId,
                 new LinkVisitedContext(
@@ -54,6 +59,7 @@ internal sealed class VisitLinkCommandHandler(
         }
 
         await linkCache.SetLinkAsync(maybeLink.Value, cancellationToken);
+        linkMetrics.RecordRedirectCacheMiss();
         maybeLink.Value.RecordVisit();
 
         return maybeLink.Value.TargetUrl;
