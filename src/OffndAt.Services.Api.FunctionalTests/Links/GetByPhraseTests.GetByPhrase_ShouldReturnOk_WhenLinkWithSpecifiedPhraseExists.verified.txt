@@ -10,7 +10,7 @@
     },
     Value: {
       id: Guid_1,
-      phrase: {Scrubbed}
+      phrase: {Scrubbed},
       targetUrl: http://localhost,
       visits: 0,
       recentVisits: [],
