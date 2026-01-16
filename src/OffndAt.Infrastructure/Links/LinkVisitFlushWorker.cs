@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using OffndAt.Application.Abstractions.Links;
@@ -10,13 +11,17 @@ namespace OffndAt.Infrastructure.Links;
 ///     from the <see cref="LinkVisitTracker" /> into the persistent statistics storage.
 /// </summary>
 /// <param name="serviceProvider">The service provider.</param>
+/// <param name="configuration">The configuration.</param>
 /// <param name="logger">The logger.</param>
-internal sealed class LinkVisitFlushWorker(IServiceProvider serviceProvider, ILogger<LinkVisitFlushWorker> logger) : BackgroundService
+internal sealed class LinkVisitFlushWorker(
+    IServiceProvider serviceProvider,
+    IConfiguration configuration,
+    ILogger<LinkVisitFlushWorker> logger) : BackgroundService
 {
     /// <inheritdoc />
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        var flushInterval = TimeSpan.FromMinutes(1);
+        var flushInterval = configuration.GetValue("LinkVisitCacheFlushInterval", TimeSpan.FromMinutes(1));
         using var timer = new PeriodicTimer(flushInterval);
 
         while (!stoppingToken.IsCancellationRequested && await timer.WaitForNextTickAsync(stoppingToken))
