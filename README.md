@@ -1,8 +1,8 @@
 # offnd-at/backend-core
 
-[![GitHub License](https://img.shields.io/github/license/offnd-at/backend-core)](LICENSE)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/offnd-at/backend-core/ci.yml?branch=main)](https://github.com/offnd-at/backend-core/actions)
-[![.NET 10](https://img.shields.io/badge/.NET-10-blue.svg)](https://dotnet.microsoft.com/download/dotnet/10.0)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/offnd-at/backend-core/build-and-publish.yml?branch=master)](https://github.com/offnd-at/backend-core/actions)
+[![GitHub Release](https://img.shields.io/github/v/release/offnd-at/backend-core)](https://github.com/offnd-at/backend-core/releases)
+
 
 A robust, high-performance monolith backend for [offnd.at](https://offnd.at) - a profanity-first short link platform. Built with **Clean Architecture** and **Domain-Driven Design (DDD)**.
 
