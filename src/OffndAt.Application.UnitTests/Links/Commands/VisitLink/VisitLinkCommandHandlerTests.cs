@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using OffndAt.Application.Abstractions.Data;
+using OffndAt.Application.Abstractions.Telemetry;
 using OffndAt.Application.Links.Commands.VisitLink;
 using OffndAt.Application.Links.Models;
 using OffndAt.Domain.Abstractions.Services;
@@ -18,6 +19,7 @@ internal sealed class VisitLinkCommandHandlerTests
 {
     private VisitLinkCommandHandler _handler = null!;
     private ILinkCache _linkCache = null!;
+    private ILinkMetrics _linkMetrics = null!;
     private ILinkRepository _linkRepository = null!;
     private ILinkService _linkService = null!;
     private ILogger<VisitLinkCommandHandler> _logger = null!;
@@ -28,12 +30,14 @@ internal sealed class VisitLinkCommandHandlerTests
         _linkRepository = Substitute.For<ILinkRepository>();
         _linkCache = Substitute.For<ILinkCache>();
         _linkService = Substitute.For<ILinkService>();
+        _linkMetrics = Substitute.For<ILinkMetrics>();
         _logger = Substitute.For<ILogger<VisitLinkCommandHandler>>();
 
         _handler = new VisitLinkCommandHandler(
             _linkRepository,
             _linkCache,
             _linkService,
+            _linkMetrics,
             _logger);
     }
 
@@ -74,6 +78,8 @@ internal sealed class VisitLinkCommandHandlerTests
             .RecordLinkVisitAsync(
                 cachedLink.LinkId,
                 Arg.Is<LinkVisitedContext>(ctx => ctx.Language == cachedLink.Language && ctx.Theme == cachedLink.Theme));
+
+        _linkMetrics.Received(1).RecordRedirectCacheHit();
     }
 
     [Test]
@@ -91,6 +97,8 @@ internal sealed class VisitLinkCommandHandlerTests
             Assert.That(actual.IsFailure, Is.True);
             Assert.That(actual.Error, Is.EqualTo(DomainErrors.Link.NotFound));
         });
+
+        _linkMetrics.Received(0).RecordRedirectCacheMiss();
     }
 
     [Test]
@@ -116,5 +124,7 @@ internal sealed class VisitLinkCommandHandlerTests
         });
 
         await _linkCache.Received(1).SetLinkAsync(link, Arg.Any<CancellationToken>());
+
+        _linkMetrics.Received(1).RecordRedirectCacheMiss();
     }
 }

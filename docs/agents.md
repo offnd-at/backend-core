@@ -3,7 +3,7 @@
 Welcome, Agent! This document provides the necessary context and guidelines to help you work effectively with the `offnd-at/backend-core` repository.
 
 ## Project Overview
-This repository contains the backend core for [offnd.at](https://offnd.at), a platform for short links. It is built as a .NET monolith following **Clean Architecture** principles and **Domain-Driven Design (DDD)**.
+This repository contains the backend core for [offnd.at](https://offnd.at), a profanity-first platform for short links. It is built as a .NET monolith following **Clean Architecture** principles and **Domain-Driven Design (DDD)**. It aims for high performance balanced with high maintainability.
 
 ## High-Level Architecture
 
@@ -11,9 +11,10 @@ This repository contains the backend core for [offnd.at](https://offnd.at), a pl
 graph TD
     API["OffndAt.Services.Api (API Layer)"] --> Application["OffndAt.Application (Application Layer)"]
     EventsWorker["OffndAt.Services.EventsWorker (Background Tasks)"] --> Application
+    MigrationRunner["OffndAt.Services.MigrationRunner (DB Migrations)"] --> Persistence["OffndAt.Persistence (Database)"]
     Application --> Domain["OffndAt.Domain (Domain Layer)"]
     Infrastructure["OffndAt.Infrastructure (External Services)"] --> Application
-    Persistence["OffndAt.Persistence (Database)"] --> Application
+    Persistence --> Application
     Persistence --> Domain
     Infrastructure --> Domain
 ```
@@ -26,6 +27,7 @@ graph TD
 - **OffndAt.Persistence**: Handles database access using EF Core and PostgreSQL. Contains migrations and repository implementations.
 - **OffndAt.Services.Api**: The entry point for the web application. Defines RESTful endpoints and sets up DI.
 - **OffndAt.Services.EventsWorker**: A background worker that consumes integration events from RabbitMQ.
+- **OffndAt.Services.MigrationRunner**: A dedicated service for running database migrations using EF Core.
 - **OffndAt.Contracts**: Shared DTOs and contracts used across the application.
 
 ## Technology Stack
@@ -38,7 +40,7 @@ graph TD
 - **Validation**: FluentValidation
 - **Observability**: OpenTelemetry (Metrics, Tracing, Logging)
 - **Documentation**: Scalar (OpenAPI)
-- **Testing**: xUnit, Bogus, FluentAssertions, Testcontainers
+- **Testing**: NUnit, Bogus, FluentAssertions, Testcontainers
 
 ## Patterns & Conventions
 
@@ -53,30 +55,27 @@ We use MediatR for Command and Query separation. Handlers return a `Result` or `
 
 ### Coding Style
 - **File-scoped Namespaces**: Use `namespace MyNamespace;`.
-- **Primary Constructors**: Prefer primary constructors for dependencies.
-- **Sealed Classes**: Mark handlers and services as `sealed`.
+- **Primary Constructors**: Always prefer primary constructors for dependencies.
+- **Sealed Classes**: Mark handlers, services, and internal classes as `sealed`.
 - **Interface Naming**: Always prefix with `I` (e.g., `ILinkRepository`).
+- **Expression-bodied Members**: Prefer expression-bodied members (`=>`) for short methods, properties, and constructors when applicable.
+- **`var` Usage**: Use `var` when the type is apparent from the right side of the assignment (e.g., `var x = new MyType();`) or for built-in types.
+- **Namespace Placement**: Place `using` directives outside the namespace.
+- **Line Length**: Aim for a maximum line length of 140 characters.
+- **Folder Structure**: Organize `OffndAt.Application` and `OffndAt.Services.Api` by feature folders (e.g., `Links/Commands`, `Links/Queries`, `Endpoints/V1`).
 
-## Development Setup
+## Agent-Specific Context
 
-The project uses Docker for local development dependencies:
-```powershell
-docker-compose up -d
-```
-This starts PostgreSQL, RabbitMQ, and the Otel Collector.
+### How to Help
+When working on this repository, you should:
+1.  **Check `Program.cs`**: Start with `OffndAt.Services.Api/Program.cs` to understand the application setup and middleware pipeline.
+2.  **DI Registration**: Look at `DependencyInjectionExtensions.cs` files in each project to see how services are registered.
+3.  **CQRS Discovery**: To find the logic for a specific feature, search for the Command or Query name. Handlers are typically located in the same or a nearby folder.
+4.  **Verification**: Always run tests after making changes. The solution contains unit, integration, and functional tests.
 
-## Common Workflows
-
-### Adding a New Endpoint
-1. Define a Command/Query in `OffndAt.Application`.
-2. Implement the Handler in `OffndAt.Application`.
-3. Create an `IEndpoint` implementation in `OffndAt.Services.Api/Endpoints/Vx`. 
-   - **Note**: Endpoints are automatically registered and mapped based on the `IEndpoint` interface and folder structure.
-
-### Creating a New Domain Event
-1. Define the event in `OffndAt.Domain/Events`.
-2. Raise the event in the Aggregate/Entity.
-3. (Optional) Create a handler in `OffndAt.Application` to publish an Integration Event.
+### Navigation Tips
+- Use `grep` to find implementations of `ICommandHandler<TCommand>` or `IQueryHandler<TQuery, TResult>`.
+- Check `OffndAt.Services.Api/Endpoints` for the entry points of API requests.
 
 ---
 > [!TIP]

@@ -12,6 +12,8 @@ internal sealed class LinkMetrics : ILinkMetrics
 {
     private readonly Counter<long> _linkCreationCounter;
     private readonly Counter<long> _visitCounter;
+    private readonly Counter<long> _redirectCacheHitCounter;
+    private readonly Counter<long> _redirectCacheMissCounter;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="LinkMetrics" /> class.
@@ -30,6 +32,16 @@ internal sealed class LinkMetrics : ILinkMetrics
             "offndat.links.visits",
             "{visit}",
             "The number of link visits and redirections");
+
+        _redirectCacheHitCounter = meter.CreateCounter<long>(
+            "offndat.links.redirect_cache_hits",
+            "{hit}",
+            "The number of times a redirect link was found in the cache");
+
+        _redirectCacheMissCounter = meter.CreateCounter<long>(
+            "offndat.links.redirect_cache_misses",
+            "{miss}",
+            "The number of times a redirect link was not found in the cache");
     }
 
     /// <inheritdoc />
@@ -45,4 +57,10 @@ internal sealed class LinkMetrics : ILinkMetrics
             1,
             new KeyValuePair<string, object?>("language", language.Code),
             new KeyValuePair<string, object?>("theme", theme.Name));
+
+    /// <inheritdoc />
+    public void RecordRedirectCacheHit() => _redirectCacheHitCounter.Add(1);
+
+    /// <inheritdoc />
+    public void RecordRedirectCacheMiss() => _redirectCacheMissCounter.Add(1);
 }
