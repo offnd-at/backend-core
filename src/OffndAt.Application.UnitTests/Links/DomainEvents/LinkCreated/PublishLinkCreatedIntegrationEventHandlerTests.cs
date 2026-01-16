@@ -28,7 +28,7 @@ internal sealed class PublishLinkCreatedIntegrationEventHandlerTests
         var language = Language.English;
         var theme = Theme.None;
 
-        await _handler.Handle(new LinkCreatedDomainEvent(linkId, language, theme), CancellationToken.None);
+        await _handler.Handle(new LinkCreatedDomainEvent(linkId, language, theme), TestContext.CurrentContext.CancellationToken);
 
         await _integrationEventPublisher.Received()
             .PublishAsync(

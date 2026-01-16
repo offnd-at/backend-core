@@ -15,7 +15,7 @@ internal sealed class GetSupportedThemesQueryHandlerTests
     {
         var expected = Theme.List.ToList();
 
-        var actual = await _handler.Handle(new GetSupportedThemesQuery(), CancellationToken.None);
+        var actual = await _handler.Handle(new GetSupportedThemesQuery(), TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {

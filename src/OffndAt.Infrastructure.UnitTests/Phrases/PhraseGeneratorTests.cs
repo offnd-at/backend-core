@@ -49,7 +49,7 @@ internal sealed class PhraseGeneratorTests
             Format.KebabCase,
             Language.English,
             Theme.None,
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {
@@ -80,7 +80,7 @@ internal sealed class PhraseGeneratorTests
             Format.KebabCase,
             Language.English,
             Theme.None,
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {
@@ -117,7 +117,7 @@ internal sealed class PhraseGeneratorTests
             Format.KebabCase,
             Language.English,
             Theme.None,
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {
@@ -161,7 +161,7 @@ internal sealed class PhraseGeneratorTests
             Format.KebabCase,
             Language.English,
             Theme.None,
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {
@@ -207,7 +207,7 @@ internal sealed class PhraseGeneratorTests
             Format.KebabCase,
             Language.English,
             Theme.None,
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {

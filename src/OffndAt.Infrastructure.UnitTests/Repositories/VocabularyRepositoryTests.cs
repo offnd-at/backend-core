@@ -48,7 +48,7 @@ internal sealed class VocabularyRepositoryTests
             Language.English,
             Offensiveness.NonOffensive,
             Theme.None,
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.That(actual.HasValue, Is.False);
     }
@@ -74,7 +74,7 @@ internal sealed class VocabularyRepositoryTests
             Language.English,
             Offensiveness.NonOffensive,
             Theme.None,
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         await _vocabularyLoader.Received(1).DownloadAsync(Arg.Any<VocabularyDescriptor>(), Arg.Any<CancellationToken>());
 
@@ -106,7 +106,7 @@ internal sealed class VocabularyRepositoryTests
             Language.English,
             Offensiveness.NonOffensive,
             Theme.None,
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {
@@ -118,7 +118,7 @@ internal sealed class VocabularyRepositoryTests
             Language.English,
             Offensiveness.NonOffensive,
             Theme.None,
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {
@@ -155,7 +155,7 @@ internal sealed class VocabularyRepositoryTests
             Language.English,
             Offensiveness.NonOffensive,
             Theme.None,
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {
@@ -167,7 +167,7 @@ internal sealed class VocabularyRepositoryTests
             Language.English,
             Offensiveness.NonOffensive,
             Theme.None,
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {
@@ -188,7 +188,7 @@ internal sealed class VocabularyRepositoryTests
             Offensiveness.NonOffensive,
             GrammaticalNumber.None,
             GrammaticalGender.None,
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.That(actual.HasValue, Is.False);
     }
@@ -215,7 +215,7 @@ internal sealed class VocabularyRepositoryTests
             Offensiveness.NonOffensive,
             GrammaticalNumber.None,
             GrammaticalGender.None,
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         await _vocabularyLoader.Received(1).DownloadAsync(Arg.Any<VocabularyDescriptor>(), Arg.Any<CancellationToken>());
 
@@ -248,7 +248,7 @@ internal sealed class VocabularyRepositoryTests
             Offensiveness.NonOffensive,
             GrammaticalNumber.None,
             GrammaticalGender.None,
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {
@@ -261,7 +261,7 @@ internal sealed class VocabularyRepositoryTests
             Offensiveness.NonOffensive,
             GrammaticalNumber.None,
             GrammaticalGender.None,
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {
@@ -280,7 +280,7 @@ internal sealed class VocabularyRepositoryTests
         var actual = await _repository.GetAdverbsAsync(
             Language.English,
             Offensiveness.NonOffensive,
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.That(actual.HasValue, Is.False);
     }
@@ -305,7 +305,7 @@ internal sealed class VocabularyRepositoryTests
         var actual = await _repository.GetAdverbsAsync(
             Language.English,
             Offensiveness.NonOffensive,
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         await _vocabularyLoader.Received(1).DownloadAsync(Arg.Any<VocabularyDescriptor>(), Arg.Any<CancellationToken>());
 
@@ -336,7 +336,7 @@ internal sealed class VocabularyRepositoryTests
         var actual = await _repository.GetAdverbsAsync(
             Language.English,
             Offensiveness.NonOffensive,
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {
@@ -347,7 +347,7 @@ internal sealed class VocabularyRepositoryTests
         var actual2 = await _repository.GetAdverbsAsync(
             Language.English,
             Offensiveness.NonOffensive,
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {

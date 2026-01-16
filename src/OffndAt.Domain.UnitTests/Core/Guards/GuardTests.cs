@@ -13,7 +13,7 @@ internal sealed class GuardTests
     {
         var exception = Assert.Throws<InvariantViolationException>(() => Guard.AgainstEmpty((string?)null, ErrorMessage));
 
-        Assert.That(exception!.Error, Is.EqualTo(DomainErrors.General.InvariantViolated(ErrorMessage)));
+        Assert.That(exception.Error, Is.EqualTo(DomainErrors.General.InvariantViolated(ErrorMessage)));
     }
 
     [Test]
@@ -21,7 +21,7 @@ internal sealed class GuardTests
     {
         var exception = Assert.Throws<InvariantViolationException>(() => Guard.AgainstEmpty(string.Empty, ErrorMessage));
 
-        Assert.That(exception!.Error, Is.EqualTo(DomainErrors.General.InvariantViolated(ErrorMessage)));
+        Assert.That(exception.Error, Is.EqualTo(DomainErrors.General.InvariantViolated(ErrorMessage)));
     }
 
     [Test]
@@ -29,7 +29,7 @@ internal sealed class GuardTests
     {
         var exception = Assert.Throws<InvariantViolationException>(() => Guard.AgainstEmpty("   ", ErrorMessage));
 
-        Assert.That(exception!.Error, Is.EqualTo(DomainErrors.General.InvariantViolated(ErrorMessage)));
+        Assert.That(exception.Error, Is.EqualTo(DomainErrors.General.InvariantViolated(ErrorMessage)));
     }
 
     [Test]
@@ -41,7 +41,7 @@ internal sealed class GuardTests
     {
         var exception = Assert.Throws<InvariantViolationException>(() => Guard.AgainstEmpty((Guid?)null, ErrorMessage));
 
-        Assert.That(exception!.Error, Is.EqualTo(DomainErrors.General.InvariantViolated(ErrorMessage)));
+        Assert.That(exception.Error, Is.EqualTo(DomainErrors.General.InvariantViolated(ErrorMessage)));
     }
 
     [Test]
@@ -49,7 +49,7 @@ internal sealed class GuardTests
     {
         var exception = Assert.Throws<InvariantViolationException>(() => Guard.AgainstEmpty(Guid.Empty, ErrorMessage));
 
-        Assert.That(exception!.Error, Is.EqualTo(DomainErrors.General.InvariantViolated(ErrorMessage)));
+        Assert.That(exception.Error, Is.EqualTo(DomainErrors.General.InvariantViolated(ErrorMessage)));
     }
 
     [Test]
@@ -61,7 +61,7 @@ internal sealed class GuardTests
     {
         var exception = Assert.Throws<InvariantViolationException>(() => Guard.AgainstEmpty<int>(null, ErrorMessage));
 
-        Assert.That(exception!.Error, Is.EqualTo(DomainErrors.General.InvariantViolated(ErrorMessage)));
+        Assert.That(exception.Error, Is.EqualTo(DomainErrors.General.InvariantViolated(ErrorMessage)));
     }
 
     [Test]
@@ -69,7 +69,7 @@ internal sealed class GuardTests
     {
         var exception = Assert.Throws<InvariantViolationException>(() => Guard.AgainstEmpty(Array.Empty<int>(), ErrorMessage));
 
-        Assert.That(exception!.Error, Is.EqualTo(DomainErrors.General.InvariantViolated(ErrorMessage)));
+        Assert.That(exception.Error, Is.EqualTo(DomainErrors.General.InvariantViolated(ErrorMessage)));
     }
 
     [Test]
@@ -81,7 +81,7 @@ internal sealed class GuardTests
     {
         var exception = Assert.Throws<InvariantViolationException>(() => Guard.AgainstNull<object>(null, ErrorMessage));
 
-        Assert.That(exception!.Error, Is.EqualTo(DomainErrors.General.InvariantViolated(ErrorMessage)));
+        Assert.That(exception.Error, Is.EqualTo(DomainErrors.General.InvariantViolated(ErrorMessage)));
     }
 
     [Test]

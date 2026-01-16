@@ -28,7 +28,7 @@ internal sealed class PublishLinkVisitedIntegrationEventHandlerTests
         var linkId = new LinkId(Guid.NewGuid());
         var context = new LinkVisitedContext(Language.English, Theme.None, DateTimeOffset.Now);
 
-        await _handler.Handle(new LinkVisitedDomainEvent(linkId, context), CancellationToken.None);
+        await _handler.Handle(new LinkVisitedDomainEvent(linkId, context), TestContext.CurrentContext.CancellationToken);
 
         await _integrationEventPublisher.Received()
             .PublishAsync(

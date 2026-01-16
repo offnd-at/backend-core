@@ -28,7 +28,7 @@ internal sealed class LinkRepositoryTests : BaseIntegrationTest
             await dbContext.SaveChangesAsync();
 
             var repository = new LinkRepository(dbContext);
-            var actual = await repository.GetByPhraseAsync(phrase, CancellationToken.None);
+            var actual = await repository.GetByPhraseAsync(phrase, TestContext.CurrentContext.CancellationToken);
 
             Assert.Multiple(() =>
             {
@@ -44,7 +44,7 @@ internal sealed class LinkRepositoryTests : BaseIntegrationTest
             var phrase = Phrase.Create("test-phrase").Value;
 
             var repository = new LinkRepository(dbContext);
-            var actual = await repository.GetByPhraseAsync(phrase, CancellationToken.None);
+            var actual = await repository.GetByPhraseAsync(phrase, TestContext.CurrentContext.CancellationToken);
 
             Assert.That(actual.HasValue, Is.False);
         });
@@ -68,7 +68,7 @@ internal sealed class LinkRepositoryTests : BaseIntegrationTest
             await dbContext.SaveChangesAsync();
 
             var repository = new LinkRepository(dbContext);
-            var actual = await repository.HasAnyWithPhraseAsync(phrase, CancellationToken.None);
+            var actual = await repository.HasAnyWithPhraseAsync(phrase, TestContext.CurrentContext.CancellationToken);
 
             Assert.That(actual, Is.True);
         });
@@ -80,7 +80,7 @@ internal sealed class LinkRepositoryTests : BaseIntegrationTest
             var phrase = Phrase.Create("test-phrase").Value;
 
             var repository = new LinkRepository(dbContext);
-            var actual = await repository.HasAnyWithPhraseAsync(phrase, CancellationToken.None);
+            var actual = await repository.HasAnyWithPhraseAsync(phrase, TestContext.CurrentContext.CancellationToken);
 
             Assert.That(actual, Is.False);
         });

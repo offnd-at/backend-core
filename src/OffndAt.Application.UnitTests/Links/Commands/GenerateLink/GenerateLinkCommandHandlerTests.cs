@@ -53,7 +53,7 @@ internal sealed class GenerateLinkCommandHandlerTests
                 0,
                 0,
                 0),
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {
@@ -71,7 +71,7 @@ internal sealed class GenerateLinkCommandHandlerTests
                 0,
                 0,
                 -1),
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {
@@ -89,7 +89,7 @@ internal sealed class GenerateLinkCommandHandlerTests
                 -1,
                 0,
                 0),
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {
@@ -107,7 +107,7 @@ internal sealed class GenerateLinkCommandHandlerTests
                 0,
                 -1,
                 0),
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {
@@ -134,7 +134,7 @@ internal sealed class GenerateLinkCommandHandlerTests
                 0,
                 0,
                 0),
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {
@@ -161,7 +161,7 @@ internal sealed class GenerateLinkCommandHandlerTests
                 0,
                 0,
                 0),
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {
@@ -193,7 +193,7 @@ internal sealed class GenerateLinkCommandHandlerTests
                 0,
                 0,
                 0),
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         _linkRepository.Received().Insert(Arg.Is<Link>(link => link.Phrase == expectedPhrase));
     }
@@ -220,7 +220,7 @@ internal sealed class GenerateLinkCommandHandlerTests
                 0,
                 0,
                 0),
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {
@@ -252,7 +252,7 @@ internal sealed class GenerateLinkCommandHandlerTests
                 0,
                 0,
                 0),
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {
@@ -282,7 +282,7 @@ internal sealed class GenerateLinkCommandHandlerTests
                 0,
                 0,
                 0),
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {

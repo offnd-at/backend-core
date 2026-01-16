@@ -15,7 +15,7 @@ internal sealed class GetSupportedLanguagesQueryHandlerTests
     {
         var expected = Language.List.ToList();
 
-        var actual = await _handler.Handle(new GetSupportedLanguagesQuery(), CancellationToken.None);
+        var actual = await _handler.Handle(new GetSupportedLanguagesQuery(), TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {

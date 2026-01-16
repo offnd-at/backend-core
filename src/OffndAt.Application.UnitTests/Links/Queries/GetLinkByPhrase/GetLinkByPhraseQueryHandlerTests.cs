@@ -23,7 +23,7 @@ internal sealed class GetLinkByPhraseQueryHandlerTests
     [Test]
     public async Task Handle_ShouldReturnEmptyMaybe_WhenPhraseCreationFailed()
     {
-        var actual = await _handler.Handle(new GetLinkByPhraseQuery(string.Empty), CancellationToken.None);
+        var actual = await _handler.Handle(new GetLinkByPhraseQuery(string.Empty), TestContext.CurrentContext.CancellationToken);
 
         Assert.That(actual.HasValue, Is.False);
     }
@@ -33,7 +33,7 @@ internal sealed class GetLinkByPhraseQueryHandlerTests
     {
         _queryService.GetByPhraseAsync(Arg.Any<Phrase>(), Arg.Any<CancellationToken>()).Returns(Maybe<LinkReadModel>.None);
 
-        var actual = await _handler.Handle(new GetLinkByPhraseQuery("test-phrase"), CancellationToken.None);
+        var actual = await _handler.Handle(new GetLinkByPhraseQuery("test-phrase"), TestContext.CurrentContext.CancellationToken);
 
         Assert.That(actual.HasValue, Is.False);
     }
@@ -59,7 +59,7 @@ internal sealed class GetLinkByPhraseQueryHandlerTests
 
         _queryService.GetByPhraseAsync(Arg.Any<Phrase>(), Arg.Any<CancellationToken>()).Returns(expected);
 
-        var actual = await _handler.Handle(new GetLinkByPhraseQuery("test-phrase"), CancellationToken.None);
+        var actual = await _handler.Handle(new GetLinkByPhraseQuery("test-phrase"), TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {

@@ -15,7 +15,7 @@ internal sealed class GetSupportedFormatsQueryHandlerTests
     {
         var expected = Format.List.ToList();
 
-        var actual = await _handler.Handle(new GetSupportedFormatsQuery(), CancellationToken.None);
+        var actual = await _handler.Handle(new GetSupportedFormatsQuery(), TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {
