@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using OffndAt.Persistence.Data;
 
 namespace OffndAt.Services.MigrationRunner.Jobs;
@@ -17,20 +18,45 @@ internal sealed class MigrationRunner(
     /// <inheritdoc />
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        const int maxRetries = 10;
+        var retryDelay = TimeSpan.FromSeconds(5);
+        var retryCount = 0;
+
         try
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                using var scope = serviceProvider.CreateScope();
-                var dbContext = scope.ServiceProvider.GetRequiredService<OffndAtDbContext>();
+                try
+                {
+                    using var scope = serviceProvider.CreateScope();
+                    var dbContext = scope.ServiceProvider.GetRequiredService<OffndAtDbContext>();
 
-                logger.LogInformation("Starting database migration...");
+                    logger.LogInformation("Starting database migration...");
 
-                await dbContext.Database.MigrateAsync(stoppingToken);
+                    await dbContext.Database.MigrateAsync(stoppingToken);
 
-                logger.LogInformation("Database migration completed successfully");
+                    logger.LogInformation("Database migration completed successfully");
 
-                break;
+                    break;
+                }
+                catch (NpgsqlException ex) when (retryCount < maxRetries)
+                {
+                    retryCount++;
+
+                    logger.LogWarning(
+                        ex,
+                        "Migration attempt {RetryCount} failed: {Message}. Retrying in {RetryDelay}s...",
+                        retryCount,
+                        ex.Message,
+                        retryDelay.TotalSeconds);
+
+                    await Task.Delay(retryDelay, stoppingToken);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "Migration failed after {RetryCount} attempts", retryCount);
+                    throw;
+                }
             }
         }
         finally
