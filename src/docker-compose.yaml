@@ -18,6 +18,7 @@ services:
       MessageBrokerSettings__Hostname: rabbit-mq
       TelemetrySettings__ExporterEndpoint: "http://otel-collector:4317/"
       AuthSettings__ApiKey: "test-api-key"
+      AllowedHosts: "*"
     container_name: api
     deploy:
       resources:
