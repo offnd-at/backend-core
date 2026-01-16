@@ -4,7 +4,7 @@
 [![GitHub Release](https://img.shields.io/github/v/release/offnd-at/backend-core)](https://github.com/offnd-at/backend-core/releases)
 
 
-A robust, high-performance monolith backend for [offnd.at](https://offnd.at) - a profanity-first short link platform. Built with **Clean Architecture** and **Domain-Driven Design (DDD)**.
+A robust, good-enough-performance monolith backend for [offnd.at](https://offnd.at) - a profanity-first short link platform. Built with **Clean Architecture** and **Domain-Driven Design (DDD)**.
 
 ## Technology Stack
 
