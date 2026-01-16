@@ -9,11 +9,12 @@
       Content-Type: application/json; charset=utf-8
     },
     Value: {
-      link: {
-        targetUrl: http://localhost,
-        visits: 0,
-        createdAt: DateTimeOffset_1
-      }
+      id: Guid_1,
+      phrase: {Scrubbed}
+      targetUrl: http://localhost,
+      visits: 0,
+      recentVisits: [],
+      createdAt: DateTimeOffset_1
     }
   }
 }

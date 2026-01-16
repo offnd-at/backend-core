@@ -8,6 +8,8 @@ using OffndAt.Services.MigrationRunner.Jobs;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddDomain();
+
 builder.Services.AddMediatorWithBehaviours();
 
 builder.Services.AddPersistenceSettings(builder.Configuration)

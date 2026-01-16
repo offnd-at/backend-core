@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using OffndAt.Application;
+using OffndAt.Domain;
 using OffndAt.Infrastructure;
 using OffndAt.Infrastructure.Core.Logging.Extensions;
 using OffndAt.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDomain();
 
 builder.Services.AddMediatorWithBehaviours();
 
