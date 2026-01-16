@@ -2,8 +2,10 @@
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using OffndAt.Application.Abstractions.Links;
 using OffndAt.Application.Core.Behaviours;
 using OffndAt.Application.Links.Commands.GenerateLink;
+using OffndAt.Application.Links.QueryServices;
 
 namespace OffndAt.Application;
 
@@ -36,4 +38,16 @@ public static class DependencyInjectionExtensions
     /// <returns>The configured service collection.</returns>
     public static IServiceCollection AddValidators(this IServiceCollection services) =>
         services.AddValidatorsFromAssemblyContaining<GenerateLinkCommandValidator>();
+
+    /// <summary>
+    ///     Registers the service instances with the DI framework.
+    /// </summary>
+    /// <param name="services">The service collection.</param>
+    /// <returns>The configured service collection.</returns>
+    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+    {
+        services.AddScoped<ILinkQueryService, LinkQueryService>();
+
+        return services;
+    }
 }

@@ -26,7 +26,8 @@ builder.Services.AddDomain();
 
 builder.Services.AddMediatorWithBehaviours([typeof(ICommand).Assembly, typeof(IDomainEvent).Assembly])
     .AddValidators()
-    .AddFluentValidationAutoValidation();
+    .AddFluentValidationAutoValidation()
+    .AddApplicationServices();
 
 builder.Services.AddPersistenceSettings(builder.Configuration)
     .AddDatabaseContext()

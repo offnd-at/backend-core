@@ -13,7 +13,6 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Octokit;
@@ -330,7 +329,7 @@ public static class DependencyInjectionExtensions
             });
         });
 
-        services.TryAddScoped<IIntegrationEventPublisher, IntegrationEventPublisher>();
+        services.AddScoped<IIntegrationEventPublisher, IntegrationEventPublisher>();
 
         return services;
     }
@@ -482,7 +481,7 @@ public static class DependencyInjectionExtensions
             });
         });
 
-        services.TryAddScoped<IIntegrationEventPublisher, IntegrationEventPublisher>();
+        services.AddScoped<IIntegrationEventPublisher, IntegrationEventPublisher>();
 
         return services;
     }

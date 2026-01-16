@@ -22,11 +22,18 @@ internal sealed class LinkQueryService(IDbContext dbContext) : ILinkQueryService
         var linkAndSummaryQuery = from link in dbContext.Set<Link, LinkId>().AsNoTracking()
             where link.Phrase == phrase
             join visitSummary in dbContext.Set<LinkVisitSummary>().AsNoTracking()
-                on link.Id equals visitSummary.LinkId
+                on link.Id equals visitSummary.LinkId into summaryGroup
+            from visitSummary in summaryGroup.DefaultIfEmpty()
+            let summary = visitSummary ??
+                new LinkVisitSummary
+                {
+                    LinkId = link.Id,
+                    TotalVisits = 0
+                }
             select new
             {
                 Link = link,
-                Summary = visitSummary
+                Summary = summary
             };
 
         var linkWithSummary = await linkAndSummaryQuery.FirstOrDefaultAsync(cancellationToken);
