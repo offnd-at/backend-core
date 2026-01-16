@@ -3,7 +3,7 @@
 Welcome, Agent! This document provides the necessary context and guidelines to help you work effectively with the `offnd-at/backend-core` repository.
 
 ## Project Overview
-This repository contains the backend core for [offnd.at](https://offnd.at), a profanity-first platform for short links. It is built as a .NET monolith following **Clean Architecture** principles and **Domain-Driven Design (DDD)**. It aims for a "good-enough-performance" balanced with high maintainability.
+This repository contains the backend core for [offnd.at](https://offnd.at), a profanity-first platform for short links. It is built as a .NET monolith following **Clean Architecture** principles and **Domain-Driven Design (DDD)**. It aims for high performance balanced with high maintainability.
 
 ## High-Level Architecture
 
