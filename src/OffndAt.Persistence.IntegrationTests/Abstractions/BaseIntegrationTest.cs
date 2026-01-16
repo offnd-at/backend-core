@@ -1,7 +1,6 @@
-﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
 using NSubstitute;
+using OffndAt.Domain.Abstractions.Events;
 using OffndAt.Persistence.Data;
 using Testcontainers.PostgreSql;
 
@@ -21,37 +20,39 @@ internal abstract class BaseIntegrationTest
 
         await PostgresContainer.StartAsync();
 
-        var dbOptions = CreateNewContextOptions(PostgresContainer.GetConnectionString());
+        DbOptions = CreateNewContextOptions(PostgresContainer.GetConnectionString());
 
-        DbContext = new OffndAtDbContext(dbOptions, Substitute.For<IMediator>());
-
-        // EnsureCreatedAsync totally bypasses migrations and just creates the schema.
-        // If migrations need to be automatically applied on app start, then context.Database.MigrateAsync() should be used instead.
-        await DbContext.Database.EnsureCreatedAsync();
+        await using var dbContext = CreateDbContext();
+        await dbContext.Database.MigrateAsync();
     }
 
     [OneTimeTearDown]
     public async Task OneTimeTeardown()
     {
-        await DbContext.DisposeAsync();
         await PostgresContainer.StopAsync();
         await PostgresContainer.DisposeAsync();
     }
 
-    protected OffndAtDbContext DbContext { get; private set; }
     private PostgreSqlContainer PostgresContainer { get; set; }
 
-    private static DbContextOptions<OffndAtDbContext> CreateNewContextOptions(string connectionString)
+    protected DbContextOptions<OffndAtDbContext> DbOptions { get; private set; }
+
+    private static DbContextOptions<OffndAtDbContext> CreateNewContextOptions(string connectionString) =>
+        new DbContextOptionsBuilder<OffndAtDbContext>()
+            .UseNpgsql(connectionString)
+            .Options;
+
+    protected OffndAtDbContext CreateDbContext() =>
+        new(DbOptions, Substitute.For<IDomainEventPublisher>(), Substitute.For<IDomainEventCollector>());
+
+    protected async Task ExecuteInTransactionAsync(Func<OffndAtDbContext, Task> test)
     {
-        var serviceProvider = new ServiceCollection()
-            .AddEntityFrameworkNpgsql()
-            .BuildServiceProvider();
+        await using var context = CreateDbContext();
+        await using var transaction =
+            await context.Database.BeginTransactionAsync();
 
-        var builder = new DbContextOptionsBuilder<OffndAtDbContext>();
+        await test(context);
 
-        builder.UseNpgsql(connectionString)
-            .UseInternalServiceProvider(serviceProvider);
-
-        return builder.Options;
+        await transaction.RollbackAsync();
     }
 }

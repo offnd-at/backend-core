@@ -1,4 +1,3 @@
-using MassTransit.Caching;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using NSubstitute;
@@ -7,8 +6,10 @@ using OffndAt.Domain.Abstractions.Services;
 using OffndAt.Domain.Core.Primitives;
 using OffndAt.Domain.Enumerations;
 using OffndAt.Domain.ValueObjects;
+using OffndAt.Infrastructure.Core.Cache.Settings;
+using OffndAt.Infrastructure.Repositories;
 
-namespace OffndAt.Persistence.IntegrationTests.Repositories;
+namespace OffndAt.Infrastructure.UnitTests.Repositories;
 
 internal sealed class VocabularyRepositoryTests
 {

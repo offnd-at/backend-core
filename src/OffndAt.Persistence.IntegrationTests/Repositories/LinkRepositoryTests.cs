@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using OffndAt.Domain.Entities;
+﻿using OffndAt.Domain.Entities;
 using OffndAt.Domain.Enumerations;
 using OffndAt.Domain.ValueObjects;
 using OffndAt.Domain.ValueObjects.Identifiers;
@@ -10,79 +9,79 @@ namespace OffndAt.Persistence.IntegrationTests.Repositories;
 
 internal sealed class LinkRepositoryTests : BaseIntegrationTest
 {
-    private LinkRepository _repository = null!;
-
-    [SetUp]
-    public void Setup() => _repository = new LinkRepository(DbContext);
-
-    [TearDown]
-    public async Task Teardown() => await DbContext.Database.ExecuteSqlRawAsync("DELETE FROM \"Link\"");
-
     [Test]
-    public async Task GetByPhraseAsync_ShouldReturnMaybeWithValue_WhenLinkWithSpecifiedPhraseExists()
-    {
-        var phrase = Phrase.Create("test-phrase").Value;
-        var targetUrl = Url.Create("https://example.com").Value;
-        var language = Language.English;
-        var theme = Theme.None;
-
-        var link = Link.Create(
-            phrase,
-            targetUrl,
-            language,
-            theme);
-
-        DbContext.Set<Link, LinkId>().Add(link);
-        await DbContext.SaveChangesAsync();
-
-        var actual = await _repository.GetByPhraseAsync(phrase, CancellationToken.None);
-
-        Assert.Multiple(() =>
+    public async Task GetByPhraseAsync_ShouldReturnMaybeWithValue_WhenLinkWithSpecifiedPhraseExists() =>
+        await ExecuteInTransactionAsync(async dbContext =>
         {
-            Assert.That(actual.HasValue, Is.True);
-            Assert.That(actual.Value, Is.EqualTo(link));
+            var phrase = Phrase.Create("test-phrase").Value;
+            var targetUrl = Url.Create("https://example.com").Value;
+            var language = Language.English;
+            var theme = Theme.None;
+
+            var link = Link.Create(
+                phrase,
+                targetUrl,
+                language,
+                theme);
+
+            dbContext.Set<Link, LinkId>().Add(link);
+            await dbContext.SaveChangesAsync();
+
+            var repository = new LinkRepository(dbContext);
+            var actual = await repository.GetByPhraseAsync(phrase, CancellationToken.None);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(actual.HasValue, Is.True);
+                Assert.That(actual.Value, Is.EqualTo(link));
+            });
         });
-    }
 
     [Test]
-    public async Task GetByPhraseAsync_ShouldReturnEmptyMaybe_WhenLinkWithSpecifiedPhraseDoesNotExist()
-    {
-        var phrase = Phrase.Create("test-phrase").Value;
+    public async Task GetByPhraseAsync_ShouldReturnEmptyMaybe_WhenLinkWithSpecifiedPhraseDoesNotExist() =>
+        await ExecuteInTransactionAsync(async dbContext =>
+        {
+            var phrase = Phrase.Create("test-phrase").Value;
 
-        var actual = await _repository.GetByPhraseAsync(phrase, CancellationToken.None);
+            var repository = new LinkRepository(dbContext);
+            var actual = await repository.GetByPhraseAsync(phrase, CancellationToken.None);
 
-        Assert.That(actual.HasValue, Is.False);
-    }
-
-    [Test]
-    public async Task HasAnyWithPhraseAsync_ShouldReturnTrue_WhenLinkWithSpecifiedPhraseExists()
-    {
-        var phrase = Phrase.Create("test-phrase").Value;
-        var targetUrl = Url.Create("https://example.com").Value;
-        var language = Language.English;
-        var theme = Theme.None;
-
-        var link = Link.Create(
-            phrase,
-            targetUrl,
-            language,
-            theme);
-
-        DbContext.Set<Link, LinkId>().Add(link);
-        await DbContext.SaveChangesAsync();
-
-        var actual = await _repository.HasAnyWithPhraseAsync(phrase, CancellationToken.None);
-
-        Assert.That(actual, Is.True);
-    }
+            Assert.That(actual.HasValue, Is.False);
+        });
 
     [Test]
-    public async Task HasAnyWithPhraseAsync_ShouldReturnFalse_WhenLinkWithSpecifiedPhraseDoesNotExist()
-    {
-        var phrase = Phrase.Create("test-phrase").Value;
+    public async Task HasAnyWithPhraseAsync_ShouldReturnTrue_WhenLinkWithSpecifiedPhraseExists() =>
+        await ExecuteInTransactionAsync(async dbContext =>
+        {
+            var phrase = Phrase.Create("test-phrase").Value;
+            var targetUrl = Url.Create("https://example.com").Value;
+            var language = Language.English;
+            var theme = Theme.None;
 
-        var actual = await _repository.HasAnyWithPhraseAsync(phrase, CancellationToken.None);
+            var link = Link.Create(
+                phrase,
+                targetUrl,
+                language,
+                theme);
 
-        Assert.That(actual, Is.False);
-    }
+            dbContext.Set<Link, LinkId>().Add(link);
+            await dbContext.SaveChangesAsync();
+
+            var repository = new LinkRepository(dbContext);
+            var actual = await repository.HasAnyWithPhraseAsync(phrase, CancellationToken.None);
+
+            Assert.That(actual, Is.True);
+        });
+
+    [Test]
+    public async Task HasAnyWithPhraseAsync_ShouldReturnFalse_WhenLinkWithSpecifiedPhraseDoesNotExist() =>
+        await ExecuteInTransactionAsync(async dbContext =>
+        {
+            var phrase = Phrase.Create("test-phrase").Value;
+
+            var repository = new LinkRepository(dbContext);
+            var actual = await repository.HasAnyWithPhraseAsync(phrase, CancellationToken.None);
+
+            Assert.That(actual, Is.False);
+        });
 }

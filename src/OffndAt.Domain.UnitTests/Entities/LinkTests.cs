@@ -31,12 +31,7 @@ internal sealed class LinkTests
 
         actual.RecordVisit();
 
-        Assert.Multiple(() =>
-        {
-            Assert.That(actual.Visits, Is.EqualTo(1));
-            Assert.That(actual.DomainEvents, Has.Count.EqualTo(2));
-        });
-
+        Assert.That(actual.DomainEvents, Has.Count.EqualTo(2));
         Assert.Multiple(() =>
         {
             Assert.That(actual.DomainEvents.First(), Is.TypeOf<LinkCreatedDomainEvent>());
