@@ -3,18 +3,8 @@
 /// <summary>
 ///     Represents a domain error.
 /// </summary>
-public sealed class Error(string code, string message) : ValueObject
+public sealed record Error(string Code, string Message)
 {
-    /// <summary>
-    ///     Gets the error code.
-    /// </summary>
-    public string Code { get; } = code;
-
-    /// <summary>
-    ///     Gets the error message.
-    /// </summary>
-    public string Message { get; } = message;
-
     /// <summary>
     ///     Gets the empty error instance.
     /// </summary>
@@ -30,11 +20,4 @@ public sealed class Error(string code, string message) : ValueObject
     /// <param name="error">The <see cref="Error" /> instance to convert.</param>
     /// <returns>The <see cref="Error.Code" /> if the <paramref name="error" /> is not null; otherwise, an empty string.</returns>
     public static implicit operator string(Error? error) => error?.Code ?? string.Empty;
-
-    /// <inheritdoc />
-    protected override IEnumerable<object> GetAtomicValues()
-    {
-        yield return Code;
-        yield return Message;
-    }
 }

@@ -17,7 +17,7 @@ namespace OffndAt.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.2")
+                .HasAnnotation("ProductVersion", "10.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -190,6 +190,54 @@ namespace OffndAt.Persistence.Migrations
                     b.ToTable("OutboxState");
                 });
 
+            modelBuilder.Entity("OffndAt.Application.Links.Models.LinkVisitLogEntry", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("IpAddress")
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
+
+                    b.Property<Guid>("LinkId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Referrer")
+                        .HasMaxLength(2048)
+                        .HasColumnType("character varying(2048)");
+
+                    b.Property<string>("UserAgent")
+                        .HasMaxLength(1024)
+                        .HasColumnType("character varying(1024)");
+
+                    b.Property<DateTimeOffset>("VisitedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LinkId");
+
+                    b.HasIndex("VisitedAt");
+
+                    b.ToTable("LinkVisitLogEntry", (string)null);
+                });
+
+            modelBuilder.Entity("OffndAt.Application.Links.Models.LinkVisitSummary", b =>
+                {
+                    b.Property<Guid>("LinkId")
+                        .HasColumnType("uuid");
+
+                    b.Property<long>("TotalVisits")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("LinkId");
+
+                    b.ToTable("LinkVisitSummary", (string)null);
+                });
+
             modelBuilder.Entity("OffndAt.Domain.Entities.Link", b =>
                 {
                     b.Property<Guid>("Id")
@@ -227,14 +275,11 @@ namespace OffndAt.Persistence.Migrations
                     b.Property<int>("Theme")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Visits")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
                     b.HasIndex("Phrase");
 
-                    b.ToTable("Link");
+                    b.ToTable("Link", (string)null);
                 });
 
             modelBuilder.Entity("MassTransit.EntityFrameworkCoreIntegration.OutboxMessage", b =>
@@ -247,6 +292,24 @@ namespace OffndAt.Persistence.Migrations
                         .WithMany()
                         .HasForeignKey("InboxMessageId", "InboxConsumerId")
                         .HasPrincipalKey("MessageId", "ConsumerId");
+                });
+
+            modelBuilder.Entity("OffndAt.Application.Links.Models.LinkVisitLogEntry", b =>
+                {
+                    b.HasOne("OffndAt.Domain.Entities.Link", null)
+                        .WithMany()
+                        .HasForeignKey("LinkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("OffndAt.Application.Links.Models.LinkVisitSummary", b =>
+                {
+                    b.HasOne("OffndAt.Domain.Entities.Link", null)
+                        .WithOne()
+                        .HasForeignKey("OffndAt.Application.Links.Models.LinkVisitSummary", "LinkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

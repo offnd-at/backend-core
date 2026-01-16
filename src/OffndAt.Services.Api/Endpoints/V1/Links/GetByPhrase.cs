@@ -24,7 +24,7 @@ internal sealed class GetByPhrase : IEndpoint
                         ISender sender,
                         CancellationToken cancellationToken) =>
                     await Maybe<GetLinkByPhraseQuery>
-                        .From(new GetLinkByPhraseQuery(phrase, false))
+                        .From(new GetLinkByPhraseQuery(phrase))
                         .BindAsync(query => sender.Send(query, cancellationToken))
                         .MatchAsync(Results.Ok, () => CustomResults.NotFound(DomainErrors.Link.NotFound)))
             .RequireAuthorization()

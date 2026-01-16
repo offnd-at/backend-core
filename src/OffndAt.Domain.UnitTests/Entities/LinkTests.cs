@@ -21,7 +21,7 @@ internal sealed class LinkTests
     }
 
     [Test]
-    public void IncrementVisits_ShouldRaiseDomainEvent()
+    public void RecordVisit_ShouldRaiseDomainEvent()
     {
         var actual = Link.Create(
             Phrase.Create("test").Value,
@@ -29,14 +29,9 @@ internal sealed class LinkTests
             Language.English,
             Theme.None);
 
-        actual.IncrementVisits();
+        actual.RecordVisit();
 
-        Assert.Multiple(() =>
-        {
-            Assert.That(actual.Visits, Is.EqualTo(1));
-            Assert.That(actual.DomainEvents, Has.Count.EqualTo(2));
-        });
-
+        Assert.That(actual.DomainEvents, Has.Count.EqualTo(2));
         Assert.Multiple(() =>
         {
             Assert.That(actual.DomainEvents.First(), Is.TypeOf<LinkCreatedDomainEvent>());

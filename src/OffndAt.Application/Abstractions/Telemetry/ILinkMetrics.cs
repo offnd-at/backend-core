@@ -13,4 +13,11 @@ public interface ILinkMetrics
     /// <param name="language">The language.</param>
     /// <param name="theme">The theme.</param>
     void RecordLinkCreation(Language language, Theme theme);
+
+    /// <summary>
+    ///     Records a link visit/redirection.
+    /// </summary>
+    /// <param name="language">The language.</param>
+    /// <param name="theme">The theme.</param>
+    void RecordLinkVisit(Language language, Theme theme);
 }

@@ -2,8 +2,8 @@
 using OffndAt.Application.Abstractions.Data;
 using OffndAt.Domain.Core.Primitives;
 using OffndAt.Domain.Enumerations;
-using OffndAt.Domain.Models;
-using OffndAt.Infrastructure.Core.Data;
+using OffndAt.Domain.ValueObjects;
+using OffndAt.Infrastructure.Data;
 using Language = OffndAt.Domain.Enumerations.Language;
 
 namespace OffndAt.Infrastructure.UnitTests.Core.Data;

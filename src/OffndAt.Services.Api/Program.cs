@@ -4,8 +4,9 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc;
 using OffndAt.Application;
 using OffndAt.Application.Abstractions.Messaging;
+using OffndAt.Application.Links.IntegrationEvents.LinkVisited;
 using OffndAt.Domain;
-using OffndAt.Domain.Core.Events;
+using OffndAt.Domain.Abstractions.Events;
 using OffndAt.Infrastructure;
 using OffndAt.Infrastructure.Core.Logging.Extensions;
 using OffndAt.Persistence;
@@ -25,19 +26,23 @@ builder.Services.AddDomain();
 
 builder.Services.AddMediatorWithBehaviours([typeof(ICommand).Assembly, typeof(IDomainEvent).Assembly])
     .AddValidators()
-    .AddFluentValidationAutoValidation();
+    .AddFluentValidationAutoValidation()
+    .AddApplicationServices();
 
-builder.Services.AddPersistence(builder.Configuration);
+builder.Services.AddPersistenceSettings(builder.Configuration)
+    .AddDatabaseContext()
+    .AddPersistenceServices();
 
 builder.Services.AddInfrastructureSettings(builder.Configuration)
+    .AddInMemoryCache(builder.Configuration)
     .AddForwardedHeadersSettings()
     .AddRateLimiting()
     .AddTelemetry(builder.Configuration)
-    .AddInfrastructureServices()
+    .AddInfrastructureServices(builder.Environment)
     .AddCorsPolicies(builder.Configuration)
     .AddApiAuthentication(builder.Configuration)
     .AddResiliencePolicies()
-    .AddMassTransitProducer(builder.Configuration)
+    .AddMassTransitForProducerAndConsumer(builder.Configuration, [typeof(LinkVisitedIntegrationEvent).Assembly])
     .AddHealthMonitoring();
 
 builder.Services

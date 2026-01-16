@@ -1,0 +1,17 @@
+﻿using OffndAt.Domain.Enumerations;
+
+namespace OffndAt.Domain.Abstractions.Services;
+
+/// <summary>
+///     Represents the vocabulary service interface.
+/// </summary>
+public interface IVocabularyService
+{
+    /// <summary>
+    ///     Generates grammatical properties for vocabulary of nouns.
+    /// </summary>
+    /// <param name="language">The language.</param>
+    /// <param name="theme">The theme.</param>
+    /// <returns>A tuple containing randomly chosen grammatical number and grammatical gender.</returns>
+    (GrammaticalNumber number, GrammaticalGender gender) GenerateGrammaticalPropertiesForNounVocabulary(Language language, Theme theme);
+}

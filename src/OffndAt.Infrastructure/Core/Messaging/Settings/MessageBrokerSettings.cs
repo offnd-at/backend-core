@@ -34,5 +34,5 @@ public sealed class MessageBrokerSettings
     ///     Gets the prefetch count, which determines the maximum number of messages
     ///     the message broker will deliver to the consumer before requiring acknowledgements.
     /// </summary>
-    public required int PrefetchCount { get; init; } = 16;
+    public int? PrefetchCount { get; init; }
 }

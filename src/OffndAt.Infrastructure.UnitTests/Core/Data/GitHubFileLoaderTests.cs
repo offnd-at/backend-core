@@ -3,8 +3,8 @@ using NSubstitute;
 using Octokit;
 using OffndAt.Application.Core.Constants;
 using OffndAt.Infrastructure.Abstractions.Telemetry;
-using OffndAt.Infrastructure.Core.Data;
-using OffndAt.Infrastructure.Core.Data.Settings;
+using OffndAt.Infrastructure.Data;
+using OffndAt.Infrastructure.Data.Settings;
 using Polly;
 using Polly.Registry;
 
@@ -47,7 +47,7 @@ internal sealed class GitHubFileLoaderTests
     {
         const string expectedPath = "path/to/file";
 
-        await _loader.DownloadAsync(expectedPath, CancellationToken.None);
+        await _loader.DownloadAsync(expectedPath, TestContext.CurrentContext.CancellationToken);
 
         await _repositoryContentsClient.Received(1)
             .GetRawContent(
@@ -64,7 +64,7 @@ internal sealed class GitHubFileLoaderTests
 
         const string expectedPath = "path/to/file";
 
-        var actual = await _loader.DownloadAsync(expectedPath, CancellationToken.None);
+        var actual = await _loader.DownloadAsync(expectedPath, TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {

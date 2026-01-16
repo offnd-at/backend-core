@@ -7,15 +7,17 @@ using MassTransit;
 using MassTransit.Logging;
 using MassTransit.Monitoring;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Octokit;
 using OffndAt.Application.Abstractions.Data;
+using OffndAt.Application.Abstractions.Links;
 using OffndAt.Application.Abstractions.Messaging;
 using OffndAt.Application.Abstractions.Phrases;
 using OffndAt.Application.Abstractions.Telemetry;
@@ -27,13 +29,13 @@ using OffndAt.Application.Core.Exceptions;
 using OffndAt.Domain.Core.Errors;
 using OffndAt.Domain.Core.Exceptions;
 using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.Repositories;
 using OffndAt.Domain.ValueObjects;
 using OffndAt.Infrastructure.Abstractions.Telemetry;
 using OffndAt.Infrastructure.Authentication.ApiKey;
 using OffndAt.Infrastructure.Authentication.Settings;
+using OffndAt.Infrastructure.Core.Cache.Settings;
 using OffndAt.Infrastructure.Core.Constants;
-using OffndAt.Infrastructure.Core.Data;
-using OffndAt.Infrastructure.Core.Data.Settings;
 using OffndAt.Infrastructure.Core.HealthChecks;
 using OffndAt.Infrastructure.Core.Http.Cors.Settings;
 using OffndAt.Infrastructure.Core.Messaging;
@@ -41,7 +43,11 @@ using OffndAt.Infrastructure.Core.Messaging.Settings;
 using OffndAt.Infrastructure.Core.Settings;
 using OffndAt.Infrastructure.Core.Telemetry;
 using OffndAt.Infrastructure.Core.Telemetry.Settings;
+using OffndAt.Infrastructure.Data;
+using OffndAt.Infrastructure.Data.Settings;
+using OffndAt.Infrastructure.Links;
 using OffndAt.Infrastructure.Phrases;
+using OffndAt.Infrastructure.Repositories;
 using OffndAt.Infrastructure.Urls;
 using OffndAt.Infrastructure.Words;
 using OffndAt.Persistence.Data;
@@ -178,19 +184,29 @@ public static class DependencyInjectionExtensions
     ///     Registers the service instances with the DI framework.
     /// </summary>
     /// <param name="services">The service collection.</param>
+    /// <param name="environment">The web host environment.</param>
     /// <returns>The configured service collection.</returns>
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IWebHostEnvironment environment)
     {
+        services.AddSingleton<ILinkVisitTracker, LinkVisitTracker>();
+
         services.AddScoped<ICaseConverter, CaseConverter>();
         services.AddScoped<IPhraseGenerator, PhraseGenerator>();
         services.AddScoped<IUrlMaker, UrlMaker>();
         services.AddScoped<IFileLoader, GitHubFileLoader>();
         services.AddScoped<IVocabularyLoader, GitHubVocabularyLoader>();
+        services.AddScoped<IVocabularyRepository, VocabularyRepository>();
+        services.AddScoped<ILinkCache, LinkCache>();
         services.AddScoped<IGitHubClient>(serviceProvider =>
         {
             var applicationSettings = serviceProvider.GetRequiredService<IOptions<ApplicationSettings>>().Value;
             return new GitHubClient(new ProductHeaderValue(applicationSettings.AppName, applicationSettings.Version));
         });
+
+        if (!environment.IsEnvironment(EnvironmentNames.Testing))
+        {
+            services.AddHostedService<LinkVisitFlushWorker>();
+        }
 
         return services;
     }
@@ -274,12 +290,12 @@ public static class DependencyInjectionExtensions
     }
 
     /// <summary>
-    ///     Registers the MassTransit producer with the DI framework.
+    ///     Registers the MassTransit for a producer role with the DI framework.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <param name="configuration">The configuration.</param>
     /// <returns>The configured service collection.</returns>
-    public static IServiceCollection AddMassTransitProducer(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddMassTransitForProducer(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<MessageBrokerSettings>(configuration.GetSection(MessageBrokerSettings.SettingsKey));
 
@@ -289,7 +305,6 @@ public static class DependencyInjectionExtensions
             {
                 cfg.UsePostgres();
                 cfg.UseBusOutbox();
-
                 cfg.QueryDelay = TimeSpan.FromSeconds(1);
             });
 
@@ -314,19 +329,19 @@ public static class DependencyInjectionExtensions
             });
         });
 
-        services.TryAddScoped<IIntegrationEventPublisher, IntegrationEventPublisher>();
+        services.AddScoped<IIntegrationEventPublisher, IntegrationEventPublisher>();
 
         return services;
     }
 
     /// <summary>
-    ///     Registers the MassTransit consumer with the DI framework.
+    ///     Registers the MassTransit for a consumer role with the DI framework.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <param name="configuration">The configuration.</param>
     /// <param name="assemblies">The assemblies containing message consumers, sagas, saga state machines, and activities.</param>
     /// <returns>The configured service collection.</returns>
-    public static IServiceCollection AddMassTransitConsumer(
+    public static IServiceCollection AddMassTransitForConsumer(
         this IServiceCollection services,
         IConfiguration configuration,
         Assembly[]? assemblies = null)
@@ -359,7 +374,12 @@ public static class DependencyInjectionExtensions
                         hostConfigurator.RequestedConnectionTimeout(TimeSpan.FromSeconds(30));
                     });
 
-                factoryConfigurator.PrefetchCount = messageBrokerSettings.PrefetchCount;
+                if (messageBrokerSettings.PrefetchCount is null)
+                {
+                    throw new InvalidOperationException("Prefetch count is required for consumer workers");
+                }
+
+                factoryConfigurator.PrefetchCount = messageBrokerSettings.PrefetchCount.Value;
 
                 factoryConfigurator.UseMessageRetry(retryConfigurator =>
                 {
@@ -389,6 +409,84 @@ public static class DependencyInjectionExtensions
     }
 
     /// <summary>
+    ///     Registers the MassTransit for both producer and consumer roles with the DI framework.
+    /// </summary>
+    /// <param name="services">The service collection.</param>
+    /// <param name="configuration">The configuration.</param>
+    /// <param name="assemblies">The assemblies containing message consumers, sagas, saga state machines, and activities.</param>
+    /// <returns>The configured service collection.</returns>
+    public static IServiceCollection AddMassTransitForProducerAndConsumer(
+        this IServiceCollection services,
+        IConfiguration configuration,
+        Assembly[]? assemblies = null)
+    {
+        services.Configure<MessageBrokerSettings>(configuration.GetSection(MessageBrokerSettings.SettingsKey));
+
+        services.AddMassTransit(configurator =>
+        {
+            configurator.AddEntityFrameworkOutbox<OffndAtDbContext>(cfg =>
+            {
+                cfg.UsePostgres();
+                cfg.UseBusOutbox();
+                cfg.DuplicateDetectionWindow = TimeSpan.FromSeconds(60);
+                cfg.QueryDelay = TimeSpan.FromSeconds(1);
+            });
+
+            configurator.SetKebabCaseEndpointNameFormatter();
+
+            configurator.AddConsumers(assemblies ?? [Assembly.GetCallingAssembly()]);
+
+            configurator.UsingRabbitMq((context, factoryConfigurator) =>
+            {
+                var messageBrokerSettings = context.GetRequiredService<IOptions<MessageBrokerSettings>>().Value;
+
+                factoryConfigurator.Host(
+                    messageBrokerSettings.Hostname,
+                    hostConfigurator =>
+                    {
+                        hostConfigurator.Username(messageBrokerSettings.Username);
+                        hostConfigurator.Password(messageBrokerSettings.Password);
+                        hostConfigurator.RequestedConnectionTimeout(TimeSpan.FromSeconds(30));
+                        hostConfigurator.PublisherConfirmation = true;
+                    });
+
+                if (messageBrokerSettings.PrefetchCount is null)
+                {
+                    throw new InvalidOperationException("Prefetch count is required for consumer workers");
+                }
+
+                factoryConfigurator.PrefetchCount = messageBrokerSettings.PrefetchCount.Value;
+
+                factoryConfigurator.UseMessageRetry(retryConfigurator =>
+                {
+                    retryConfigurator.Exponential(
+                        5,
+                        TimeSpan.FromSeconds(1),
+                        TimeSpan.FromSeconds(30),
+                        TimeSpan.FromSeconds(2));
+
+                    retryConfigurator.Ignore<ValidationException>();
+                    retryConfigurator.Ignore<DomainException>();
+                });
+
+                factoryConfigurator.UseCircuitBreaker(cb =>
+                {
+                    cb.TrackingPeriod = TimeSpan.FromSeconds(30);
+                    cb.TripThreshold = 15;
+                    cb.ActiveThreshold = 10;
+                    cb.ResetInterval = TimeSpan.FromMinutes(1);
+                });
+
+                factoryConfigurator.ConfigureEndpoints(context);
+            });
+        });
+
+        services.AddScoped<IIntegrationEventPublisher, IntegrationEventPublisher>();
+
+        return services;
+    }
+
+    /// <summary>
     ///     Registers the Open Telemetry services with the DI framework.
     /// </summary>
     /// <param name="services">The service collection.</param>
@@ -400,7 +498,6 @@ public static class DependencyInjectionExtensions
 
         services.AddSingleton<IGitHubApiUsageMetrics, GitHubApiUsageMetrics>();
         services.AddSingleton<ILinkMetrics, LinkMetrics>();
-        services.AddSingleton<IVisitMetrics, VisitMetrics>();
 
         var telemetrySettings = configuration.GetSection(TelemetrySettings.SettingsKey).Get<TelemetrySettings>() ??
             throw new InvalidOperationException($"Missing configuration section - {TelemetrySettings.SettingsKey}.");
@@ -425,7 +522,7 @@ public static class DependencyInjectionExtensions
                 .AddMeter(OffndAtInstrumentationOptions.MeterName)
                 .AddOtlpExporter(exporterOptions => exporterOptions.Endpoint = new Uri(telemetrySettings.ExporterEndpoint)))
             .WithTracing(options => options
-                // TODO: trace sampler
+                .SetSampler(new ParentBasedSampler(new TraceIdRatioBasedSampler(telemetrySettings.SampleRate ?? 1.0)))
                 .AddAspNetCoreInstrumentation(instrumentationOptions =>
                     instrumentationOptions.Filter = context => context.Request.Method != HttpMethod.Options.Method)
                 .AddHttpClientInstrumentation()
@@ -485,6 +582,20 @@ public static class DependencyInjectionExtensions
         services.AddHealthChecks()
             .AddDbContextCheck<OffndAtDbContext>("ef-core-db-context")
             .AddCheck<GitHubApiHealthCheck>("github-api");
+
+        return services;
+    }
+
+    /// <summary>
+    ///     Registers the memory cache with the DI framework.
+    /// </summary>
+    /// <param name="services">The service collection.</param>
+    /// <param name="configuration">The configuration.</param>
+    /// <returns>The configured service collection.</returns>
+    public static IServiceCollection AddInMemoryCache(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<CacheSettings>(configuration.GetSection(CacheSettings.SettingsKey));
+        services.AddMemoryCache();
 
         return services;
     }

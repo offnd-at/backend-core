@@ -1,0 +1,24 @@
+﻿using OffndAt.Application.Abstractions.Data;
+using OffndAt.Domain.Core.Primitives;
+using OffndAt.Domain.Entities;
+using OffndAt.Domain.Repositories;
+using OffndAt.Domain.ValueObjects;
+using OffndAt.Domain.ValueObjects.Identifiers;
+using OffndAt.Persistence.Specifications.Links;
+
+namespace OffndAt.Persistence.Repositories;
+
+/// <summary>
+///     Represents the repository for Links.
+/// </summary>
+/// <param name="dbContext">The database context.</param>
+internal sealed class LinkRepository(IDbContext dbContext) : GenericRepository<Link, LinkId>(dbContext), ILinkRepository
+{
+    /// <inheritdoc />
+    public Task<Maybe<Link>> GetByPhraseAsync(Phrase phrase, CancellationToken cancellationToken = default) =>
+        FirstOrDefaultAsync(new LinkWithPhraseSpecification(phrase), cancellationToken);
+
+    /// <inheritdoc />
+    public Task<bool> HasAnyWithPhraseAsync(Phrase phrase, CancellationToken cancellationToken = default) =>
+        AnyAsync(new LinkWithPhraseSpecification(phrase), cancellationToken);
+}

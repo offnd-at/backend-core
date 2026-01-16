@@ -12,11 +12,11 @@ builder.Services.AddDomain();
 
 builder.Services.AddMediatorWithBehaviours();
 
-builder.Services.AddPersistence(builder.Configuration);
+builder.Services.AddPersistenceSettings(builder.Configuration)
+    .AddDatabaseContext();
 
 builder.Services.AddInfrastructureSettings(builder.Configuration)
-    .AddTelemetry(builder.Configuration)
-    .AddInfrastructureServices();
+    .AddTelemetry(builder.Configuration);
 
 builder.Services.AddHostedService<MigrationRunner>();
 

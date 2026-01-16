@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Web;
 using MediatR;
-using OffndAt.Application.Links.Queries.GetLinkByPhrase;
+using OffndAt.Application.Links.Commands.VisitLink;
 using OffndAt.Domain.Core.Errors;
 using OffndAt.Domain.Core.Extensions;
 using OffndAt.Domain.Core.Primitives;
@@ -25,19 +25,19 @@ internal sealed class RedirectByPhrase : IEndpoint
                         ISender sender,
                         HttpContext httpContext,
                         CancellationToken cancellationToken) =>
-                    await Maybe<GetLinkByPhraseQuery>
-                        .From(new GetLinkByPhraseQuery(HttpUtility.UrlDecode(phrase), true))
-                        .BindAsync(query => sender.Send(query, cancellationToken))
+                    await Result.Create(HttpUtility.UrlDecode(phrase), DomainErrors.General.UnprocessableRequest)
+                        .Map(decodedPhrase => new VisitLinkCommand(decodedPhrase))
+                        .BindAsync(command => sender.Send(command, cancellationToken))
                         .MatchAsync(
-                            response =>
+                            url =>
                             {
                                 httpContext.Response.Headers.CacheControl = "no-store, no-cache, must-revalidate, max-age=0";
                                 httpContext.Response.Headers.Pragma = "no-cache";
                                 httpContext.Response.Headers.Expires = "0";
 
-                                return Results.Redirect(response.Link.TargetUrl, true);
+                                return Results.Redirect(url, true);
                             },
-                            () => CustomResults.NotFound(DomainErrors.Link.NotFound)))
+                            CustomResults.BadRequest))
             .RequireRateLimiting(RateLimitingPolicyNames.RedirectByPhrase)
             .WithTags(nameof(ApiRoutes.Redirects))
             .WithSummary("Redirect by phrase")

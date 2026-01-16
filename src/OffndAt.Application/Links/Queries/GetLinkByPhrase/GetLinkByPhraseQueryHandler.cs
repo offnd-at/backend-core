@@ -1,9 +1,9 @@
-﻿using OffndAt.Application.Abstractions.Data;
+﻿using Microsoft.Extensions.Logging;
+using OffndAt.Application.Abstractions.Links;
 using OffndAt.Application.Abstractions.Messaging;
 using OffndAt.Contracts.Links.Dtos;
 using OffndAt.Contracts.Links.Responses;
 using OffndAt.Domain.Core.Primitives;
-using OffndAt.Domain.Repositories;
 using OffndAt.Domain.ValueObjects;
 
 namespace OffndAt.Application.Links.Queries.GetLinkByPhrase;
@@ -11,41 +11,42 @@ namespace OffndAt.Application.Links.Queries.GetLinkByPhrase;
 /// <summary>
 ///     Represents the <see cref="GetLinkByPhraseQuery" /> handler.
 /// </summary>
-/// <param name="linksRepository">The links repository.</param>
-/// <param name="unitOfWork">The unit of work.</param>
-internal sealed class GetLinkByPhraseQueryHandler(ILinksRepository linksRepository, IUnitOfWork unitOfWork)
+/// <param name="queryService">The link query service.</param>
+/// <param name="logger">The logger.</param>
+internal sealed class GetLinkByPhraseQueryHandler(ILinkQueryService queryService, ILogger<GetLinkByPhraseQueryHandler> logger)
     : IQueryHandler<GetLinkByPhraseQuery, GetLinkByPhraseResponse>
 {
     /// <inheritdoc />
     public async Task<Maybe<GetLinkByPhraseResponse>> Handle(GetLinkByPhraseQuery request, CancellationToken cancellationToken)
     {
+        logger.LogInformation("Fetching a link with phrase := {Phrase}", request.Phrase);
+
         var phraseResult = Phrase.Create(request.Phrase);
         if (phraseResult.IsFailure)
         {
             return Maybe<GetLinkByPhraseResponse>.None;
         }
 
-        var maybeLink = await linksRepository.GetByPhraseAsync(phraseResult.Value, cancellationToken);
-
+        var maybeLink = await queryService.GetByPhraseAsync(phraseResult.Value, cancellationToken);
         if (maybeLink.HasNoValue)
         {
             return Maybe<GetLinkByPhraseResponse>.None;
         }
 
-        if (request.ShouldIncrementVisits)
-        {
-            maybeLink.Value.IncrementVisits();
-            await unitOfWork.SaveChangesAsync(cancellationToken);
-        }
-
         return new GetLinkByPhraseResponse
         {
-            Link = new LinkDto
+            Id = maybeLink.Value.Id,
+            Phrase = maybeLink.Value.Phrase,
+            TargetUrl = maybeLink.Value.TargetUrl,
+            Visits = maybeLink.Value.VisitSummary.TotalVisits,
+            RecentVisits = maybeLink.Value.RecentEntries.Select(entry => new LinkVisitDto
             {
-                Visits = maybeLink.Value.Visits,
-                TargetUrl = maybeLink.Value.TargetUrl,
-                CreatedAt = maybeLink.Value.CreatedAt
-            }
+                VisitedAt = entry.VisitedAt,
+                IpAddress = entry.IpAddress,
+                UserAgent = entry.UserAgent,
+                Referrer = entry.Referrer
+            }),
+            CreatedAt = maybeLink.Value.CreatedAt
         };
     }
 }

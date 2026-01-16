@@ -36,4 +36,13 @@ internal static class ValidationErrors
         internal static Error PhraseIsRequired =>
             new("GetLinkByPhrase.PhraseIsRequired", "The phrase is required.");
     }
+
+    /// <summary>
+    ///     Contains visit link errors.
+    /// </summary>
+    internal static class VisitLink
+    {
+        internal static Error PhraseIsRequired =>
+            new("VisitLink.PhraseIsRequired", "The phrase is required.");
+    }
 }

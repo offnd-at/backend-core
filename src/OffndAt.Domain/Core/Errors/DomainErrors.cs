@@ -43,6 +43,20 @@ public static class DomainErrors
     }
 
     /// <summary>
+    ///     Contains domain errors related to enumerations.
+    /// </summary>
+    public static class Enumeration<TEnum>
+    {
+        /// <summary>
+        ///     Gets the value out of range error.
+        /// </summary>
+        public static Error OutOfRange =>
+            new(
+                "Enumeration.OutOfRange",
+                $"The provided value is outside of the {typeof(TEnum).Name} enumeration range.");
+    }
+
+    /// <summary>
     ///     Contains phrase errors.
     /// </summary>
     public static class Phrase

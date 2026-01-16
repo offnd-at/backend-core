@@ -35,7 +35,6 @@ public sealed class Link : AggregateRoot<LinkId>
         TargetUrl = targetUrl;
         Language = language;
         Theme = theme;
-        Visits = 0;
     }
 
     /// <summary>
@@ -73,19 +72,10 @@ public sealed class Link : AggregateRoot<LinkId>
     public Theme Theme { get; }
 
     /// <summary>
-    ///     Gets the visits count.
+    ///     Records a visit to the link.
     /// </summary>
-    public int Visits { get; private set; }
-
-    /// <summary>
-    ///     Increments the visits counter.
-    /// </summary>
-    public void IncrementVisits()
-    {
-        Visits += 1;
-
-        RaiseDomainEvent(new LinkVisitedDomainEvent(this));
-    }
+    public void RecordVisit() =>
+        RaiseDomainEvent(new LinkVisitedDomainEvent(Id, new LinkVisitedContext(Language, Theme, DateTimeOffset.UtcNow)));
 
     /// <summary>
     ///     Creates a new <see cref="Link" /> with the specified arguments.
@@ -107,7 +97,7 @@ public sealed class Link : AggregateRoot<LinkId>
             language,
             theme);
 
-        link.RaiseDomainEvent(new LinkCreatedDomainEvent(link));
+        link.RaiseDomainEvent(new LinkCreatedDomainEvent(link.Id, link.Language, link.Theme));
 
         return link;
     }

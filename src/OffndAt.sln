@@ -36,6 +36,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Jobs", "Jobs", "{A299D368-E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OffndAt.Services.MigrationRunner", "OffndAt.Services.MigrationRunner\OffndAt.Services.MigrationRunner.csproj", "{081CBA20-87FF-45E4-B1D1-E299A51D2CF3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OffndAt.Application.IntegrationTests", "OffndAt.Application.IntegrationTests\OffndAt.Application.IntegrationTests.csproj", "{3B55773A-1C97-4802-96C4-CF36D1F9202C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -94,6 +96,10 @@ Global
 		{081CBA20-87FF-45E4-B1D1-E299A51D2CF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{081CBA20-87FF-45E4-B1D1-E299A51D2CF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{081CBA20-87FF-45E4-B1D1-E299A51D2CF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B55773A-1C97-4802-96C4-CF36D1F9202C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B55773A-1C97-4802-96C4-CF36D1F9202C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B55773A-1C97-4802-96C4-CF36D1F9202C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B55773A-1C97-4802-96C4-CF36D1F9202C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5FC4B8E6-42CC-484E-ABBD-9045E837C5BA} = {8B961A01-8513-4C9D-8DC6-413C03E9967D}
@@ -109,5 +115,6 @@ Global
 		{5CBCD9F8-9AE1-46F4-9DBB-46789D2D2B97} = {E6609080-CFDF-44E9-AFA9-F2C8C2AE6271}
 		{4BEBFD68-30F2-4549-AB76-F479AA6C02D8} = {88C66B83-41D5-4DFE-A122-6097E0EE6B6B}
 		{081CBA20-87FF-45E4-B1D1-E299A51D2CF3} = {A299D368-E438-4D48-90AD-4F0F8A3244B6}
+		{3B55773A-1C97-4802-96C4-CF36D1F9202C} = {E6609080-CFDF-44E9-AFA9-F2C8C2AE6271}
 	EndGlobalSection
 EndGlobal

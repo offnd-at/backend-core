@@ -5,10 +5,10 @@ namespace OffndAt.Domain.Core.Primitives;
 /// <summary>
 ///     Represents the entity identifier value object.
 /// </summary>
-public abstract class EntityId : ValueObject
+public abstract record EntityId
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="EntityId" /> class.
+    ///     Initializes a new instance of the <see cref="EntityId" /> record.
     /// </summary>
     /// <param name="value">The entity identifier value.</param>
     protected EntityId(Guid value)
@@ -39,10 +39,4 @@ public abstract class EntityId : ValueObject
     /// <param name="entityId">The <see cref="EntityId" /> instance to convert.</param>
     /// <returns>A <see cref="Guid" /> representing the value of the <paramref name="entityId" />.</returns>
     public static implicit operator Guid(EntityId entityId) => entityId.Value;
-
-    /// <inheritdoc />
-    protected override IEnumerable<object> GetAtomicValues()
-    {
-        yield return Value;
-    }
 }

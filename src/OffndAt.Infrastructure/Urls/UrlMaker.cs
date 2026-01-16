@@ -15,10 +15,10 @@ internal sealed class UrlMaker(IOptions<ApplicationSettings> applicationOptions)
     private readonly ApplicationSettings _applicationSettings = applicationOptions.Value;
 
     private string Protocol =>
-        _applicationSettings.UseHttps ? "https" : "http";
+        _applicationSettings.UseHttps!.Value ? "https" : "http";
 
     private string BaseUrl =>
-        $"{Protocol}://{_applicationSettings.BaseDomain}";
+        $"{Protocol}://{_applicationSettings.BaseDomain!}";
 
     /// <inheritdoc />
     public Result<Url> MakeRedirectUrlForPhrase(Phrase phrase) => Url.Create($"{BaseUrl}/{phrase}");

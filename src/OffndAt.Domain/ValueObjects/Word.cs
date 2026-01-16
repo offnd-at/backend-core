@@ -7,7 +7,7 @@ namespace OffndAt.Domain.ValueObjects;
 /// <summary>
 ///     Represents the word value object.
 /// </summary>
-public sealed class Word : ValueObject
+public sealed record Word
 {
     /// <summary>
     ///     The maximum length.
@@ -15,7 +15,7 @@ public sealed class Word : ValueObject
     public const int MaxLength = 256;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="Word" /> class.
+    ///     Initializes a new instance of the <see cref="Word" /> record.
     /// </summary>
     /// <param name="value">The value.</param>
     private Word(string value) => Value = value;
@@ -45,10 +45,4 @@ public sealed class Word : ValueObject
             .Ensure(value => !string.IsNullOrWhiteSpace(value), DomainErrors.Word.NullOrEmpty)
             .Ensure(value => value.Length <= MaxLength, DomainErrors.Word.LongerThanAllowed)
             .Map(value => new Word(value));
-
-    /// <inheritdoc />
-    protected override IEnumerable<object> GetAtomicValues()
-    {
-        yield return Value;
-    }
 }

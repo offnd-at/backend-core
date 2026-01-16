@@ -18,7 +18,7 @@ namespace OffndAt.Application.UnitTests.Links.Commands.GenerateLink;
 internal sealed class GenerateLinkCommandHandlerTests
 {
     private GenerateLinkCommandHandler _handler = null!;
-    private ILinksRepository _linksRepository = null!;
+    private ILinkRepository _linkRepository = null!;
     private ILogger<GenerateLinkCommandHandler> _logger = null!;
     private IPhraseGenerator _phraseGenerator = null!;
     private ResiliencePipelineProvider<string> _resiliencePipelineProvider = null!;
@@ -27,7 +27,7 @@ internal sealed class GenerateLinkCommandHandlerTests
     [SetUp]
     public void Setup()
     {
-        _linksRepository = Substitute.For<ILinksRepository>();
+        _linkRepository = Substitute.For<ILinkRepository>();
         _phraseGenerator = Substitute.For<IPhraseGenerator>();
         _urlMaker = Substitute.For<IUrlMaker>();
         _logger = Substitute.For<ILogger<GenerateLinkCommandHandler>>();
@@ -37,7 +37,7 @@ internal sealed class GenerateLinkCommandHandlerTests
             .Returns(ResiliencePipeline<Result<Phrase>>.Empty);
 
         _handler = new GenerateLinkCommandHandler(
-            _linksRepository,
+            _linkRepository,
             _phraseGenerator,
             _urlMaker,
             _resiliencePipelineProvider,
@@ -53,7 +53,7 @@ internal sealed class GenerateLinkCommandHandlerTests
                 0,
                 0,
                 0),
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {
@@ -71,7 +71,7 @@ internal sealed class GenerateLinkCommandHandlerTests
                 0,
                 0,
                 -1),
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {
@@ -89,7 +89,7 @@ internal sealed class GenerateLinkCommandHandlerTests
                 -1,
                 0,
                 0),
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {
@@ -107,7 +107,7 @@ internal sealed class GenerateLinkCommandHandlerTests
                 0,
                 -1,
                 0),
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {
@@ -134,7 +134,7 @@ internal sealed class GenerateLinkCommandHandlerTests
                 0,
                 0,
                 0),
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {
@@ -153,7 +153,7 @@ internal sealed class GenerateLinkCommandHandlerTests
                 Arg.Any<CancellationToken>())
             .Returns(Result.Success(Phrase.Create("test-phrase").Value));
 
-        _linksRepository.HasAnyWithPhraseAsync(Arg.Any<Phrase>(), Arg.Any<CancellationToken>()).Returns(true);
+        _linkRepository.HasAnyWithPhraseAsync(Arg.Any<Phrase>(), Arg.Any<CancellationToken>()).Returns(true);
 
         var actual = await _handler.Handle(
             new GenerateLinkCommand(
@@ -161,7 +161,7 @@ internal sealed class GenerateLinkCommandHandlerTests
                 0,
                 0,
                 0),
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {
@@ -182,7 +182,7 @@ internal sealed class GenerateLinkCommandHandlerTests
                 Arg.Any<CancellationToken>())
             .Returns(Result.Success(expectedPhrase));
 
-        _linksRepository.HasAnyWithPhraseAsync(Arg.Any<Phrase>(), Arg.Any<CancellationToken>()).Returns(false);
+        _linkRepository.HasAnyWithPhraseAsync(Arg.Any<Phrase>(), Arg.Any<CancellationToken>()).Returns(false);
 
         _urlMaker.MakeRedirectUrlForPhrase(Arg.Any<Phrase>()).Returns(Result.Success(Url.Create("https://example.com").Value));
         _urlMaker.MakeStatsUrlForPhrase(Arg.Any<Phrase>()).Returns(Result.Success(Url.Create("https://example.com/stats").Value));
@@ -193,9 +193,9 @@ internal sealed class GenerateLinkCommandHandlerTests
                 0,
                 0,
                 0),
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
-        _linksRepository.Received().Insert(Arg.Is<Link>(link => link.Phrase == expectedPhrase));
+        _linkRepository.Received().Insert(Arg.Is<Link>(link => link.Phrase == expectedPhrase));
     }
 
     [Test]
@@ -210,7 +210,7 @@ internal sealed class GenerateLinkCommandHandlerTests
                 Arg.Any<CancellationToken>())
             .Returns(Result.Success(Phrase.Create("test-phrase").Value));
 
-        _linksRepository.HasAnyWithPhraseAsync(Arg.Any<Phrase>(), Arg.Any<CancellationToken>()).Returns(false);
+        _linkRepository.HasAnyWithPhraseAsync(Arg.Any<Phrase>(), Arg.Any<CancellationToken>()).Returns(false);
 
         _urlMaker.MakeRedirectUrlForPhrase(Arg.Any<Phrase>()).Returns(Result.Failure<Url>(expectedError));
 
@@ -220,7 +220,7 @@ internal sealed class GenerateLinkCommandHandlerTests
                 0,
                 0,
                 0),
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {
@@ -241,7 +241,7 @@ internal sealed class GenerateLinkCommandHandlerTests
                 Arg.Any<CancellationToken>())
             .Returns(Result.Success(Phrase.Create("test-phrase").Value));
 
-        _linksRepository.HasAnyWithPhraseAsync(Arg.Any<Phrase>(), Arg.Any<CancellationToken>()).Returns(false);
+        _linkRepository.HasAnyWithPhraseAsync(Arg.Any<Phrase>(), Arg.Any<CancellationToken>()).Returns(false);
 
         _urlMaker.MakeRedirectUrlForPhrase(Arg.Any<Phrase>()).Returns(Result.Success(Url.Create("https://example.com").Value));
         _urlMaker.MakeStatsUrlForPhrase(Arg.Any<Phrase>()).Returns(Result.Failure<Url>(expectedError));
@@ -252,7 +252,7 @@ internal sealed class GenerateLinkCommandHandlerTests
                 0,
                 0,
                 0),
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {
@@ -271,7 +271,7 @@ internal sealed class GenerateLinkCommandHandlerTests
                 Arg.Any<CancellationToken>())
             .Returns(Result.Success(Phrase.Create("test-phrase").Value));
 
-        _linksRepository.HasAnyWithPhraseAsync(Arg.Any<Phrase>(), Arg.Any<CancellationToken>()).Returns(false);
+        _linkRepository.HasAnyWithPhraseAsync(Arg.Any<Phrase>(), Arg.Any<CancellationToken>()).Returns(false);
 
         _urlMaker.MakeRedirectUrlForPhrase(Arg.Any<Phrase>()).Returns(Result.Success(Url.Create("https://example.com").Value));
         _urlMaker.MakeStatsUrlForPhrase(Arg.Any<Phrase>()).Returns(Result.Success(Url.Create("https://example.com/stats").Value));
@@ -282,7 +282,7 @@ internal sealed class GenerateLinkCommandHandlerTests
                 0,
                 0,
                 0),
-            CancellationToken.None);
+            TestContext.CurrentContext.CancellationToken);
 
         Assert.Multiple(() =>
         {

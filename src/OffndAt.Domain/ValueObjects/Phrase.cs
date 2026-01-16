@@ -7,7 +7,7 @@ namespace OffndAt.Domain.ValueObjects;
 /// <summary>
 ///     Represents the phrase value object.
 /// </summary>
-public sealed class Phrase : ValueObject
+public sealed record Phrase
 {
     /// <summary>
     ///     The maximum length.
@@ -15,7 +15,7 @@ public sealed class Phrase : ValueObject
     public const int MaxLength = 256;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="Phrase" /> class.
+    ///     Initializes a new instance of the <see cref="Phrase" /> record.
     /// </summary>
     /// <param name="value">The value.</param>
     private Phrase(string value) => Value = value;
@@ -45,10 +45,4 @@ public sealed class Phrase : ValueObject
             .Ensure(value => !string.IsNullOrWhiteSpace(value), DomainErrors.Phrase.NullOrEmpty)
             .Ensure(value => value.Length <= MaxLength, DomainErrors.Phrase.LongerThanAllowed)
             .Map(value => new Phrase(value));
-
-    /// <inheritdoc />
-    protected override IEnumerable<object> GetAtomicValues()
-    {
-        yield return Value;
-    }
 }

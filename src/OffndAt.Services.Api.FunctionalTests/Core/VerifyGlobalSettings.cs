@@ -8,6 +8,7 @@ internal sealed class VerifyGlobalSettings
     public static void Initialize()
     {
         VerifierSettings.ScrubInlineGuids();
+        VerifierSettings.DontIgnoreEmptyCollections();
         VerifyHttp.Initialize();
         Recording.Start();
     }

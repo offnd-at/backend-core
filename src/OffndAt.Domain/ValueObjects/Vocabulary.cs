@@ -2,24 +2,20 @@
 using OffndAt.Domain.Core.Extensions;
 using OffndAt.Domain.Core.Primitives;
 using OffndAt.Domain.Enumerations;
-using OffndAt.Domain.Models;
 
 namespace OffndAt.Domain.ValueObjects;
 
 /// <summary>
 ///     Represents the vocabulary value object.
 /// </summary>
-public sealed class Vocabulary : ValueObject
+public sealed record Vocabulary
 {
-    private readonly Random _random = new(Guid.NewGuid().GetHashCode());
-    private readonly List<Word> _words = [];
-
     /// <summary>
-    ///     Initializes a new instance of the <see cref="Vocabulary" /> class.
+    ///     Initializes a new instance of the <see cref="Vocabulary" /> record.
     /// </summary>
     /// <param name="descriptor">The vocabulary descriptor.</param>
     /// <param name="words">The collection of words.</param>
-    private Vocabulary(VocabularyDescriptor descriptor, IEnumerable<Word> words)
+    private Vocabulary(VocabularyDescriptor descriptor, IReadOnlyList<Word> words)
     {
         Language = descriptor.Language;
         Theme = descriptor.Theme;
@@ -27,7 +23,7 @@ public sealed class Vocabulary : ValueObject
         GrammaticalNumber = descriptor.GrammaticalNumber;
         GrammaticalGender = descriptor.GrammaticalGender;
         PartOfSpeech = descriptor.PartOfSpeech;
-        _words.AddRange(words);
+        Words = words;
     }
 
     /// <summary>
@@ -63,14 +59,13 @@ public sealed class Vocabulary : ValueObject
     /// <summary>
     ///     Gets the list of words.
     /// </summary>
-    public IReadOnlyList<Word> Words =>
-        _words.AsReadOnly();
+    public IReadOnlyList<Word> Words { get; }
 
     /// <summary>
     ///     Gets the random word from the list of words.
     /// </summary>
     public Word RandomWord =>
-        _words[_random.Next(_words.Count)];
+        Words[Random.Shared.Next(Words.Count)];
 
     /// <inheritdoc />
     public override string ToString() =>
@@ -92,16 +87,4 @@ public sealed class Vocabulary : ValueObject
         Result.Create(words, DomainErrors.Vocabulary.EmptyWordsList)
             .Ensure(value => value.Any(), DomainErrors.Vocabulary.EmptyWordsList)
             .Map(_ => new Vocabulary(descriptor, words));
-
-    /// <inheritdoc />
-    protected override IEnumerable<object> GetAtomicValues()
-    {
-        yield return Language;
-        yield return Theme;
-        yield return Offensiveness;
-        yield return GrammaticalNumber;
-        yield return GrammaticalGender;
-        yield return PartOfSpeech;
-        yield return Words;
-    }
 }

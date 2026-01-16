@@ -11,6 +11,7 @@ namespace OffndAt.Infrastructure.Core.Telemetry;
 internal sealed class LinkMetrics : ILinkMetrics
 {
     private readonly Counter<long> _linkCreationCounter;
+    private readonly Counter<long> _visitCounter;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="LinkMetrics" /> class.
@@ -24,11 +25,23 @@ internal sealed class LinkMetrics : ILinkMetrics
             "offndat.links.creations",
             "{link}",
             "The number of links created over time");
+
+        _visitCounter = meter.CreateCounter<long>(
+            "offndat.links.visits",
+            "{visit}",
+            "The number of link visits and redirections");
     }
 
     /// <inheritdoc />
     public void RecordLinkCreation(Language language, Theme theme) =>
         _linkCreationCounter.Add(
+            1,
+            new KeyValuePair<string, object?>("language", language.Code),
+            new KeyValuePair<string, object?>("theme", theme.Name));
+
+    /// <inheritdoc />
+    public void RecordLinkVisit(Language language, Theme theme) =>
+        _visitCounter.Add(
             1,
             new KeyValuePair<string, object?>("language", language.Code),
             new KeyValuePair<string, object?>("theme", theme.Name));
