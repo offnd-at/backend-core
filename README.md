@@ -3,8 +3,11 @@
 [![Build Status](https://img.shields.io/github/actions/workflow/status/offnd-at/backend-core/build-and-publish.yml?branch=master)](https://github.com/offnd-at/backend-core/actions)
 [![GitHub Release](https://img.shields.io/github/v/release/offnd-at/backend-core)](https://github.com/offnd-at/backend-core/releases)
 
+A robust, good-enough-performance monolithic backend for [offnd.at](https://offnd.at) - a profanity-first URL shortener that generates memorable (and offensive) phrases instead of random strings. Built with **Clean Architecture** and **Domain-Driven Design (DDD)**.
 
-A robust, good-enough-performance monolith backend for [offnd.at](https://offnd.at) - a profanity-first short link platform. Built with **Clean Architecture** and **Domain-Driven Design (DDD)**.
+**Live Demo:** https://offnd.at
+
+**API Docs:** https://api.offnd.at/docs
 
 ## Technology Stack
 
