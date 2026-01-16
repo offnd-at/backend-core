@@ -6,15 +6,6 @@
 
 A robust, high-performance monolith backend for [offnd.at](https://offnd.at) - a profanity-first short link platform. Built with **Clean Architecture** and **Domain-Driven Design (DDD)**.
 
-## Key Features
-
-- **Link Management**: Create, manage, and track short links with custom phrases.
-- **Analytics & Tracking**: Real-time visit tracking and analytics powered by integration events.
-- **Modern Tech Stack**: Leveraging the latest .NET 10 features and PostgreSQL 17.
-- **Scalable Messaging**: RabbitMQ integration via MassTransit for async background processing.
-- **Observability**: Full OpenTelemetry support for metrics, tracing, and logging.
-- **Developer-Friendly**: Built-in interactive documentation with Scalar (OpenAPI).
-
 ## Technology Stack
 
 | Category | Technology |
