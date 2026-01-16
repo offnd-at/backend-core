@@ -8,9 +8,10 @@ namespace OffndAt.Services.Api.Endpoints.Examples.Fakers;
 /// </summary>
 internal sealed class LinkFakers
 {
-    public static Faker<LinkDto> Link =>
-        new Faker<LinkDto>()
-            .RuleFor(f => f.TargetUrl, f => f.Internet.Url())
-            .RuleFor(f => f.Visits, f => f.Random.Int(0, 1000000))
-            .RuleFor(f => f.CreatedAt, f => f.Date.RecentOffset());
+    public static Faker<LinkVisitDto> LinkVisit =>
+        new Faker<LinkVisitDto>()
+            .RuleFor(l => l.VisitedAt, f => f.Date.RecentOffset())
+            .RuleFor(l => l.IpAddress, f => f.Internet.Ip())
+            .RuleFor(l => l.UserAgent, f => f.Internet.UserAgent())
+            .RuleFor(l => l.Referrer, f => f.Internet.Url());
 }

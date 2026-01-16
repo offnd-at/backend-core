@@ -1,12 +1,9 @@
-﻿using OffndAt.Application.Abstractions.Data;
-using OffndAt.Domain.ValueObjects.Identifiers;
-
-namespace OffndAt.Application.Links.Models;
+﻿namespace OffndAt.Application.Links.ReadModels;
 
 /// <summary>
-///     Represents a single entry in the link visit log.
+///     Represents a read model for a link visit log entry.
 /// </summary>
-public sealed class LinkVisitLogEntry : INonEntityDataModel
+public sealed class LinkVisitLogEntryReadModel
 {
     /// <summary>
     ///     Gets or sets the unique identifier for the log entry.
@@ -16,7 +13,7 @@ public sealed class LinkVisitLogEntry : INonEntityDataModel
     /// <summary>
     ///     Gets or sets the link identifier.
     /// </summary>
-    public required LinkId LinkId { get; init; }
+    public required Guid LinkId { get; init; }
 
     /// <summary>
     ///     Gets or sets the date and time when the link was visited, expressed in UTC.

@@ -3,4 +3,4 @@
 /// <summary>
 ///     Marker interface for application data models that are persisted but are not domain entities.
 /// </summary>
-public interface IDataModel;
+public interface INonEntityDataModel;

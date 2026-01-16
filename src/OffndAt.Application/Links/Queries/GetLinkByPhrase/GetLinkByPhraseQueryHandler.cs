@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
+using OffndAt.Application.Abstractions.Links;
 using OffndAt.Application.Abstractions.Messaging;
 using OffndAt.Contracts.Links.Dtos;
 using OffndAt.Contracts.Links.Responses;
 using OffndAt.Domain.Core.Primitives;
-using OffndAt.Domain.Repositories;
 using OffndAt.Domain.ValueObjects;
 
 namespace OffndAt.Application.Links.Queries.GetLinkByPhrase;
@@ -11,9 +11,9 @@ namespace OffndAt.Application.Links.Queries.GetLinkByPhrase;
 /// <summary>
 ///     Represents the <see cref="GetLinkByPhraseQuery" /> handler.
 /// </summary>
-/// <param name="linkRepository">The link repository.</param>
+/// <param name="queryService">The link query service.</param>
 /// <param name="logger">The logger.</param>
-internal sealed class GetLinkByPhraseQueryHandler(ILinkRepository linkRepository, ILogger<GetLinkByPhraseQueryHandler> logger)
+internal sealed class GetLinkByPhraseQueryHandler(ILinkQueryService queryService, ILogger<GetLinkByPhraseQueryHandler> logger)
     : IQueryHandler<GetLinkByPhraseQuery, GetLinkByPhraseResponse>
 {
     /// <inheritdoc />
@@ -27,7 +27,7 @@ internal sealed class GetLinkByPhraseQueryHandler(ILinkRepository linkRepository
             return Maybe<GetLinkByPhraseResponse>.None;
         }
 
-        var maybeLink = await linkRepository.GetByPhraseAsync(phraseResult.Value, cancellationToken);
+        var maybeLink = await queryService.GetByPhraseAsync(phraseResult.Value, cancellationToken);
         if (maybeLink.HasNoValue)
         {
             return Maybe<GetLinkByPhraseResponse>.None;
@@ -35,13 +35,18 @@ internal sealed class GetLinkByPhraseQueryHandler(ILinkRepository linkRepository
 
         return new GetLinkByPhraseResponse
         {
-            Link = new LinkDto
+            Id = maybeLink.Value.Id,
+            Phrase = maybeLink.Value.Phrase,
+            TargetUrl = maybeLink.Value.TargetUrl,
+            Visits = maybeLink.Value.VisitSummary.TotalVisits,
+            RecentVisits = maybeLink.Value.RecentEntries.Select(entry => new LinkVisitDto
             {
-                // TODO: query service
-                Visits = 0,
-                TargetUrl = maybeLink.Value.TargetUrl,
-                CreatedAt = maybeLink.Value.CreatedAt
-            }
+                VisitedAt = entry.VisitedAt,
+                IpAddress = entry.IpAddress,
+                UserAgent = entry.UserAgent,
+                Referrer = entry.Referrer
+            }),
+            CreatedAt = maybeLink.Value.CreatedAt
         };
     }
 }

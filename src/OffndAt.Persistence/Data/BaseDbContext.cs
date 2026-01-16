@@ -28,7 +28,7 @@ public abstract class BaseDbContext(
 
     /// <inheritdoc />
     public new DbSet<TDataModel> Set<TDataModel>()
-        where TDataModel : class, IDataModel =>
+        where TDataModel : class, INonEntityDataModel =>
         base.Set<TDataModel>();
 
     /// <inheritdoc />

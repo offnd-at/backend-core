@@ -6,7 +6,7 @@ namespace OffndAt.Application.Links.Models;
 /// <summary>
 ///     Represents an aggregated summary of link visit statistics.
 /// </summary>
-public sealed class LinkVisitSummary : IDataModel
+public sealed class LinkVisitSummary : INonEntityDataModel
 {
     /// <summary>
     ///     Gets or sets the link identifier.

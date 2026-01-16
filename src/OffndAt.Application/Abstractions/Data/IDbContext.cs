@@ -24,7 +24,7 @@ public interface IDbContext
     /// <typeparam name="TDataModel">The data model type.</typeparam>
     /// <returns>The database set for the specified data model type.</returns>
     DbSet<TDataModel> Set<TDataModel>()
-        where TDataModel : class, IDataModel;
+        where TDataModel : class, INonEntityDataModel;
 
     /// <summary>
     ///     Executes the specified SQL command asynchronously and returns the number of affected rows.
