@@ -43,7 +43,8 @@ builder.Services.AddInfrastructureSettings(builder.Configuration)
     .AddApiAuthentication(builder.Configuration)
     .AddResiliencePolicies()
     .AddMassTransitForProducerAndConsumer(builder.Configuration, [typeof(LinkVisitedIntegrationEvent).Assembly])
-    .AddHealthMonitoring();
+    .AddHealthChecksForDatabaseAndMessaging()
+    .AddHealthCheckForGitHubApi();
 
 builder.Services
     .AddVersioning()
@@ -51,7 +52,7 @@ builder.Services
     .AddJsonResponseCompression()
     .AddApi();
 
-builder.Host.UseOffndAtSerilog();
+builder.Services.AddOffndAtSerilog(builder.Configuration);
 
 var app = builder.Build();
 

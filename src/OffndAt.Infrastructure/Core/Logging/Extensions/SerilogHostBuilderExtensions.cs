@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using OffndAt.Infrastructure.Core.Settings;
 using OffndAt.Infrastructure.Core.Telemetry.Settings;
@@ -16,16 +16,17 @@ public static class SerilogHostBuilderExtensions
     /// <summary>
     ///     Registers Serilog with configuration specific to offnd.at application.
     /// </summary>
-    /// <param name="builder">The host builder.</param>
-    /// <returns>The configured host builder.</returns>
-    /// <exception cref="InvalidOperationException">when Environment or AppName is not configured in application settings.</exception>
-    public static IHostBuilder UseOffndAtSerilog(this IHostBuilder builder) =>
-        builder.UseSerilog((context, services, configuration) =>
+    /// <param name="services">The service collection.</param>
+    /// <param name="configuration">The configuration.</param>
+    /// <returns>The configured service collection.</returns>
+    public static IServiceCollection AddOffndAtSerilog(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddSerilog((serviceProvider, loggerConfiguration) =>
         {
-            var telemetrySettings = services.GetRequiredService<IOptions<TelemetrySettings>>().Value;
-            var applicationSettings = services.GetRequiredService<IOptions<ApplicationSettings>>().Value;
+            var telemetrySettings = serviceProvider.GetRequiredService<IOptions<TelemetrySettings>>().Value;
+            var applicationSettings = serviceProvider.GetRequiredService<IOptions<ApplicationSettings>>().Value;
 
-            configuration
+            loggerConfiguration
                 .MinimumLevel.Information()
                 .Enrich.FromLogContext()
                 .Enrich.WithMachineName()
@@ -39,6 +40,9 @@ public static class SerilogHostBuilderExtensions
                 .Destructure.ToMaximumCollectionCount(64)
                 .WriteTo.Console(formatProvider: CultureInfo.InvariantCulture)
                 .WriteTo.OpenTelemetry(options => options.Endpoint = telemetrySettings.ExporterEndpoint)
-                .ReadFrom.Configuration(context.Configuration);
+                .ReadFrom.Configuration(configuration);
         });
+
+        return services;
+    }
 }
