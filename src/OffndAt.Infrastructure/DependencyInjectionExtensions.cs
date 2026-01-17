@@ -564,11 +564,11 @@ public static class DependencyInjectionExtensions
     }
 
     /// <summary>
-    ///     Registers the health-checking services with the DI framework.
+    ///     Registers a health check for the GitHub API to verify external service availability.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The configured service collection.</returns>
-    public static IServiceCollection AddHealthMonitoring(this IServiceCollection services)
+    public static IServiceCollection AddHealthCheckForGitHubApi(this IServiceCollection services)
     {
         services.AddHttpClient<GitHubApiHealthCheck>((serviceProvider, client) =>
         {
@@ -580,8 +580,20 @@ public static class DependencyInjectionExtensions
         });
 
         services.AddHealthChecks()
-            .AddDbContextCheck<OffndAtDbContext>("ef-core-db-context")
             .AddCheck<GitHubApiHealthCheck>("github-api");
+
+        return services;
+    }
+
+    /// <summary>
+    ///     Registers health checks for database connectivity and message broker availability.
+    /// </summary>
+    /// <param name="services">The service collection.</param>
+    /// <returns>The configured service collection.</returns>
+    public static IServiceCollection AddHealthChecksForDatabaseAndMessaging(this IServiceCollection services)
+    {
+        services.AddHealthChecks()
+            .AddDbContextCheck<OffndAtDbContext>("ef-core-db-context");
 
         return services;
     }

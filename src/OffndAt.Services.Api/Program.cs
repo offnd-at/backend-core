@@ -43,7 +43,8 @@ builder.Services.AddInfrastructureSettings(builder.Configuration)
     .AddApiAuthentication(builder.Configuration)
     .AddResiliencePolicies()
     .AddMassTransitForProducerAndConsumer(builder.Configuration, [typeof(LinkVisitedIntegrationEvent).Assembly])
-    .AddHealthMonitoring();
+    .AddHealthChecksForDatabaseAndMessaging()
+    .AddHealthCheckForGitHubApi();
 
 builder.Services
     .AddVersioning()
