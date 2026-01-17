@@ -52,7 +52,7 @@ builder.Services
     .AddJsonResponseCompression()
     .AddApi();
 
-builder.Host.UseOffndAtSerilog();
+builder.Services.AddOffndAtSerilog(builder.Configuration);
 
 var app = builder.Build();
 
