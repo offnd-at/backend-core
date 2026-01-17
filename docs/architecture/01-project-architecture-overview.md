@@ -44,7 +44,7 @@ graph TB
     end
     
     subgraph "Contracts"
-        Contracts[OffndAt.Contracts<br/>DTOs & Shared Models]
+        ContractsLayer[OffndAt.Contracts<br/>DTOs & Shared Models]
     end
     
     API --> App
@@ -54,8 +54,8 @@ graph TB
     Infra --> App
     Persist --> App
     Persist --> Domain
-    API --> Contracts
-    App --> Contracts
+    API --> ContractsLayer
+    App --> ContractsLayer
     
     style Domain fill:#4CAF50
     style App fill:#2196F3
