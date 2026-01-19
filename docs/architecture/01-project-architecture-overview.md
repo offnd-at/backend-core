@@ -151,7 +151,6 @@ graph TB
 
 **Key Components**:
 - Request/Response DTOs
-- Integration Event contracts
 - Shared models
 
 ## Technology Stack
@@ -189,7 +188,6 @@ backend-core/
 │   ├── OffndAt.*.IntegrationTests/  # Integration tests
 │   └── OffndAt.*.FunctionalTests/   # End-to-end tests
 ├── docs/                            # Documentation
-├── architecture/                    # Architecture docs
 └── docker-compose.yaml              # Local infrastructure
 ```
 
