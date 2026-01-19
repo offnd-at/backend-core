@@ -2,47 +2,6 @@
 
 This document contains comprehensive system diagrams illustrating the architecture of the offnd.at backend system.
 
-## System Context Diagram
-
-The System Context diagram shows how the offnd.at backend interacts with external actors and systems:
-
-```mermaid
-C4Context
-    title System Context Diagram - offnd.at Backend
-
-    Person(user, "User", "Creates and uses short links")
-    Person(admin, "Administrator", "Monitors system health")
-    
-    System(offndatApi, "offnd.at Backend", "Generates profanity-based short links and handles redirects")
-    
-    System_Ext(github, "GitHub API", "Validates repository URLs")
-    System_Ext(browser, "Web Browser", "Accesses short links")
-    
-    SystemDb(postgres, "PostgreSQL", "Stores links and metadata")
-    SystemQueue(rabbitmq, "RabbitMQ", "Message broker for async events")
-    System_Ext(otel, "OpenTelemetry Collector", "Collects telemetry data")
-    
-    Rel(user, offndatApi, "Creates short links", "HTTPS/REST")
-    Rel(browser, offndatApi, "Follows short links", "HTTPS")
-    Rel(admin, offndatApi, "Monitors health", "HTTPS")
-    
-    Rel(offndatApi, postgres, "Reads/Writes data", "TCP/PostgreSQL")
-    Rel(offndatApi, rabbitmq, "Publishes events", "AMQP")
-    Rel(offndatApi, github, "Validates repos", "HTTPS/REST")
-    Rel(offndatApi, otel, "Sends telemetry", "OTLP")
-    
-    UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="2")
-```
-
-### External Dependencies
-
-| System | Purpose | Protocol |
-|--------|---------|----------|
-| **PostgreSQL** | Primary data store for links and metadata | TCP/PostgreSQL |
-| **RabbitMQ** | Message broker for asynchronous event processing | AMQP |
-| **GitHub API** | Access to vocabularies as blobs | HTTPS/REST |
-| **OpenTelemetry Collector** | Aggregates metrics, traces, and logs | OTLP |
-
 ## Component Diagram
 
 The Component diagram shows the internal structure of the offnd.at backend system:
