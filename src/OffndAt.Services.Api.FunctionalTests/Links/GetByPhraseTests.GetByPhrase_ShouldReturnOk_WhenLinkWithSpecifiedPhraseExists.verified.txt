@@ -12,6 +12,8 @@
       id: Guid_1,
       phrase: {Scrubbed},
       targetUrl: http://localhost,
+      languageId: 0,
+      themeId: 0,
       visits: 0,
       recentVisits: [],
       createdAt: DateTimeOffset_1

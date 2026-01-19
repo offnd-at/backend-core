@@ -5,9 +5,11 @@
 
 A robust, good-enough-performance monolithic backend for [offnd.at](https://offnd.at) - a profanity-first URL shortener that generates memorable (and offensive) phrases instead of random strings. Built with **Clean Architecture** and **Domain-Driven Design (DDD)**.
 
-**Live Demo:** https://offnd.at
+**Live Demo**
+- https://offnd.at
 
-**API Docs:** https://api.offnd.at/docs
+**API Reference**
+- https://api.offnd.at/docs
 
 ## Technology Stack
 
@@ -18,23 +20,12 @@ A robust, good-enough-performance monolithic backend for [offnd.at](https://offn
 | **Messaging** | MassTransit with RabbitMQ 4 |
 | **Patterns** | CQRS (MediatR), Result Pattern, DDD |
 | **Validation** | FluentValidation |
-| **Testing** | xUnit, Bogus, FluentAssertions, Testcontainers |
+| **Testing** | NUnit, Bogus, FluentAssertions, Testcontainers |
 | **Observability** | OpenTelemetry, Serilog |
 
 ## Architecture
 
-The project follows the principles of Clean Architecture and DDD to ensure maintainability and scalability.
-
-```mermaid
-graph TD
-    API["OffndAt.Services.Api"] --> App["OffndAt.Application"]
-    Worker["OffndAt.Services.EventsWorker"] --> App
-    Migrator["OffndAt.Services.MigrationRunner"] --> Pers["OffndAt.Persistence"]
-    App --> Domain["OffndAt.Domain"]
-    Infra["OffndAt.Infrastructure"] --> App
-    Pers --> App
-```
-
+The project follows the principles of Clean Architecture and DDD to ensure maintainability and scalability. For more details on the architecture, there is a [docs](./docs/) folder - full disclosure, it is AI-generated, so it is likely hilariously overcomplicated and verbose. But there is knowledge in there.
 
 ## Getting Started
 

@@ -27,6 +27,18 @@ public sealed class GetLinkByPhraseResponse
     public required string TargetUrl { get; init; }
 
     /// <summary>
+    ///     Gets or sets the language identifier.
+    /// </summary>
+    [Description("The identifier of the language used for the link.")]
+    public required int LanguageId { get; init; }
+
+    /// <summary>
+    ///     Gets or sets the theme identifier.
+    /// </summary>
+    [Description("The identifier of the theme applied to the link.")]
+    public required int ThemeId { get; init; }
+
+    /// <summary>
     ///     Gets the visits count.
     /// </summary>
     [Description("The number of times the link has been visited.")]
@@ -35,7 +47,7 @@ public sealed class GetLinkByPhraseResponse
     /// <summary>
     ///     Gets or sets a collection of details of the most recent visits (up to 10).
     /// </summary>
-    [Description("The number of times the link has been visited.")]
+    [Description("A collection of details of the 10 most recent visits to the link.")]
     public required IEnumerable<LinkVisitDto> RecentVisits { get; init; }
 
     /// <summary>

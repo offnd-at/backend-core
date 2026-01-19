@@ -4,6 +4,8 @@ extensions:
     client_auth:
       username: "${GRAFANA_USERNAME}"
       password: "${GRAFANA_PASSWORD}"
+  health_check:
+    endpoint: 0.0.0.0:13133
 
 receivers:
   otlp:
@@ -73,7 +75,7 @@ exporters:
       authenticator: basicauth/grafana_cloud
 
 service:
-  extensions: [ basicauth/grafana_cloud ]
+  extensions: [ basicauth/grafana_cloud, health_check ]
   pipelines:
     logs:
       receivers: [ otlp ]
