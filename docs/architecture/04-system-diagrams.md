@@ -40,7 +40,7 @@ C4Context
 |--------|---------|----------|
 | **PostgreSQL** | Primary data store for links and metadata | TCP/PostgreSQL |
 | **RabbitMQ** | Message broker for asynchronous event processing | AMQP |
-| **GitHub API** | Validates repository URLs during link creation | HTTPS/REST |
+| **GitHub API** | Access to vocabularies as blobs | HTTPS/REST |
 | **OpenTelemetry Collector** | Aggregates metrics, traces, and logs | OTLP |
 
 ## Component Diagram
