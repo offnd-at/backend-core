@@ -151,7 +151,6 @@ graph TB
 
 **Key Components**:
 - Request/Response DTOs
-- Integration Event contracts
 - Shared models
 
 ## Technology Stack
