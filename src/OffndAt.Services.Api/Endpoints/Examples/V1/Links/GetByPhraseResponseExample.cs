@@ -17,6 +17,8 @@ internal sealed class GetByPhraseResponseExample : IOpenApiExample<GetLinkByPhra
             .RuleFor(r => r.Id, f => f.Random.Guid())
             .RuleFor(r => r.Phrase, f => string.Join(string.Empty, f.Lorem.Words()))
             .RuleFor(r => r.TargetUrl, f => f.Internet.Url())
+            .RuleFor(r => r.LanguageId, f => f.Random.Int(0, 1))
+            .RuleFor(r => r.ThemeId, f => f.Random.Int(0, 2))
             .RuleFor(r => r.Visits, f => f.Random.Int(100, 2000))
             .RuleFor(r => r.RecentVisits, _ => LinkFakers.LinkVisit.Generate(2))
             .RuleFor(r => r.CreatedAt, f => f.Date.RecentOffset())

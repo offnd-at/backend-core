@@ -38,6 +38,8 @@ internal sealed class GetLinkByPhraseQueryHandler(ILinkQueryService queryService
             Id = maybeLink.Value.Id,
             Phrase = maybeLink.Value.Phrase,
             TargetUrl = maybeLink.Value.TargetUrl,
+            LanguageId = maybeLink.Value.LanguageId,
+            ThemeId = maybeLink.Value.ThemeId,
             Visits = maybeLink.Value.VisitSummary.TotalVisits,
             RecentVisits = maybeLink.Value.RecentEntries.Select(entry => new LinkVisitDto
             {
