@@ -1,6 +1,6 @@
 # Architectural Patterns
 
-This document provides an overview of the key architectural patterns used in the offnd.at backend system. For detailed explanations of each pattern, see the individual pattern documentation in [`docs/patterns/`](../../docs/patterns/).
+This document provides an overview of the key architectural patterns used in the offnd.at backend system.
 
 ## Pattern Overview
 
@@ -41,8 +41,6 @@ graph TD
 - ✅ Framework independence
 - ✅ Clear separation of concerns
 - ✅ Easy to understand and navigate
-
-**Learn More**: [Clean Architecture Pattern](../../docs/patterns/clean-architecture.md)
 
 ---
 
@@ -93,8 +91,6 @@ public sealed record Phrase
 - ✅ Encapsulated business rules
 - ✅ Clear business intent
 - ✅ Reduced coupling
-
-**Learn More**: [Domain-Driven Design Pattern](../../docs/patterns/domain-driven-design.md)
 
 ---
 
@@ -151,8 +147,6 @@ internal sealed class GetLinkByPhraseQueryHandler
 - ✅ Scalable (can scale reads and writes independently)
 - ✅ Easier to maintain
 
-**Learn More**: [CQRS Pattern](../../docs/patterns/cqrs.md)
-
 ---
 
 ## 4. Result Pattern
@@ -195,59 +189,9 @@ public async Task<Result<Link>> GetLinkAsync(Phrase phrase)
 - ✅ Better performance (no exceptions)
 - ✅ Composable operations
 
-**Learn More**: [Result Pattern](../../docs/patterns/result-pattern.md)
-
 ---
 
-## 5. Repository Pattern
-
-**Purpose**: Abstract data access logic from business logic
-
-**Key Concepts**:
-- **Interface in Domain**: Repository contracts defined in domain layer
-- **Implementation in Infrastructure**: Concrete implementations in persistence layer
-- **Aggregate-Oriented**: One repository per aggregate root
-
-**Implementation**:
-```csharp
-// Interface (in Domain layer)
-public interface ILinkRepository
-{
-    Task<Maybe<Link>> GetByIdAsync(LinkId id, CancellationToken cancellationToken = default);
-    Task<Maybe<Link>> GetByPhraseAsync(Phrase phrase, CancellationToken cancellationToken = default);
-    void Insert(Link link);
-    void Update(Link link);
-    void Delete(Link link);
-}
-
-// Implementation (in Persistence layer)
-internal sealed class LinkRepository(OffndAtDbContext context) : ILinkRepository
-{
-    public async Task<Maybe<Link>> GetByPhraseAsync(
-        Phrase phrase,
-        CancellationToken cancellationToken = default)
-    {
-        var link = await context.Links
-            .FirstOrDefaultAsync(l => l.Phrase == phrase, cancellationToken);
-        
-        return link ?? Maybe<Link>.None;
-    }
-    
-    public void Insert(Link link) => context.Links.Add(link);
-}
-```
-
-**Benefits**:
-- ✅ Testable business logic (can mock repositories)
-- ✅ Centralized data access
-- ✅ Database independence
-- ✅ Consistent query patterns
-
-**Learn More**: [Repository Pattern](../../docs/patterns/repository-pattern.md)
-
----
-
-## 6. Event-Driven Architecture
+## 5. Event-Driven Architecture
 
 **Purpose**: Decouple components through asynchronous event communication
 
@@ -308,152 +252,3 @@ public sealed class LinkCreatedIntegrationEventConsumer
 - ✅ Scalability
 - ✅ Asynchronous processing
 - ✅ Audit trail
-
-**Learn More**: [Event-Driven Architecture Pattern](../../docs/patterns/event-driven-architecture.md)
-
----
-
-## 7. Dependency Injection
-
-**Purpose**: Invert dependencies and enable testability
-
-**Key Concepts**:
-- **Constructor Injection**: Dependencies injected via constructor
-- **Interface-Based**: Depend on abstractions, not concretions
-- **Lifetime Management**: Singleton, Scoped, Transient
-- **Service Registration**: Extension methods per layer
-
-**Implementation**:
-```csharp
-// Service interface
-public interface IPhraseGenerator
-{
-    Task<Result<Phrase>> GenerateAsync(
-        Format format,
-        Language language,
-        Theme theme,
-        CancellationToken cancellationToken = default);
-}
-
-// Service implementation
-internal sealed class PhraseGenerator : IPhraseGenerator
-{
-    // Implementation
-}
-
-// Registration
-public static class DependencyInjectionExtensions
-{
-    public static IServiceCollection AddApplication(this IServiceCollection services)
-    {
-        services.AddScoped<IPhraseGenerator, PhraseGenerator>();
-        return services;
-    }
-}
-
-// Usage (constructor injection with primary constructor)
-internal sealed class GenerateLinkCommandHandler(
-    IPhraseGenerator phraseGenerator,
-    ILinkRepository linkRepository)
-    : ICommandHandler<GenerateLinkCommand, GenerateLinkResponse>
-{
-    // Dependencies automatically injected
-}
-```
-
-**Benefits**:
-- ✅ Testability (easy to mock dependencies)
-- ✅ Flexibility (swap implementations)
-- ✅ Loose coupling
-- ✅ Centralized configuration
-
-**Learn More**: [Dependency Injection Pattern](../../docs/patterns/dependency-injection.md)
-
----
-
-## Pattern Interactions
-
-### How Patterns Work Together
-
-```mermaid
-sequenceDiagram
-    participant API as API Endpoint
-    participant MediatR as MediatR
-    participant Handler as Command Handler
-    participant Domain as Domain Entity
-    participant Repo as Repository
-    participant Events as Event Publisher
-    participant Bus as Message Bus
-    
-    API->>MediatR: Send Command
-    MediatR->>Handler: Route to Handler
-    Handler->>Domain: Create/Update Entity
-    Domain->>Domain: Raise Domain Event
-    Handler->>Repo: Save Changes
-    Repo->>Events: Publish Domain Events
-    Events->>Bus: Publish Integration Event
-    Handler->>MediatR: Return Result
-    MediatR->>API: Return Response
-```
-
-### Pattern Synergies
-
-1. **Clean Architecture + DDD**: Domain layer contains pure business logic, outer layers handle infrastructure concerns
-
-2. **CQRS + Repository**: Commands and queries use repositories to access data, but can optimize differently
-
-3. **DDD + Event-Driven**: Domain events capture business occurrences, integration events enable cross-service communication
-
-4. **Result Pattern + CQRS**: All commands and queries return `Result<T>` for consistent error handling
-
-5. **Dependency Injection + All Patterns**: Enables testability and flexibility across all layers
-
-## Anti-Patterns to Avoid
-
-### ❌ Anemic Domain Model
-**Problem**: Domain entities with no behavior, just getters/setters
-
-**Solution**: Encapsulate business logic in domain entities
-
-### ❌ Leaky Abstractions
-**Problem**: Infrastructure concerns leak into domain layer
-
-**Solution**: Use interfaces and dependency inversion
-
-### ❌ God Objects
-**Problem**: Single class doing too much
-
-**Solution**: Follow Single Responsibility Principle, use aggregates
-
-### ❌ Exception-Driven Flow
-**Problem**: Using exceptions for control flow
-
-**Solution**: Use Result pattern for expected failures
-
-### ❌ Direct Database Access in Handlers
-**Problem**: Command handlers directly using DbContext
-
-**Solution**: Use repository pattern for data access
-
-## Pattern Selection Guide
-
-| Scenario | Recommended Pattern |
-|----------|-------------------|
-| Organizing code layers | Clean Architecture |
-| Modeling complex business logic | Domain-Driven Design |
-| Separating reads and writes | CQRS |
-| Handling errors explicitly | Result Pattern |
-| Abstracting data access | Repository Pattern |
-| Decoupling components | Event-Driven Architecture |
-| Managing dependencies | Dependency Injection |
-
-## Next Steps
-
-For detailed explanations and examples of each pattern:
-- [Clean Architecture](../../docs/patterns/clean-architecture.md)
-- [Domain-Driven Design](../../docs/patterns/domain-driven-design.md)
-- [CQRS](../../docs/patterns/cqrs.md)
-- [Result Pattern](../../docs/patterns/result-pattern.md)
-- [Repository Pattern](../../docs/patterns/repository-pattern.md)
-- [Event-Driven Architecture](../../docs/patterns/event-driven-architecture.md)
-- [Dependency Injection](../../docs/patterns/dependency-injection.md)
