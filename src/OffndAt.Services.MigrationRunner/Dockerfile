@@ -31,6 +31,9 @@ RUN dotnet publish "OffndAt.Services.MigrationRunner.csproj" -c $BUILD_CONFIGURA
 FROM base AS final
 WORKDIR /app
 
+ARG ApplicationSettings__Version
+ENV ApplicationSettings__Version=$ApplicationSettings__Version
+
 USER $APP_UID
 
 COPY --from=publish /app/publish .
